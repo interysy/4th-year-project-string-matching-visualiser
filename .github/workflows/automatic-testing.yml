@@ -33,6 +33,6 @@ jobs:
       - name : Coverage badge generation 
         uses:  demyanets/angular-coverage-badges-action@v1
         with:
-          coverage-summary-path: coverage/string-matching-visualiser/coverage-summary.json
+          coverage-summary-path: ./coverage/string-matching-visualiser/coverage-summary.json 
       - name : Lint Code   
         run: npm run lint 
