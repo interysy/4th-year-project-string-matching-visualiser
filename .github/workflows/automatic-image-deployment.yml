@@ -4,7 +4,9 @@ name: Create and publish a Docker image 🐋
 on: 
   workflow_dispatch:
   push:
-    branches: ['staging' , 'main']
+    branches: ['staging' , 'main'] 
+  pull_request:
+      branches: [ "main" ]
 
 env:
   REGISTRY: ghcr.io
