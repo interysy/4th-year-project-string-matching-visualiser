@@ -20,7 +20,9 @@ jobs:
           root_file: docs/dissertation/l4proj.tex 
           extra_fonts: |
             docs/dissertation/fonts/*.otf 
-            docs/dissertation/fonts/*.ttf 
+            docs/dissertation/fonts/*.ttf  
+        env:
+            TEXINPUTS: "docs/dissertation/l4proj.cls"
       - name: Upload PDF file
         uses: actions/upload-artifact@v3
         with:
