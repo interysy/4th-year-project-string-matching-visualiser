@@ -29,10 +29,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage
-          path: ./coverage/string-matching-visualiser/coverage-summary.json 
+          path: ./coverage/string-matching-visualiser/json/coverage-final.json 
       - name : Coverage badge generation 
         uses:  demyanets/angular-coverage-badges-action@v1
         with:
-          coverage-summary-path: ./coverage/string-matching-visualiser/coverage-summary.json 
+          coverage-summary-path: ./coverage/string-matching-visualiser/coverage-final.json 
       - name : Lint Code   
         run: npm run lint 
