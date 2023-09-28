@@ -12,8 +12,9 @@
 * This timelog should be filled out honestly, regularly (daily) and accurately. It is for *your* benefit.
 * Follow the structure provided, grouping time by weeks.  Quantise time to the half hour.
 
-## Week 1  
- 
+## Week 1 
+  
+As a note this week is longer than normal, as I treat a week to be the 7 days in between supervisor meetings, which take place on tuesdays. On the first week work began before the preliminary meeting. 
 ### 16 September   
 
 * *2 hours* Looking through existing string search animators - seeing what they have, what they're missing and what technologies are being used.
@@ -38,4 +39,18 @@
 
 ### 23 September 
 * *1.5 hours* Dissertation introduction and motivation 
-* *2 hour* Continued work on dissertation motivation and the high level aims (with research)
+* *2 hour* Continued work on dissertation motivation and the high level aims (with research) 
+  
+### 24 September
+* *2 hours* Learning docker and attempting to create a continous deployment pipeline to work with DigitalOcean 
+* *2 hours* Set up project skeleton and more work on pipelines (wiki generation , ci and cd) 
+ 
+### 25 September  
+* *1.5 hours* Work on creating initial wireframes for the project  
+* *2 hours* Work on adding wiki generation and ci pipeline to project repository on github 
+ 
+## Week 2  
+ 
+### 26 September  
+ 
+* *0.75 hours* Finish up initial wireframes for the project - these will be used for requirement gathering. Upload onto github
