@@ -9,17 +9,29 @@
     {
         "title": "Weekly Meeting Documents",
         "file": "weekly_meeting_documents.md",
-        "children": [{
-            "title": "Preliminary Meeting",
-            "file": "weekly_meeting_documents/prelim.md"
-        }]
+        "children": [ 
+            {
+                "title": "Preliminary Meeting",
+                "file": "weekly_meeting_documents/prelim.md"
+            }, 
+            {
+                "title": "26/09/23 Meeting",
+                "file": "weekly_meeting_documents/meeting_1_26_09_23.md"
+            } 
+        ]
     },
     {
         "title": "Meeting Minutes",
         "file": "meeting_minutes.md",
-        "children": [{
-            "title": "Meeting on the 18/09/23 - Preliminary",
-            "file": "meetings/18_09_23.md"
-        }]
+        "children": [ 
+            {
+                "title": "Meeting on the 18/09/23 - Preliminary",
+                "file": "meetings/18_09_23.md"
+            }, 
+            {
+                "title": "Meeting on the 26/09/23 - Preliminary",
+                "file": "meetings/26_09_23.md"
+            } 
+    ]
     }
 ]
