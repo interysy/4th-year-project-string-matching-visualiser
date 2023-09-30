@@ -53,4 +53,14 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
  
 ### 26 September  
  
-* *0.75 hours* Finish up initial wireframes for the project - these will be used for requirement gathering. Upload onto github
+* *0.75 hours* Finish up initial wireframes for the project - these will be used for requirement gathering. Upload onto github 
+* *0.5 hours* Supervisor Meeting
+ 
+### 27 September 
+ 
+* *2 hours* Working away at the build deployment pipeline (via github packages), setting up netlify for auto deployment and latex-to-pdf pipeline.
+
+### 30 September 
+ 
+* *1 hour* Research about how to conduct a requirement gathering workshop and writing an initial plan for the workshop. 
+* *1 hour* Creation of  all ethics related documents, including intro, debriefing and consent form. 
