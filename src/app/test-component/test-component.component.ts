@@ -1,4 +1,4 @@
-import { Component, ViewChild , ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild , ElementRef, AfterViewInit , Input } from '@angular/core';
 
 @Component({
   selector: 'app-test-component',
@@ -12,8 +12,8 @@ export class TestComponentComponent {
    
   context : CanvasRenderingContext2D | null;  
  
-  text = 'Angular Canvas'; 
-  pattern = "Can";   
+  @Input() text = 'Angular Canvas'; 
+  @Input() pattern = "Can";   
    
   xPos = 20;  
   timeInBetween = 500;  
@@ -140,6 +140,22 @@ export class TestComponentComponent {
     this.context?.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height); 
     this.drawPattern(20); 
     this.drawText();
+  } 
+
+  public changePattern($event : any) { 
+    console.log($event);  
+    this.context?.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+    this.drawPattern(20); 
+    this.drawText();
+  } 
+   
+  public changeText($event : any) { 
+    console.log($event);   
+    console.log(this.pattern);  
+    console.log(this.text);
+    this.context?.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+    this.drawText();  
+    this.drawPattern(20);
   }
   } 
 

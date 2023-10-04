@@ -4,7 +4,9 @@
         <h1>Canvas Demo</h1> 
         <button (click)="triggerRedraw($event)">Click For Redraw</button> 
         <button (click)="pause()">Click To Pause</button> 
-        <button (click)="reset()">Click To Reset</button>
+        <button (click)="reset()">Click To Reset</button> 
+        <input [(ngModel)]="this.text" name="text" type="text" (input)="changeText($event)">
+        <input [(ngModel)]="this.pattern" name="pattern" type="text" (input)="changePattern($event)">
         <canvas #canvasDemo id="canvas-demo" width="400" height="400">
              This will be displayed if your browser doesn't
              support the canvas element. The closing tag is
