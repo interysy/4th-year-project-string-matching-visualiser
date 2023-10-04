@@ -63,4 +63,13 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 30 September 
  
 * *1 hour* Research about how to conduct a requirement gathering workshop and writing an initial plan for the workshop. 
-* *1 hour* Creation of  all ethics related documents, including intro, debriefing and consent form. 
+* *1 hour* Creation of  all ethics related documents, including intro, debriefing and consent form.  
+ 
+### 3 October 
+ 
+* *1 hour* Running requirement gathering workshop in order to gather the goals of the project 
+* *1 hour* Writing up the notes from workshop and creating user stories 
+ 
+### 4 October 
+ 
+* *15 mins* Finish up writing user stories from the day before and update timelog
