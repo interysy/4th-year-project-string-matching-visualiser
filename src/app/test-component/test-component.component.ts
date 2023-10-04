@@ -16,7 +16,8 @@ export class TestComponentComponent {
   pattern = "Can";   
    
   xPos = 20;  
-  timeInBetween = 500; 
+  timeInBetween = 500;  
+  running = false; 
 
   messages = [ 
     "Moving 0 ",  
@@ -109,22 +110,36 @@ export class TestComponentComponent {
   } 
 
   async triggerRedraw($event: any) {  
-    console.log("Redrawing")
-      for (let i = 0 ; i < 10 ; i++) {  
+    console.log("Redrawing");  
+    this.running = true; 
+    
+      while (this.currentStep < 10 && this.running) {  
         console.log("Moving rectangles");  
-        const lineToHighlight = document.getElementById("line" + i);
-        this.currentStep = i;
-        this.moveRectangles(25 * i);  
+        const lineToHighlight = document.getElementById("line" + this.currentStep);
+        this.moveRectangles(25 * this.currentStep);  
         if (lineToHighlight) { 
           lineToHighlight.style.color = "green";
         }
         await this.sleep(this.timeInBetween); 
-        lineToHighlight?.style.removeProperty("color");
+        lineToHighlight?.style.removeProperty("color"); 
+        this.currentStep += 1; 
       }
     }
   
     async sleep(msec: number) {
       return new Promise(resolve => setTimeout(resolve, msec));
-    }
+    } 
+
+  async pause() {  
+    this.running  = false; 
+    } 
+
+  async reset() { 
+    this.pause(); 
+    this.currentStep = 0; 
+    this.context?.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height); 
+    this.drawPattern(20); 
+    this.drawText();
   }
+  } 
 

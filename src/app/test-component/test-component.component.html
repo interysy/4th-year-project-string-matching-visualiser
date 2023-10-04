@@ -2,7 +2,9 @@
     <head><title>Canvas Demo</title></head>
     <body> 
         <h1>Canvas Demo</h1> 
-        <button (click)="triggerRedraw($event)">Click For Redraw</button>
+        <button (click)="triggerRedraw($event)">Click For Redraw</button> 
+        <button (click)="pause()">Click To Pause</button> 
+        <button (click)="reset()">Click To Reset</button>
         <canvas #canvasDemo id="canvas-demo" width="400" height="400">
              This will be displayed if your browser doesn't
              support the canvas element. The closing tag is
@@ -18,10 +20,10 @@
               <code id="line5">   console.log(4)</code>
               <code id="line6">   console.log(5)</code>
               <code id="line7">   console.log(6)</code> 
-              <code id="line7">   console.log(7)</code> 
-              <code id="line7">   console.log(8)</code> 
-              <code id="line7">   console.log(9)</code> 
-              <code id="line8">&#125;</code>
+              <code id="line8">   console.log(7)</code> 
+              <code id="line9">   console.log(8)</code> 
+              <code id="line10">   console.log(9)</code> 
+              <code id="line11">&#125;</code>
             </pre>
           </div>
     </body>
