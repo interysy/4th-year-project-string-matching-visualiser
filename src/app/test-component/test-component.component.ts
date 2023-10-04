@@ -16,7 +16,22 @@ export class TestComponentComponent {
   pattern = "Can";   
    
   xPos = 20;  
-  timeInBetween = 500;
+  timeInBetween = 500; 
+
+  messages = [ 
+    "Moving 0 ",  
+    "Moving 1",  
+    "Moving 2",  
+    "Moving 3",  
+    "Moving 4",  
+    "Moving 5",  
+    "Moving 6",  
+    "Moving 7",  
+    "Moving 8",  
+    "Moving 9",
+  ]; 
+   
+  currentStep = 0;
 
   ngAfterViewInit() { 
     this.context = this.canvas.nativeElement.getContext('2d');
@@ -96,9 +111,15 @@ export class TestComponentComponent {
   async triggerRedraw($event: any) {  
     console.log("Redrawing")
       for (let i = 0 ; i < 10 ; i++) {  
-        console.log("Moving rectangles");
-        this.moveRectangles(25 * i);
-        await this.sleep(this.timeInBetween);
+        console.log("Moving rectangles");  
+        const lineToHighlight = document.getElementById("line" + i);
+        this.currentStep = i;
+        this.moveRectangles(25 * i);  
+        if (lineToHighlight) { 
+          lineToHighlight.style.color = "green";
+        }
+        await this.sleep(this.timeInBetween); 
+        lineToHighlight?.style.removeProperty("color");
       }
     }
   
@@ -107,12 +128,3 @@ export class TestComponentComponent {
     }
   }
 
-  // private moveRectangles() {
-  //   var x = ($pos.val() / 100) * (ctx.canvas.width - 20);
-
-  //   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  //   ctx.fillStyle = 'black';
-  //   ctx.fillRect(x, 0, 20, 20);
-  // };
-
-  // setInterval(draw, 40);
