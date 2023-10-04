@@ -1,0 +1,12 @@
+<html>
+    <head><title>Canvas Demo</title></head>
+    <body> 
+        <h1>Canvas Demo</h1> 
+        <button (click)="triggerRedraw($event)">Click For Redraw</button>
+        <canvas #canvasDemo id="canvas-demo" width="400" height="400">
+             This will be displayed if your browser doesn't
+             support the canvas element. The closing tag is
+             necessary.
+        </canvas>
+    </body>
+</html>
