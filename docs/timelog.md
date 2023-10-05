@@ -77,4 +77,5 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 5 October 
  
-* *15 mins* Adding missing user stories to GitHub Kanban board
+* *15 mins* Adding missing user stories to GitHub Kanban board 
+* *1.5 hours* Creating a final wireframe to work off of, based on requirements gathered from the workshop.
