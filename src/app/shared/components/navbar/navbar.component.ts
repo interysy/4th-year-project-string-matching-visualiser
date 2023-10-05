@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class NavbarComponent {
 
+  algorithms = [
+    "Brute Force",
+    "Boyer-Moore",
+    "Knuth-Morris-Pratt",
+  ];
+
 }
