@@ -12,70 +12,70 @@
 * This timelog should be filled out honestly, regularly (daily) and accurately. It is for *your* benefit.
 * Follow the structure provided, grouping time by weeks.  Quantise time to the half hour.
 
-## Week 1 
-  
-As a note this week is longer than normal, as I treat a week to be the 7 days in between supervisor meetings, which take place on tuesdays. On the first week work began before the preliminary meeting. 
-### 16 September   
+## Week 1
+
+As a note this week is longer than normal, as I treat a week to be the 7 days in between supervisor meetings, which take place on tuesdays. On the first week work began before the preliminary meeting.
+### 16 September
 
 * *2 hours* Looking through existing string search animators - seeing what they have, what they're missing and what technologies are being used.
-  
-### 18 September 
- 
-* *2 hours* Watch introduction video , read guidance notes, read marking scheme. Make notes on all. 
-* *1 hour* Prepare prelimiary meeting document, outlining what I have done so far, what are the current requirements I know of, my ideas of the project going forward, questions and my plan for the upcoming week.
- 
-### 19 September 
-* *1 hour* Watch video on Dijkstra algorithm visualiser 
-* *0.5hour* Read over preliminary meeting document in preparation for meetingv 
-* *20 mins* Meeting with supervisor 
- 
-### 20 September 
-* *1 hour* Solving laptop issues regarding pip and setting up repository for the project (also applying for github pro through the student pack) 
-* *2 hours* Messing around with Sphinx Docs, which will be used to automatically show all my timelogs, plans etc. on Github alongside code documentation 
- 
-### 21 September 
-* *3 hours* Setting up pipeline for automatic wiki deployment and code testing  
-* *1.5 hours* Research of potential deployment servers for continous deployment 
 
-### 23 September 
-* *1.5 hours* Dissertation introduction and motivation 
-* *2 hour* Continued work on dissertation motivation and the high level aims (with research) 
-  
+### 18 September
+
+* *2 hours* Watch introduction video , read guidance notes, read marking scheme. Make notes on all.
+* *1 hour* Prepare prelimiary meeting document, outlining what I have done so far, what are the current requirements I know of, my ideas of the project going forward, questions and my plan for the upcoming week.
+
+### 19 September
+* *1 hour* Watch video on Dijkstra algorithm visualiser
+* *0.5hour* Read over preliminary meeting document in preparation for meetingv
+* *20 mins* Meeting with supervisor
+
+### 20 September
+* *1 hour* Solving laptop issues regarding pip and setting up repository for the project (also applying for github pro through the student pack)
+* *2 hours* Messing around with Sphinx Docs, which will be used to automatically show all my timelogs, plans etc. on Github alongside code documentation
+
+### 21 September
+* *3 hours* Setting up pipeline for automatic wiki deployment and code testing
+* *1.5 hours* Research of potential deployment servers for continous deployment
+
+### 23 September
+* *1.5 hours* Dissertation introduction and motivation
+* *2 hour* Continued work on dissertation motivation and the high level aims (with research)
+
 ### 24 September
-* *2 hours* Learning docker and attempting to create a continous deployment pipeline to work with DigitalOcean 
-* *2 hours* Set up project skeleton and more work on pipelines (wiki generation , ci and cd) 
- 
-### 25 September  
-* *1.5 hours* Work on creating initial wireframes for the project  
-* *2 hours* Work on adding wiki generation and ci pipeline to project repository on github 
- 
-## Week 2  
- 
-### 26 September  
- 
-* *0.75 hours* Finish up initial wireframes for the project - these will be used for requirement gathering. Upload onto github 
+* *2 hours* Learning docker and attempting to create a continous deployment pipeline to work with DigitalOcean
+* *2 hours* Set up project skeleton and more work on pipelines (wiki generation , ci and cd)
+
+### 25 September
+* *1.5 hours* Work on creating initial wireframes for the project
+* *2 hours* Work on adding wiki generation and ci pipeline to project repository on github
+
+## Week 2
+
+### 26 September
+
+* *0.75 hours* Finish up initial wireframes for the project - these will be used for requirement gathering. Upload onto github
 * *0.5 hours* Supervisor Meeting
- 
-### 27 September 
- 
+
+### 27 September
+
 * *2 hours* Working away at the build deployment pipeline (via github packages), setting up netlify for auto deployment and latex-to-pdf pipeline.
 
-### 30 September 
- 
-* *1 hour* Research about how to conduct a requirement gathering workshop and writing an initial plan for the workshop. 
-* *1 hour* Creation of  all ethics related documents, including intro, debriefing and consent form.  
- 
-### 3 October 
- 
-* *1 hour* Running requirement gathering workshop in order to gather the goals of the project 
-* *1 hour* Writing up the notes from workshop and creating user stories 
- 
-### 4 October 
- 
-* *15 mins* Finish up writing user stories from the day before and update timelog 
-* *1.5 hours* Messing around with HTML Canvas, managed to get some animations working aswell as pausing, playing and code highlighting. 
+### 30 September
 
-### 5 October 
- 
-* *15 mins* Adding missing user stories to GitHub Kanban board 
+* *1 hour* Research about how to conduct a requirement gathering workshop and writing an initial plan for the workshop.
+* *1 hour* Creation of  all ethics related documents, including intro, debriefing and consent form.
+
+### 3 October
+
+* *1 hour* Running requirement gathering workshop in order to gather the goals of the project
+* *1 hour* Writing up the notes from workshop and creating user stories
+
+### 4 October
+
+* *15 mins* Finish up writing user stories from the day before and update timelog
+* *1.5 hours* Messing around with HTML Canvas, managed to get some animations working aswell as pausing, playing and code highlighting.
+
+### 5 October
+
+* *15 mins* Adding missing user stories to GitHub Kanban board
 * *1.5 hours* Creating a final wireframe to work off of, based on requirements gathered from the workshop.
