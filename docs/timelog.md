@@ -72,4 +72,9 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
  
 ### 4 October 
  
-* *15 mins* Finish up writing user stories from the day before and update timelog
+* *15 mins* Finish up writing user stories from the day before and update timelog 
+* *1.5 hours* Messing around with HTML Canvas, managed to get some animations working aswell as pausing, playing and code highlighting. 
+
+### 5 October 
+ 
+* *15 mins* Adding missing user stories to GitHub Kanban board
