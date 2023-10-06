@@ -1,4 +1,5 @@
 import { Component , ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -16,6 +17,7 @@ export class NavbarComponent {
     "Knuth-Morris-Pratt",
   ];
 
+  constructor (private readonly router : Router) {}
   /**
    * A class to toggle the mobile menu on a smaller screen
    */
@@ -24,7 +26,7 @@ export class NavbarComponent {
   }
 
   /**
-   * A class to hide the mobile menu when the window is resized,
+   * A function to hide the mobile menu when the window is resized,
    * avoids bug where the mobile menu is still visible on a larger screen if not closed
    */
   @HostListener('window:resize')
@@ -34,5 +36,16 @@ export class NavbarComponent {
     if (windowWidth > 768) {
       this.mobileMenu.nativeElement.classList.add('hidden');
     }
+  }
+
+  /**
+   * Asynchronous function to change the page
+   * @param path A string representing the path to the page
+   * @returns void
+   */
+  async changePage(path : string) {
+    if (path === this.router.url) return;
+    this.router.navigateByUrl(path);
+
   }
 }
