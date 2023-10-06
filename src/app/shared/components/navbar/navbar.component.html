@@ -5,10 +5,10 @@
       <a *ngFor="let algorithm of algorithms" href="#">{{algorithm}}</a>
     </div>
     <div class="grow gap-6 justify-end hidden md:flex">
-      <a href="">Home</a>
-      <a href="">About</a>
+      <button (click)="changePage('/')">Home</button>
+      <button (click)="changePage('/about')">About</button>
       <a href="https://github.com/interysy/4th-year-project-string-matching-visualiser"><fa-icon [icon]="['fab', 'github']" size="lg"></fa-icon></a>
-      <a href="www.linkedin.com/in/michal-wozniak-9a2474240"><fa-icon [icon]="['fab', 'linkedin']" size="lg" class="blue-icon"></fa-icon></a>
+      <a href="https://www.linkedin.com/in/michal-wozniak-9a2474240"><fa-icon [icon]="['fab', 'linkedin']" size="lg" class="blue-icon"></fa-icon></a>
     </div>
     <button class="flex justify-end md:hidden" type="button" (click)="toggleMobileMenu()">
       <fa-icon name="menu-button-on-sm" [icon]="['fas', 'compass']" size="lg"></fa-icon>

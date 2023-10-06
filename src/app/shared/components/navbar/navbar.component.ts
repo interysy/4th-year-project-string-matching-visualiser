@@ -44,8 +44,8 @@ export class NavbarComponent {
    * @returns void
    */
   async changePage(path : string) {
+    console.log("change path")
     if (path === this.router.url) return;
     this.router.navigateByUrl(path);
-
   }
 }
