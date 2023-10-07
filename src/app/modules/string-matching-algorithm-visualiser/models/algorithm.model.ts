@@ -12,7 +12,7 @@ export abstract class StringMatchingAlgorithm {
 
     abstract workOutSteps(text : string , pattern : string) : number;
 
-    private addStep(algorithmStep : AlgorithmStep) {
+    public addStep(algorithmStep : AlgorithmStep) {
         this.steps.push(algorithmStep);
     }
 

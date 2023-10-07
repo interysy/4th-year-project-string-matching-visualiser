@@ -1,1 +1,28 @@
+
 <p>pseudocode-visualiser works!</p>
+
+<pre>
+<code id="line0">bruteForce(text : string , pattern : string) : number {{ '{' }}</code>
+<code id="line1">    const textLength = text.length;</code>
+<code id="line2">    const patternLength = pattern.length;</code>
+<code id="line3">    let startingPoint = 0;</code>
+<code id="line4">    let textIndex = 0;</code>
+<code id="line5">    let patternIndex = 0;</code>
+
+<code id="line6">    while (startingPoint <= textLength - patternLength && patternIndex < patternLength) {{ '{' }}</code>
+<code id="line7">           if (text.charAt(textIndex) === pattern.charAt(patternIndex)) {{ '{' }}</code>
+<code id="line8">             textIndex++;</code>
+<code id="line9">             patternIndex++;</code>
+<code id="line10">   {{ '}' }} else {{ '{' }}</code>
+<code id="line11">             patternIndex = 0;</code>
+<code id="line12">             startingPoint += 1;</code>
+<code id="line13">             textIndex = startingPoint;</code>
+<code>      {{ '}' }}</code>
+<code id="line14">     if (patternIndex === patternLength) {{ '{' }}</code>
+<code id="line15">         return startingPoint;</code>
+<code>      {{ '}' }}</code>
+<code id="line16">     return -1;</code>
+<code>  {{ '}' }}</code>
+</pre>
+
+<button (click)="play()">Click to Play</button>

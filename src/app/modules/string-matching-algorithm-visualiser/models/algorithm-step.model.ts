@@ -1,15 +1,15 @@
 import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
 
-export interface AlgorithmStep {
+export class AlgorithmStep {
 
     pseudocodeLine : number;
-    patternIndex : number;
-    textIndex : number;
-    patternElementColour : MatchingAlgorithmColourConstants;
-    textElementColour : MatchingAlgorithmColourConstants;
-    alreadyMatchedIndexesInPattern : number[];
-    alreadyMatchedIndexesInText : number[];
+    patternIndex = -1;
+    textIndex = -1;
+    patternElementColour = MatchingAlgorithmColourConstants.DEFAULT;
+    textElementColour = MatchingAlgorithmColourConstants.DEFAULT;
+    alreadyMatchedIndexesInPattern : number[] = [];
+    alreadyMatchedIndexesInText : number[] = [];
     command : string;
-    highlightText : boolean;
-    highlightPattern : boolean;
+    highlightText = false;
+    highlightPattern = false;
 }

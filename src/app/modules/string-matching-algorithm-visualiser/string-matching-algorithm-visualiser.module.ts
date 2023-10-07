@@ -21,6 +21,6 @@ import { CommandVisualiserComponent } from './components/command-visualiser/comm
     PseudocodeVisualiserComponent,
     VariableVisualiserComponent,
     CommandVisualiserComponent,
-  ]
+  ],
 })
 export class StringMatchingAlgorithmVisualiserModule { }
