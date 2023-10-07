@@ -8,9 +8,9 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
         workOutSteps(text : string , pattern : string) : number {
             const textLength = text.length;
+            this.textLengthSetter = textLength;
             const patternLength = pattern.length;
-            this.textLength = textLength;
-            this.patternLength = patternLength;
+            this.patternLengthSetter = patternLength;
             let startingPoint = 0;
             let textIndex = 0;
             let patternIndex = 0;

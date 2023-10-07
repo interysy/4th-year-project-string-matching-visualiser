@@ -6,11 +6,32 @@ import { AlgorithmStep } from "./algorithm-step.model";
 })
 export abstract class StringMatchingAlgorithm {
 
-    steps : AlgorithmStep[] = [];
+    private steps : AlgorithmStep[] = [];
+    private textLength : number;
+    private patternLength : number;
 
     abstract workOutSteps(text : string , pattern : string) : number;
 
-    public addStep(algorithmStep : AlgorithmStep) {
+    private addStep(algorithmStep : AlgorithmStep) {
         this.steps.push(algorithmStep);
     }
+
+    set textLengthSetter(textLength : number) {
+        this.textLength = textLength;
+    }
+
+    get textLengthGetter() : number {
+        return this.textLength;
+    }
+
+    set patternLengthSetter(patternLength : number) {
+        this.patternLength = patternLength;
+    }
+
+    get patternLengthGetter() : number {
+        return this.patternLength;
+    }
+
+
+
 }
