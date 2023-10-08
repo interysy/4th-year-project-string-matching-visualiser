@@ -2,11 +2,14 @@ import { MatchingAlgorithmColourConstants } from "../constants/matching-algorith
 import { StringMatchingAlgorithm } from "../models/algorithm.model";
 import { AlgorithmStep } from "../models/algorithm-step.model";
 import { Injectable } from "@angular/core";
+import { BruteForceAdditionalVariables } from "../models/brute-force-additional-variables.model";
 
 @Injectable({
     providedIn: 'root'
 })
 export class BruteForceAlgorithm extends StringMatchingAlgorithm {
+
+        startingPoint : number;
 
         workOutSteps(text : string , pattern : string) : number {
             const textLength = text.length;
@@ -14,12 +17,14 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             const patternLength = pattern.length;
             this.patternLengthSetter = patternLength;
             let startingPoint = 0;
+            this.startingPoint = startingPoint;
             let textIndex = 0;
             let patternIndex = 0;
             this.addSetupSteps();
 
             while (startingPoint <= textLength - patternLength && patternIndex < patternLength) {
-                this.addWhileLoopStep();
+                this.addWhileLoopStep(textIndex , patternIndex);
+                this.addCheckStep(textIndex , patternIndex);
                 if (text.charAt(textIndex) === pattern.charAt(patternIndex)) {
                     textIndex++;
                     patternIndex++;
@@ -27,172 +32,246 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
                 } else {
                     patternIndex = 0;
                     startingPoint += 1;
+                    this.startingPoint = startingPoint;
                     textIndex = startingPoint;
-                    this.addMismatchStep();
+                    this.addMismatchStep(textIndex , patternIndex);
                 }
             }
             if (patternIndex === patternLength) {
-               this.addFullMatchStep();
+               this.addFullMatchStep(textIndex , patternIndex);
                 return startingPoint;
             }
-            this.addNoSolutionStep();
+            this.addNoSolutionStep(textIndex, patternIndex);
             return -1;
         }
 
-        private addSetupSteps() {
-            const algorithmStep1 : AlgorithmStep = {
-                pseudocodeLine : 1,
-                patternIndex : -1,
-                textIndex : -1,
-                patternElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-                textElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-                alreadyMatchedIndexesInPattern : [],
-                alreadyMatchedIndexesInText : [],
-                command : "Measuring the length of the text",
-                highlightText : true,
-                highlightPattern : false
-            };
-            this.addStep(algorithmStep1);
+        addSetupSteps() {
 
-            const algorithmStep2 : AlgorithmStep = {
-                pseudocodeLine : 2,
-                patternIndex : -1,
-                textIndex : -1,
-                patternElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-                textElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-                alreadyMatchedIndexesInPattern : [],
-                alreadyMatchedIndexesInText : [],
-                command : "Measuring the length of the pattern",
-                highlightText : false,
-                highlightPattern : true
-            };
-            this.addStep(algorithmStep2);
+            const setUpCommands = [
+                { command : "Measuring the length of the text" , highlightText : true , highlightPattern : false } ,
+                { command : "Measuring the length of the pattern"  , highlightText : false , highlightPattern : true } ,
+                { command : "Initialising the starting point to 0" , highlightText : true , highlightPattern : false } ,
+                { command : "Initialising the text index to 0" , highlightText : true , highlightPattern : false },
+                { command : "Initialising the pattern index to 0"  , highlightText : true , highlightPattern : false } ,
+            ];
 
-            const algorithmStep3 : AlgorithmStep = {
-                pseudocodeLine : 3,
-                patternIndex : -1,
-                textIndex : -1,
-                patternElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-                textElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-                alreadyMatchedIndexesInPattern : [],
-                alreadyMatchedIndexesInText : [],
-                command : "Initialising the starting point to 0",
-                highlightText : false,
+            setUpCommands.forEach(({command , highlightText , highlightPattern} , index) => {
+                const algorithmStep : AlgorithmStep = {
+                    pseudocodeLine : index + 1 ,
+                    patternIndex : -1 ,
+                    textIndex : -1 ,
+                    patternElementColour : MatchingAlgorithmColourConstants.DEFAULT ,
+                    textElementColour : MatchingAlgorithmColourConstants.DEFAULT ,
+                    alreadyMatchedIndexesInPattern : [] ,
+                    alreadyMatchedIndexesInText : [] ,
+                    command : command ,
+                    highlightText : highlightText ,
+                    highlightPattern : highlightPattern,
+                    additional : this.additionalToExport(),
+                };
+                this.addStep(algorithmStep);
+            });
+        }
+
+        addWhileLoopStep(textIndex : number , patternIndex : number) : void {
+            const nextStep : AlgorithmStep = {
+                pseudocodeLine : 6 ,
+                patternIndex : patternIndex ,
+                textIndex : textIndex ,
+                patternElementColour : MatchingAlgorithmColourConstants.DEFAULT ,
+                textElementColour : MatchingAlgorithmColourConstants.DEFAULT ,
+                alreadyMatchedIndexesInPattern : [] ,
+                alreadyMatchedIndexesInText : [] ,
+                command : "Looping through the pattern and text looking for a match" ,
+                highlightText : false ,
                 highlightPattern : false,
-            };
-            this.addStep(algorithmStep3);
+                additional : this.additionalToExport(),
+            }
+            this.addStep(nextStep);
+        }
 
-            const algorithmStep4 : AlgorithmStep = {
-                pseudocodeLine : 4,
-                patternIndex : -1,
-                textIndex : -1,
-                patternElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-                textElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-                alreadyMatchedIndexesInPattern : [],
-                alreadyMatchedIndexesInText : [],
-                command : "Initialising the text index to 0",
-                highlightText : false,
+        addCheckStep(textIndex : number , patternIndex : number) : void {
+            const previousStep = this.stepsGetter[this.stepsLength -  1];
+
+            const nextStep : AlgorithmStep = {
+                pseudocodeLine : 7 ,
+                patternIndex : patternIndex,
+                textIndex : textIndex ,
+                patternElementColour : MatchingAlgorithmColourConstants.CHECKING ,
+                textElementColour : MatchingAlgorithmColourConstants.CHECKING ,
+                alreadyMatchedIndexesInPattern : [...previousStep.alreadyMatchedIndexesInPattern] ,
+                alreadyMatchedIndexesInText : [...previousStep.alreadyMatchedIndexesInText],
+                command : "Checking if the 2 characters match" ,
+                highlightText : false ,
                 highlightPattern : false,
-            };
-            this.addStep(algorithmStep4);
+                additional : this.additionalToExport(),
+            }
+            this.addStep(nextStep);
+        }
 
-            const algorithmStep5 : AlgorithmStep = {
-                pseudocodeLine : 5,
-                patternIndex : -1,
-                textIndex : -1,
-                patternElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-                textElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-                alreadyMatchedIndexesInPattern : [],
-                alreadyMatchedIndexesInText : [],
-                command : "Initialising the pattern index to 0",
-                highlightText : false,
+        addMatchStep(textIndex : number , patternIndex : number) {
+            const previousStep = this.stepsGetter[this.stepsLength -  1];
+
+            const moveToNextInText : AlgorithmStep = {
+                pseudocodeLine : 8 ,
+                patternIndex : patternIndex-1 ,
+                textIndex : textIndex ,
+                patternElementColour : MatchingAlgorithmColourConstants.MATCH ,
+                textElementColour : MatchingAlgorithmColourConstants.MATCH ,
+                alreadyMatchedIndexesInPattern : [...previousStep.alreadyMatchedIndexesInPattern, patternIndex] ,
+                alreadyMatchedIndexesInText : [...previousStep.alreadyMatchedIndexesInText, textIndex] ,
+                command : "Found a character match - move to next character in text",
+                highlightText : false ,
                 highlightPattern : false,
+                additional : this.additionalToExport(),
             };
-            this.addStep(algorithmStep5);
 
-            console.log("Finished adding");
-            console.log(this.steps);
+            this.addStep(moveToNextInText);
+
+            const moveToNextInPattern : AlgorithmStep = {
+                pseudocodeLine : 9 ,
+                patternIndex : patternIndex ,
+                textIndex : textIndex ,
+                patternElementColour : MatchingAlgorithmColourConstants.MATCH ,
+                textElementColour : MatchingAlgorithmColourConstants.MATCH ,
+                alreadyMatchedIndexesInPattern : [...previousStep.alreadyMatchedIndexesInPattern] ,
+                alreadyMatchedIndexesInText : [...previousStep.alreadyMatchedIndexesInText] ,
+                command : "Move to next character in pattern",
+                highlightText : false ,
+                highlightPattern : false,
+                additional : this.additionalToExport(),
+            }
+
+            this.addStep(moveToNextInPattern);
+
 
         }
 
+        addMismatchStep(textIndex : number , patternIndex: number) {
 
-        private addWhileLoopStep() {
-            const nextStep = JSON.parse(JSON.stringify(this.steps[this.steps.length -  1]));
+            const elseBlockStep : AlgorithmStep = {
+                pseudocodeLine : 10 ,
+                patternIndex : patternIndex ,
+                textIndex : textIndex-1 ,
+                patternElementColour : MatchingAlgorithmColourConstants.MISMATCH ,
+                textElementColour : MatchingAlgorithmColourConstants.MISMATCH ,
+                alreadyMatchedIndexesInPattern :[] ,
+                alreadyMatchedIndexesInText : [] ,
+                command : "No character match found, enter the else block",
+                highlightText : false ,
+                highlightPattern : false,
+                additional : this.additionalToExport(),
+            };
 
-            nextStep.pseudocodeLine = 6;
-            nextStep.command = "Looping through the pattern and text looking for a match"
-            this.addStep(nextStep);
+            this.addStep(elseBlockStep);
+
+            const resetPatternIndex : AlgorithmStep = {
+                pseudocodeLine : 11 ,
+                patternIndex : patternIndex ,
+                textIndex : textIndex-1 ,
+                patternElementColour : MatchingAlgorithmColourConstants.MISMATCH ,
+                textElementColour : MatchingAlgorithmColourConstants.MISMATCH ,
+                alreadyMatchedIndexesInPattern :[] ,
+                alreadyMatchedIndexesInText : [] ,
+                command : "Reset pattern index to 0",
+                highlightText : false ,
+                highlightPattern : false,
+                additional : this.additionalToExport(),
+            };
+
+            this.addStep(resetPatternIndex);
+
+            const setStartingPoint : AlgorithmStep = {
+                pseudocodeLine : 12 ,
+                patternIndex : patternIndex ,
+                textIndex : textIndex-1 ,
+                patternElementColour : MatchingAlgorithmColourConstants.MISMATCH ,
+                textElementColour : MatchingAlgorithmColourConstants.MISMATCH ,
+                alreadyMatchedIndexesInPattern :[] ,
+                alreadyMatchedIndexesInText : [] ,
+                command : "Increment starting point of comparison to next element of text",
+                highlightText : false ,
+                highlightPattern : false,
+                additional : this.additionalToExport(),
+            };
+
+            this.addStep(setStartingPoint);
+
+            const setTextIndex : AlgorithmStep = {
+                pseudocodeLine : 13 ,
+                patternIndex : patternIndex ,
+                textIndex : textIndex ,
+                patternElementColour : MatchingAlgorithmColourConstants.MISMATCH ,
+                textElementColour : MatchingAlgorithmColourConstants.MISMATCH ,
+                alreadyMatchedIndexesInPattern :[] ,
+                alreadyMatchedIndexesInText : [] ,
+                command : "Set text index to starting point",
+                highlightText : false ,
+                highlightPattern : false,
+                additional : this.additionalToExport(),
+            };
+
+            this.addStep(setTextIndex);
         }
 
-        private addMatchStep(textIndex : number , patternIndex : number) {
-            let nextStep = JSON.parse(JSON.stringify(this.steps[this.steps.length -  1]));
 
-            nextStep.pseudocodeLine = 7;
-            nextStep.command = "Found a character match"
-            nextStep.patternElementColour = MatchingAlgorithmColourConstants.MATCH;
-            nextStep.textElementColour = MatchingAlgorithmColourConstants.MATCH;
-            nextStep.textIndex = textIndex;
-            nextStep.patternIndex = patternIndex;
-            this.addStep(nextStep);
+        addFullMatchStep(textIndex : number , patternIndex : number) {
 
-            nextStep = JSON.parse(JSON.stringify(this.steps[this.steps.length -  2]));
+            const finalCheck : AlgorithmStep = {
+                pseudocodeLine : 14 ,
+                patternIndex : patternIndex ,
+                textIndex : textIndex ,
+                patternElementColour : MatchingAlgorithmColourConstants.CHECKING ,
+                textElementColour : MatchingAlgorithmColourConstants.CHECKING ,
+                alreadyMatchedIndexesInPattern :[] ,
+                alreadyMatchedIndexesInText : [] ,
+                command : "Checking if fully matched the pattern",
+                highlightText : true ,
+                highlightPattern : true,
+                additional : this.additionalToExport(),
+            };
 
-            nextStep.pseudocodeLine = 8;
-            nextStep.command = "Moving onto next text character";
-            this.addStep(nextStep);
+            this.addStep(finalCheck);
 
-            nextStep = JSON.parse(JSON.stringify(this.steps[this.steps.length -  2]));
+            const returnStatement : AlgorithmStep = {
+                pseudocodeLine : 15 ,
+                patternIndex : patternIndex ,
+                textIndex : textIndex ,
+                patternElementColour : MatchingAlgorithmColourConstants.MATCH ,
+                textElementColour : MatchingAlgorithmColourConstants.MATCH ,
+                alreadyMatchedIndexesInPattern :[] ,
+                alreadyMatchedIndexesInText : [] ,
+                command : "Report that there has been a match",
+                highlightText : true ,
+                highlightPattern : true,
+                additional : this.additionalToExport(),
+            };
 
-            nextStep.pseudocodeLine = 9;
-            nextStep.command = "Moving onto next pattern character";
-            this.addStep(nextStep);
+            this.addStep(returnStatement);
         }
 
-        private addMismatchStep() {
-            let nextStep = JSON.parse(JSON.stringify(this.steps[this.steps.length -  1]));
+        private addNoSolutionStep(textIndex : number , patternIndex : number) {
+            const returnStatement : AlgorithmStep = {
+                pseudocodeLine : 16 ,
+                patternIndex : patternIndex ,
+                textIndex : textIndex ,
+                patternElementColour : MatchingAlgorithmColourConstants.MATCH ,
+                textElementColour : MatchingAlgorithmColourConstants.MATCH ,
+                alreadyMatchedIndexesInPattern :[] ,
+                alreadyMatchedIndexesInText : [] ,
+                command : "No match !",
+                highlightText : true ,
+                highlightPattern : true,
+                additional : this.additionalToExport(),
+            };
 
-            nextStep.pseudocodeLine = 10;
-            nextStep.command = "No character match found, enter the else block"
-            this.addStep(nextStep);
-
-            nextStep = JSON.parse(JSON.stringify(this.steps[this.steps.length -  1]));
-
-            nextStep.pseudocodeLine = 11;
-            nextStep.command = "Reset pattern index to 0";
-            this.addStep(nextStep);
-
-            nextStep = JSON.parse(JSON.stringify(this.steps[this.steps.length -  1]));
-
-            nextStep.pseudocodeLine = 12;
-            nextStep.command = "Set starting point of comparison to next element of text";
-            this.addStep(nextStep);
-
-            nextStep = JSON.parse(JSON.stringify(this.steps[this.steps.length -  1]));
-
-            nextStep.pseudocodeLine = 13;
-            nextStep.command = "Set text index to starting point";
-            this.addStep(nextStep);
+            this.addStep(returnStatement);
         }
 
-        private addFullMatchStep() {
-            let nextStep = JSON.parse(JSON.stringify(this.steps[this.steps.length -  1]));
-
-            nextStep.pseudocodeLine = 14;
-            nextStep.command = "Checking if fully matched the pattern"
-            this.addStep(nextStep);
-
-            nextStep = JSON.parse(JSON.stringify(this.steps[this.steps.length -  1]));
-
-            nextStep.pseudocodeLine = 15;
-            nextStep.command = "Return the starting point of the match to show where the subtext matched";
-            this.addStep(nextStep);
-        }
-
-        private addNoSolutionStep() {
-            const nextStep = JSON.parse(JSON.stringify(this.steps[this.steps.length -  1]));
-
-            nextStep.pseudocodeLine = 16;
-            nextStep.command = "No match!";
-            this.addStep(nextStep);
+        additionalToExport() : BruteForceAdditionalVariables {
+            const additional : BruteForceAdditionalVariables = {
+                startingPoint : this.startingPoint,
+            }
+            return additional;
         }
 }

@@ -13,7 +13,7 @@ export class CommandVisualiserComponent {
 
 
     constructor(private playbackService : PlaybackServiceService) {
-      this.playbackService.currentStepObservator.subscribe((_) => {
+      this.playbackService.notifier.subscribe((_) => {
           this.currentCommand = this.playbackService.command;
       });
     }

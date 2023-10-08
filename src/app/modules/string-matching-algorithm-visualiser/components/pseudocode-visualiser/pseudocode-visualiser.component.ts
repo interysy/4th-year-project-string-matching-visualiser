@@ -8,24 +8,25 @@ import { PlaybackServiceService } from '../../services/playback-service.service'
 })
 export class PseudocodeVisualiserComponent {
 
-  constructor(private playbackService : PlaybackServiceService) {}
+  lastLine : HTMLElement | null = null;
 
-  async play() {
-    let lineToHighlight : HTMLElement | null;
-    for (let i = 0; i < this.playbackService.amountOfSteps; i++) {
-      lineToHighlight = document.getElementById("line" + this.playbackService.pseudocodeLine);
-      if (lineToHighlight) {
-        lineToHighlight.style.backgroundColor = "green";
-        await this.sleep(2000);
-        lineToHighlight.style.backgroundColor = "";
-        this.playbackService.moveToNextStep();
-      }
+  constructor(private playbackService : PlaybackServiceService) {
+    this.playbackService.notifier.subscribe((_) => {
+      this.highlightLine();
+    });
+  }
 
+  highlightLine() {
+    if (this.lastLine) this.lastLine.style.backgroundColor = "";
+
+    const lineToHighlight = document.getElementById("line" + this.playbackService.pseudocodeLine);
+    if (lineToHighlight) {
+      lineToHighlight.style.backgroundColor = "green";
+      this.lastLine = lineToHighlight;
     }
   }
 
-  async sleep(msec: number) {
-    return new Promise(resolve => setTimeout(resolve, msec));
+  play() {
+    this.playbackService.play();
   }
-
 }
