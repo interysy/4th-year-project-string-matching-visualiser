@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: "", component: HomePageComponent },
   { path : "about" , component : AboutPageComponent },
   { path : "algorithm-visualiser" , component : AlgorithmVisualiserPageComponent},
-  { path: "**", redirectTo: "" },
+  // { path: "**", redirectTo: "" },
 ];
 
 @NgModule({

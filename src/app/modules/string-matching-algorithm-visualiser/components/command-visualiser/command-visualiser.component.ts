@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { PlaybackServiceService } from '../../services/playback-service.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-command-visualiser',
@@ -7,4 +9,12 @@ import { Component } from '@angular/core';
 })
 export class CommandVisualiserComponent {
 
-}
+    currentCommand : string;
+
+
+    constructor(private playbackService : PlaybackServiceService) {
+      this.playbackService.notifier.subscribe((_) => {
+          this.currentCommand = this.playbackService.command;
+      });
+    }
+  }

@@ -12,7 +12,16 @@ export abstract class StringMatchingAlgorithm {
 
     abstract workOutSteps(text : string , pattern : string) : number;
 
-    private addStep(algorithmStep : AlgorithmStep) {
+    abstract addSetupSteps() : void;
+
+    abstract addWhileLoopStep(textIndex : number , patternIndex : number) : void;
+
+    abstract addMatchStep(textIndex : number , patternIndex : number) : void;
+
+    abstract addMismatchStep(textIndex : number , patternIndex: number) : void;
+
+
+    public addStep(algorithmStep : AlgorithmStep) {
         this.steps.push(algorithmStep);
     }
 
@@ -30,6 +39,14 @@ export abstract class StringMatchingAlgorithm {
 
     get patternLengthGetter() : number {
         return this.patternLength;
+    }
+
+    get stepsGetter() : AlgorithmStep[] {
+        return this.steps;
+    }
+
+     get stepsLength() : number {
+        return this.steps.length;
     }
 
 
