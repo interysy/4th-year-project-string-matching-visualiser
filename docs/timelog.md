@@ -83,6 +83,6 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 6 October
 
-* *3 hours* First attempt at creating pseudocode walkthrough for brute force algorithm.
+* *3 hours* First attempt at creating pseudocode walkthrough for brute force algorithm. Also added tailwind and made a navbar to allow for easy navigation while developing!
 ### 7 October
 * *4 hours* Implement pseduocode walkthrough for brute force algorithm, including code highlighting. Also implement showing variable values and the relevant message to be shown about what is happening at each step of the algorithm. All features now show up as we press play.
