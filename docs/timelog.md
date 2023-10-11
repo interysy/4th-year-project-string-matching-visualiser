@@ -69,6 +69,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 * *1 hour* Running requirement gathering workshop in order to gather the goals of the project
 * *1 hour* Writing up the notes from workshop and creating user stories
+ 
+## Week 3 
 
 ### 4 October
 
@@ -85,4 +87,14 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 * *3 hours* First attempt at creating pseudocode walkthrough for brute force algorithm. Also added tailwind and made a navbar to allow for easy navigation while developing!
 ### 7 October
-* *4 hours* Implement pseduocode walkthrough for brute force algorithm, including code highlighting. Also implement showing variable values and the relevant message to be shown about what is happening at each step of the algorithm. All features now show up as we press play.
+* *4 hours* Implement pseduocode walkthrough for brute force algorithm, including code highlighting. Also implement showing variable values and the relevant message to be shown about what is happening at each step of the algorithm. All features now show up as we press play. 
+
+### 10 October 
+ 
+* *0.5 hours* Preparing documents for the supervisor meeting 
+* *0.5 hours* Supervisor Meeting
+ 
+## Week 4  
+ 
+ 
+ 
