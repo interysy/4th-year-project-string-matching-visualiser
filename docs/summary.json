@@ -16,6 +16,10 @@
             {
                 "title": "26/09/23 Meeting",
                 "file": "weekly_meeting_documents/meeting_26_09_23.md"
+            }, 
+            {
+                "title": "10/10/23 Meeting",
+                "file": "weekly_meeting_documents/meeting_10_10_23.md"
             }
         ]
     },
@@ -27,8 +31,12 @@
                 "file": "meetings/18_09_23.md"
             },
             {
-                "title": "Meeting on the 26/09/23 - Preliminary",
+                "title": "Meeting on the 26/09/23 - Meeting 2",
                 "file": "meetings/26_09_23.md"
+            }, 
+            {
+                "title": "Meeting on the 26/09/23 - Meeting 3 ",
+                "file": "meetings/10_10_23.md"
             }
         ]
     }
