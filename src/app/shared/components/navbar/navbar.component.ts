@@ -1,5 +1,6 @@
 import { Component , ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../../../../environment';
 
 @Component({
   selector: 'app-navbar',
@@ -10,12 +11,7 @@ export class NavbarComponent {
 
   @ViewChild('mobileMenu', {static: true}) mobileMenu: ElementRef<HTMLDivElement>;
 
-  // will be exported onto a config file - added as an issue to backlog - #43
-  algorithms = [
-    {name : "Brute Force", queryParam : "bruteForce"},
-    {name : "Boyer Moore", queryParam : "boyerMoore"},
-    {name : "Knuth-Morris-Pratt", queryParam : "kmp"},
-  ];
+  environment = environment;
 
   constructor (private readonly router : Router) {}
   /**
@@ -44,6 +40,8 @@ export class NavbarComponent {
    * @returns void
    */
   async changePage(path : string , queryParam : string | null = null) {
+    console.log(path);
+    console.log(this.router.url);
     if (path === this.router.url) return;
     this.router.navigate(
       [path],

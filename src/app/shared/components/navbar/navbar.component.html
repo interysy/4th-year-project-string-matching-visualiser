@@ -2,7 +2,7 @@
   <div class="flex items-center md: mx-6">
       <img class="object-contain max-h-10 mr-10" src="../../../../assets/str_vis_logo_v2.png" alt="String Visualiser Logo V2">
     <div class="grow gap-6 justify-start hidden md:flex">
-      <button *ngFor="let algorithm of algorithms" [routerLink]="['algorithm-visualiser', algorithm.queryParam]">{{algorithm.name}}</button>
+      <button *ngFor="let algorithm of environment.supportedAlgorithms" (click)="changePage('algorithm-visualiser/' + algorithm.urlParam)">{{algorithm.name}}</button>
     </div>
     <div class="gap-6 justify-end hidden md:flex">
       <button (click)="changePage('/')">Home</button>
@@ -16,7 +16,7 @@
   </div>
 </nav>
 <div #mobileMenu class="hidden flex items-center justify-center flex-col gap-3" id="mobile-menu">
-  <a *ngFor="let algorithm of algorithms" href="#">{{algorithm}}</a>
+  <a *ngFor="let algorithm of environment.supportedAlgorithms" href="#">{{algorithm}}</a>
   <button class="break-normal" (click)="changePage('/')">Home</button>
   <button class="break-normal" (click)="changePage('/about')">About</button>
   <a href="https://github.com/interysy/4th-year-project-string-matching-visualiser"><fa-icon [icon]="['fab', 'github']" size="lg"></fa-icon></a>
