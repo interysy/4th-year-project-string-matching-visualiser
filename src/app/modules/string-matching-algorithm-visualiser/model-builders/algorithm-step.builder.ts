@@ -12,6 +12,10 @@ export class AlgorithmStepBuilder {
     step : AlgorithmStep;
 
     constructor() {
+        this.setDefaults();
+    }
+
+    public setDefaults() : void {
         this.step = {
             pseudocodeLine : 0,
             patternIndex : -1,
@@ -27,51 +31,51 @@ export class AlgorithmStepBuilder {
         };
     }
 
-    set pseudocodeLine(pseudocodeLine : number) {
+    set setPseudocodeLine(pseudocodeLine : number) {
         this.step.pseudocodeLine = pseudocodeLine;
     }
 
-    set patternIndex(patternIndex : number) {
-        this.patternIndex = patternIndex;
+    set setPatternIndex(patternIndex : number) {
+        this.step.patternIndex = patternIndex;
     }
 
-    set textIndex(textIndex : number) {
-        this.textIndex = textIndex;
+    set setTextIndex(textIndex : number) {
+        this.step.textIndex = textIndex;
     }
 
-    set patternElementColour(patternElementColour : string) {
-        this.patternElementColour = patternElementColour;
+    set setPatternElementColour(patternElementColour : string) {
+        this.step.patternElementColour = patternElementColour;
     }
 
-    set textElementColour(textElementColour : string) {
-        this.textElementColour = textElementColour;
+    set setTextElementColour(textElementColour : string) {
+        this.step.textElementColour = textElementColour;
     }
 
-    set alreadyMatchedIndexesInPattern(alreadyMatchedIndexesInPattern : number[]) {
-        this.alreadyMatchedIndexesInPattern = alreadyMatchedIndexesInPattern;
+    set setAlreadyMatchedIndexesInPattern(alreadyMatchedIndexesInPattern : number[]) {
+        this.step.alreadyMatchedIndexesInPattern = alreadyMatchedIndexesInPattern;
     }
 
-    set alreadyMatchedIndexesInText(alreadyMatchedIndexesInText : number[]) {
-        this.alreadyMatchedIndexesInText = alreadyMatchedIndexesInText;
+    set setAlreadyMatchedIndexesInText(alreadyMatchedIndexesInText : number[]) {
+        this.step.alreadyMatchedIndexesInText = alreadyMatchedIndexesInText;
     }
 
-    set command(command : string) {
-        this.command = command;
+    set setCommand(command : string) {
+        this.step.command = command;
     }
 
-    set highlightText(highlightText : boolean) {
-        this.highlightText = highlightText;
+    set setHighlightText(highlightText : boolean) {
+        this.step.highlightText = highlightText;
     }
 
-    set highlightPattern(highlightPattern : boolean) {
-        this.highlightPattern = highlightPattern;
+    set setHighlightPattern(highlightPattern : boolean) {
+        this.step.highlightPattern = highlightPattern;
     }
 
-    set additional(additional : AdditionalVariables) {
-        this.additional = additional;
+    set setAdditional(additional : AdditionalVariables) {
+        this.step.additional = additional;
     }
 
-    build() {
+    public build() {
         return JSON.parse(JSON.stringify(this.step));
     }
 }
