@@ -11,6 +11,7 @@ import { AboutPageComponent } from './pages/about/about.page';
 import { AlgorithmVisualiserPageComponent } from './pages/algorithm-visualiser/algorithm-visualiser.page';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { StringMatchingAlgorithmVisualiserModule } from './modules/string-matching-algorithm-visualiser/string-matching-algorithm-visualiser.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { StringMatchingAlgorithmVisualiserModule } from './modules/string-matchi
     AppRoutingModule,
     FontAwesomeModule,
     StringMatchingAlgorithmVisualiserModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
