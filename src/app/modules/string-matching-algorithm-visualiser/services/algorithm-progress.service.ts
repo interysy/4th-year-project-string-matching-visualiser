@@ -15,6 +15,7 @@ export class AlgorithmProgressService {
   text : string;
   pattern : string;
   private algorithm : StringMatchingAlgorithm;
+  private algorithmName : string;
 
   constructor(private router : Router , private injector : Injector) {
 
@@ -27,6 +28,7 @@ export class AlgorithmProgressService {
     switch (algorithmToInject) {
       case "BruteForceAlgorithm" : {
         this.algorithm = this.injector.get(BruteForceAlgorithm);
+        this.algorithmName = "brute-force";
         break;
       }
       default : {
@@ -117,9 +119,9 @@ export class AlgorithmProgressService {
     return this.algorithm.stepsGetter[this.currentStep].additional;
   }
 
-  // get startingPoint() {
-  //   return this.algorithm.steps[this.currentStep].startingPoint;
-  // }
+  get algorithmNameGetter() {
+    return this.algorithmName;
+  }
 
   async play() {
     this.notifier.next(0);

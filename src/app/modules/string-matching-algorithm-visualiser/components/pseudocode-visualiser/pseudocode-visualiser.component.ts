@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
+import { PseudocodeParserService } from '../../services/pseudocode-parser.service';
 
 @Component({
   selector: 'app-pseudocode-visualiser',
@@ -9,8 +10,20 @@ import { AlgorithmProgressService } from '../../services/algorithm-progress.serv
 export class PseudocodeVisualiserComponent {
 
   lastLine : HTMLElement | null = null;
+  @ViewChild('pseudocodeVisualiserDiv') divToDisplay:ElementRef;
 
-  constructor(private algorithmProgressService : AlgorithmProgressService) {
+  constructor(private readonly algorithmProgressService : AlgorithmProgressService,
+              private readonly pseudocodeParserService : PseudocodeParserService) {
+
+    this.pseudocodeParserService.getAlgorithmPseudocode(this.algorithmProgressService.algorithmNameGetter).subscribe((pseudocode) => {
+
+      const splittedPseudocode = pseudocode.split("\n");
+      splittedPseudocode.forEach((line , index) => {
+        this.divToDisplay.nativeElement.insertAdjacentHTML('beforeend', '<p id="line' + index + '">' + line + '</p>');
+
+      })
+    });
+
     this.algorithmProgressService.notifier.subscribe((_) => {
       this.highlightLine();
     });
