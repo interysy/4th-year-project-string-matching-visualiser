@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AlgorithmStep } from "./algorithm-step.model";
+import { AlgorithmStepBuilder } from "../model-builders/algorithm-step.builder";
 
 @Injectable({
     providedIn: 'root'
@@ -7,12 +8,16 @@ import { AlgorithmStep } from "./algorithm-step.model";
 export abstract class StringMatchingAlgorithm {
 
     private steps : AlgorithmStep[] = [];
-    private textLength : number;
-    private patternLength : number;
+    private textLength = 0;
+    private patternLength = 0;
+
+    constructor(protected algorithmStepBuilder: AlgorithmStepBuilder) {
+        // constructor implementation goes here
+    }
 
     abstract workOutSteps(text : string , pattern : string) : number;
 
-    abstract addSetupSteps() : void;
+    abstract addSetupSteps(textLength : number , patternLength : number) : void;
 
     abstract addWhileLoopStep(textIndex : number , patternIndex : number) : void;
 
@@ -45,10 +50,7 @@ export abstract class StringMatchingAlgorithm {
         return this.steps;
     }
 
-     get stepsLength() : number {
+    get stepsLength() : number {
         return this.steps.length;
     }
-
-
-
 }
