@@ -1,7 +1,7 @@
 export const environment = {
   supportedAlgorithms: [
-    {name : "Brute Force" , urlParam : "bruteForce"},
-    {name : "Boyer-Moore" , urlParam : "boyerMoore"},
-    {name : "Knuth-Morris-Pratt" , urlParam : "knuthMorrisPratt"},
+    {name : "Brute Force" , urlParam : "bruteForce" , requiredService : "BruteForceAlgorithm"},
+    {name : "Boyer-Moore" , urlParam : "boyerMoore" , requiredService : "BoyerMooreAlgorithm"},
+    {name : "Knuth-Morris-Pratt" , urlParam : "knuthMorrisPratt" , requiredService : "KnuthMorrisPrattAlgorithm"},
   ]
 };
