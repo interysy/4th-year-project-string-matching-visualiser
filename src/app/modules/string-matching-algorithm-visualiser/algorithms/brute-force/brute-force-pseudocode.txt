@@ -1,9 +1,9 @@
 bruteForce(text : string , pattern : string) : number {
-    const textLength = text.length;</code>
-    const patternLength = pattern.length;</code>
-    let startingPoint = 0;</code>
-    let textIndex = 0;</code>
-    let patternIndex = 0;</code>
+    const textLength = text.length;
+    const patternLength = pattern.length;
+    let startingPoint = 0;
+    let textIndex = 0;
+    let patternIndex = 0;
 
     while (startingPoint <= textLength - patternLength && patternIndex < patternLength) {
         if (text.charAt(textIndex) === pattern.charAt(patternIndex)) {
@@ -16,7 +16,7 @@ bruteForce(text : string , pattern : string) : number {
         }
     }
 
-    if (patternIndex === patternLength) {{ '{' }}
+    if (patternIndex === patternLength) {
         return startingPoint;
     }
     return -1
