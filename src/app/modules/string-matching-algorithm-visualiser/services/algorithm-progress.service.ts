@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Subject } from 'rxjs';
-import { BruteForceAdditionalVariables } from '../models/brute-force-additional-variables.model';
-import { AdditionalVariables } from '../models/additional-variables.model';
 import { StringMatchingAlgorithm } from '../models/algorithm.model';
 import { Router } from '@angular/router';
 import { BruteForceAlgorithm } from '../algorithms/brute-force/brute-force.algorithm';
@@ -16,14 +14,27 @@ export class AlgorithmProgressService {
   amountOfSteps : number;
   text : string;
   pattern : string;
+  private algorithm : StringMatchingAlgorithm;
 
-  constructor(private router : Router , private algorithm : StringMatchingAlgorithm) {
+  constructor(private router : Router , private injector : Injector) {
 
-    if (! (algorithm instanceof BruteForceAlgorithm)) this.router.navigateByUrl("/");
     this.notifier.subscribe((value) => {
       this.currentStep = value
     });
   }
+
+  public injectAlgorithm(algorithmToInject : string) {
+    switch (algorithmToInject) {
+      case "BruteForceAlgorithm" : {
+        this.algorithm = this.injector.get(BruteForceAlgorithm);
+        break;
+      }
+      default : {
+        throw new Error ("Algorithm not implemented");
+      }
+    }
+  }
+
 
   public executeAlgorithm() {
     this.algorithm.workOutSteps(this.text, this.pattern);
