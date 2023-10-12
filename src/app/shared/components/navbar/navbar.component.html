@@ -2,7 +2,7 @@
   <div class="flex items-center md: mx-6">
       <img class="object-contain max-h-10 mr-10" src="../../../../assets/str_vis_logo_v2.png" alt="String Visualiser Logo V2">
     <div class="grow gap-6 justify-start hidden md:flex">
-      <button *ngFor="let algorithm of algorithms" (click)="changePage('/algorithm-visualiser')">{{algorithm}}</button>
+      <button *ngFor="let algorithm of algorithms" [routerLink]="['algorithm-visualiser', algorithm.queryParam]">{{algorithm.name}}</button>
     </div>
     <div class="gap-6 justify-end hidden md:flex">
       <button (click)="changePage('/')">Home</button>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PlaybackServiceService } from '../../services/playback-service.service';
+import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 
 @Component({
   selector: 'app-pseudocode-visualiser',
@@ -10,8 +10,8 @@ export class PseudocodeVisualiserComponent {
 
   lastLine : HTMLElement | null = null;
 
-  constructor(private playbackService : PlaybackServiceService) {
-    this.playbackService.notifier.subscribe((_) => {
+  constructor(private algorithmProgressService : AlgorithmProgressService) {
+    this.algorithmProgressService.notifier.subscribe((_) => {
       this.highlightLine();
     });
   }
@@ -19,7 +19,7 @@ export class PseudocodeVisualiserComponent {
   highlightLine() {
     if (this.lastLine) this.lastLine.style.backgroundColor = "";
 
-    const lineToHighlight = document.getElementById("line" + this.playbackService.pseudocodeLine);
+    const lineToHighlight = document.getElementById("line" + this.algorithmProgressService.pseudocodeLine);
     if (lineToHighlight) {
       lineToHighlight.style.backgroundColor = "green";
       this.lastLine = lineToHighlight;
@@ -27,6 +27,6 @@ export class PseudocodeVisualiserComponent {
   }
 
   play() {
-    this.playbackService.play();
+    this.algorithmProgressService.play();
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PlaybackServiceService } from '../../services/playback-service.service';
+import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { BruteForceAdditionalVariables } from '../../models/brute-force-additional-variables.model';
 
 @Component({
@@ -9,22 +9,20 @@ import { BruteForceAdditionalVariables } from '../../models/brute-force-addition
 })
 export class VariableVisualiserComponent {
 
-  textLength : number;
-  patternLength : number;
-  startingPoint : number;
+  textLength = 0 ;
+  patternLength = 0
+  startingPoint = -1;
   textIndex : number;
   patternIndex : number;
 
-  constructor(private playbackService : PlaybackServiceService) {
-    this.textLength = this.playbackService.textLength;
-    this.patternLength = this.playbackService.patternLength;
-    this.startingPoint = 0;
+  constructor(private algorithmProgressService : AlgorithmProgressService) {
 
-    this.playbackService.notifier.subscribe((_) => {
-
-      this.startingPoint = (this.playbackService.additionalVariables as BruteForceAdditionalVariables).startingPoint;
-      this.textIndex = this.playbackService.textIndex;
-      this.patternIndex = this.playbackService.patternIndex;
+    this.algorithmProgressService.notifier.subscribe((_) => {
+      if (this.textLength == 0) this.textLength = this.algorithmProgressService.textLength;
+      if (this.patternLength == 0) this.patternLength = this.algorithmProgressService.patternLength;
+      this.startingPoint = (this.algorithmProgressService.additionalVariables as BruteForceAdditionalVariables).startingPoint ? (this.algorithmProgressService.additionalVariables as BruteForceAdditionalVariables).startingPoint : this.startingPoint;
+      this.textIndex = this.algorithmProgressService.textIndex;
+      this.patternIndex = this.algorithmProgressService.patternIndex;
     });
 
   }

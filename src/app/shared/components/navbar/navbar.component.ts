@@ -12,9 +12,9 @@ export class NavbarComponent {
 
   // will be exported onto a config file - added as an issue to backlog - #43
   algorithms = [
-    "Brute Force",
-    "Boyer-Moore",
-    "Knuth-Morris-Pratt",
+    {name : "Brute Force", queryParam : "bruteForce"},
+    {name : "Boyer Moore", queryParam : "boyerMoore"},
+    {name : "Knuth-Morris-Pratt", queryParam : "kmp"},
   ];
 
   constructor (private readonly router : Router) {}
@@ -43,9 +43,11 @@ export class NavbarComponent {
    * @param path A string representing the path to the page
    * @returns void
    */
-  async changePage(path : string) {
-    console.log("change path")
+  async changePage(path : string , queryParam : string | null = null) {
     if (path === this.router.url) return;
-    this.router.navigateByUrl(path);
+    this.router.navigate(
+      [path],
+      { queryParams: { algorithm : queryParam } }
+    );
   }
 }

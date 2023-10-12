@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { PlaybackServiceService } from '../../services/playback-service.service';
-import { Subject } from 'rxjs';
+import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 
 @Component({
   selector: 'app-command-visualiser',
@@ -11,10 +10,9 @@ export class CommandVisualiserComponent {
 
     currentCommand : string;
 
-
-    constructor(private playbackService : PlaybackServiceService) {
-      this.playbackService.notifier.subscribe((_) => {
-          this.currentCommand = this.playbackService.command;
+    constructor(private algorithmProgressService : AlgorithmProgressService) {
+      this.algorithmProgressService.notifier.subscribe((_) => {
+          this.currentCommand = this.algorithmProgressService.command;
       });
     }
   }
