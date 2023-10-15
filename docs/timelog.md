@@ -69,8 +69,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 * *1 hour* Running requirement gathering workshop in order to gather the goals of the project
 * *1 hour* Writing up the notes from workshop and creating user stories
- 
-## Week 3 
+
+## Week 3
 
 ### 4 October
 
@@ -87,14 +87,25 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 * *3 hours* First attempt at creating pseudocode walkthrough for brute force algorithm. Also added tailwind and made a navbar to allow for easy navigation while developing!
 ### 7 October
-* *4 hours* Implement pseduocode walkthrough for brute force algorithm, including code highlighting. Also implement showing variable values and the relevant message to be shown about what is happening at each step of the algorithm. All features now show up as we press play. 
+* *4 hours* Implement pseduocode walkthrough for brute force algorithm, including code highlighting. Also implement showing variable values and the relevant message to be shown about what is happening at each step of the algorithm. All features now show up as we press play.
 
-### 10 October 
- 
-* *0.5 hours* Preparing documents for the supervisor meeting 
+### 10 October
+
+* *0.5 hours* Preparing documents for the supervisor meeting
 * *0.5 hours* Supervisor Meeting
- 
-## Week 4  
- 
- 
- 
+
+## Week 4
+
+### 12 October
+
+* *2 hours* Refactoring current code on the new builder.
+* *2 hours* Creating a way to inject correct algorithm to visualiser component and making a pseudocode parser service.
+
+### 13 October
+
+* *2 hours* Exploring anime.js as an animation framework - not appropriate
+* *1.5 hours* Exploring other animation frameworks - choosing to go forward with p5js.
+
+### 14 October
+
+* *3 hours* Messing around with p5js and adding it to the angular project.
