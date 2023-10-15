@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { Subject , debounceTime , distinctUntilChanged } from 'rxjs';
 import { P5jsDrawService } from '../../services/p5js-draw-service.service';
@@ -9,49 +9,47 @@ import { P5jsDrawService } from '../../services/p5js-draw-service.service';
   styleUrls: ['./algorithm-visualiser.component.css']
 })
 
-export class AlgorithmVisualiserComponent {
+export class AlgorithmVisualiserComponent implements AfterViewInit {
 
   text = "The fox jumped over the lazy dog";
   pattern = "lazy";
 
-  where = 200;
 
   @ViewChild('canvasDemo', {static: true})
   canvas: ElementRef<HTMLCanvasElement>;
 
-  stringSettings = false;
+  stringSettings = true;
 
   private readonly Debounce = 1000;
 
   textChanged: Subject<string> = new Subject<string>();
   patternChanged : Subject<string> = new Subject<string>();
 
-
   constructor(private algorithmProgressService : AlgorithmProgressService , private p5DrawService : P5jsDrawService) {
     this.algorithmProgressService.setTextAndPattern(this.text , this.pattern);
-    // console.log(this.canvas);
-    // if (document.getElementById("canvas")) {
-    //   console.log("Initialising p5js");
-    //   p5DrawService.initialiseP5(document.getElementById("canvas"));
-    // }
 
     this.textChanged
-    .pipe(debounceTime(1000), distinctUntilChanged())
+    .pipe(debounceTime(this.Debounce), distinctUntilChanged())
     .subscribe(_ => {
        algorithmProgressService.setText = this.text;
+       p5DrawService.drawTextAndPattern(this.text , this.pattern);
     });
 
     this.patternChanged
-    .pipe(debounceTime(1000), distinctUntilChanged())
+    .pipe(debounceTime(this.Debounce), distinctUntilChanged())
     .subscribe(_ => {
        algorithmProgressService.setPattern = this.pattern;
+       p5DrawService.drawTextAndPattern(this.text , this.pattern);
     });
   }
 
   ngAfterViewInit() {
-    console.log(this.canvas);
-    this.p5DrawService.initiate(this.canvas.nativeElement);
+    const canvasWidth = this.canvas.nativeElement.offsetWidth;
+
+    this.p5DrawService.initiate(this.canvas.nativeElement , canvasWidth, 400 , this.text , this.pattern);
+    this.p5DrawService.drawTextAndPattern(this.text , this.pattern);
   }
+
 
   protected sendTextToService() {
     this.textChanged.next(this.text)
@@ -61,9 +59,11 @@ export class AlgorithmVisualiserComponent {
     this.patternChanged.next(this.pattern)
   }
 
-  drawMore(offset : number) {
-    this.where += offset
-    this.p5DrawService.drawMore(this.where);
-  }
+  @HostListener('window:resize')
+  protected onResize() {
+    const canvasHeigth = this.canvas.nativeElement.offsetHeight;
+    const canvasWidth = this.canvas.nativeElement.offsetWidth;
 
+    this.p5DrawService.resizeCanvas(canvasWidth, canvasHeigth , this.text , this.pattern);
+  }
 }
