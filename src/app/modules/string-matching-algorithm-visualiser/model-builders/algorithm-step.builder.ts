@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { AlgorithmStep } from "../models/algorithm-step.model";
 import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
 import { AdditionalVariables } from "../models/additional-variables.model";
+import { AlgorithmStepTypeConstants } from "../constants/algorithm-step-model.constant";
 
 
 @Injectable({
@@ -17,6 +18,7 @@ export class AlgorithmStepBuilder {
 
     public setDefaults() : void {
         this.step = {
+            type : AlgorithmStepTypeConstants.PROCESSING,
             pseudocodeLine : 0,
             patternIndex : -1,
             textIndex : -1,
@@ -73,6 +75,10 @@ export class AlgorithmStepBuilder {
 
     set setAdditional(additional : AdditionalVariables) {
         this.step.additional = additional;
+    }
+
+    set setType(type : AlgorithmStepTypeConstants) {
+        this.step.type = type;
     }
 
     public build() {
