@@ -2,6 +2,7 @@ import { MatchingAlgorithmColourConstants } from "../../constants/matching-algor
 import { StringMatchingAlgorithm } from "../../models/algorithm.model";
 import { Injectable } from "@angular/core";
 import { BruteForceAdditionalVariables } from "../../models/brute-force-additional-variables.model";
+import { AlgorithmStepTypeConstants } from "../../constants/algorithm-step-model.constant";
 
 @Injectable({
     providedIn: 'root'
@@ -69,7 +70,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         }
 
         addWhileLoopStep(textIndex : number , patternIndex : number) : void {
-            this.algorithmStepBuilder.setPseudocodeLine = 6;
+            this.algorithmStepBuilder.setPseudocodeLine = 7;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setCommand = "Looping through the pattern and text looking for a match";
@@ -80,7 +81,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         addCheckStep(textIndex : number , patternIndex : number) : void {
             const previousStep = this.stepsGetter[this.stepsLength -  1];
 
-            this.algorithmStepBuilder.setPseudocodeLine = 7;
+            this.algorithmStepBuilder.setPseudocodeLine = 8;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setPatternElementColour = MatchingAlgorithmColourConstants.CHECKING;
@@ -95,7 +96,8 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         addMatchStep(textIndex : number , patternIndex : number) {
             const previousStep = this.stepsGetter[this.stepsLength -  1];
 
-            this.algorithmStepBuilder.setPseudocodeLine = 8;
+            this.algorithmStepBuilder.setType = AlgorithmStepTypeConstants.MATCH;
+            this.algorithmStepBuilder.setPseudocodeLine = 9;
             this.algorithmStepBuilder.setPatternIndex = patternIndex-1;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setPatternElementColour = MatchingAlgorithmColourConstants.MATCH;
@@ -106,7 +108,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
             this.addStep(this.algorithmStepBuilder.build());
 
-            this.algorithmStepBuilder.setPseudocodeLine = 9;
+            this.algorithmStepBuilder.setPseudocodeLine = 10;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setCommand = "Move to next character in pattern";
 
@@ -117,7 +119,8 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         addMismatchStep(textIndex : number , patternIndex: number) {
             const previousStep = this.stepsGetter[this.stepsLength -  1];
 
-            this.algorithmStepBuilder.setPseudocodeLine = 10;
+            this.algorithmStepBuilder.setType = AlgorithmStepTypeConstants.MISMATCH;
+            this.algorithmStepBuilder.setPseudocodeLine = 11;
             this.algorithmStepBuilder.setPatternIndex = previousStep.patternIndex;
             this.algorithmStepBuilder.setTextIndex = previousStep.textIndex;
             this.algorithmStepBuilder.setPatternElementColour = MatchingAlgorithmColourConstants.MISMATCH;
@@ -126,19 +129,19 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
             this.addStep(this.algorithmStepBuilder.build());
 
-            this.algorithmStepBuilder.setPseudocodeLine = 11;
+            this.algorithmStepBuilder.setPseudocodeLine = 12;
             this.algorithmStepBuilder.setPatternIndex = 0;
             this.algorithmStepBuilder.setCommand = "Reset pattern index to 0";
 
             this.addStep(this.algorithmStepBuilder.build());
 
-            this.algorithmStepBuilder.setPseudocodeLine = 12
+            this.algorithmStepBuilder.setPseudocodeLine = 13;
             this.algorithmStepBuilder.setCommand = "Increment starting point of comparison to next element of text";
             this.algorithmStepBuilder.setAdditional = this.additionalToExport();
 
             this.addStep(this.algorithmStepBuilder.build());
 
-            this.algorithmStepBuilder.setPseudocodeLine = 13;
+            this.algorithmStepBuilder.setPseudocodeLine = 14;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setCommand = "Set text index to starting point";
 
@@ -149,7 +152,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
         addFullMatchStep(textIndex : number , patternIndex : number) {
 
-            this.algorithmStepBuilder.setPseudocodeLine = 14;
+            this.algorithmStepBuilder.setPseudocodeLine = 18;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setPatternElementColour = MatchingAlgorithmColourConstants.CHECKING;
@@ -160,7 +163,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
             this.addStep(this.algorithmStepBuilder.build());
 
-            this.algorithmStepBuilder.setPseudocodeLine = 15;
+            this.algorithmStepBuilder.setPseudocodeLine = 19;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setPatternElementColour = MatchingAlgorithmColourConstants.MATCH;
@@ -172,7 +175,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         }
 
         private addNoSolutionStep(textIndex : number , patternIndex : number) {
-            this.algorithmStepBuilder.setPseudocodeLine = 16;
+            this.algorithmStepBuilder.setPseudocodeLine = 21;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setPatternElementColour = MatchingAlgorithmColourConstants.MISMATCH;
