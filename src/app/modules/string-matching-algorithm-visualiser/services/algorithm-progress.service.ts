@@ -37,25 +37,29 @@ export class AlgorithmProgressService {
     }
   }
 
-
   public executeAlgorithm() {
     this.algorithm.workOutSteps(this.text, this.pattern);
     this.amountOfSteps = this.algorithm.stepsLength;
+    console.log(this.algorithm.stepsGetter);
   }
 
   public setTextAndPattern(text : string, pattern : string) {
     this.text = text;
     this.pattern = pattern;
+    this.algorithm.resetSteps();
+    console.log(this.algorithm.stepsGetter)
     this.executeAlgorithm();
   }
 
   set setText(text : string) {
     this.text = text;
+    this.algorithm.resetSteps();
     this.executeAlgorithm();
   }
 
   set setPattern(pattern : string) {
      this.pattern = pattern;
+     this.algorithm.resetSteps();
      this.executeAlgorithm();
   }
 
@@ -126,7 +130,7 @@ export class AlgorithmProgressService {
   async play() {
     this.notifier.next(0);
     for (let i = 0; i < this.amountOfSteps; i++) {
-        await this.sleep(2000);
+        await this.sleep(500);
         this.moveToNextStep();
       }
   }

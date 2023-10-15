@@ -53,4 +53,8 @@ export abstract class StringMatchingAlgorithm {
     get stepsLength() : number {
         return this.steps.length;
     }
+
+    resetSteps() {
+        this.steps = [];
+    }
 }
