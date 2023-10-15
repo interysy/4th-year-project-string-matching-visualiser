@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TestComponentComponent } from './test-component/test-component.component'; 
 import { FormsModule } from '@angular/forms';
+import { AnimejsTestComponent } from './animejs-test/animejs-test.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestComponentComponent
+    TestComponentComponent,
+    AnimejsTestComponent
   ],
   imports: [
     BrowserModule,
