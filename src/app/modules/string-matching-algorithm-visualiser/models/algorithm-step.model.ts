@@ -1,8 +1,10 @@
+import { AlgorithmStepTypeConstants } from "../constants/algorithm-step-model.constant";
 import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
 import { AdditionalVariables } from "./additional-variables.model";
 
 export class AlgorithmStep {
 
+    type : AlgorithmStepTypeConstants;
     pseudocodeLine : number;
     patternIndex = -1;
     textIndex = -1;
