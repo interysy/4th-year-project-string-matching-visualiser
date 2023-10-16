@@ -9,7 +9,7 @@ import { BruteForceAlgorithm } from '../algorithms/brute-force/brute-force.algor
 })
 export class AlgorithmProgressService {
 
-  currentStep : number;
+  currentStep = -1;
   notifier : Subject<number> = new Subject<number>();
   amountOfSteps : number;
   text : string;
@@ -65,8 +65,12 @@ export class AlgorithmProgressService {
 
   public moveToNextStep() {
     this.notifier.next(this.currentStep + 1);
+    console.log(this.currentStep);
   }
 
+  get stepGetter() {
+    return this.algorithm.stepsGetter[this.currentStep];
+  }
   get currentStepNumber() {
     return this.currentStep;
   }

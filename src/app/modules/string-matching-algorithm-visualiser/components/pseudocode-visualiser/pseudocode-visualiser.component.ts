@@ -20,7 +20,6 @@ export class PseudocodeVisualiserComponent {
       const splittedPseudocode = pseudocode.split("\n");
       splittedPseudocode.forEach((line , index) => {
         this.divToDisplay.nativeElement.insertAdjacentHTML('beforeend', '<p id="line' + index + '">' + line + '</p>');
-
       })
     });
 
