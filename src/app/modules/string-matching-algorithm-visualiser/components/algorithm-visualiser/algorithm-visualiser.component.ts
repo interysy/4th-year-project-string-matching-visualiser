@@ -2,6 +2,8 @@ import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild }
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { Subject , debounceTime , distinctUntilChanged } from 'rxjs';
 import { P5jsDrawService } from '../../services/p5js-draw-service.service';
+import { AlgorithmStep } from '../../models/algorithm-step.model';
+import { AlgorithmStepTypeConstants } from '../../constants/algorithm-step-model.constant';
 
 @Component({
   selector: 'app-algorithm-visualiser-animation',
@@ -41,11 +43,15 @@ export class AlgorithmVisualiserComponent implements AfterViewInit {
        algorithmProgressService.setPattern = this.pattern;
        p5DrawService.drawTextAndPattern(this.text , this.pattern);
     });
+
+    this.algorithmProgressService.notifier.subscribe((_) => {
+
+      this.updatePlot(this.algorithmProgressService.stepGetter);
+    });
   }
 
   ngAfterViewInit() {
     const canvasWidth = this.canvas.nativeElement.offsetWidth;
-
     this.p5DrawService.initiate(this.canvas.nativeElement , canvasWidth, 400 , this.text , this.pattern);
     this.p5DrawService.drawTextAndPattern(this.text , this.pattern);
   }
@@ -65,5 +71,31 @@ export class AlgorithmVisualiserComponent implements AfterViewInit {
     const canvasWidth = this.canvas.nativeElement.offsetWidth;
 
     this.p5DrawService.resizeCanvas(canvasWidth, canvasHeigth , this.text , this.pattern);
+  }
+
+  protected updatePlot(step : AlgorithmStep) {
+
+    if (step.highlightPattern || step.highlightText) {
+      this.p5DrawService.highlightTextAndPattern(this.text , this.pattern , step.highlightText , step.highlightPattern );
+    }
+
+    switch (step.type) {
+      case AlgorithmStepTypeConstants.MATCH : {
+        this.p5DrawService.highlightSpecificSquares(step.textElementColour , step.textIndex , step.patternIndex , step.alreadyMatchedIndexesInPattern , step.alreadyMatchedIndexesInText , this.text , this.pattern);
+        break;
+      }
+      case AlgorithmStepTypeConstants.MISMATCH : {
+        this.p5DrawService.movePattern(step.textIndex , this.text , this.pattern);
+        break;
+      }
+    }
+
+
+    console.log("step");
+    console.log(step);
+  }
+
+  nextStep() {
+    this.algorithmProgressService.moveToNextStep();
   }
 }
