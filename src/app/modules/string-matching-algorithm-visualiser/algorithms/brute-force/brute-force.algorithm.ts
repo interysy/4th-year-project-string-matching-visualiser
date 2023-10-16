@@ -48,11 +48,11 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         addSetupSteps(textLength : number , patternLength : number) {
 
             const setUpCommands = [
-                { command : "Measuring the length of the text" , highlightText : true , highlightPattern : false , textLength : textLength} ,
+                { command : "Measuring the length of the text" , highlightText : true , highlightPattern : false , textLength : textLength } ,
                 { command : "Measuring the length of the pattern"  , highlightText : false , highlightPattern : true , paternLength : patternLength} ,
-                { command : "Initialising the starting point to 0" , highlightText : true , highlightPattern : false , startingPoint: 0 },
+                { command : "Initialising the starting point to 0" , highlightText : false , highlightPattern : false , startingPoint: 0 },
                 { command : "Initialising the text index to 0" , highlightText : true , highlightPattern : false , textIndex : 0},
-                { command : "Initialising the pattern index to 0"  , highlightText : true , highlightPattern : false ,  patternIndex : 0  } ,
+                { command : "Initialising the pattern index to 0"  , highlightText : false , highlightPattern : true ,  patternIndex : 0  } ,
             ];
 
             setUpCommands.forEach(({command , highlightText , highlightPattern , startingPoint} , index) => {
@@ -70,9 +70,13 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         }
 
         addWhileLoopStep(textIndex : number , patternIndex : number) : void {
+            const previousStep = this.stepsGetter[this.stepsLength -  1];
+
             this.algorithmStepBuilder.setPseudocodeLine = 7;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
+            this.algorithmStepBuilder.setAlreadyMatchedIndexesInPattern = [...previousStep.alreadyMatchedIndexesInPattern];
+            this.algorithmStepBuilder.setAlreadyMatchedIndexesInText = [...previousStep.alreadyMatchedIndexesInText]
             this.algorithmStepBuilder.setCommand = "Looping through the pattern and text looking for a match";
             this.addStep(this.algorithmStepBuilder.build());
             this.algorithmStepBuilder.setDefaults();
@@ -96,7 +100,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         addMatchStep(textIndex : number , patternIndex : number) {
             const previousStep = this.stepsGetter[this.stepsLength -  1];
 
-            this.algorithmStepBuilder.setType = AlgorithmStepTypeConstants.MATCH;
+            this.algorithmStepBuilder.setType = AlgorithmStepTypeConstants.PROCESSING;
             this.algorithmStepBuilder.setPseudocodeLine = 9;
             this.algorithmStepBuilder.setPatternIndex = patternIndex-1;
             this.algorithmStepBuilder.setTextIndex = textIndex;
@@ -109,6 +113,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.addStep(this.algorithmStepBuilder.build());
 
             this.algorithmStepBuilder.setPseudocodeLine = 10;
+            this.algorithmStepBuilder.setType = AlgorithmStepTypeConstants.MATCH;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setCommand = "Move to next character in pattern";
 
@@ -151,21 +156,25 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
 
         addFullMatchStep(textIndex : number , patternIndex : number) {
+            const previousStep = this.stepsGetter[this.stepsLength -  1];
 
             this.algorithmStepBuilder.setPseudocodeLine = 18;
+            this.algorithmStepBuilder.setType = AlgorithmStepTypeConstants.PROCESSING;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setPatternElementColour = MatchingAlgorithmColourConstants.CHECKING;
             this.algorithmStepBuilder.setTextElementColour = MatchingAlgorithmColourConstants.CHECKING;
+            this.algorithmStepBuilder.setAlreadyMatchedIndexesInPattern = [...previousStep.alreadyMatchedIndexesInPattern];
+            this.algorithmStepBuilder.setAlreadyMatchedIndexesInText = [...previousStep.alreadyMatchedIndexesInText];
             this.algorithmStepBuilder.setCommand = "Checking if fully matched the pattern";
-            this.algorithmStepBuilder.setHighlightPattern  = true;
-            this.algorithmStepBuilder.setHighlightText = true;
 
             this.addStep(this.algorithmStepBuilder.build());
 
             this.algorithmStepBuilder.setPseudocodeLine = 19;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
+            this.algorithmStepBuilder.setAlreadyMatchedIndexesInPattern = [...previousStep.alreadyMatchedIndexesInPattern];
+            this.algorithmStepBuilder.setAlreadyMatchedIndexesInText = [...previousStep.alreadyMatchedIndexesInText];
             this.algorithmStepBuilder.setPatternElementColour = MatchingAlgorithmColourConstants.MATCH;
             this.algorithmStepBuilder.setTextElementColour = MatchingAlgorithmColourConstants.MATCH;
             this.algorithmStepBuilder.setCommand = "Report that there has been a match";
