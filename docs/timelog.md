@@ -109,3 +109,12 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 14 October
 
 * *3 hours* Messing around with p5js and adding it to the angular project.
+
+### 16 October
+
+* *2 hours* Implement the initial drawing to the canvas. This includes drawing text on change and having the animation be centralised regardless of size of the canvas.
+* *2 hours* Implement brute force algorithm visualisation. This includes step parsing and then redrawing on canvas with the correct colouring.
+
+### 17 October
+
+* *45 mins* Prepare for supervisor meeting with new meeting document and getting a demo ready. Also update timelog.
