@@ -21,7 +21,6 @@ export class P5jsDrawService extends P5JSInvoker {
 
   setup(p:p5 , width : number , height : number, text : string , pattern : string) {
     p.createCanvas(width, height);
-    this.drawTextAndPattern(text , pattern);
   }
 
   draw(p : p5) {

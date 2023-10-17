@@ -50,10 +50,13 @@ export class AlgorithmVisualiserComponent implements AfterViewInit {
     });
   }
 
+
   ngAfterViewInit() {
     const canvasWidth = this.canvas.nativeElement.offsetWidth;
     this.p5DrawService.initiate(this.canvas.nativeElement , canvasWidth, 400 , this.text , this.pattern);
-    this.p5DrawService.drawTextAndPattern(this.text , this.pattern);
+
+    // force change
+    this.textChanged.next(this.text);
   }
 
 

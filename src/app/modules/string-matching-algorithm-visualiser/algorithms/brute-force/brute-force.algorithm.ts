@@ -51,8 +51,8 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
                 { command : "Measuring the length of the text" , highlightText : true , highlightPattern : false , textLength : textLength } ,
                 { command : "Measuring the length of the pattern"  , highlightText : false , highlightPattern : true , paternLength : patternLength} ,
                 { command : "Initialising the starting point to 0" , highlightText : false , highlightPattern : false , startingPoint: 0 },
-                { command : "Initialising the text index to 0" , highlightText : true , highlightPattern : false , textIndex : 0},
-                { command : "Initialising the pattern index to 0"  , highlightText : false , highlightPattern : true ,  patternIndex : 0  } ,
+                { command : "Initialising the text index to 0" , highlightText : false , highlightPattern : false , textIndex : 0},
+                { command : "Initialising the pattern index to 0"  , highlightText : false , highlightPattern : false ,  patternIndex : 0  } ,
             ];
 
             setUpCommands.forEach(({command , highlightText , highlightPattern , startingPoint} , index) => {
