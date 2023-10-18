@@ -1,5 +1,5 @@
 import { AdditionalVariables } from "./additional-variables.model";
 
-export interface BruteForceAdditionalVariables extends AdditionalVariables {
+export class BruteForceAdditionalVariables extends AdditionalVariables {
     startingPoint : number;
 }
