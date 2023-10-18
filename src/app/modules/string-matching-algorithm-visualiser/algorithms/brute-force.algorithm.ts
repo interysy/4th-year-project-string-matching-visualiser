@@ -147,7 +147,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
 
             this.letterBuilder.setIndex = this.previousStep.patternIndex;
-            this.letterBuilder.setLetter = this.text.charAt(this.previousStep.patternIndex);
+            this.letterBuilder.setLetter = this.pattern.charAt(this.previousStep.patternIndex);
             this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
             this.letterBuilder.setStrokeWeight = 4;
 
@@ -185,7 +185,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setCommand = "No character match found, enter the else block";
 
             this.letterBuilder.setIndex = this.previousStep.patternIndex;
-            this.letterBuilder.setLetter = this.text.charAt(this.previousStep.patternIndex);
+            this.letterBuilder.setLetter = this.pattern.charAt(this.previousStep.patternIndex);
             this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
             this.letterBuilder.setStrokeWeight = 4;
 
