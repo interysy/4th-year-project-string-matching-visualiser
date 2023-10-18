@@ -1,17 +1,13 @@
-import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
 import { AdditionalVariables } from "./additional-variables.model";
+import { Letter } from "./letter.model";
 
-export class AlgorithmStep {
-
+export interface AlgorithmStep {
     pseudocodeLine : number;
-    patternIndex = -1;
-    textIndex = -1;
-    patternElementColour = MatchingAlgorithmColourConstants.DEFAULT;
-    textElementColour = MatchingAlgorithmColourConstants.DEFAULT;
-    alreadyMatchedIndexesInPattern : number[] = [];
-    alreadyMatchedIndexesInText : number[] = [];
+    lettersInText : Letter[];
+    lettersInPattern : Letter[];
+    patternOffset : number;
+    textIndex : number;
+    patternIndex : number;
     command : string;
-    highlightText = false;
-    highlightPattern = false;
     additional : AdditionalVariables;
 }
