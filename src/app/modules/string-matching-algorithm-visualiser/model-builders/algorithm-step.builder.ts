@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AlgorithmStep } from "../models/algorithm-step.model";
-import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
 import { AdditionalVariables } from "../models/additional-variables.model";
+import { Letter } from "../models/letter.model";
 
 
 @Injectable({
@@ -12,66 +12,51 @@ export class AlgorithmStepBuilder {
     step : AlgorithmStep;
 
     constructor() {
+        this.setDefaults();
+    }
+
+    public setDefaults() : void {
         this.step = {
             pseudocodeLine : 0,
-            patternIndex : -1,
-            textIndex : -1,
-            patternElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-            textElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-            alreadyMatchedIndexesInPattern : [],
-            alreadyMatchedIndexesInText : [],
+            lettersInText : [],
+            lettersInPattern : [],
+            patternOffset : 0,
+            textIndex : 0,
+            patternIndex : 0,
             command : "",
-            highlightText : false,
-            highlightPattern : false,
-            additional : {},
+            additional : [],
         };
     }
 
-    set pseudocodeLine(pseudocodeLine : number) {
+    set setPseudocodeLine(pseudocodeLine : number) {
         this.step.pseudocodeLine = pseudocodeLine;
     }
 
-    set patternIndex(patternIndex : number) {
-        this.patternIndex = patternIndex;
+    set setPatternIndex(patternIndex : number) {
+        this.step.patternIndex = patternIndex;
     }
 
-    set textIndex(textIndex : number) {
-        this.textIndex = textIndex;
+    set setTextIndex(textIndex : number) {
+        this.step.textIndex = textIndex;
     }
 
-    set patternElementColour(patternElementColour : string) {
-        this.patternElementColour = patternElementColour;
+    set setLettersInText(lettersInText : Letter[]) {
+        this.step.lettersInText = lettersInText;
     }
 
-    set textElementColour(textElementColour : string) {
-        this.textElementColour = textElementColour;
+    set setLettersInPattern(lettersInPattern : Letter[]) {
+        this.step.lettersInPattern = lettersInPattern;
     }
 
-    set alreadyMatchedIndexesInPattern(alreadyMatchedIndexesInPattern : number[]) {
-        this.alreadyMatchedIndexesInPattern = alreadyMatchedIndexesInPattern;
+    set setCommand(command : string) {
+        this.step.command = command;
     }
 
-    set alreadyMatchedIndexesInText(alreadyMatchedIndexesInText : number[]) {
-        this.alreadyMatchedIndexesInText = alreadyMatchedIndexesInText;
+    set setAdditional(additional : AdditionalVariables) {
+        this.step.additional = additional;
     }
 
-    set command(command : string) {
-        this.command = command;
-    }
-
-    set highlightText(highlightText : boolean) {
-        this.highlightText = highlightText;
-    }
-
-    set highlightPattern(highlightPattern : boolean) {
-        this.highlightPattern = highlightPattern;
-    }
-
-    set additional(additional : AdditionalVariables) {
-        this.additional = additional;
-    }
-
-    build() {
+    public build() {
         return JSON.parse(JSON.stringify(this.step));
     }
 }
