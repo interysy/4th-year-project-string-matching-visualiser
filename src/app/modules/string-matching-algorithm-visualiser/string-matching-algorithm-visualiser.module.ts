@@ -4,6 +4,7 @@ import { AlgorithmVisualiserComponent } from './components/algorithm-visualiser/
 import { PseudocodeVisualiserComponent } from './components/pseudocode-visualiser/pseudocode-visualiser.component';
 import { VariableVisualiserComponent } from './components/variable-visualiser/variable-visualiser.component';
 import { CommandVisualiserComponent } from './components/command-visualiser/command-visualiser.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { CommandVisualiserComponent } from './components/command-visualiser/comm
     CommandVisualiserComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
   ],
   exports: [
     AlgorithmVisualiserComponent,
