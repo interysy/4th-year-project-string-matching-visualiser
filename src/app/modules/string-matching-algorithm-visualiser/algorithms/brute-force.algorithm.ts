@@ -42,7 +42,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
                     startingPoint += 1;
                     this.startingPoint = startingPoint;
                     textIndex = startingPoint;
-                    this.addMismatchStep(textIndex , patternIndex);
+                    this.addMismatchStep(textIndex);
                 }
             }
             if (patternIndex === patternLength) {
@@ -176,7 +176,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.previousStep = step;
         }
 
-        addMismatchStep(textIndex : number , patternIndex: number) {
+        addMismatchStep(textIndex : number ) {
 
             this.algorithmStepBuilder.setPseudocodeLine = 11;
             this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
