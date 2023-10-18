@@ -1,12 +1,9 @@
-import { Injectable } from "@angular/core";
 import { AlgorithmStep } from "../models/algorithm-step.model";
 import { AdditionalVariables } from "../models/additional-variables.model";
 import { Letter } from "../models/letter.model";
 
 
-@Injectable({
-    providedIn: 'root'
-})
+
 export class AlgorithmStepBuilder {
 
     step : AlgorithmStep;
@@ -21,10 +18,10 @@ export class AlgorithmStepBuilder {
             lettersInText : [],
             lettersInPattern : [],
             patternOffset : 0,
-            textIndex : 0,
-            patternIndex : 0,
+            textIndex : -1,
+            patternIndex : -1,
             command : "",
-            additional : [],
+            additional : new AdditionalVariables(),
         };
     }
 
@@ -46,6 +43,10 @@ export class AlgorithmStepBuilder {
 
     set setLettersInPattern(lettersInPattern : Letter[]) {
         this.step.lettersInPattern = lettersInPattern;
+    }
+
+    set setPatternOffset(patternOffset : number) {
+        this.step.patternOffset = patternOffset;
     }
 
     set setCommand(command : string) {
