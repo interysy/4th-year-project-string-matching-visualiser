@@ -40,6 +40,10 @@ export abstract class StringMatchingAlgorithm {
         return this.steps.length;
     }
 
+    resetSteps() {
+        this.steps = [];
+    }
+
 
 
 }
