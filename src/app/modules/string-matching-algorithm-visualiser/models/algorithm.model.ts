@@ -12,15 +12,6 @@ export abstract class StringMatchingAlgorithm {
 
     abstract workOutSteps(text : string , pattern : string) : number;
 
-    abstract addSetupSteps() : void;
-
-    abstract addWhileLoopStep(textIndex : number , patternIndex : number) : void;
-
-    abstract addMatchStep(textIndex : number , patternIndex : number) : void;
-
-    abstract addMismatchStep(textIndex : number , patternIndex: number) : void;
-
-
     public addStep(algorithmStep : AlgorithmStep) {
         this.steps.push(algorithmStep);
     }

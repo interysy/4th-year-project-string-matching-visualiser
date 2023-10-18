@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BruteForceAlgorithm } from '../algorithms/brute-force.algorithm';
 import { Subject } from 'rxjs';
-import { BruteForceAdditionalVariables } from '../models/brute-force-additional-variables.model';
-import { AdditionalVariables } from '../models/additional-variables.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +14,7 @@ export class PlaybackServiceService {
   constructor(private bruteForceAlgorithm : BruteForceAlgorithm) {
     bruteForceAlgorithm.workOutSteps("hello" , "ll");
     this.amountOfSteps = bruteForceAlgorithm.stepsLength;
-
+    console.log(this.bruteForceAlgorithm.stepsGetter)
     this.notifier.subscribe((value) => {
       this.currentStep = value
   });
@@ -42,32 +40,8 @@ export class PlaybackServiceService {
     return this.bruteForceAlgorithm.stepsGetter[this.currentStep].textIndex;
   }
 
-  get patternElementColour() {
-    return this.bruteForceAlgorithm.stepsGetter[this.currentStep].patternElementColour;
-  }
-
-  get textElementColour() {
-    return this.bruteForceAlgorithm.stepsGetter[this.currentStep].textElementColour;
-  }
-
-  get alreadyMatchedIndexesInPattern() {
-    return this.bruteForceAlgorithm.stepsGetter[this.currentStep].alreadyMatchedIndexesInPattern;
-  }
-
-  get alreadyMatchedIndexesInText() {
-    return this.bruteForceAlgorithm.stepsGetter[this.currentStep].alreadyMatchedIndexesInText;
-  }
-
   get command() {
     return this.bruteForceAlgorithm.stepsGetter[this.currentStep].command;
-  }
-
-  get highlightText() {
-    return this.bruteForceAlgorithm.stepsGetter[this.currentStep].highlightText;
-  }
-
-  get highlightPattern() {
-    return this.bruteForceAlgorithm.stepsGetter[this.currentStep].highlightPattern;
   }
 
   get textLength() {
