@@ -4,6 +4,8 @@ import { Subject , debounceTime , distinctUntilChanged } from 'rxjs';
 import { P5jsDrawService } from '../../services/p5js-draw-service.service';
 import { AlgorithmStep } from '../../models/algorithm-step.model';
 import { AlgorithmStepTypeConstants } from '../../constants/algorithm-step-model.constant';
+import { MatchingAlgorithmColourConstants } from '../../constants/matching-algorithm-colours.constant';
+import { LetterDraw } from '../../models/letter-draw.model';
 
 @Component({
   selector: 'app-algorithm-visualiser-animation',
@@ -34,14 +36,14 @@ export class AlgorithmVisualiserComponent implements AfterViewInit {
     .pipe(debounceTime(this.Debounce), distinctUntilChanged())
     .subscribe(_ => {
        algorithmProgressService.setText = this.text;
-       p5DrawService.drawTextAndPattern(this.text , this.pattern);
+       p5DrawService.drawTextAndPattern(this.text , this.pattern , 0 , [] , [] );
     });
 
     this.patternChanged
     .pipe(debounceTime(this.Debounce), distinctUntilChanged())
     .subscribe(_ => {
        algorithmProgressService.setPattern = this.pattern;
-       p5DrawService.drawTextAndPattern(this.text , this.pattern);
+       p5DrawService.drawTextAndPattern(this.text , this.pattern , 0 , [] , []);
     });
 
     this.algorithmProgressService.notifier.subscribe((_) => {
@@ -78,17 +80,41 @@ export class AlgorithmVisualiserComponent implements AfterViewInit {
 
   protected updatePlot(step : AlgorithmStep) {
 
-    if (step.highlightPattern || step.highlightText) {
-      this.p5DrawService.highlightTextAndPattern(this.text , this.pattern , step.highlightText , step.highlightPattern );
-    }
+    // if (step.highlightPattern || step.highlightText) {
+    //   this.p5DrawService.highlightTextAndPattern(this.text , this.pattern , step.highlightText , step.highlightPattern );
+    // }
 
     switch (step.type) {
+      case AlgorithmStepTypeConstants.HIGHLIGHT : {
+        const highlightText = ((step.highlightText) ? Array.from(Array(this.text.length).keys()) : []).map(index => {
+          const letterDraw = new LetterDraw();
+          letterDraw.index = index;
+          letterDraw.colour = MatchingAlgorithmColourConstants.CHECKING;
+          return letterDraw;
+          });
+        const highlightPattern = ((step.highlightPattern) ? Array.from(Array(this.pattern.length).keys()) : []).map(index => {
+          const letterDraw = new LetterDraw();
+          letterDraw.index = index;
+          letterDraw.colour = MatchingAlgorithmColourConstants.CHECKING;
+          return letterDraw;
+        });
+        this.p5DrawService.drawTextAndPattern(this.text , this.pattern  , -1 , highlightText , highlightPattern)
+        break;
+      }
+      case AlgorithmStepTypeConstants.PROCESSING : {
+        this.p5DrawService.drawTextAndPattern(this.text , this.pattern , -1 , step.alreadyMatchedIndexesInText ,  step.alreadyMatchedIndexesInPattern );
+        break;
+      }
+      case AlgorithmStepTypeConstants.COMPARISON : {
+         this.p5DrawService.drawTextAndPattern(this.text , this.pattern , -1 , step.alreadyMatchedIndexesInText ,  step.alreadyMatchedIndexesInPattern );
+        break;
+      }
       case AlgorithmStepTypeConstants.MATCH : {
-        this.p5DrawService.highlightSpecificSquares(step.textElementColour , step.textIndex , step.patternIndex , step.alreadyMatchedIndexesInPattern , step.alreadyMatchedIndexesInText , this.text , this.pattern);
+        this.p5DrawService.drawTextAndPattern(this.text , this.pattern , -1 , step.alreadyMatchedIndexesInText , step.alreadyMatchedIndexesInPattern);
         break;
       }
       case AlgorithmStepTypeConstants.MISMATCH : {
-        this.p5DrawService.movePattern(step.textIndex , this.text , this.pattern);
+        this.p5DrawService.drawTextAndPattern(this.text , this.pattern  , step.textIndex , step.alreadyMatchedIndexesInText , step.alreadyMatchedIndexesInPattern);
         break;
       }
     }

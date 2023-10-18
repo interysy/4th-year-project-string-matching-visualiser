@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
 import { AlgorithmStep } from "../models/algorithm-step.model";
-import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
 import { AdditionalVariables } from "../models/additional-variables.model";
 import { AlgorithmStepTypeConstants } from "../constants/algorithm-step-model.constant";
+import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
+import { BruteForceAdditionalVariables } from "../models/brute-force-additional-variables.model";
+import { LetterDraw } from "../models/letter-draw.model";
 
 
 @Injectable({
@@ -22,14 +24,12 @@ export class AlgorithmStepBuilder {
             pseudocodeLine : 0,
             patternIndex : -1,
             textIndex : -1,
-            patternElementColour : MatchingAlgorithmColourConstants.DEFAULT,
-            textElementColour : MatchingAlgorithmColourConstants.DEFAULT,
             alreadyMatchedIndexesInPattern : [],
             alreadyMatchedIndexesInText : [],
             command : "",
             highlightText : false,
             highlightPattern : false,
-            additional : {},
+            additional : new AdditionalVariables,
         };
     }
 
@@ -45,19 +45,11 @@ export class AlgorithmStepBuilder {
         this.step.textIndex = textIndex;
     }
 
-    set setPatternElementColour(patternElementColour : string) {
-        this.step.patternElementColour = patternElementColour;
-    }
-
-    set setTextElementColour(textElementColour : string) {
-        this.step.textElementColour = textElementColour;
-    }
-
-    set setAlreadyMatchedIndexesInPattern(alreadyMatchedIndexesInPattern : number[]) {
+    set setAlreadyMatchedIndexesInPattern(alreadyMatchedIndexesInPattern : LetterDraw[]) {
         this.step.alreadyMatchedIndexesInPattern = alreadyMatchedIndexesInPattern;
     }
 
-    set setAlreadyMatchedIndexesInText(alreadyMatchedIndexesInText : number[]) {
+    set setAlreadyMatchedIndexesInText(alreadyMatchedIndexesInText : LetterDraw[]) {
         this.step.alreadyMatchedIndexesInText = alreadyMatchedIndexesInText;
     }
 

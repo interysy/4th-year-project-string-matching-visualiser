@@ -51,6 +51,10 @@ export class AlgorithmProgressService {
     this.executeAlgorithm();
   }
 
+  public reset() {
+    this.algorithm.resetSteps();
+  }
+
   set setText(text : string) {
     this.text = text;
     this.algorithm.resetSteps();
@@ -65,7 +69,10 @@ export class AlgorithmProgressService {
 
   public moveToNextStep() {
     this.notifier.next(this.currentStep + 1);
-    console.log(this.currentStep);
+  }
+
+  public goToPreviousStep() {
+    this.notifier.next(this.currentStep - 1);
   }
 
   get stepGetter() {
@@ -85,14 +92,6 @@ export class AlgorithmProgressService {
 
   get textIndex() {
     return this.algorithm.stepsGetter[this.currentStep].textIndex;
-  }
-
-  get patternElementColour() {
-    return this.algorithm.stepsGetter[this.currentStep].patternElementColour;
-  }
-
-  get textElementColour() {
-    return this.algorithm.stepsGetter[this.currentStep].textElementColour;
   }
 
   get alreadyMatchedIndexesInPattern() {

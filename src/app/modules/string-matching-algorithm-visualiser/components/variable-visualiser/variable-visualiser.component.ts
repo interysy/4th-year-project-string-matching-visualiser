@@ -9,8 +9,8 @@ import { BruteForceAdditionalVariables } from '../../models/brute-force-addition
 })
 export class VariableVisualiserComponent {
 
-  textLength = 0 ;
-  patternLength = 0
+  textLength = -1 ;
+  patternLength = -1;
   startingPoint = -1;
   textIndex : number;
   patternIndex : number;
@@ -18,9 +18,10 @@ export class VariableVisualiserComponent {
   constructor(private algorithmProgressService : AlgorithmProgressService) {
 
     this.algorithmProgressService.notifier.subscribe((_) => {
-      if (this.textLength == 0) this.textLength = this.algorithmProgressService.textLength;
-      if (this.patternLength == 0) this.patternLength = this.algorithmProgressService.patternLength;
-      this.startingPoint = (this.algorithmProgressService.additionalVariables as BruteForceAdditionalVariables).startingPoint ? (this.algorithmProgressService.additionalVariables as BruteForceAdditionalVariables).startingPoint : this.startingPoint;
+
+      this.startingPoint = ((this.algorithmProgressService.additionalVariables as BruteForceAdditionalVariables).startingPoint !=  undefined) ? (this.algorithmProgressService.additionalVariables as BruteForceAdditionalVariables).startingPoint : this.startingPoint;
+      this.textLength = (this.algorithmProgressService.additionalVariables as BruteForceAdditionalVariables).textLength ? (this.algorithmProgressService.additionalVariables as BruteForceAdditionalVariables).textLength : this.textLength;
+      this.patternLength = (this.algorithmProgressService.additionalVariables as BruteForceAdditionalVariables).patternLength ? (this.algorithmProgressService.additionalVariables as BruteForceAdditionalVariables).patternLength : this.patternLength;
       this.textIndex = this.algorithmProgressService.textIndex;
       this.patternIndex = this.algorithmProgressService.patternIndex;
     });
