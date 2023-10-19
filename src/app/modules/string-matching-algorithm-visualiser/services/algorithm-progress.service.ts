@@ -9,6 +9,7 @@ import { BruteForceAlgorithm } from '../algorithms/brute-force.algorithm';
 })
 export class AlgorithmProgressService {
 
+  currentlyPlaying = false;
   currentStep = -1;
   notifier : Subject<number> = new Subject<number>();
   amountOfSteps : number;
@@ -68,7 +69,6 @@ export class AlgorithmProgressService {
   }
 
   public moveToNextStep() {
-    console.log("Next step");
     this.notifier.next(this.currentStep + 1);
   }
 
@@ -76,6 +76,10 @@ export class AlgorithmProgressService {
     if (this.currentStep > 0) {
       this.notifier.next(this.currentStep - 1);
     }
+  }
+
+  public pause() {
+    this.currentlyPlaying = false;
   }
 
   get stepGetter() {
@@ -120,12 +124,11 @@ export class AlgorithmProgressService {
   }
 
   async play() {
-    this.notifier.next(0);
-    for (let i = 0; i < this.amountOfSteps; i++) {
-        await this.sleep(200);
-        console.log("Moving to new staep");
-        this.moveToNextStep();
-      }
+    this.currentlyPlaying = true;
+    while (this.currentStep != this.amountOfSteps && this.currentlyPlaying) {
+      await this.sleep(200);
+      this.moveToNextStep();
+    }
   }
 
   async sleep(msec: number) {

@@ -17,6 +17,7 @@ export class PlaybackControlsComponent {
   }
 
   play() {
+    this.paused = false;
     this.algorithmProgressService.play();
   }
 
@@ -29,6 +30,7 @@ export class PlaybackControlsComponent {
   }
 
   pause() {
-    console.log("will pause eventually");
+    this.paused = true;
+    this.algorithmProgressService.pause();
   }
 }
