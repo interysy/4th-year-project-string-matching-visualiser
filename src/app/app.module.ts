@@ -12,7 +12,6 @@ import { AlgorithmVisualiserPageComponent } from './pages/algorithm-visualiser/a
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { StringMatchingAlgorithmVisualiserModule } from './modules/string-matching-algorithm-visualiser/string-matching-algorithm-visualiser.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,

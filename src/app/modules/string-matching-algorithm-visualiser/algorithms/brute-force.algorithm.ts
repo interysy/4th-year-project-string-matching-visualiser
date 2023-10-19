@@ -42,7 +42,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
                     startingPoint += 1;
                     this.startingPoint = startingPoint;
                     textIndex = startingPoint;
-                    this.addMismatchStep(textIndex , patternIndex);
+                    this.addMismatchStep(textIndex);
                 }
             }
             if (patternIndex === patternLength) {
@@ -147,7 +147,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
 
             this.letterBuilder.setIndex = this.previousStep.patternIndex;
-            this.letterBuilder.setLetter = this.text.charAt(this.previousStep.patternIndex);
+            this.letterBuilder.setLetter = this.pattern.charAt(this.previousStep.patternIndex);
             this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
             this.letterBuilder.setStrokeWeight = 4;
 
@@ -176,7 +176,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.previousStep = step;
         }
 
-        addMismatchStep(textIndex : number , patternIndex: number) {
+        addMismatchStep(textIndex : number ) {
 
             this.algorithmStepBuilder.setPseudocodeLine = 11;
             this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
@@ -185,7 +185,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setCommand = "No character match found, enter the else block";
 
             this.letterBuilder.setIndex = this.previousStep.patternIndex;
-            this.letterBuilder.setLetter = this.text.charAt(this.previousStep.patternIndex);
+            this.letterBuilder.setLetter = this.pattern.charAt(this.previousStep.patternIndex);
             this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
             this.letterBuilder.setStrokeWeight = 4;
 
