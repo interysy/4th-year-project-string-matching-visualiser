@@ -1,5 +1,6 @@
 import { Component , ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'environment';
 
 @Component({
   selector: 'app-navbar',
@@ -10,6 +11,7 @@ export class NavbarComponent {
 
   @ViewChild('mobileMenu', {static: true}) mobileMenu: ElementRef<HTMLDivElement>;
 
+  environment = environment;
   // will be exported onto a config file - added as an issue to backlog - #43
   algorithms = [
     "Brute Force",
@@ -44,7 +46,6 @@ export class NavbarComponent {
    * @returns void
    */
   async changePage(path : string) {
-    console.log("change path")
     if (path === this.router.url) return;
     this.router.navigateByUrl(path);
   }

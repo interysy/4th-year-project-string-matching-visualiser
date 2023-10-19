@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AlgorithmProgressService } from 'src/app/modules/string-matching-algorithm-visualiser/services/algorithm-progress.service';
 
 @Component({
   selector: 'app-algorithm-visualiser',
@@ -7,4 +9,8 @@ import { Component } from '@angular/core';
 })
 export class AlgorithmVisualiserPageComponent {
 
+  constructor (route : ActivatedRoute , algorithmProgressService : AlgorithmProgressService) {
+    const algorithmToInject = route.snapshot.data['requiredService'];
+    algorithmProgressService.injectAlgorithm(algorithmToInject);
+  }
 }
