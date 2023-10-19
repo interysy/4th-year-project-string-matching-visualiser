@@ -22,22 +22,20 @@ export class AlgorithmProgressService {
     this.notifier.subscribe((value) => {
       this.currentStep = value
     });
-
-    this.algorithm = new BruteForceAlgorithm();
   }
 
-  // public injectAlgorithm(algorithmToInject : string) {
-  //   switch (algorithmToInject) {
-  //     case "BruteForceAlgorithm" : {
-  //       this.algorithm = this.injector.get(BruteForceAlgorithm);
-  //       this.algorithmName = "brute-force";
-  //       break;
-  //     }
-  //     default : {
-  //       throw new Error ("Algorithm not implemented");
-  //     }
-  //   }
-  // }
+  public injectAlgorithm(algorithmToInject : string) {
+    switch (algorithmToInject) {
+      case "BruteForceAlgorithm" : {
+        this.algorithm = this.injector.get(BruteForceAlgorithm);
+        this.algorithmName = "brute-force";
+        break;
+      }
+      default : {
+        throw new Error ("Algorithm not implemented");
+      }
+    }
+  }
 
   public executeAlgorithm() {
     this.algorithm.workOutSteps(this.text, this.pattern);
@@ -122,7 +120,7 @@ export class AlgorithmProgressService {
   async play() {
     this.notifier.next(0);
     for (let i = 0; i < this.amountOfSteps; i++) {
-        await this.sleep(500);
+        await this.sleep(200);
         console.log("Moving to new staep");
         this.moveToNextStep();
       }
