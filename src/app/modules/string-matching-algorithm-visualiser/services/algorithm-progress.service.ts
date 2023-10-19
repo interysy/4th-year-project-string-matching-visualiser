@@ -9,6 +9,7 @@ import { BruteForceAlgorithm } from '../algorithms/brute-force.algorithm';
 })
 export class AlgorithmProgressService {
 
+  currentlyPlaying = false;
   currentStep = -1;
   notifier : Subject<number> = new Subject<number>();
   amountOfSteps : number;
@@ -16,6 +17,7 @@ export class AlgorithmProgressService {
   pattern : string;
   private algorithm : StringMatchingAlgorithm;
   private algorithmName : string;
+  private speed = 1000;
 
   constructor(private router : Router , private injector : Injector) {
 
@@ -52,7 +54,8 @@ export class AlgorithmProgressService {
   }
 
   public reset() {
-    this.algorithm.resetSteps();
+    this.currentlyPlaying = false;
+    this.notifier.next(-1);
   }
 
   set setText(text : string) {
@@ -68,12 +71,19 @@ export class AlgorithmProgressService {
   }
 
   public moveToNextStep() {
-    console.log("Next step");
-    this.notifier.next(this.currentStep + 1);
+    if (this.currentStep != this.amountOfSteps - 1) {
+      this.notifier.next(this.currentStep + 1);
+    }
   }
 
-  public goToPreviousStep() {
-    this.notifier.next(this.currentStep - 1);
+  public moveToPreviousStep() {
+    if (this.currentStep > 0) {
+      this.notifier.next(this.currentStep - 1);
+    }
+  }
+
+  public pause() {
+    this.currentlyPlaying = false;
   }
 
   get stepGetter() {
@@ -118,15 +128,18 @@ export class AlgorithmProgressService {
   }
 
   async play() {
-    this.notifier.next(0);
-    for (let i = 0; i < this.amountOfSteps; i++) {
-        await this.sleep(200);
-        console.log("Moving to new staep");
-        this.moveToNextStep();
-      }
+    this.currentlyPlaying = true;
+    while (this.currentStep != this.amountOfSteps && this.currentlyPlaying) {
+      await this.sleep(this.speed);
+      this.moveToNextStep();
+    }
   }
 
   async sleep(msec: number) {
     return new Promise(resolve => setTimeout(resolve, msec));
+  }
+
+  changeSpeedOfPlayback(speed : number) {
+    this.speed = speed;
   }
 }

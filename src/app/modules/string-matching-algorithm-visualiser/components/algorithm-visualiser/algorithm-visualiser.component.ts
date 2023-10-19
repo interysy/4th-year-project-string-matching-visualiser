@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { Subject , debounceTime , distinctUntilChanged } from 'rxjs';
 import { P5jsDrawService } from '../../services/p5js-draw.service';
 import { Letter } from '../../models/letter.model';
-import { AlgorithmStep } from '../../models/algorithm-step.model';
+
 
 
 @Component({
@@ -46,8 +46,12 @@ export class AlgorithmVisualiserComponent implements AfterViewInit {
     });
 
     this.algorithmProgressService.notifier.subscribe((_) => {
-      const step = this.algorithmProgressService.stepGetter;
+      if (algorithmProgressService.currentStep === -1) {
+        this.p5jsDrawService.drawTextAndPattern(this.stringToLetterObject(this.text , "#ffffff" , 1) , this.stringToLetterObject(this.pattern,"#ffffff" , 1) , 0);
+      } else {
+        const step = this.algorithmProgressService.stepGetter;
       this.p5jsDrawService.drawTextAndPattern(step.lettersInText , step.lettersInPattern , step.patternOffset);
+      }
     });
   }
 
@@ -91,21 +95,5 @@ export class AlgorithmVisualiserComponent implements AfterViewInit {
 
   //   //this.p5DrawService.resizeCanvas(canvasWidth, canvasHeigth , this.text , this.pattern);
   // }
-
-  previousStep() {
-    this.algorithmProgressService.goToPreviousStep();
-  }
-
-  play() {
-    this.algorithmProgressService.play();
-  }
-
-  nextStep() {
-    this.algorithmProgressService.moveToNextStep();
-  }
-
-  reset() {
-    this.algorithmProgressService.reset();
-  }
 
 }
