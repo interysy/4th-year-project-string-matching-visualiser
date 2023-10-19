@@ -5,7 +5,7 @@
         <button *ngIf="!paused" class="m-2 flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" (click)="pause()">Pause</button>
         <button class="m-2 flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" (click)="nextStep()">Step Forward</button>
     </div>
-    <div class="flex-1 flex-col">
+    <div class="flex flex-col">
         <button class="m-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" (click)="reset()" >Reset</button>
         <label for="minmax-range" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pick Speed</label>
         <input id="minmax-range" type="range" min="200" max="2000" (ngModelChange)="changePlaybackSpeed()" [(ngModel)]="speedOfPlayback" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
