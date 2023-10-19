@@ -53,7 +53,9 @@ export class AlgorithmProgressService {
   }
 
   public reset() {
-    this.algorithm.resetSteps();
+    this.currentlyPlaying = false;
+    //this.algorithm.resetSteps();
+    this.notifier.next(-1);
   }
 
   set setText(text : string) {
