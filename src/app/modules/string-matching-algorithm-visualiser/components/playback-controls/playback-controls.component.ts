@@ -13,7 +13,7 @@ export class PlaybackControlsComponent {
   constructor(private algorithmProgressService : AlgorithmProgressService) {}
 
   previousStep() {
-    this.algorithmProgressService.goToPreviousStep();
+    this.algorithmProgressService.moveToPreviousStep();
   }
 
   play() {

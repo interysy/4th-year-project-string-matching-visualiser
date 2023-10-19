@@ -72,8 +72,10 @@ export class AlgorithmProgressService {
     this.notifier.next(this.currentStep + 1);
   }
 
-  public goToPreviousStep() {
-    this.notifier.next(this.currentStep - 1);
+  public moveToPreviousStep() {
+    if (this.currentStep > 0) {
+      this.notifier.next(this.currentStep - 1);
+    }
   }
 
   get stepGetter() {
