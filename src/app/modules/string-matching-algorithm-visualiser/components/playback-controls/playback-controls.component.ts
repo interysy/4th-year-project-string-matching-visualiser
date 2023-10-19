@@ -8,6 +8,8 @@ import { AlgorithmProgressService } from '../../services/algorithm-progress.serv
 })
 export class PlaybackControlsComponent {
 
+  paused = true;
+
   constructor(private algorithmProgressService : AlgorithmProgressService) {}
 
   previousStep() {
@@ -24,5 +26,9 @@ export class PlaybackControlsComponent {
 
   reset() {
     this.algorithmProgressService.reset();
+  }
+
+  pause() {
+    console.log("will pause eventually");
   }
 }
