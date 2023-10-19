@@ -211,6 +211,13 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.previousStep = step;
 
             this.algorithmStepBuilder.setPseudocodeLine = 13;
+            this.algorithmStepBuilder.setCommand = "Increment starting point";
+
+            step = this.algorithmStepBuilder.build();
+            this.addStep(step);
+            this.previousStep = step;
+
+            this.algorithmStepBuilder.setPseudocodeLine = 14;
             this.algorithmStepBuilder.setCommand = "Increment starting point of comparison to next element of text";
             this.algorithmStepBuilder.setPatternOffset = textIndex;
 
