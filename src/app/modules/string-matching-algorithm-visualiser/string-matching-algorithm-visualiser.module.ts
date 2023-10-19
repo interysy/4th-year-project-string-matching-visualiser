@@ -5,6 +5,7 @@ import { PseudocodeVisualiserComponent } from './components/pseudocode-visualise
 import { VariableVisualiserComponent } from './components/variable-visualiser/variable-visualiser.component';
 import { CommandVisualiserComponent } from './components/command-visualiser/command-visualiser.component';
 import { FormsModule } from '@angular/forms';
+import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { FormsModule } from '@angular/forms';
     PseudocodeVisualiserComponent,
     VariableVisualiserComponent,
     CommandVisualiserComponent,
+    PlaybackControlsComponent,
   ],
   imports: [
     CommonModule,
@@ -23,6 +25,7 @@ import { FormsModule } from '@angular/forms';
     PseudocodeVisualiserComponent,
     VariableVisualiserComponent,
     CommandVisualiserComponent,
+    PlaybackControlsComponent,
   ],
 })
 export class StringMatchingAlgorithmVisualiserModule { }
