@@ -9,6 +9,7 @@ import { AlgorithmProgressService } from '../../services/algorithm-progress.serv
 export class PlaybackControlsComponent {
 
   paused = true;
+  speedOfPlayback = 1000;
 
   constructor(private algorithmProgressService : AlgorithmProgressService) {}
 
@@ -33,5 +34,9 @@ export class PlaybackControlsComponent {
   pause() {
     this.paused = true;
     this.algorithmProgressService.pause();
+  }
+
+  changePlaybackSpeed() {
+    this.algorithmProgressService.changeSpeedOfPlayback(this.speedOfPlayback);
   }
 }

@@ -17,6 +17,7 @@ export class AlgorithmProgressService {
   pattern : string;
   private algorithm : StringMatchingAlgorithm;
   private algorithmName : string;
+  private speed = 1000;
 
   constructor(private router : Router , private injector : Injector) {
 
@@ -54,7 +55,6 @@ export class AlgorithmProgressService {
 
   public reset() {
     this.currentlyPlaying = false;
-    //this.algorithm.resetSteps();
     this.notifier.next(-1);
   }
 
@@ -128,12 +128,16 @@ export class AlgorithmProgressService {
   async play() {
     this.currentlyPlaying = true;
     while (this.currentStep != this.amountOfSteps && this.currentlyPlaying) {
-      await this.sleep(200);
+      await this.sleep(this.speed);
       this.moveToNextStep();
     }
   }
 
   async sleep(msec: number) {
     return new Promise(resolve => setTimeout(resolve, msec));
+  }
+
+  changeSpeedOfPlayback(speed : number) {
+    this.speed = speed;
   }
 }
