@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { StringMatchingAlgorithm } from '../models/algorithm.model';
 import { Router } from '@angular/router';
 import { BruteForceAlgorithm } from '../algorithms/brute-force.algorithm';
+import { BoyerMooreAlgorithm } from '../algorithms/boyer-moore.algorithm';
 
 @Injectable({
   providedIn: 'root'
@@ -27,10 +28,16 @@ export class AlgorithmProgressService {
   }
 
   public injectAlgorithm(algorithmToInject : string) {
+
     switch (algorithmToInject) {
       case "BruteForceAlgorithm" : {
         this.algorithm = this.injector.get(BruteForceAlgorithm);
         this.algorithmName = "brute-force";
+        break;
+      }
+      case "BoyerMooreAlgorithm" : {
+        this.algorithm = this.injector.get(BoyerMooreAlgorithm);
+        this.algorithmName = "boyer-moore";
         break;
       }
       default : {
@@ -42,14 +49,12 @@ export class AlgorithmProgressService {
   public executeAlgorithm() {
     this.algorithm.workOutSteps(this.text, this.pattern);
     this.amountOfSteps = this.algorithm.stepsLength;
-    console.log(this.algorithm.stepsGetter);
   }
 
   public setTextAndPattern(text : string, pattern : string) {
     this.text = text;
     this.pattern = pattern;
     this.algorithm.resetSteps();
-    console.log(this.algorithm.stepsGetter)
     this.executeAlgorithm();
   }
 

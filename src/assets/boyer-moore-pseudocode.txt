@@ -1,0 +1,22 @@
+boyerMoore(text : string , pattern : string) : number {
+    const textLength = text.length;
+    const patternLength = pattern.length;
+    let startingPoint = 0;
+    let textIndex = patternLength - 1;
+    let patternIndex = patternLength - 1;
+
+    const lastOccurance = this.setUpLastOccuranceDictionary(pattern);
+
+    while (startingPoint <= (textLength - patternLength) && patternIndex >= 0) {
+        if (text.charAt(textIndex) === pattern.charAt(patternIndex)) {
+            textIndex--;
+            patternIndex--;
+        } else {
+            startingPoint += Math.max(1, patternIndex - lastOccurance[text.charAt(textIndex)]);
+            textIndex += textLength - Math.min(patternIndex , 1 + lastOccurance[text.charAt(textIndex)]);
+            patternIndex = textLength - 1;
+        }
+    }
+
+    if (patternIndex < 0) return startingPoint; else return -1;
+}
