@@ -7,8 +7,6 @@ import { MatchingAlgorithmColourConstants } from "../constants/matching-algorith
 import { BoyerMooreAdditionalVariables } from "../models/boyer-moore-additional-variables.model";
 
 
-
-
 @Injectable({
     providedIn: 'root'
 })
@@ -29,6 +27,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         this.startingPoint = startingPoint;
         let textIndex = patternLength - 1;
         let patternIndex = patternLength - 1;
+        this.addSetupSteps(textLength , patternLength);
 
         const lastOccurance = this.setUpLastOccuranceDictionary(pattern);
 
@@ -54,7 +53,6 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
 
         return lastOccuranceDictionary;
     }
-
 
     addSetupSteps(textLength : number , patternLength  : number ) {
 
