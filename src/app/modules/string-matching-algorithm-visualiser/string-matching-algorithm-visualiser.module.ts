@@ -6,6 +6,7 @@ import { VariableVisualiserComponent } from './components/variable-visualiser/va
 import { CommandVisualiserComponent } from './components/command-visualiser/command-visualiser.component';
 import { FormsModule } from '@angular/forms';
 import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { PlaybackControlsComponent } from './components/playback-controls/playba
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule
   ],
   exports: [
     AlgorithmVisualiserComponent,
