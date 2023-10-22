@@ -2,10 +2,7 @@ import { MatchingAlgorithmColourConstants } from "../constants/matching-algorith
 import { StringMatchingAlgorithm } from "../models/algorithm.model";
 import { Injectable } from "@angular/core";
 import { BruteForceAdditionalVariables } from "../models/brute-force-additional-variables.model";
-import { AlgorithmStepBuilder } from "../model-builders/algorithm-step.builder";
 import { Letter } from "../models/letter.model";
-import { AlgorithmStep } from "../models/algorithm-step.model";
-import { LetterBuilder } from "../model-builders/letter.builder";
 
 @Injectable({
     providedIn: 'root'
