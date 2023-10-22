@@ -1,11 +1,8 @@
 import { StringMatchingAlgorithm } from "../models/algorithm.model";
 import { Injectable } from "@angular/core";
-import { AlgorithmStepBuilder } from "../model-builders/algorithm-step.builder";
 import { Letter } from "../models/letter.model";
-import { AlgorithmStep } from "../models/algorithm-step.model";
 import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
 import { BoyerMooreAdditionalVariables } from "../models/boyer-moore-additional-variables.model";
-import { LetterBuilder } from "../model-builders/letter.builder";
 
 
 @Injectable({
@@ -13,12 +10,7 @@ import { LetterBuilder } from "../model-builders/letter.builder";
 })
 export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
 
-    startingPoint : number;
-    private readonly algorithmStepBuilder: AlgorithmStepBuilder = new AlgorithmStepBuilder();
-    private readonly letterBuilder : LetterBuilder = new LetterBuilder();
-    previousStep : AlgorithmStep;
-    text : string;
-    pattern : string;
+    private startingPoint : number;
 
     public workOutSteps(text : string , pattern : string) : number {
         const textLength = text.length;
@@ -33,7 +25,6 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
 
         const lastOccurance = this.setUpLastOccuranceDictionary(pattern);
 
-        console.log("Entering while loop");
         while (startingPoint <= (textLength - patternLength) && patternIndex >= 0) {
             this.addWhileLoopStep(textIndex , patternIndex);
             this.addCheckStep(textIndex , patternIndex);
@@ -59,18 +50,17 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
             if (lastOccuranceDictionary[character] === undefined) lastOccuranceDictionary[character] = pattern.lastIndexOf(character);
         });
 
-        console.log(lastOccuranceDictionary);
         return lastOccuranceDictionary;
     }
 
-    addSetupSteps(textLength : number , patternLength  : number ) {
+    addSetupSteps(textLength : number , patternLength  : number) {
 
         const setUpSteps  = [
             { command : "Measuring the length of the text" , highlightText : true , textLength : textLength },
             { command : "Measuring the length of the pattern" , highlightPattern : true , patternLength : patternLength },
             { command : "Initialising the starting point to 0", startingPoint: 0 },
-            { command : `Initialising the text index to ${patternLength - 1}` , textIndex : textLength - 1  },
-            { command : `Initialising the pattern index to ${patternLength - 1}`  ,  textIndex  : 0 , patternIndex : patternLength - 1 },
+            { command : `Initialising the text index to ${textLength - 1}` , textIndex : textLength - 1  },
+            { command : `Initialising the pattern index to ${patternLength - 1}`  ,  textIndex  : textLength - 1 , patternIndex : patternLength - 1 },
         ]
 
         setUpSteps.forEach(({ command , highlightText , highlightPattern , textLength , patternLength , startingPoint, textIndex , patternIndex} , index) => {

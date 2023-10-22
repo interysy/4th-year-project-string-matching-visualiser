@@ -13,11 +13,6 @@ import { LetterBuilder } from "../model-builders/letter.builder";
 export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
         private startingPoint : number;
-        private readonly algorithmStepBuilder: AlgorithmStepBuilder = new AlgorithmStepBuilder();
-        private readonly letterBuilder : LetterBuilder = new LetterBuilder();
-        private previousStep : AlgorithmStep;
-        private text : string;
-        private pattern : string;
 
         workOutSteps(text : string , pattern : string) : number {
             this.text  = text;
