@@ -118,3 +118,35 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 17 October
 
 * *45 mins* Prepare for supervisor meeting with new meeting document and getting a demo ready. Also update timelog.
+
+## Week 4
+
+### 18 October
+
+* *4 hours* Rework current step model and change brute force algorithm (while at it refactor). This fixed the p5js error earlier reported.
+* *2 hours* Change drawing service based on new step model and refactor
+
+### 19 October
+
+* *1 hour* Add depdency injection to the webpage after model changes
+* *2 hours* Implement playback functionality prototype - this includes play, pause, step forward, step back and reset (unstyled)
+* *0.5 hours* Add change of speed slider
+* *0.5 hours* Add pseudocode parser back in
+
+
+### 21 October
+
+* *2 hours* Implementation of BM algorithm with setup steps
+* *1 hour* Add BM link via dependency injection and implement pseudocode parsing for BM
+* *1.5 hours* Implement base animations for BM (no preprocessing animations)
+
+### 22 October
+
+* *1 hour* Extraction of functions shared between brute force and BM implementation
+
+### 22 October
+
+* *1.5 hours* Fix logical errors with BM and related animation. Also refactor the class to be more readable.
+* *0.5 hours* Prepare for supervisor meeting by updating timelog and meeting document.
+
+
