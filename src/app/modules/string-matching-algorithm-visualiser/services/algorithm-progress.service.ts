@@ -48,7 +48,7 @@ export class AlgorithmProgressService {
 
   public executeAlgorithm() {
     this.algorithm.workOutSteps(this.text, this.pattern);
-    this.amountOfSteps = this.algorithm.stepsLength;
+    this.amountOfSteps = this.algorithm.stepsLengthGetter;
   }
 
   public setTextAndPattern(text : string, pattern : string) {
