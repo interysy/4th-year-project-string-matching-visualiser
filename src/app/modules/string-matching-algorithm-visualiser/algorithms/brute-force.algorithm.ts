@@ -2,7 +2,6 @@ import { MatchingAlgorithmColourConstants } from "../constants/matching-algorith
 import { StringMatchingAlgorithm } from "../models/algorithm.model";
 import { Injectable } from "@angular/core";
 import { BruteForceAdditionalVariables } from "../models/brute-force-additional-variables.model";
-import { Letter } from "../models/letter.model";
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +10,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
         private startingPoint : number;
 
-        workOutSteps(text : string , pattern : string) : number {
+        public workOutSteps(text : string , pattern : string) : number {
             this.text  = text;
             this.pattern = pattern;
             const textLength = text.length;
@@ -45,7 +44,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             return -1;
         }
 
-        addSetupSteps(textLength : number , patternLength  : number ) {
+        protected addSetupSteps(textLength : number , patternLength  : number ) {
 
             const setUpSteps  = [
                 { command : "Measuring the length of the text" , highlightText : true , textLength : textLength },
@@ -86,7 +85,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
         }
 
-        addWhileLoopStep(textIndex : number , patternIndex : number) : void {
+        private addWhileLoopStep(textIndex : number , patternIndex : number) : void {
 
             this.algorithmStepBuilder.setPseudocodeLine = 7;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
@@ -102,7 +101,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.previousStep = currentStep;
         }
 
-        addCheckStep(textIndex : number , patternIndex : number) : void {
+        private addCheckStep(textIndex : number , patternIndex : number) : void {
 
             this.algorithmStepBuilder.setPseudocodeLine = 8;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
@@ -129,7 +128,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
         }
 
-        addMatchStep(textIndex : number , patternIndex : number) {
+        private addMatchStep(textIndex : number , patternIndex : number) {
 
             this.algorithmStepBuilder.setPseudocodeLine = 9;
             this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
@@ -168,7 +167,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.previousStep = step;
         }
 
-        addMismatchStep(textIndex : number ) {
+        private addMismatchStep(textIndex : number ) {
 
             this.algorithmStepBuilder.setPseudocodeLine = 11;
             this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
@@ -216,12 +215,10 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             step = this.algorithmStepBuilder.build();
             this.addStep(step);
             this.previousStep = step;
-
-
         }
 
 
-        addFullMatchStep(textIndex : number , patternIndex : number) {
+        private addFullMatchStep(textIndex : number , patternIndex : number) {
             this.algorithmStepBuilder.setPseudocodeLine = 18;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
@@ -261,23 +258,4 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setDefaults();
         }
 
-
-        highlightEntireLine(stringToHighlight : string , colour : MatchingAlgorithmColourConstants, weight : number) : Letter[] {
-            return stringToHighlight.split("").map((char , index) => {
-                const letter = new Letter();
-                letter.index = index;
-                letter.letter = char;
-                letter.colour = colour;
-                letter.strokeWeight = weight;
-                return letter;
-            });
-        }
-
-        replaceLetter(toHighlight :  Letter[] , newLetterDraw : Letter) : Letter[] {
-            toHighlight = toHighlight.filter(letterDraw => {
-                return letterDraw.index !== newLetterDraw.index;
-            });
-            toHighlight.push(newLetterDraw);
-            return toHighlight;
-        }
 }
