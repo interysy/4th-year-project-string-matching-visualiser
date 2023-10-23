@@ -18,5 +18,7 @@ boyerMoore(text : string , pattern : string) : number {
         }
     }
 
-    if (patternIndex < 0) return startingPoint; else return -1;
+    if (patternIndex < 0) {
+        return startingPoint;
+    } else return -1;
 }
