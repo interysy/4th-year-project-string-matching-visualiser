@@ -1,12 +1,7 @@
 import { StringMatchingAlgorithm } from "../models/algorithm.model";
-import { Injectable } from "@angular/core";
 import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
 import { BoyerMooreAdditionalVariables } from "../models/boyer-moore-additional-variables.model";
 
-
-@Injectable({
-    providedIn: 'root'
-})
 export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
 
     private startingPoint : number;

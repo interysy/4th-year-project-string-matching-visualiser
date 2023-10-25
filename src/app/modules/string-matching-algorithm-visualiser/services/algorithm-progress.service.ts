@@ -1,7 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Subject } from 'rxjs';
 import { StringMatchingAlgorithm } from '../models/algorithm.model';
-import { Router } from '@angular/router';
 import { BruteForceAlgorithm } from '../algorithms/brute-force.algorithm';
 import { BoyerMooreAlgorithm } from '../algorithms/boyer-moore.algorithm';
 
@@ -17,33 +16,19 @@ export class AlgorithmProgressService {
   text : string;
   pattern : string;
   private algorithm : StringMatchingAlgorithm;
-  private algorithmName : string;
   private speed = 1000;
 
-  constructor(private router : Router , private injector : Injector) {
+  constructor(private injector : Injector) {
 
     this.notifier.subscribe((value) => {
       this.currentStep = value
     });
   }
 
-  public injectAlgorithm(algorithmToInject : string) {
+  public injectAlgorithm(algorithmToInject : { new (algorithmName : string): StringMatchingAlgorithm } , algorithmName : string) {
 
-    switch (algorithmToInject) {
-      case "BruteForceAlgorithm" : {
-        this.algorithm = this.injector.get(BruteForceAlgorithm);
-        this.algorithmName = "brute-force";
-        break;
-      }
-      case "BoyerMooreAlgorithm" : {
-        this.algorithm = this.injector.get(BoyerMooreAlgorithm);
-        this.algorithmName = "boyer-moore";
-        break;
-      }
-      default : {
-        throw new Error ("Algorithm not implemented");
-      }
-    }
+    this.resetProgressService();
+    this.algorithm = new algorithmToInject(algorithmName);
   }
 
   public executeAlgorithm() {
@@ -61,6 +46,14 @@ export class AlgorithmProgressService {
   public reset() {
     this.currentlyPlaying = false;
     this.notifier.next(-1);
+  }
+
+  private resetProgressService() {
+    this.currentlyPlaying = false;
+    this.currentStep = -1;
+    this.amountOfSteps = 0;
+    this.text = "";
+    this.speed = 1000;
   }
 
   set setText(text : string) {
@@ -129,14 +122,14 @@ export class AlgorithmProgressService {
   }
 
   get algorithmNameGetter() {
-    return this.algorithmName;
+    return this.algorithm.algorithmNameGetter;
   }
 
   async play() {
     this.currentlyPlaying = true;
     while (this.currentStep != this.amountOfSteps && this.currentlyPlaying) {
-      await this.sleep(this.speed);
       this.moveToNextStep();
+      await this.sleep(this.speed);
     }
   }
 

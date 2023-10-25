@@ -6,7 +6,7 @@ import { AlgorithmVisualiserPageComponent } from './pages/algorithm-visualiser/a
 import { environment } from 'environment';
 
 const algorithmVisualiserRoutes: Routes = environment.supportedAlgorithms.map(algorithm => {
-  return {path : "algorithm-visualiser/" + algorithm.urlParam ,  pathMatch: 'full',  component : AlgorithmVisualiserPageComponent , data : {requiredService : algorithm.requiredService }}
+  return {path : "algorithm-visualiser/" + algorithm.urlParam ,  pathMatch: 'full',  component : AlgorithmVisualiserPageComponent , data : {requiredService : algorithm.requiredService , algorithmNameSlug : algorithm.nameSlug}}
 });
 const routes: Routes = [
   { path: "", component: HomePageComponent },

@@ -1,13 +1,9 @@
-import { Injectable } from "@angular/core";
 import { AlgorithmStep } from "./algorithm-step.model";
 import { AlgorithmStepBuilder } from "../model-builders/algorithm-step.builder";
 import { LetterBuilder } from "../model-builders/letter.builder";
 import { Letter } from "./letter.model";
 import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
 
-@Injectable({
-    providedIn: 'root'
-})
 export abstract class StringMatchingAlgorithm {
 
     protected steps : AlgorithmStep[] = [];
@@ -16,6 +12,7 @@ export abstract class StringMatchingAlgorithm {
     protected previousStep : AlgorithmStep;
     protected text : string;
     protected pattern : string;
+    protected algorithmName : string;
     protected readonly algorithmStepBuilder: AlgorithmStepBuilder = new AlgorithmStepBuilder();
     protected readonly letterBuilder : LetterBuilder = new LetterBuilder();
 
@@ -23,6 +20,9 @@ export abstract class StringMatchingAlgorithm {
     abstract workOutSteps(text : string , pattern : string) : number;
     protected abstract addSetupSteps(textLength : number , patternLength  : number) : void;
 
+    constructor(algorithmName : string) {
+        this.algorithmName = algorithmName;
+    }
 
     protected addStep(algorithmStep : AlgorithmStep) {
         this.steps.push(algorithmStep);
@@ -73,5 +73,9 @@ export abstract class StringMatchingAlgorithm {
 
     get stepsLengthGetter() : number {
         return this.steps.length;
+    }
+
+    get algorithmNameGetter() : string {
+        return this.algorithmName;
     }
 }
