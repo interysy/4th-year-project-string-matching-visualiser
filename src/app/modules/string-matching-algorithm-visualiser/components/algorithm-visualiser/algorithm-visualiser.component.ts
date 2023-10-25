@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { Subject , debounceTime , distinctUntilChanged } from 'rxjs';
 import { P5jsDrawService } from '../../services/p5js-draw.service';
 import { Letter } from '../../models/letter.model';
-
+import { AlgorithmStepBuilder } from '../../model-builders/algorithm-step.builder';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { Letter } from '../../models/letter.model';
   styleUrls: ['./algorithm-visualiser.component.css']
 })
 
-export class AlgorithmVisualiserComponent implements AfterViewInit {
+export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
 
   text = "The fox jumped over the lazy dog";
   pattern = "lazy";
@@ -27,44 +27,61 @@ export class AlgorithmVisualiserComponent implements AfterViewInit {
   textChanged: Subject<string> = new Subject<string>();
   patternChanged : Subject<string> = new Subject<string>();
 
-  constructor(private algorithmProgressService : AlgorithmProgressService , private p5jsDrawService : P5jsDrawService ) {
+  constructor(private readonly algorithmProgressService : AlgorithmProgressService , private readonly p5jsDrawService : P5jsDrawService ) {
     this.algorithmProgressService.setTextAndPattern(this.text , this.pattern);
-
+    console.log("Constructor");
     this.textChanged
     .pipe(debounceTime(this.Debounce), distinctUntilChanged())
     .subscribe(_ => {
+      this.algorithmProgressService.resetProgressService();
        algorithmProgressService.setText = this.text;
+       const initialStateBuilder = new AlgorithmStepBuilder();
 
-       this.p5jsDrawService.drawTextAndPattern(this.stringToLetterObject(this.text , "#ffffff" , 1), this.stringToLetterObject(this.pattern , "#ffffff" , 1) , 0 );
+      initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
+      initialStateBuilder.setLettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
+      this.p5jsDrawService.stepSetter = initialStateBuilder.build();
+
     });
 
     this.patternChanged
     .pipe(debounceTime(this.Debounce), distinctUntilChanged())
     .subscribe(_ => {
        algorithmProgressService.setPattern = this.pattern;
-       this.p5jsDrawService.drawTextAndPattern(this.stringToLetterObject(this.text , "#ffffff" , 1) , this.stringToLetterObject(this.pattern,"#ffffff" , 1) , 0);
+       algorithmProgressService.setText = this.text;
+       const initialStateBuilder = new AlgorithmStepBuilder();
+
+      initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
+      initialStateBuilder.setLettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
+      this.p5jsDrawService.stepSetter = initialStateBuilder.build();
     });
 
     this.algorithmProgressService.notifier.subscribe((_) => {
-      if (algorithmProgressService.currentStep === -1) {
-        this.p5jsDrawService.drawTextAndPattern(this.stringToLetterObject(this.text , "#ffffff" , 1) , this.stringToLetterObject(this.pattern,"#ffffff" , 1) , 0);
-      } else {
-        const step = this.algorithmProgressService.stepGetter;
-      this.p5jsDrawService.drawTextAndPattern(step.lettersInText , step.lettersInPattern , step.patternOffset);
+      if (this.algorithmProgressService.stepGetter) this.p5jsDrawService.stepSetter = this.algorithmProgressService.stepGetter; else {
+        const initialStateBuilder = new AlgorithmStepBuilder();
+
+        initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
+        initialStateBuilder.setLettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
+        this.p5jsDrawService.stepSetter = initialStateBuilder.build();
       }
     });
   }
 
 
   ngAfterViewInit() {
+    this.p5jsDrawService.destroy();
     const canvasWidth = this.canvas.nativeElement.offsetWidth;
 
     // need to get height
 
-    this.p5jsDrawService.initiate(this.canvas.nativeElement , canvasWidth, 200 );
+    const lettersInText = this.stringToLetterObject(this.text , "#ffffff" , 1);
+    const lettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
+    const initialStateBuilder = new AlgorithmStepBuilder();
+    initialStateBuilder.setLettersInPattern = lettersInPattern;
+    initialStateBuilder.setLettersInText = lettersInText;
+    const initialState = initialStateBuilder.build();
 
-    // force change
-    this.textChanged.next(this.text);
+    this.p5jsDrawService.initiate(this.canvas.nativeElement , canvasWidth, 200 , initialState);
+
   }
 
 
@@ -86,6 +103,10 @@ export class AlgorithmVisualiserComponent implements AfterViewInit {
 
       return letterObj;
     });
+  }
+
+  ngOnDestroy() {
+    this.p5jsDrawService.destroy();
   }
 
   // @HostListener('window:resize')
