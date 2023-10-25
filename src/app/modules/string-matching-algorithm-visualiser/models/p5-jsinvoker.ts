@@ -1,4 +1,5 @@
 import * as p5 from 'p5';
+import { AlgorithmStep } from './algorithm-step.model';
 
 /**
  * Original code by soler1212. The software will be
@@ -9,12 +10,16 @@ import * as p5 from 'p5';
  * @copyright https://github.com/soler1212/P5JSInvoker
  */
 export abstract class P5JSInvoker {
-  protected p5: p5;
+  protected p5: p5 | null = null;
+  protected step : AlgorithmStep | null = null;
 
   abstract setup(p : p5 , width : number , height : number) : void;
-  abstract draw() : void;
+  abstract draw(p : p5) : void;
 
-  protected startP5JS(containerElement: HTMLElement , width : number , height : number ): void {
+  protected startP5JS(containerElement: HTMLElement , width : number , height : number , initialStep : AlgorithmStep): void {
+    this.step = initialStep;
+    if (this.p5) this.p5.remove();
+    this.p5 = null;
     this.p5 = new p5(this.generate_sketch(width , height), containerElement);
   }
 
@@ -28,7 +33,7 @@ export abstract class P5JSInvoker {
         };
 
         p.draw = function() {
-            that.draw();
+            that.draw(p);
         };
       })
   }

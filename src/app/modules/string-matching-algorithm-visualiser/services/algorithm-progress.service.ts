@@ -1,8 +1,6 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { StringMatchingAlgorithm } from '../models/algorithm.model';
-import { BruteForceAlgorithm } from '../algorithms/brute-force.algorithm';
-import { BoyerMooreAlgorithm } from '../algorithms/boyer-moore.algorithm';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +16,7 @@ export class AlgorithmProgressService {
   private algorithm : StringMatchingAlgorithm;
   private speed = 1000;
 
-  constructor(private injector : Injector) {
+  constructor() {
 
     this.notifier.subscribe((value) => {
       this.currentStep = value
@@ -48,7 +46,7 @@ export class AlgorithmProgressService {
     this.notifier.next(-1);
   }
 
-  private resetProgressService() {
+  public resetProgressService() {
     this.currentlyPlaying = false;
     this.currentStep = -1;
     this.amountOfSteps = 0;
