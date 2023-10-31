@@ -16,10 +16,18 @@
             {
                 "title": "26/09/23 Meeting",
                 "file": "weekly_meeting_documents/meeting_26_09_23.md"
-            }, 
+            },
             {
                 "title": "10/10/23 Meeting",
                 "file": "weekly_meeting_documents/meeting_10_10_23.md"
+            },
+            {
+                "title": "24/10/23 Meeting",
+                "file": "weekly_meeting_documents/meeting_24_10_23.md"
+            },
+            {
+                "title": "10/10/23 Meeting",
+                "file": "weekly_meeting_documents/meeting_31_10_23.md"
             }
         ]
     },
@@ -33,10 +41,18 @@
             {
                 "title": "Meeting on the 26/09/23 - Meeting 2",
                 "file": "meetings/26_09_23.md"
-            }, 
+            },
             {
-                "title": "Meeting on the 26/09/23 - Meeting 3 ",
+                "title": "Meeting on the 26/09/23 - Meeting 4 ",
                 "file": "meetings/10_10_23.md"
+            },
+            {
+                "title": "Meeting on the 17/10/23 - Meeting 3 ",
+                "file": "meetings/17_10_23.md"
+            },
+            {
+                "title": "Meeting on the 24/10/23 - Meeting 5 ",
+                "file": "meetings/24_10_23.md"
             }
         ]
     }
