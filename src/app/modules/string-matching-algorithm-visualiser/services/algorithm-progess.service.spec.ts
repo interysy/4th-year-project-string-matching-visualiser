@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { AlgorithmProgressService } from './algorithm-progress.service';
 
-import { PlaybackServiceService } from './algorithm-progress.service';
-
-describe('PlaybackServiceService', () => {
-  let service: PlaybackServiceService;
+describe('AlgorithmProgressService', () => {
+  let service: AlgorithmProgressService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PlaybackServiceService);
+    service = TestBed.inject(AlgorithmProgressService);
   });
 
   it('should be created', () => {
