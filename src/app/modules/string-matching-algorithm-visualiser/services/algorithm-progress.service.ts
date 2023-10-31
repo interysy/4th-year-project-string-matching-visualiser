@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { StringMatchingAlgorithm } from '../models/algorithm.model';
+import { DrawStepDecorator } from '../models/drawer-step.decorator';
+import { StringMatchingAlgorithmToDraw } from '../models/algorithm-draw.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,7 @@ export class AlgorithmProgressService {
   pattern : string;
   private algorithm : StringMatchingAlgorithm;
   private speed = 1000;
+  decoratedAlgorithm : DrawStepDecorator
 
   constructor() {
 
@@ -23,10 +26,18 @@ export class AlgorithmProgressService {
     });
   }
 
-  public injectAlgorithm(algorithmToInject : { new (algorithmName : string): StringMatchingAlgorithm } , algorithmName : string) {
+  public injectAlgorithm(algorithmToInject : { new (algorithmName : string): StringMatchingAlgorithm } , algorithmName : string , decorators : { new (decoratorName : StringMatchingAlgorithmToDraw): DrawStepDecorator }[] ) {
 
     this.resetProgressService();
     this.algorithm = new algorithmToInject(algorithmName);
+    if (decorators.length !== 0) {
+      let oldDecorator = this.algorithm as unknown as StringMatchingAlgorithmToDraw;
+      for (const decorator of decorators) {
+        this.decoratedAlgorithm = new decorator(oldDecorator);
+        console.log(this.decoratedAlgorithm);
+        oldDecorator = this.decoratedAlgorithm;
+      }
+    }
   }
 
   public executeAlgorithm() {
