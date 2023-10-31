@@ -70,6 +70,9 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Running requirement gathering workshop in order to gather the goals of the project
 * *1 hour* Writing up the notes from workshop and creating user stories
 
+
+## Week 3
+
 ### 4 October
 
 * *15 mins* Finish up writing user stories from the day before and update timelog
@@ -78,4 +81,90 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 5 October
 
 * *15 mins* Adding missing user stories to GitHub Kanban board
+
 * *1.5 hours* Creating a final wireframe to work off of, based on requirements gathered from the workshop.
+* *2 hours* Adding tailwind.css, working on the navbar and creating initial structure of directories and files within the angular project.
+
+### 6 October
+
+* *3 hours* First attempt at creating pseudocode walkthrough for brute force algorithm. Also added tailwind and made a navbar to allow for easy navigation while developing!
+### 7 October
+* *4 hours* Implement pseduocode walkthrough for brute force algorithm, including code highlighting. Also implement showing variable values and the relevant message to be shown about what is happening at each step of the algorithm. All features now show up as we press play.
+
+### 10 October
+
+* *0.5 hours* Preparing documents for the supervisor meeting
+* *0.5 hours* Supervisor Meeting
+
+## Week 4
+
+### 12 October
+
+* *2 hours* Refactoring current code on the new builder.
+* *2 hours* Creating a way to inject correct algorithm to visualiser component and making a pseudocode parser service.
+
+### 13 October
+
+* *2 hours* Exploring anime.js as an animation framework - not appropriate
+* *1.5 hours* Exploring other animation frameworks - choosing to go forward with p5js.
+
+### 14 October
+
+* *3 hours* Messing around with p5js and adding it to the angular project.
+
+### 16 October
+
+* *2 hours* Implement the initial drawing to the canvas. This includes drawing text on change and having the animation be centralised regardless of size of the canvas.
+* *2 hours* Implement brute force algorithm visualisation. This includes step parsing and then redrawing on canvas with the correct colouring.
+
+### 17 October
+
+* *45 mins* Prepare for supervisor meeting with new meeting document and getting a demo ready. Also update timelog.
+
+## Week 4
+
+### 18 October
+
+* *4 hours* Rework current step model and change brute force algorithm (while at it refactor). This fixed the p5js error earlier reported.
+* *2 hours* Change drawing service based on new step model and refactor
+
+### 19 October
+
+* *1 hour* Add depdency injection to the webpage after model changes
+* *2 hours* Implement playback functionality prototype - this includes play, pause, step forward, step back and reset (unstyled)
+* *0.5 hours* Add change of speed slider
+* *0.5 hours* Add pseudocode parser back in
+
+
+### 21 October
+
+* *2 hours* Implementation of BM algorithm with setup steps
+* *1 hour* Add BM link via dependency injection and implement pseudocode parsing for BM
+* *1.5 hours* Implement base animations for BM (no preprocessing animations)
+
+### 22 October
+
+* *1 hour* Extraction of functions shared between brute force and BM implementation
+
+### 22 October
+
+* *1.5 hours* Fix logical errors with BM and related animation. Also refactor the class to be more readable.
+* *0.5 hours* Prepare for supervisor meeting by updating timelog and meeting document.
+
+### 24 October
+
+* *0.5 hours* Supervisor Meeting
+
+## Week 5
+
+### 25 October
+
+* *1.5 hour * Fixing dependency injection bug
+* *1.5 hours* Fixing bug with p5js reseting on change of page
+
+### 26 October
+* *3 hours* Refactoring current codebase to use the decorator pattern, which didn't only get rid of the bug I was attempting to remove earlier, but I was able to add code that dynamically draws more on the canvas if necessary
+
+### 31 October
+* *1 hour* Adding all changes so far to repository and merging with main (I have decided to omit staging, as it has not brought much value over the last few weeks)
+* *0.5 hours* Preparation for supervisor meeting
