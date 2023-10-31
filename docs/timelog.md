@@ -149,4 +149,20 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1.5 hours* Fix logical errors with BM and related animation. Also refactor the class to be more readable.
 * *0.5 hours* Prepare for supervisor meeting by updating timelog and meeting document.
 
+### 24 October
 
+* *0.5 hours* Supervisor Meeting
+
+## Week 5
+
+### 25 October
+
+* *1.5 hour * Fixing dependency injection bug
+* *1.5 hours* Fixing bug with p5js reseting on change of page
+
+### 26 October
+* *3 hours* Refactoring current codebase to use the decorator pattern, which didn't only get rid of the bug I was attempting to remove earlier, but I was able to add code that dynamically draws more on the canvas if necessary
+
+### 31 October
+* *1 hour* Adding all changes so far to repository and merging with main (I have decided to omit staging, as it has not brought much value over the last few weeks)
+* *0.5 hours* Preparation for supervisor meeting
