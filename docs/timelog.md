@@ -70,6 +70,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Running requirement gathering workshop in order to gather the goals of the project
 * *1 hour* Writing up the notes from workshop and creating user stories
 
+
 ## Week 3
 
 ### 4 October
@@ -80,6 +81,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 5 October
 
 * *15 mins* Adding missing user stories to GitHub Kanban board
+
 * *1.5 hours* Creating a final wireframe to work off of, based on requirements gathered from the workshop.
 * *2 hours* Adding tailwind.css, working on the navbar and creating initial structure of directories and files within the angular project.
 
