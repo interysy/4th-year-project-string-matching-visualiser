@@ -29,7 +29,8 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
 
   constructor(private readonly algorithmProgressService : AlgorithmProgressService , private readonly p5jsDrawService : P5jsDrawService ) {
     this.algorithmProgressService.setTextAndPattern(this.text , this.pattern);
-    console.log("Constructor");
+
+
     this.textChanged
     .pipe(debounceTime(this.Debounce), distinctUntilChanged())
     .subscribe(_ => {
@@ -80,7 +81,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     initialStateBuilder.setLettersInText = lettersInText;
     const initialState = initialStateBuilder.build();
 
-    this.p5jsDrawService.initiate(this.canvas.nativeElement , canvasWidth, 200 , initialState);
+    this.p5jsDrawService.initiate(this.canvas.nativeElement , canvasWidth, 400 , initialState , this.algorithmProgressService.decoratedAlgorithm);
 
   }
 
