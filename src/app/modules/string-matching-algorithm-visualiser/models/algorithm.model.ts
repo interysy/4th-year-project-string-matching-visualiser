@@ -3,8 +3,12 @@ import { AlgorithmStepBuilder } from "../model-builders/algorithm-step.builder";
 import { LetterBuilder } from "../model-builders/letter.builder";
 import { Letter } from "./letter.model";
 import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
+import * as p5 from "p5";
+import { StringMatchingAlgorithmToDraw } from "./algorithm-draw.model";
+import { Injector } from "@angular/core";
+import { P5jsDrawService } from "../services/p5js-draw.service";
 
-export abstract class StringMatchingAlgorithm {
+export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithmToDraw {
 
     protected steps : AlgorithmStep[] = [];
     protected textLength : number;
@@ -15,13 +19,21 @@ export abstract class StringMatchingAlgorithm {
     protected algorithmName : string;
     protected readonly algorithmStepBuilder: AlgorithmStepBuilder = new AlgorithmStepBuilder();
     protected readonly letterBuilder : LetterBuilder = new LetterBuilder();
-
+    p5jsDrawService : P5jsDrawService;
 
     abstract workOutSteps(text : string , pattern : string) : number;
     protected abstract addSetupSteps(textLength : number , patternLength  : number) : void;
 
     constructor(algorithmName : string) {
         this.algorithmName = algorithmName;
+         this.p5jsDrawService = Injector.create({providers: [{provide: P5jsDrawService, deps: []}]}).get(P5jsDrawService);
+    }
+
+    draw(p : p5 , step : AlgorithmStep) : void {
+        p.background(255);
+        const textLettersToDrawFromStep = step.lettersInText;
+        this.p5jsDrawService.workOutTextWidth(textLettersToDrawFromStep.length);
+        this.p5jsDrawService.centraliseDrawing(p , p.width , p.height);
     }
 
     protected addStep(algorithmStep : AlgorithmStep) {

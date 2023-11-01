@@ -4,6 +4,7 @@ import { P5JSInvoker } from '../models/p5-jsinvoker';
 import { MatchingAlgorithmColourConstants } from '../constants/matching-algorithm-colours.constant';
 import { Letter } from '../models/letter.model';
 import { AlgorithmStep } from '../models/algorithm-step.model';
+import { DrawStepDecorator } from '../models/drawer-step.decorator';
 
 @Injectable({
   providedIn: 'root'
@@ -17,22 +18,25 @@ export class P5jsDrawService extends P5JSInvoker {
   private readonly DoubleCharTextOffset = 7;
 
   private textWidth : number;
+  algorithm : DrawStepDecorator;
 
 
-  initiate(canvas : HTMLElement | null , width : number , height : number, step : AlgorithmStep) {
+  initiate(canvas : HTMLElement | null , width : number , height : number, step : AlgorithmStep, algorithm : DrawStepDecorator) {
     if (canvas) this.startP5JS(canvas , width , height , step) ;
+    this.algorithm = algorithm;
   }
 
   setup(p:p5 , width : number , height : number) {
     p.createCanvas(width, height);
   }
 
-  draw(p : p5 ) {
-    if (this.step) {
-      const textLettersToDrawFromStep = this.step.lettersInText;
-      const patternLettersToDrawFromStep = this.step.lettersInPattern;
-      const patternOffsetFromStep = this.step.patternOffset;
-      this.drawTextAndPattern(p , textLettersToDrawFromStep , patternLettersToDrawFromStep , patternOffsetFromStep);
+  draw(p : p5) {
+    if (this.step && this.algorithm) {
+      // const textLettersToDrawFromStep = this.step.lettersInText;
+      // const patternLettersToDrawFromStep = this.step.lettersInPattern;
+      // const patternOffsetFromStep = this.step.patternOffset;
+      // this.drawTextAndPattern(p , textLettersToDrawFromStep , patternLettersToDrawFromStep , patternOffsetFromStep);
+      this.algorithm.draw(p , this.step);
     }
   }
 
@@ -53,6 +57,7 @@ export class P5jsDrawService extends P5JSInvoker {
 
   workOutTextWidth(textLength : number) : void {
     this.textWidth = textLength * this.SquareSideSize;
+    console.log(this.textWidth);
   }
 
   centraliseDrawing(p : p5, canvasWidth : number , canvasHeight : number) : void {
@@ -62,13 +67,17 @@ export class P5jsDrawService extends P5JSInvoker {
     }
   }
 
+  decenraliseDrawing(p : p5 , canvasWidth : number , canvasHeight : number) : void {
+    if (p) {
+      const centralCoordinate = (canvasWidth - this.textWidth)/2;
+      p.translate(-centralCoordinate , -canvasHeight / 2);
+    }
+  }
+
   drawTextAndPattern(p : p5 ,textLettersToDraw : Letter[] , patternLettersToDraw : Letter[] , patternOffset : number) {
-    if (this.p5) {
-      p.background(255);
+    if (p) {
 
       const graphicalOffset = patternOffset * this.SquareSideSize;
-      this.workOutTextWidth(textLettersToDraw.length);
-      this.centraliseDrawing(p , this.p5.width , this.p5.height);
       this.drawText(p , textLettersToDraw);
       this.drawPattern(p, patternLettersToDraw , graphicalOffset);
     }
@@ -83,8 +92,8 @@ export class P5jsDrawService extends P5JSInvoker {
         const strokeWeight = letterObject.strokeWeight;
         const textOffset = (index > 9) ? this.DoubleCharTextOffset : this.SingleCharTextOffset;
 
-        if (this.p5) {
-          this.p5.text(index , index * this.SquareSideSize + textOffset , y);
+        if (p) {
+          p.text(index , index * this.SquareSideSize + textOffset , y);
           y = y + 10;
           p.fill(colour.toString());
           p.strokeWeight(strokeWeight);
@@ -118,7 +127,20 @@ export class P5jsDrawService extends P5JSInvoker {
           p.text(letter ,index * this.SquareSideSize + this.SingleCharTextOffset  + offset  , y);
         }
       })
+  }
 
+  public drawLastOccuranceTable(p : p5 , lastOccuranceTable : {[character : string] : number}) {
 
+    if (p) {
+      let y = 100;
+      p.text("lastOccuranceTable = {" , 0 , y)
+      y  += 15;
+      p.fill("#000000");
+      for (const [key, value] of Object.entries(lastOccuranceTable)) {
+        p.text(key + ':' + value + ',', this.SquareSideSize , y);
+        y += 10;
+      }
+      p.text('}', 0 , y);
+    }
   }
 }

@@ -12,6 +12,7 @@ export class AlgorithmVisualiserPageComponent {
   constructor (route : ActivatedRoute , algorithmProgressService : AlgorithmProgressService) {
     const algorithmToInject = route.snapshot.data['requiredService'];
     const algorithmName = route.snapshot.data['algorithmNameSlug'];
-    algorithmProgressService.injectAlgorithm(algorithmToInject, algorithmName);
+    const decorators = route.snapshot.data['decorators'];
+    algorithmProgressService.injectAlgorithm(algorithmToInject, algorithmName , decorators);
   }
 }
