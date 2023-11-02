@@ -1,13 +1,24 @@
-<div class="flex flex-col">
-    <div class="flex flex-row justify-center align-items-center">
-        <button class="m-2 flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" (click)="previousStep()">Step Back</button>
-        <button *ngIf="paused" class="m-2 flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" (click)="play()">Play</button>
-        <button *ngIf="!paused" class="m-2 flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" (click)="pause()">Pause</button>
-        <button class="m-2 flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" (click)="nextStep()">Step Forward</button>
-    </div>
-    <div class="flex flex-col">
-        <button class="m-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" (click)="reset()" >Reset</button>
-        <label for="minmax-range" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pick Speed</label>
-        <input id="minmax-range" type="range" min="200" max="2000" (ngModelChange)="changePlaybackSpeed()" [(ngModel)]="speedOfPlayback" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
-    </div>
+<div class="flex p-4 flex-row justify-center align-items-center gap-5 bg-gray-200 flex-wrap">
+        <button (click)="previousStep()">
+            <fa-icon *ngIf="paused" class="text-gray-400 hover:text-gray-900 disabled:text-gray-200" [icon]="['fas', 'backward']" size="xl"></fa-icon>
+            <fa-icon *ngIf="!paused" class="text-gray-300" [icon]="['fas', 'backward']" size="xl"></fa-icon>
+        </button>
+        <button *ngIf="paused"  (click)="play()"><fa-icon class="text-gray-400 hover:text-gray-900" [icon]="['fas', 'play']" size="xl"></fa-icon></button>
+        <button *ngIf="!paused" (click)="pause()"><fa-icon class="text-gray-400 hover:text-gray-900" [icon]="['fas', 'pause']" size="xl"></fa-icon></button>
+        <button (click)="nextStep()">
+            <fa-icon *ngIf="paused" class="text-gray-400 hover:text-gray-900 disabled:text-gray-200" [icon]="['fas', 'forward']" size="xl"></fa-icon>
+            <fa-icon *ngIf="!paused" class="text-gray-300" [icon]="['fas', 'forward']" size="xl"></fa-icon></button>
+        <div class="border-r border-2 border-gray-500"></div>
+        <div class="flex justify-center align-items-center gap-5">
+            <span class="m-auto">Reset</span>
+            <button (click)="reset()"><fa-icon class="text-gray-400 hover:text-gray-900 text-xl" [icon]="['fas', 'rotate']" size="xl"></fa-icon></button>
+        </div>
+        <div class="border-r border-2 border-gray-500"></div>
+        <div class="flex justify-center align-items-center gap-5">
+            <span class="m-auto">Speed</span>
+            <div class = "flex justify-center align-items-center flex-col gap-2">
+                <span class="m-auto"> {{speedOfPlayback}} ms</span>
+                <input id="speed-slider" type="range" min="200" max="2200" (ngModelChange)="changePlaybackSpeed()" [(ngModel)]="speedOfPlayback" class="w-48 h-2 bg-gray-400 rounded-md appearance-none cursor-pointer thumb:w-4 thumb:h-4 thumb:bg-white hover:bg-gray-900">
+            </div>
+        </div>
 </div>

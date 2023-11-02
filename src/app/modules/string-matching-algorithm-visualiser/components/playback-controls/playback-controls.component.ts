@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
+// import { MatSliderModule } from "@angular/material/slider";
 
 @Component({
   selector: 'app-playback-controls',
@@ -9,9 +10,12 @@ import { AlgorithmProgressService } from '../../services/algorithm-progress.serv
 export class PlaybackControlsComponent {
 
   paused = true;
-  speedOfPlayback = 1000;
+  speedOfPlayback = 1200;
+  iconSize = "xl";
 
-  constructor(private algorithmProgressService : AlgorithmProgressService) {}
+  constructor(private algorithmProgressService : AlgorithmProgressService) {
+    this.changeIconSize();
+  }
 
   previousStep() {
     this.algorithmProgressService.moveToPreviousStep();
@@ -38,5 +42,10 @@ export class PlaybackControlsComponent {
 
   changePlaybackSpeed() {
     this.algorithmProgressService.changeSpeedOfPlayback(this.speedOfPlayback);
+  }
+
+  changeIconSize() {
+   this.iconSize = window.innerHeight > 1400 ? "xl" : "lg";
+
   }
 }
