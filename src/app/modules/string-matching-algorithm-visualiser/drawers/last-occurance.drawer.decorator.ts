@@ -16,7 +16,6 @@ export class LastOccuranceTableDrawer extends DrawStepDecorator {
 
     override draw(p : p5 , step : AlgorithmStep) : void {
         this.earlierDrawer.draw(p, step);
-        console.log(step);
         const lastOccuranceTable = (step.additional['lastOccuranceTable']) ? step.additional['lastOccuranceTable'] : [];
         this.p5jsDrawService.decenraliseDrawing(p,p.width,p.height);
         this.p5jsDrawService.workOutTextWidth(3);

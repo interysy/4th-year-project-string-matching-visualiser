@@ -57,7 +57,6 @@ export class P5jsDrawService extends P5JSInvoker {
 
   workOutTextWidth(textLength : number) : void {
     this.textWidth = textLength * this.SquareSideSize;
-    console.log(this.textWidth);
   }
 
   centraliseDrawing(p : p5, canvasWidth : number , canvasHeight : number) : void {
