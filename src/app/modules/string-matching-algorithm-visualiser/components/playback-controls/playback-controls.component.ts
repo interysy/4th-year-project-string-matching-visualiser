@@ -12,9 +12,14 @@ export class PlaybackControlsComponent {
   paused = true;
   speedOfPlayback = 1200;
   iconSize = "xl";
+  currentStep = 0;
+  amountOfSteps = 0;
 
   constructor(private algorithmProgressService : AlgorithmProgressService) {
-    this.changeIconSize();
+    this.algorithmProgressService.notifier.subscribe((_) => {
+      this.currentStep = this.algorithmProgressService.currentStep;
+      this.amountOfSteps = this.algorithmProgressService.amountOfSteps;
+    });
   }
 
   previousStep() {
@@ -44,8 +49,8 @@ export class PlaybackControlsComponent {
     this.algorithmProgressService.changeSpeedOfPlayback(this.speedOfPlayback);
   }
 
-  changeIconSize() {
-   this.iconSize = window.innerHeight > 1400 ? "xl" : "lg";
-
+  setStep() {
+    this.algorithmProgressService.currentStepSetter = this.currentStep;
   }
+
 }
