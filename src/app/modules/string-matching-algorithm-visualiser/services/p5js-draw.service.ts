@@ -5,6 +5,7 @@ import { MatchingAlgorithmColourConstants } from '../constants/matching-algorith
 import { Letter } from '../models/letter.model';
 import { AlgorithmStep } from '../models/algorithm-step.model';
 import { DrawStepDecorator } from '../models/drawer-step.decorator';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class P5jsDrawService extends P5JSInvoker {
 
   private textWidth : number;
   algorithm : DrawStepDecorator;
+  changeSizeSubject = new Subject<{width : number , height : number}>();
 
 
   initiate(canvas : HTMLElement | null , width : number , height : number, step : AlgorithmStep, algorithm : DrawStepDecorator) {
@@ -28,14 +30,14 @@ export class P5jsDrawService extends P5JSInvoker {
 
   setup(p:p5 , width : number , height : number) {
     p.createCanvas(width, height);
+
+    this.changeSizeSubject.subscribe( sizes => {
+      this.resizeCanvas(p , sizes.width , sizes.height);
+    });
   }
 
   draw(p : p5) {
     if (this.step && this.algorithm) {
-      // const textLettersToDrawFromStep = this.step.lettersInText;
-      // const patternLettersToDrawFromStep = this.step.lettersInPattern;
-      // const patternOffsetFromStep = this.step.patternOffset;
-      // this.drawTextAndPattern(p , textLettersToDrawFromStep , patternLettersToDrawFromStep , patternOffsetFromStep);
       this.algorithm.draw(p , this.step);
     }
   }
@@ -142,4 +144,11 @@ export class P5jsDrawService extends P5JSInvoker {
       p.text('}', 0 , y);
     }
   }
+
+  private resizeCanvas(p : p5 , width : number , height : number) {
+    console.log("resize canvas")
+      p.resizeCanvas(width, height);
+      //this.drawTextAndPattern(text , pattern);
+    }
+
 }

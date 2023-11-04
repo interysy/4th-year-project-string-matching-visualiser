@@ -71,8 +71,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   ngAfterViewInit() {
     this.p5jsDrawService.destroy();
     const canvasWidth = this.canvas.nativeElement.offsetWidth;
-
-    // need to get height
+    const canvasHeight = this.canvas.nativeElement.offsetHeight;
 
     const lettersInText = this.stringToLetterObject(this.text , "#ffffff" , 1);
     const lettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
@@ -81,7 +80,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     initialStateBuilder.setLettersInText = lettersInText;
     const initialState = initialStateBuilder.build();
 
-    this.p5jsDrawService.initiate(this.canvas.nativeElement , canvasWidth, 400 , initialState , this.algorithmProgressService.decoratedAlgorithm);
+    this.p5jsDrawService.initiate(this.canvas.nativeElement , canvasWidth, canvasHeight , initialState , this.algorithmProgressService.decoratedAlgorithm);
 
   }
 
@@ -110,12 +109,11 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     this.p5jsDrawService.destroy();
   }
 
-  // @HostListener('window:resize')
-  // protected onResize() {
-  //   const canvasHeigth = this.canvas.nativeElement.offsetHeight;
-  //   const canvasWidth = this.canvas.nativeElement.offsetWidth;
-
-  //   //this.p5DrawService.resizeCanvas(canvasWidth, canvasHeigth , this.text , this.pattern);
-  // }
+  @HostListener('window:resize')
+  protected onResize() {
+    const canvasHeigth = this.canvas.nativeElement.offsetHeight;
+    const canvasWidth = this.canvas.nativeElement.offsetWidth;
+    this.p5jsDrawService.changeSizeSubject.next({width : canvasWidth , height : canvasHeigth});
+  }
 
 }
