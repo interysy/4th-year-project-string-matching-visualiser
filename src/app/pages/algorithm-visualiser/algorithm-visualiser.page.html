@@ -1,13 +1,20 @@
 <app-navbar></app-navbar>
 
-<div class="mx-6 grid grid-cols-2 gap-4 h-screen">
-    <div class="flex-1 items-center justify-center flex-col">
-        <app-algorithm-visualiser-animation class="m-5"></app-algorithm-visualiser-animation>
-        <app-command-visualiser></app-command-visualiser>
+<div class="flex flex-col min-h-screen">
+  <div class="mx-6 flex-1">
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-5">
+      <div class="col-span-4">
+        <div class="flex flex-col gap-5">
+          <app-algorithm-visualiser-animation></app-algorithm-visualiser-animation>
+          <div class="flex flex-col gap-5">
+            <app-command-visualiser></app-command-visualiser>
+            <div class="border-t border-2 border-gray-500"></div>
+            <app-variable-visualiser></app-variable-visualiser>
+          </div>
+        </div>
+      </div>
+      <app-pseudocode-visualiser class="col-span-2 hidden md:block"></app-pseudocode-visualiser>
     </div>
-    <div class="flex-1 items-center justify-center flex-col">
-        <app-pseudocode-visualiser></app-pseudocode-visualiser>
-        <app-variable-visualiser></app-variable-visualiser>
-    </div>
-    <app-playback-controls class="col-span-2"></app-playback-controls>
+  </div>
+  <app-playback-controls class="w-full sticky bottom-0"></app-playback-controls>
 </div>
