@@ -149,4 +149,8 @@ export class AlgorithmProgressService {
   changeSpeedOfPlayback(speed : number) {
     this.speed = speed;
   }
+
+  set currentStepSetter(step : number) {
+    this.notifier.next(step);
+  }
 }
