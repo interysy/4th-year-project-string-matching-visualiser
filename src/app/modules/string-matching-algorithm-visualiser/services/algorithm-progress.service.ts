@@ -21,7 +21,7 @@ export class AlgorithmProgressService {
 
   constructor() {
 
-    this.notifier.subscribe((value) => {
+    this.notifier.subscribe((value : number) => {
       this.currentStep = value
     });
   }
@@ -152,5 +152,9 @@ export class AlgorithmProgressService {
 
   set currentStepSetter(step : number) {
     this.notifier.next(step);
+  }
+
+  public getAdditionalVariables() {
+    return this.algorithm.stepsGetter[this.currentStep].additional;
   }
 }
