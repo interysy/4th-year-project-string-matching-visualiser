@@ -1,7 +1,13 @@
-<div>
-    <p>textLength : {{textLength}}</p>
-    <p>patternLength : {{patternLength}}</p>
-    <p>startingPoint : {{startingPoint}}</p>
-    <p>textIndex : {{textIndex}}</p>
-    <p>patternIndex :{{patternIndex}}</p>
+<div class="flex flex-row flex-wrap gap-5 m-5 justify-center align-items-center">
+    <p>textLength:  {{textLength}}</p>
+    <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
+    <p>patternLength: {{patternLength}}</p>
+    <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
+    <p>textIndex: {{textIndex}}</p>
+    <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
+    <p>patternIndex: {{patternIndex}}</p>
+    <div *ngFor="let variable of additionalVariables" class="flex flex-row flex-wrap gap-5">
+        <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
+        {{variable["variableName"]}} : {{variable["value"]}}
+    </div>
 </div>
