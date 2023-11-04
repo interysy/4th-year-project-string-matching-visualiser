@@ -8,6 +8,7 @@ import { Injector } from "@angular/core";
 
 export class LastOccuranceTableDrawer extends DrawStepDecorator {
     p5jsDrawService: P5jsDrawService;
+    lastOccuranceTable:{ [character : string] : number; } = {};
 
     constructor(earlierDrawer : StringMatchingAlgorithmToDraw) {
         super(earlierDrawer);
@@ -16,10 +17,12 @@ export class LastOccuranceTableDrawer extends DrawStepDecorator {
 
     override draw(p : p5 , step : AlgorithmStep) : void {
         this.earlierDrawer.draw(p, step);
-        const lastOccuranceTable = (step.additional['lastOccuranceTable']) ? step.additional['lastOccuranceTable'] : [];
+        if (Object.keys(this.lastOccuranceTable).length == 0) {
+            this.lastOccuranceTable = (step.additional['lastOccuranceTable']) ? step.additional['lastOccuranceTable'] : [];
+        }
         this.p5jsDrawService.decenraliseDrawing(p,p.width,p.height);
         this.p5jsDrawService.workOutTextWidth(3);
         this.p5jsDrawService.centraliseDrawing(p,p.width,p.height-400);
-        this.p5jsDrawService.drawLastOccuranceTable(p , lastOccuranceTable);
+        this.p5jsDrawService.drawLastOccuranceTable(p , this.lastOccuranceTable);
     }
 }
