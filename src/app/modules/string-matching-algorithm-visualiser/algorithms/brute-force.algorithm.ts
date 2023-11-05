@@ -5,7 +5,7 @@ import { BruteForceAdditionalVariables } from "../models/brute-force-additional-
 
 export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
-        private startingPoint : number;
+        private additionalVariables : BruteForceAdditionalVariables = new BruteForceAdditionalVariables();
 
         public workOutSteps(text : string , pattern : string) : number {
             this.text  = text;
@@ -13,7 +13,6 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             const textLength = text.length;
             const patternLength = pattern.length;
             let startingPoint = 0;
-            this.startingPoint = startingPoint;
             let textIndex = 0;
             let patternIndex = 0;
             this.addSetupSteps(textLength , patternLength);
@@ -28,9 +27,8 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
                 } else {
                     patternIndex = 0;
                     startingPoint += 1;
-                    this.startingPoint = startingPoint;
                     textIndex = startingPoint;
-                    this.addMismatchStep(textIndex);
+                    this.addMismatchStep(textIndex , startingPoint);
                 }
             }
             if (patternIndex === patternLength) {
@@ -69,11 +67,10 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
                 if (textIndex != undefined) this.algorithmStepBuilder.setTextIndex = textIndex;
                 if (patternIndex != undefined) this.algorithmStepBuilder.setPatternIndex = patternIndex;
 
-                const additional = new BruteForceAdditionalVariables();
-                if (startingPoint !=  undefined) additional.startingPoint = startingPoint;
-                if (textLength) additional.textLength = textLength;
-                if (patternLength) additional.patternLength = patternLength;
-                this.algorithmStepBuilder.setAdditional = additional;
+                if (startingPoint !=  undefined) this.additionalVariables.startingPoint = startingPoint;
+                if (textLength) this.additionalVariables.textLength = textLength;
+                if (patternLength) this.additionalVariables.patternLength = patternLength;
+                this.algorithmStepBuilder.setAdditional = this.additionalVariables;
                 const step = this.algorithmStepBuilder.build();
                 this.addStep(step);
                 this.algorithmStepBuilder.setDefaults();
@@ -164,7 +161,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.previousStep = step;
         }
 
-        private addMismatchStep(textIndex : number ) {
+        private addMismatchStep(textIndex : number , startingPoint : number) {
 
             this.algorithmStepBuilder.setPseudocodeLine = 11;
             this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
@@ -200,6 +197,8 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
             this.algorithmStepBuilder.setPseudocodeLine = 13;
             this.algorithmStepBuilder.setCommand = "Increment starting point";
+            this.additionalVariables.startingPoint = startingPoint;
+            this.algorithmStepBuilder.setAdditional = this.additionalVariables;
 
             step = this.algorithmStepBuilder.build();
             this.addStep(step);
@@ -253,6 +252,10 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.addStep(step);
             this.previousStep = step;
             this.algorithmStepBuilder.setDefaults();
+        }
+
+        private resetAdditionalVariables() {
+            this.additionalVariables = new BruteForceAdditionalVariables();
         }
 
 }
