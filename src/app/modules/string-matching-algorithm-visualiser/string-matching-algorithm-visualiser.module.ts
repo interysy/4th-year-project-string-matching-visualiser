@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faPlay,faBackward, faForward, faRotate, faPause } from '@fortawesome/free-solid-svg-icons';
+import { faPlay,faBackward, faForward, faRotate, faPause, faGear } from '@fortawesome/free-solid-svg-icons';
 
 
 @NgModule({
@@ -41,6 +41,7 @@ export class StringMatchingAlgorithmVisualiserModule {
       faForward,
       faRotate,
       faPause,
+      faGear
     );
   }
 }

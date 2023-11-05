@@ -116,4 +116,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     this.p5jsDrawService.changeSizeSubject.next({width : canvasWidth , height : canvasHeigth});
   }
 
+  protected toggleStringSettings() {
+    this.stringSettings = !this.stringSettings;
+  }
 }
