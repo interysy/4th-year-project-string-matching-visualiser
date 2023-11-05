@@ -1,13 +1,13 @@
 <div class="flex flex-row flex-wrap gap-5 m-5 justify-center align-items-center">
-    <p>textLength:  {{textLength}}</p>
+    <p>textLength: <span class=" mb-2 text-md font-medium">{{textLength}}</span></p>
     <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
-    <p>patternLength: {{patternLength}}</p>
+    <p> patternLength: <span class="mb-2 text-md font-medium">{{patternLength}}</span></p>
     <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
-    <p>textIndex: {{textIndex}}</p>
+    <p>textIndex: <span class="mb-2 text-md font-medium">{{textIndex}}</span></p>
     <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
-    <p>patternIndex: {{patternIndex}}</p>
-    <div *ngFor="let variable of additionalVariables" class="flex flex-row flex-wrap gap-5">
+    <p>patternIndex: <span class="mb-2 text-md font-medium">{{patternIndex}}</span></p>
+    <div class="mb-2 text-md font-medium" *ngFor="let variable of additionalVariables" class="flex flex-row flex-wrap gap-5">
         <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
-        {{variable["variableName"]}} : {{variable["value"]}}
+        {{variable["variableName"]}} : <span class="mb-2 text-md font-medium">{{variable["value"]}}</span>
     </div>
 </div>
