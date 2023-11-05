@@ -8,7 +8,7 @@ import { AlgorithmProgressService } from '../../services/algorithm-progress.serv
 })
 export class CommandVisualiserComponent {
 
-    currentCommand : string;
+    currentCommand = "Start the Animator Below!";
 
 
     constructor(private algorithmProgressService : AlgorithmProgressService) {
