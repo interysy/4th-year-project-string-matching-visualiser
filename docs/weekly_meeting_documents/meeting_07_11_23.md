@@ -23,6 +23,7 @@ Things from the last 2 weeks that will need doing:
 - should I do the last occurrence highlighting for the workshop/evaluation or not?
 - ask regarding the pre-Christmas meeting, so can book a ticket back home
 - if we leave the survey up for about a week, would it be okay for me to work on the first section of the dissertation? (during this I can also implement KMP which would be fairly simple hopefully and add occurrence table highlighting )
+- do I need to be at graduation? (unrelated to project)
 
 ## Proposed Plan
 - fix the bugs (negative step, animation not resizing, text not changing if replaced with text of the same length)
