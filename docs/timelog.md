@@ -168,3 +168,27 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 31 October
 * *1 hour* Adding all changes so far to repository and merging with main (I have decided to omit staging, as it has not brought much value over the last few weeks)
 * *0.5 hours* Preparation for supervisor meeting
+* *0.5 hours* Supervisor meeting
+
+## Week 5
+
+### 1 November
+* *2 hours* Exploring primejs for code syntax highlighting and adding it to the project
+* *3 hours* Configuring primejs and adding line highlighting to be controlled by the algorithm progress service
+
+### 2 November
+* *3 hours* Styling the playback component
+
+### 3 November
+* *2 hours* Fixing variable visualiser component (how additional variables, not standard across algorithms are passed in)
+* *2 hours* Changing the current layout to better fit smaller screens (resize canvas etc.)
+
+### 4 November
+
+* *1.5 hours* Attempting to have the animation size be resized on change, unfortunately no success
+
+### 6 November
+* *1.5 hours* Fixing a few bugs (which caused the emergence of new bugs)
+
+### 7 November
+* *0.5 hours* Preparation for supervisor meeting
