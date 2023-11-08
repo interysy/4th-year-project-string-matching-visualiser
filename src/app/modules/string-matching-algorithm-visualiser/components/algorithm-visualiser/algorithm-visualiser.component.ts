@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
-import { Subject , debounceTime , distinctUntilChanged } from 'rxjs';
+import { Subject , debounceTime } from 'rxjs';
 import { P5jsDrawService } from '../../services/p5js-draw.service';
 import { Letter } from '../../models/letter.model';
 import { AlgorithmStepBuilder } from '../../model-builders/algorithm-step.builder';
@@ -32,7 +32,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
 
 
     this.textChanged
-    .pipe(debounceTime(this.Debounce), distinctUntilChanged())
+    .pipe(debounceTime(this.Debounce))
     .subscribe(_ => {
       this.algorithmProgressService.resetProgressService();
        algorithmProgressService.setText = this.text;
@@ -45,7 +45,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     });
 
     this.patternChanged
-    .pipe(debounceTime(this.Debounce), distinctUntilChanged())
+    .pipe(debounceTime(this.Debounce))
     .subscribe(_ => {
        algorithmProgressService.setPattern = this.pattern;
        algorithmProgressService.setText = this.text;
