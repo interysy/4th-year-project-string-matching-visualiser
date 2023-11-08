@@ -29,11 +29,11 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
          this.p5jsDrawService = Injector.create({providers: [{provide: P5jsDrawService, deps: []}]}).get(P5jsDrawService);
     }
 
-    draw(p : p5 , step : AlgorithmStep) : void {
+    draw(p : p5 , step : AlgorithmStep , squareSideSize : number) : void {
         p.background(255);
         const textLettersToDrawFromStep = step.lettersInText;
-        this.p5jsDrawService.workOutTextWidth(textLettersToDrawFromStep.length);
-        this.p5jsDrawService.centraliseDrawing(p , p.width , p.height);
+        const textWidth = this.p5jsDrawService.workOutTextWidth(textLettersToDrawFromStep.length , squareSideSize);
+        this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , textWidth);
     }
 
     protected addStep(algorithmStep : AlgorithmStep) {

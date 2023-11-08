@@ -15,14 +15,14 @@ export class LastOccuranceTableDrawer extends DrawStepDecorator {
         this.p5jsDrawService = Injector.create({providers: [{provide: P5jsDrawService, deps: []}]}).get(P5jsDrawService);
     }
 
-    override draw(p : p5 , step : AlgorithmStep) : void {
-        this.earlierDrawer.draw(p, step);
+    override draw(p : p5 , step : AlgorithmStep , squareSideSize : number) : void {
+        this.earlierDrawer.draw(p, step , squareSideSize);
         if (Object.keys(this.lastOccuranceTable).length == 0) {
             this.lastOccuranceTable = (step.additional['lastOccuranceTable']) ? step.additional['lastOccuranceTable'] : [];
         }
         this.p5jsDrawService.decenraliseDrawing(p,p.width,p.height);
-        this.p5jsDrawService.workOutTextWidth(3);
-        this.p5jsDrawService.centraliseDrawing(p,p.width,p.height-400);
+        this.p5jsDrawService.workOutTextWidth(3 , squareSideSize);
+        this.p5jsDrawService.centraliseDrawing(p,p.width,p.height-400 , squareSideSize);
         this.p5jsDrawService.drawLastOccuranceTable(p , this.lastOccuranceTable);
     }
 }

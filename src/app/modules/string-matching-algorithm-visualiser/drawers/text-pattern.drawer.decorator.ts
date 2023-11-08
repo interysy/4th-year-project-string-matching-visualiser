@@ -15,11 +15,11 @@ export class TextAndPatternDrawer extends DrawStepDecorator {
 
     }
 
-    override draw(p : p5 , step : AlgorithmStep) : void {
-        this.earlierDrawer.draw(p , step);
+    override draw(p : p5 , step : AlgorithmStep , squareSideSize : number) : void {
+        this.earlierDrawer.draw(p , step , squareSideSize);
         const textLettersToDrawFromStep = step.lettersInText;
         const patternLettersToDrawFromStep = step.lettersInPattern;
         const patternOffsetFromStep = step.patternOffset;
-        this.p5jsDrawService.drawTextAndPattern(p , textLettersToDrawFromStep , patternLettersToDrawFromStep , patternOffsetFromStep);
+        this.p5jsDrawService.drawTextAndPattern(p , textLettersToDrawFromStep , patternLettersToDrawFromStep , patternOffsetFromStep , squareSideSize);
     }
 }
