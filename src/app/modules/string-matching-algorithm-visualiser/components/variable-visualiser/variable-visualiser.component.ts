@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { BruteForceAdditionalVariables } from '../../models/brute-force-additional-variables.model';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 
 @Component({
@@ -11,20 +10,42 @@ export class VariableVisualiserComponent {
 
   textLength : number;
   patternLength : number;
-  startingPoint : number;
   textIndex : number;
   patternIndex : number;
+  additionalVariables : { [variableName: string]: number | string; }[] = [];
+  doNotDisplay = [
+    "textLength",
+    "patternLength",
+    "textIndex",
+    "patternIndex",
+    "lastOccuranceTable"
+  ]
 
   constructor(private algorithmProgressService : AlgorithmProgressService) {
+
     this.textLength = this.algorithmProgressService.textLength;
     this.patternLength = this.algorithmProgressService.patternLength;
-    this.startingPoint = 0;
 
     this.algorithmProgressService.notifier.subscribe((_) => {
+      const additional = algorithmProgressService.getAdditionalVariables();
+      console.log(additional);
 
-      this.startingPoint = (this.algorithmProgressService.additionalVariables as BruteForceAdditionalVariables).startingPoint;
+      if (additional["textLength"] != undefined) this.textLength = additional["textLength"];
+      if (additional["patternLength"] != undefined) this.patternLength = additional["patternLength"];
       this.textIndex = this.algorithmProgressService.textIndex;
       this.patternIndex = this.algorithmProgressService.patternIndex;
+
+
+      for (const additionalVariableName of Object.keys(additional)) {
+        if (this.additionalVariables.find(existingAdditionalVariable => existingAdditionalVariable["variableName"] == additionalVariableName) == undefined && !this.doNotDisplay.includes(additionalVariableName) ) {
+          this.additionalVariables.push({variableName : additionalVariableName, value : additional[additionalVariableName]});
+        } else {
+          this.additionalVariables.map(existingAdditionalVariable => {
+            if (existingAdditionalVariable["variableName"] == additionalVariableName) {
+              existingAdditionalVariable["value"] = additional[additionalVariableName];
+            }});
+        }
+      }
     });
 
   }

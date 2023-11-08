@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
-import { Subject , debounceTime , distinctUntilChanged } from 'rxjs';
+import { Subject , debounceTime } from 'rxjs';
 import { P5jsDrawService } from '../../services/p5js-draw.service';
 import { Letter } from '../../models/letter.model';
 import { AlgorithmStepBuilder } from '../../model-builders/algorithm-step.builder';
@@ -32,7 +32,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
 
 
     this.textChanged
-    .pipe(debounceTime(this.Debounce), distinctUntilChanged())
+    .pipe(debounceTime(this.Debounce))
     .subscribe(_ => {
       this.algorithmProgressService.resetProgressService();
        algorithmProgressService.setText = this.text;
@@ -45,7 +45,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     });
 
     this.patternChanged
-    .pipe(debounceTime(this.Debounce), distinctUntilChanged())
+    .pipe(debounceTime(this.Debounce))
     .subscribe(_ => {
        algorithmProgressService.setPattern = this.pattern;
        algorithmProgressService.setText = this.text;
@@ -71,8 +71,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   ngAfterViewInit() {
     this.p5jsDrawService.destroy();
     const canvasWidth = this.canvas.nativeElement.offsetWidth;
-
-    // need to get height
+    const canvasHeight = this.canvas.nativeElement.offsetHeight;
 
     const lettersInText = this.stringToLetterObject(this.text , "#ffffff" , 1);
     const lettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
@@ -81,7 +80,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     initialStateBuilder.setLettersInText = lettersInText;
     const initialState = initialStateBuilder.build();
 
-    this.p5jsDrawService.initiate(this.canvas.nativeElement , canvasWidth, 400 , initialState , this.algorithmProgressService.decoratedAlgorithm);
+    this.p5jsDrawService.initiate(this.canvas.nativeElement , canvasWidth, canvasHeight , initialState , this.algorithmProgressService.decoratedAlgorithm);
 
   }
 
@@ -110,12 +109,14 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     this.p5jsDrawService.destroy();
   }
 
-  // @HostListener('window:resize')
-  // protected onResize() {
-  //   const canvasHeigth = this.canvas.nativeElement.offsetHeight;
-  //   const canvasWidth = this.canvas.nativeElement.offsetWidth;
+  @HostListener('window:resize')
+  protected onResize() {
+    const canvasHeigth = this.canvas.nativeElement.offsetHeight;
+    const canvasWidth = this.canvas.nativeElement.offsetWidth;
+    this.p5jsDrawService.changeSizeSubject.next({width : canvasWidth , height : canvasHeigth});
+  }
 
-  //   //this.p5DrawService.resizeCanvas(canvasWidth, canvasHeigth , this.text , this.pattern);
-  // }
-
+  protected toggleStringSettings() {
+    this.stringSettings = !this.stringSettings;
+  }
 }

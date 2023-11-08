@@ -7,6 +7,8 @@ import { CommandVisualiserComponent } from './components/command-visualiser/comm
 import { FormsModule } from '@angular/forms';
 import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faPlay,faBackward, faForward, faRotate, faPause, faGear } from '@fortawesome/free-solid-svg-icons';
 
 
 @NgModule({
@@ -20,7 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule,
   ],
   exports: [
     AlgorithmVisualiserComponent,
@@ -30,4 +33,15 @@ import { HttpClientModule } from '@angular/common/http';
     PlaybackControlsComponent,
   ],
 })
-export class StringMatchingAlgorithmVisualiserModule { }
+export class StringMatchingAlgorithmVisualiserModule {
+  constructor(library: FaIconLibrary) {
+    library.addIcons(
+      faPlay,
+      faBackward,
+      faForward,
+      faRotate,
+      faPause,
+      faGear
+    );
+  }
+}
