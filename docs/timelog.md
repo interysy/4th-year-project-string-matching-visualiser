@@ -170,7 +170,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Preparation for supervisor meeting
 * *0.5 hours* Supervisor meeting
 
-## Week 5
+## Week 6
 
 ### 1 November
 * *2 hours* Exploring primejs for code syntax highlighting and adding it to the project
@@ -192,3 +192,10 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 7 November
 * *0.5 hours* Preparation for supervisor meeting
+* *0.5 hours* Supervisor meeting
+
+## Week 7
+
+* *1.5 hours* Fixing various bugs e.g. error on step being reset to -1
+* *1 hour* Attempting to fix p5js issues with multiple objects , but unsuccessful
+* *1.5 hours* Fixing p5js, this time successfully and adding an automatic animation resize
