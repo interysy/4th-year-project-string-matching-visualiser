@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
 })
 export class P5jsDrawService extends P5JSInvoker {
 
-  private squareSideSize = 30;
+  private squareSideSize = 20;
   private readonly DefaultFill  = MatchingAlgorithmColourConstants.DEFAULT;
   private readonly RectangleOffset = 5;
   private readonly SingleCharTextOffset = 10;
@@ -37,7 +37,7 @@ export class P5jsDrawService extends P5JSInvoker {
   }
 
   draw(p : p5) {
-    console.log("drawing in ", this.squareSideSize);
+    //console.log("drawing in ", this.squareSideSize);
     if (this.step && this.algorithm) {
       this.algorithm.draw(p , this.step);
     }
@@ -86,7 +86,7 @@ export class P5jsDrawService extends P5JSInvoker {
   }
 
   private drawText(p : p5, lettersToDraw : Letter[]) {
-    console.log("drawing in ", this.squareSideSize);
+    //console.log("drawing in ", this.squareSideSize);
       lettersToDraw.forEach(letterObject => {
         let y = 0;
         const index = letterObject.index;
@@ -149,13 +149,13 @@ export class P5jsDrawService extends P5JSInvoker {
 
   private resizeCanvas(p : p5 , width : number , height : number) {
     if (this.step) {
-      console.log("determine")
+      //console.log("determine")
       const newSquareSize = this.determineSquareSize(this.squareSideSize , this.step.lettersInText.length , width)
-      console.log("new size" , newSquareSize)
+      //console.log("new size" , newSquareSize)
       this.squareSideSize = newSquareSize;
-      console.log("updated " , this.squareSideSize)
+      //console.log("updated " , this.squareSideSize)
     }
-   console.log("again check" , this.squareSideSize)
+   //console.log("again check" , this.squareSideSize)
 
     p.resizeCanvas(width, height);
 
@@ -165,10 +165,10 @@ export class P5jsDrawService extends P5JSInvoker {
     private determineSquareSize(currentSquareSize : number , textLength : number , canvasWidth : number) : number {
       let lengthInPixels = textLength * currentSquareSize;
       if (lengthInPixels > canvasWidth) {
-        console.log("need decrease")
+        //console.log("need decrease")
         while (lengthInPixels > canvasWidth) {
           currentSquareSize = currentSquareSize - 1;
-          console.log("new size" , currentSquareSize)
+          //console.log("new size" , currentSquareSize)
           lengthInPixels = textLength * currentSquareSize;
         }
       } else {
