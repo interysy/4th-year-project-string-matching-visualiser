@@ -12,10 +12,13 @@ export class PlaybackControlsComponent {
   paused = true;
   speedOfPlayback = 1200;
   iconSize = "xl";
-  currentStep = 0;
-  amountOfSteps = 0;
+  currentStep : number;
+  amountOfSteps : number;
 
   constructor(private algorithmProgressService : AlgorithmProgressService) {
+    this.currentStep = this.algorithmProgressService.currentStep;
+    this.amountOfSteps = this.algorithmProgressService.amountOfSteps;
+
     this.algorithmProgressService.notifier.subscribe((_) => {
       this.currentStep = this.algorithmProgressService.currentStep;
       this.amountOfSteps = this.algorithmProgressService.amountOfSteps;

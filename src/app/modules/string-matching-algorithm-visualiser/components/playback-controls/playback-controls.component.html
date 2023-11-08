@@ -26,7 +26,7 @@
             <span class="m-auto">Current Step</span>
             <div class = "flex justify-center align-items-center flex-col gap-2">
                 <span class="m-auto"> Step : {{currentStep}} </span>
-                <input [disabled] = "!paused" id="speed-slider" type="range" min="0" [max]="amountOfSteps-1" (ngModelChange)="setStep()" [(ngModel)]="currentStep" class="w-48 h-2 bg-gray-400 rounded-md appearance-none cursor-pointer thumb:w-4 thumb:h-4 thumb:bg-white hover:bg-gray-900">
+                <input id="speed-slider" type="range" min="0" [max]="amountOfSteps-1" (ngModelChange)="setStep()" [(ngModel)]="currentStep" class="w-48 h-2 bg-gray-400 rounded-md appearance-none cursor-pointer thumb:w-4 thumb:h-4 thumb:bg-white hover:bg-gray-900">
             </div>
         </div>
 </div>
