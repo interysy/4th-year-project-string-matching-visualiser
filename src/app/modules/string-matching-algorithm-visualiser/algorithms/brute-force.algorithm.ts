@@ -42,6 +42,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         protected addSetupSteps(textLength : number , patternLength  : number ) {
 
             const setUpSteps  = [
+                { command : "Starting Brute Force ..."},
                 { command : "Measuring the length of the text" , highlightText : true , textLength : textLength },
                 { command : "Measuring the length of the pattern" , highlightPattern : true , patternLength : patternLength },
                 { command : "Initialising the starting point to 0", startingPoint: 0 },

@@ -76,6 +76,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
     protected addSetupSteps(textLength : number , patternLength  : number ) {
 
         const setUpSteps  = [
+            { command : "Starting Boyer Moore ..."},
             { command : "Measuring the length of the text" , highlightText : true , textLength : textLength },
             { command : "Measuring the length of the pattern" , highlightPattern : true , patternLength : patternLength },
             { command : "Initialising the starting point to 0", startingPoint: 0 },
@@ -84,7 +85,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         ]
 
         setUpSteps.forEach(({ command , highlightText , highlightPattern , textLength , patternLength , startingPoint, textIndex , patternIndex} , index) => {
-            this.algorithmStepBuilder.setPseudocodeLine = index + 1;
+            this.algorithmStepBuilder.setPseudocodeLine = index;
             if (command) this.algorithmStepBuilder.setCommand = command;
 
             if (highlightText) {
