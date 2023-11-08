@@ -8,11 +8,11 @@ import { AlgorithmProgressService } from '../../services/algorithm-progress.serv
 })
 export class CommandVisualiserComponent {
 
-    currentCommand = "Start the Animator Below!";
+    currentCommand : string;
 
 
-    constructor(private algorithmProgressService : AlgorithmProgressService) {
-
+    constructor(private readonly algorithmProgressService : AlgorithmProgressService) {
+      this.currentCommand = this.algorithmProgressService.command;
       this.algorithmProgressService.notifier.subscribe((_) => {
           this.currentCommand = this.algorithmProgressService.command;
       });

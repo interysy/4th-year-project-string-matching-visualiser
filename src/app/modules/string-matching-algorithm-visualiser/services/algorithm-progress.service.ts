@@ -10,7 +10,7 @@ import { StringMatchingAlgorithmToDraw } from '../models/algorithm-draw.model';
 export class AlgorithmProgressService {
 
   currentlyPlaying = false;
-  currentStep = -1;
+  currentStep = 0;
   notifier : Subject<number> = new Subject<number>();
   amountOfSteps : number;
   text : string;
@@ -20,7 +20,6 @@ export class AlgorithmProgressService {
   decoratedAlgorithm : DrawStepDecorator
 
   constructor() {
-
     this.notifier.subscribe((value : number) => {
       this.currentStep = value
     });
@@ -34,7 +33,6 @@ export class AlgorithmProgressService {
       let oldDecorator = this.algorithm as unknown as StringMatchingAlgorithmToDraw;
       for (const decorator of decorators) {
         this.decoratedAlgorithm = new decorator(oldDecorator);
-        console.log(this.decoratedAlgorithm);
         oldDecorator = this.decoratedAlgorithm;
       }
     }
@@ -43,6 +41,7 @@ export class AlgorithmProgressService {
   public executeAlgorithm() {
     this.algorithm.workOutSteps(this.text, this.pattern);
     this.amountOfSteps = this.algorithm.stepsLengthGetter;
+    this.notifier.next(0);
   }
 
   public setTextAndPattern(text : string, pattern : string) {
@@ -54,12 +53,12 @@ export class AlgorithmProgressService {
 
   public reset() {
     this.currentlyPlaying = false;
-    this.notifier.next(-1);
+    this.notifier.next(0);
   }
 
   public resetProgressService() {
     this.currentlyPlaying = false;
-    this.currentStep = -1;
+    this.currentStep = 0;
     this.amountOfSteps = 0;
     this.text = "";
     this.speed = 1000;
