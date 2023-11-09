@@ -12,12 +12,11 @@ import { Subject } from 'rxjs';
 })
 export class P5jsDrawService extends P5JSInvoker {
 
-  private readonly DefaultFill  = MatchingAlgorithmColourConstants.DEFAULT;
   private readonly RectangleOffset = 5;
   private readonly SingleCharTextOffset = 10;
   private readonly DoubleCharTextOffset = 7;
 
-  private textWidth : number;
+  textWidth : number;
   algorithm : DrawStepDecorator;
   changeSizeSubject = new Subject<{width : number , height : number}>();
 
@@ -63,17 +62,14 @@ export class P5jsDrawService extends P5JSInvoker {
   centraliseDrawing(p : p5, canvasWidth : number , canvasHeight : number, textWidth : number) : void {
     if (p) {
       const centralCoordinate = (canvasWidth - textWidth)/2;
-      console.log(canvasWidth);
-      console.log(textWidth)
-      console.log("translating by " , centralCoordinate)
-      p.translate(centralCoordinate , canvasHeight / 2);
+      p.translate(centralCoordinate , 0);
     }
   }
 
-  decenraliseDrawing(p : p5 , canvasWidth : number , canvasHeight : number) : void {
+  decentraliseDrawing(p : p5 , canvasWidth : number , canvasHeight : number , textWidth : number) : void {
     if (p) {
       const centralCoordinate = (canvasWidth - this.textWidth)/2;
-      p.translate(-centralCoordinate , -canvasHeight / 2);
+      p.translate(-centralCoordinate , 0);
     }
   }
 
@@ -89,7 +85,7 @@ export class P5jsDrawService extends P5JSInvoker {
   private drawText(p : p5, lettersToDraw : Letter[] , squareSideSize : number) {
     //console.log("drawing in ", this.squareSideSize);
       lettersToDraw.forEach(letterObject => {
-        let y = 0;
+        let y = 100;
         const index = letterObject.index;
         const colour = letterObject.colour;
         const letter = letterObject.letter;
@@ -115,7 +111,7 @@ export class P5jsDrawService extends P5JSInvoker {
     private drawPattern(p : p5 , lettersToDraw : Letter[] , offset : number , squareSideSize : number) {
 
       lettersToDraw.forEach(letterObject => {
-        let y = squareSideSize + 15;
+        let y = 125 + squareSideSize;
         const index = letterObject.index;
         const colour = letterObject.colour;
         const letter = letterObject.letter;
@@ -133,18 +129,28 @@ export class P5jsDrawService extends P5JSInvoker {
       })
   }
 
-  public drawLastOccuranceTable(p : p5 , lastOccuranceTable : {[character : string] : number}) {
+  public drawLastOccuranceTable(p : p5 , lastOccuranceTable : {[character : string] : number} , lastOccuranceCharacter : string | null, squareSideSize : number) {
 
     if (p) {
-      let y = 100;
+      let y = 20;
+      let x = 20;
       p.text("lastOccuranceTable = {" , 0 , y)
       y  += 15;
       p.fill("#000000");
       for (const [key, value] of Object.entries(lastOccuranceTable)) {
-        p.text(key + ':' + value + ',', this.squareSideSize , y);
-        y += 10;
+        if (lastOccuranceCharacter && key == lastOccuranceCharacter) {
+          p.fill(MatchingAlgorithmColourConstants.MISMATCH);
+        } else {
+          p.fill("#000000");
+        }
+        p.text(key + ':' + value + ',', x , y);
+        y += 15;
+        if (y > 60) {
+          y = 35;
+          x += squareSideSize;
+        }
       }
-      p.text('}', 0 , y);
+      p.text('}', 0 , 70);
     }
   }
 

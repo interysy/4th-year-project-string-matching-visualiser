@@ -68,7 +68,6 @@ export abstract class P5JSInvoker {
   }
 
   public activeWindow(canvasWidth : number , squareSideSize : number , textLength : number) {
-    console.log("Current square size is " , squareSideSize)
     if (squareSideSize != this.MinimumSquareSideSize) {
       return false;
     }
