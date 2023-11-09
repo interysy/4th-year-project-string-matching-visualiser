@@ -33,9 +33,9 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
         p.background(255);
         const textLettersToDrawFromStep = step.lettersInText;
         if (this.p5jsDrawService.activeWindow(p.width , squareSideSize , textLettersToDrawFromStep.length)) {
-            const patternWidth =  this.p5jsDrawService.workOutTextWidth(step.lettersInPattern.length , squareSideSize);
+            const patternWidth =  this.p5jsDrawService.workOutTextWidth(step.lettersInPattern.length + step.patternOffset , squareSideSize);
             console.log(patternWidth);
-            this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , patternWidth + squareSideSize * step.patternOffset );
+            this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , patternWidth + (step.patternOffset * squareSideSize));
             // p.translate((step.patternOffset * squareSideSize) + squareSideSize , 0);
         } else {
             const textWidth = this.p5jsDrawService.workOutTextWidth(textLettersToDrawFromStep.length , squareSideSize);

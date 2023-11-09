@@ -63,6 +63,9 @@ export class P5jsDrawService extends P5JSInvoker {
   centraliseDrawing(p : p5, canvasWidth : number , canvasHeight : number, textWidth : number) : void {
     if (p) {
       const centralCoordinate = (canvasWidth - textWidth)/2;
+      console.log(canvasWidth);
+      console.log(textWidth)
+      console.log("translating by " , centralCoordinate)
       p.translate(centralCoordinate , canvasHeight / 2);
     }
   }
