@@ -31,11 +31,12 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
                 this.addMatchStep(textIndex , patternIndex);
             } else {
                 const occurance = (lastOccurance[text.charAt(textIndex)] === undefined) ? -1  : lastOccurance[text.charAt(textIndex)];
+                const lastOccuranceCharacter = text.charAt(textIndex);
                 const mismatchCase = this.boyerMooreMismatchCase(patternIndex , occurance);
                 startingPoint += Math.max(1, patternIndex - occurance);
                 textIndex += (patternLength - Math.min(patternIndex , 1 + occurance));
                 patternIndex = patternLength - 1;
-                this.addMismatchStep(startingPoint , textIndex, patternIndex , mismatchCase , patternLength , occurance);
+                this.addMismatchStep(startingPoint , textIndex, patternIndex , mismatchCase , patternLength , occurance , lastOccuranceCharacter);
             }
         }
 
@@ -196,7 +197,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         this.previousStep = step;
     }
 
-    private addMismatchStep(startingPoint : number , textIndex : number , patternIndex : number, mismatchCase : number , patternLength : number , lastOccurance : number ) : void {
+    private addMismatchStep(startingPoint : number , textIndex : number , patternIndex : number, mismatchCase : number , patternLength : number , lastOccurance : number , lastOccuranceCharacter : string) : void {
 
         this.algorithmStepBuilder.setPseudocodeLine = 13;
         this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
@@ -234,11 +235,13 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
                 break;
         }
 
+        this.additionalVariables.lastOccuranceToHighlight = lastOccuranceCharacter;
         this.algorithmStepBuilder.setPseudocodeLine = 14;
         this.algorithmStepBuilder.setPatternIndex = 0;
         this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , MatchingAlgorithmColourConstants.DEFAULT , 1);
         this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , MatchingAlgorithmColourConstants.DEFAULT , 1);
         this.additionalVariables.startingPoint = startingPoint;
+        this.additionalVariables.lastOccuranceToHighlight = lastOccuranceCharacter;
         this.algorithmStepBuilder.setAdditional = this.additionalVariables;
         step = this.algorithmStepBuilder.build();
         this.addStep(step);
@@ -265,6 +268,8 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         this.algorithmStepBuilder.setPseudocodeLine = 16;
         this.algorithmStepBuilder.setCommand = "Set pattern index to pattern length - 1, as we want to start comparing right to left again";
         this.algorithmStepBuilder.setPatternOffset = startingPoint;
+        this.additionalVariables.lastOccuranceToHighlight = "";
+        this.algorithmStepBuilder.setAdditional = this.additionalVariables;
 
 
         step = this.algorithmStepBuilder.build();

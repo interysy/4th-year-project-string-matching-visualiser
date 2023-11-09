@@ -17,12 +17,17 @@ export class LastOccuranceTableDrawer extends DrawStepDecorator {
 
     override draw(p : p5 , step : AlgorithmStep , squareSideSize : number) : void {
         this.earlierDrawer.draw(p, step , squareSideSize);
-        if (Object.keys(this.lastOccuranceTable).length == 0) {
-            this.lastOccuranceTable = (step.additional['lastOccuranceTable']) ? step.additional['lastOccuranceTable'] : [];
+
+        this.lastOccuranceTable = (step.additional['lastOccuranceTable']) ? step.additional['lastOccuranceTable'] : [];
+        const lastOccuranceToHighlight = (step.additional['lastOccuranceToHighlight']) ? step.additional['lastOccuranceToHighlight'] : null;
+
+        if (this.p5jsDrawService.activeWindow(p.width , squareSideSize , step.lettersInText.length)) {
+            const patternWidth =  this.p5jsDrawService.workOutTextWidth(step.lettersInPattern.length + step.patternOffset , squareSideSize);
+            this.p5jsDrawService.decentraliseDrawing(p,p.width,p.height, patternWidth + (step.patternOffset * squareSideSize));
+        } else {
+            const textWidth = this.p5jsDrawService.workOutTextWidth(step.lettersInText.length , squareSideSize);
+            this.p5jsDrawService.decentraliseDrawing(p,p.width,p.height, textWidth);
         }
-        this.p5jsDrawService.decenraliseDrawing(p,p.width,p.height);
-        this.p5jsDrawService.workOutTextWidth(3 , squareSideSize);
-        this.p5jsDrawService.centraliseDrawing(p,p.width,p.height-400 , squareSideSize);
-        this.p5jsDrawService.drawLastOccuranceTable(p , this.lastOccuranceTable);
+        this.p5jsDrawService.drawLastOccuranceTable(p , this.lastOccuranceTable , lastOccuranceToHighlight,  squareSideSize);
     }
 }
