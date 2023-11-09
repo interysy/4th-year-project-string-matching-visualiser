@@ -66,4 +66,16 @@ export abstract class P5JSInvoker {
     }
     return currentSquareSize;
   }
+
+  public activeWindow(canvasWidth : number , squareSideSize : number , textLength : number) {
+    console.log("Current square size is " , squareSideSize)
+    if (squareSideSize != this.MinimumSquareSideSize) {
+      return false;
+    }
+    const currentWidth = squareSideSize * textLength;
+    if (currentWidth > (canvasWidth - squareSideSize)) {
+      return true;
+    }
+    return false;
+  }
 }

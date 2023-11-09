@@ -32,8 +32,15 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     draw(p : p5 , step : AlgorithmStep , squareSideSize : number) : void {
         p.background(255);
         const textLettersToDrawFromStep = step.lettersInText;
-        const textWidth = this.p5jsDrawService.workOutTextWidth(textLettersToDrawFromStep.length , squareSideSize);
-        this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , textWidth);
+        if (this.p5jsDrawService.activeWindow(p.width , squareSideSize , textLettersToDrawFromStep.length)) {
+            const patternWidth =  this.p5jsDrawService.workOutTextWidth(step.lettersInPattern.length , squareSideSize);
+            console.log(patternWidth);
+            this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , patternWidth + squareSideSize * step.patternOffset );
+            // p.translate((step.patternOffset * squareSideSize) + squareSideSize , 0);
+        } else {
+            const textWidth = this.p5jsDrawService.workOutTextWidth(textLettersToDrawFromStep.length , squareSideSize);
+            this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , textWidth);
+        }
     }
 
     protected addStep(algorithmStep : AlgorithmStep) {
