@@ -22,6 +22,10 @@ export class PlaybackControlsComponent {
     this.algorithmProgressService.notifier.subscribe((_) => {
       this.currentStep = this.algorithmProgressService.currentStep;
       this.amountOfSteps = this.algorithmProgressService.amountOfSteps;
+
+      if (this.currentStep == this.amountOfSteps - 1 && !this.paused) {
+        this.paused = true;
+      }
     });
   }
 

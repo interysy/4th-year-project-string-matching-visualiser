@@ -139,6 +139,7 @@ export class AlgorithmProgressService {
       this.moveToNextStep();
       await this.sleep(this.speed);
     }
+    this.currentlyPlaying = false;
   }
 
   async sleep(msec: number) {
