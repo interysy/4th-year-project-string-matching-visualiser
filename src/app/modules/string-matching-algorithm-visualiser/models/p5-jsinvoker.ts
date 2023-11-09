@@ -44,6 +44,11 @@ export abstract class P5JSInvoker {
       });
   }
 
+  public changeSquareSize(width : number , length : number) {
+    const newSquareSideSize = this.determineSquareSize(this.squareSideSize , length , width);
+    this.squareSideSize = newSquareSideSize;
+  }
+
   protected resizeCanvas(p : p5 , width : number , height : number) {
     const length = this.step ? this.step.lettersInText.length : 0;
     const newSquareSideSize = this.determineSquareSize(this.squareSideSize , length , width);

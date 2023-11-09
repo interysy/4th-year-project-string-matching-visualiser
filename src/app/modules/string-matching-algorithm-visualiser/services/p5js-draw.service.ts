@@ -40,7 +40,7 @@ export class P5jsDrawService extends P5JSInvoker {
     }
   }
 
-  set stepSetter( step : AlgorithmStep) {
+  set stepSetter(step : AlgorithmStep) {
     this.step = step;
   }
 
