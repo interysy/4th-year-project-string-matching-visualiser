@@ -24,9 +24,6 @@ export class LastOccuranceTableDrawer extends DrawStepDecorator {
         if (this.p5jsDrawService.activeWindow(p.width , squareSideSize , step.lettersInText.length)) {
             const patternWidth =  this.p5jsDrawService.workOutTextWidth(step.lettersInPattern.length + step.patternOffset , squareSideSize);
             this.p5jsDrawService.decentraliseDrawing(p,p.width,p.height, patternWidth + (step.patternOffset * squareSideSize));
-        } else {
-            const textWidth = this.p5jsDrawService.workOutTextWidth(step.lettersInText.length , squareSideSize);
-            this.p5jsDrawService.decentraliseDrawing(p,p.width,p.height, textWidth);
         }
         this.p5jsDrawService.drawLastOccuranceTable(p , this.lastOccuranceTable , lastOccuranceToHighlight,  squareSideSize);
     }

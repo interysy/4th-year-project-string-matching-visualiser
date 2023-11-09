@@ -68,7 +68,7 @@ export class P5jsDrawService extends P5JSInvoker {
 
   decentraliseDrawing(p : p5 , canvasWidth : number , canvasHeight : number , textWidth : number) : void {
     if (p) {
-      const centralCoordinate = (canvasWidth - this.textWidth)/2;
+      const centralCoordinate = (canvasWidth - textWidth)/2;
       p.translate(-centralCoordinate , 0);
     }
   }
