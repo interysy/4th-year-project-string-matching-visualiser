@@ -82,7 +82,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
         private addWhileLoopStep(textIndex : number , patternIndex : number) : void {
 
-            this.algorithmStepBuilder.setPseudocodeLine = 7;
+            this.algorithmStepBuilder.setPseudocodeLine = 8;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setPatternOffset = this.previousStep.patternOffset;
@@ -99,7 +99,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
         private addCheckStep(textIndex : number , patternIndex : number) : void {
 
-            this.algorithmStepBuilder.setPseudocodeLine = 8;
+            this.algorithmStepBuilder.setPseudocodeLine = 9;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setPatternOffset = this.previousStep.patternOffset;
@@ -127,7 +127,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
         private addMatchStep(textIndex : number , patternIndex : number) {
 
-            this.algorithmStepBuilder.setPseudocodeLine = 9;
+            this.algorithmStepBuilder.setPseudocodeLine = 10;
             this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setPatternOffset = this.previousStep.patternOffset;
@@ -153,7 +153,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.addStep(step);
             this.previousStep = step;
 
-            this.algorithmStepBuilder.setPseudocodeLine = 10;
+            this.algorithmStepBuilder.setPseudocodeLine = 11;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setCommand = "Move to next character in pattern";
 
@@ -167,7 +167,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
         private addMismatchStep(textIndex : number , startingPoint : number) {
 
-            this.algorithmStepBuilder.setPseudocodeLine = 11;
+            this.algorithmStepBuilder.setPseudocodeLine = 12;
             this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
             this.algorithmStepBuilder.setTextIndex = this.previousStep.textIndex;
             this.algorithmStepBuilder.setPatternOffset = this.previousStep.patternOffset;
@@ -190,7 +190,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.addStep(step);
             this.previousStep = step;
 
-            this.algorithmStepBuilder.setPseudocodeLine = 12;
+            this.algorithmStepBuilder.setPseudocodeLine = 13;
             this.algorithmStepBuilder.setPatternIndex = 0;
             this.algorithmStepBuilder.setCommand = "Reset pattern index to 0";
             this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , MatchingAlgorithmColourConstants.DEFAULT , 1);
@@ -200,7 +200,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.addStep(step);
             this.previousStep = step;
 
-            this.algorithmStepBuilder.setPseudocodeLine = 13;
+            this.algorithmStepBuilder.setPseudocodeLine = 14;
             this.algorithmStepBuilder.setCommand = "Increment starting point";
             this.additionalVariables.startingPoint = startingPoint;
             this.algorithmStepBuilder.setAdditional = this.additionalVariables;
@@ -209,9 +209,10 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.addStep(step);
             this.previousStep = step;
 
-            this.algorithmStepBuilder.setPseudocodeLine = 14;
+            this.algorithmStepBuilder.setPseudocodeLine = 15;
             this.algorithmStepBuilder.setCommand = "Increment starting point of comparison to next element of text";
             this.algorithmStepBuilder.setPatternOffset = textIndex;
+            this.algorithmStepBuilder.setTextIndex = textIndex;
 
             step = this.algorithmStepBuilder.build();
             this.addStep(step);
@@ -220,7 +221,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
 
         private addFullMatchStep(textIndex : number , patternIndex : number) {
-            this.algorithmStepBuilder.setPseudocodeLine = 18;
+            this.algorithmStepBuilder.setPseudocodeLine = 19;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setPatternOffset = this.previousStep.patternOffset;
@@ -234,7 +235,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.previousStep = step;
 
 
-            this.algorithmStepBuilder.setPseudocodeLine = 19;
+            this.algorithmStepBuilder.setPseudocodeLine = 20;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setCommand = "Report that there has been a match";
@@ -247,7 +248,20 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         }
 
         private addNoSolutionStep(textIndex : number , patternIndex : number) {
-            this.algorithmStepBuilder.setPseudocodeLine = 21;
+            this.algorithmStepBuilder.setPseudocodeLine = 19;
+            this.algorithmStepBuilder.setPatternIndex = patternIndex;
+            this.algorithmStepBuilder.setTextIndex = textIndex;
+            this.algorithmStepBuilder.setPatternOffset = this.previousStep.patternOffset;
+            this.algorithmStepBuilder.setLettersInPattern = [...this.previousStep.lettersInPattern];
+            this.algorithmStepBuilder.setLettersInText = [...this.previousStep.lettersInText];
+            this.algorithmStepBuilder.setCommand = "Checking if fully matched the pattern";
+            this.algorithmStepBuilder.setAdditional = this.additionalVariables;
+
+            let step = this.algorithmStepBuilder.build();
+            this.addStep(step);
+            this.previousStep = step;
+
+            this.algorithmStepBuilder.setPseudocodeLine = 22;
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setCommand = "No match !";
@@ -255,14 +269,11 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , MatchingAlgorithmColourConstants.MISMATCH , 4);
             this.algorithmStepBuilder.setAdditional = this.additionalVariables;
 
-            const step = this.algorithmStepBuilder.build();
+            step = this.algorithmStepBuilder.build();
             this.addStep(step);
             this.previousStep = step;
             this.algorithmStepBuilder.setDefaults();
         }
 
-        private resetAdditionalVariables() {
-            this.additionalVariables = new BruteForceAdditionalVariables();
-        }
 
 }
