@@ -196,6 +196,25 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ## Week 7
 
+### 8 November
 * *1.5 hours* Fixing various bugs e.g. error on step being reset to -1
 * *1 hour* Attempting to fix p5js issues with multiple objects , but unsuccessful
 * *1.5 hours* Fixing p5js, this time successfully and adding an automatic animation resize
+
+### 9 November
+* *2 hours* Implementing active window view, which means the user can only see the active part of animation on a smaller screen
+* *1 hour* Changing the layout to be more mobile friendly
+* *1 hour* Add last occurance highlighting functionality
+
+### 10 November
+* *1.5 hours* Final stylistic changes for the evaluation
+
+### 11 November
+* *1 hour* Creating survey for evalution and preparing necessary forms
+* *0.5 hours* Deploying current state of the project (removing unimplemented pages)
+
+### 14 November
+* *1 hour* Preparation for supervisor meeting
+
+
+
