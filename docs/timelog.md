@@ -121,7 +121,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 * *45 mins* Prepare for supervisor meeting with new meeting document and getting a demo ready. Also update timelog.
 
-## Week 4
+## Week 5
 
 ### 18 October
 
@@ -155,7 +155,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 * *0.5 hours* Supervisor Meeting
 
-## Week 5
+## Week 6
 
 ### 25 October
 
@@ -170,7 +170,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Preparation for supervisor meeting
 * *0.5 hours* Supervisor meeting
 
-## Week 6
+## Week 7
 
 ### 1 November
 * *2 hours* Exploring primejs for code syntax highlighting and adding it to the project
@@ -194,7 +194,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Preparation for supervisor meeting
 * *0.5 hours* Supervisor meeting
 
-## Week 7
+## Week 8
 
 ### 8 November
 * *1.5 hours* Fixing various bugs e.g. error on step being reset to -1
@@ -216,5 +216,12 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 14 November
 * *1 hour* Preparation for supervisor meeting
 
+## Week 9
+
+### 18 November
+* *1 hour* Fixing issues with dissertation writing so far
+
+### 19 November
+* *4 hours* Working through learning a drawing package for latex and using it to make a start on the background section of the dissertation
 
 
