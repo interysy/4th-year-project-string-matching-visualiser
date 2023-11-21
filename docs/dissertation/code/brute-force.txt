@@ -17,7 +17,7 @@ bruteForce(text, pattern):
         end
     end
 
-    if patternIndex = patternLength) then
+    if patternIndex = patternLength then
         Output: startingPoint;
     end
     else
