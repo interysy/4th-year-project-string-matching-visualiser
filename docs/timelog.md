@@ -224,4 +224,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 19 November
 * *4 hours* Working through learning a drawing package for latex and using it to make a start on the background section of the dissertation
 
+### 21 November
+* *1 hour* Further work on KMP background
+* *30 mins* Supervisor meeting preparation
+
 
