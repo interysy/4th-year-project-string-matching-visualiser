@@ -1,0 +1,25 @@
+bruteForce(text, pattern):
+    textLength <- length of T
+    patternLength <- length of P
+    startingPoint <- 0
+    textIndex <- 0
+    patternIndex <- 0
+
+    while startingPoint <= textLength - patternLength and patternIndex < patternLength do
+        if text[textIndex] = pattern[patternIndex] then
+            textIndex <- textIndex + 1
+            patternIndex <- patternIndex + 1
+        end
+        else
+            patternIndex <- 0;
+            startingPoint <- startingPoint + 1;
+            textIndex <- startingPoint;
+        end
+    end
+
+    if patternIndex = patternLength) then
+        Output: startingPoint;
+    end
+    else
+        Output -1
+    end
