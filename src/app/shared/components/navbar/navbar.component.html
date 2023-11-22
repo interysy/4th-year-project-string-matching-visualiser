@@ -1,10 +1,10 @@
 <nav class="container mx-auto my-10">
   <div class="flex items-center md: mx-6">
       <img class="object-contain max-h-10 mr-10" [src]="environment.logo" alt="String Visualiser Logo V2">
-    <div class="grow gap-6 justify-start hidden md:flex">
+    <div class="algorithms grow gap-6 justify-start hidden md:flex">
       <button *ngFor="let algorithm of environment.supportedAlgorithms" (click)="changePage('algorithm-visualiser/' + algorithm.urlParam)">{{algorithm.name}}</button>
     </div>
-    <div class="gap-6 justify-end hidden md:flex">
+    <div class="other-links gap-6 justify-end hidden md:flex">
       <button (click)="changePage('/')">Home</button>
       <button (click)="changePage('/about')">About</button>
       <a [href]="environment.githubLink" ><fa-icon [icon]="['fab', 'github']" size="lg"></fa-icon></a>
@@ -15,7 +15,7 @@
     </button>
   </div>
 </nav>
-<div #mobileMenu class="hidden flex items-center justify-center flex-col gap-3" id="mobile-menu">
+<div #mobileMenu class="algorithms-mobile hidden flex items-center justify-center flex-col gap-3" id="mobile-menu">
   <button *ngFor="let algorithm of environment.supportedAlgorithms" (click)="changePage('algorithm-visualiser/' + algorithm.urlParam)">{{algorithm.name}}</button>
   <button class="break-normal" (click)="changePage('/')">Home</button>
   <button class="break-normal" (click)="changePage('/about')">About</button>

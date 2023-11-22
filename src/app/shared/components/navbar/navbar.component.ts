@@ -1,6 +1,12 @@
 import { Component , ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment.dev';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCompass } from '@fortawesome/free-solid-svg-icons';
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+
+library.add(faCompass, faGithub, faLinkedin);
+
 
 /**
  * @description
@@ -18,27 +24,28 @@ export class NavbarComponent {
    * @description
    * The mobile menu element from the DOM
    */
-  @ViewChild('mobileMenu', {static: true}) protected mobileMenu: ElementRef<HTMLDivElement>;
+  @ViewChild('mobileMenu', {static: true}) public mobileMenu: ElementRef<HTMLDivElement>;
 
   /**
    * @description
    * The environment variable, explicitly set for HTML access
    */
-  protected environment = environment;
+  public environment = environment;
+  protected ResizeThreshold = 768
 
 
   /**
    * @description The constructor for the NavbarComponent
    * @param router The router to change pages upon link click
    */
-  constructor (private readonly router : Router) {}
+  constructor (readonly router : Router) {}
 
 
   /**
    * @description Class to open/hide the mobile menu when hamburger icon is clicked
    * @returns void
   */
-  protected toggleMobileMenu() : void {
+  public toggleMobileMenu() : void {
     this.mobileMenu.nativeElement.classList.toggle('hidden');
   }
 
@@ -48,11 +55,13 @@ export class NavbarComponent {
    * @returns void
    */
   @HostListener('window:resize')
-  protected onResize() : void {
+  public onResize() : void {
     const windowWidth = window.innerWidth;
 
-    if (windowWidth > 768) {
+    if (windowWidth > this.ResizeThreshold) {
       this.mobileMenu.nativeElement.classList.add('hidden');
+    } else {
+      this.mobileMenu.nativeElement.classList.remove('hidden');
     }
   }
 
@@ -61,7 +70,7 @@ export class NavbarComponent {
    * @param path A string representing the path to the page
    * @returns Promise<void>
    */
-  protected async changePage(path : string) : Promise<void> {
+  public async changePage(path : string) : Promise<void> {
     if (path === this.router.url) return;
     this.router.navigateByUrl(path);
   }
