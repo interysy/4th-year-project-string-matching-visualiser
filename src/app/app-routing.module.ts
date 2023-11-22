@@ -3,13 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home/home.page';
 import { AboutPageComponent } from './pages/about/about.page';
 import { AlgorithmVisualiserPageComponent } from './pages/algorithm-visualiser/algorithm-visualiser.page';
-import { environment } from 'environment';
+import { environment } from '../environments/environment.dev';
 import { TextAndPatternDrawer } from './modules/string-matching-algorithm-visualiser/drawers/text-pattern.drawer.decorator';
 
-const algorithmVisualiserRoutes: Routes = environment.supportedAlgorithms.map(algorithm => {
+const algorithmVisualiserRoutes  = environment.supportedAlgorithms.map(algorithm => {
   return {path : "algorithm-visualiser/" + algorithm.urlParam ,  pathMatch: 'full',  component : AlgorithmVisualiserPageComponent , data : {requiredService : algorithm.requiredService , algorithmNameSlug : algorithm.nameSlug , decorators : [TextAndPatternDrawer , ...(algorithm.decorators)]}}
 });
-const routes: Routes = [
+
+const routes = [
   { path: "", component: HomePageComponent },
   { path : "about" , pathMatch: 'full', component : AboutPageComponent },
   ...algorithmVisualiserRoutes,
@@ -17,7 +18,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes as Routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
