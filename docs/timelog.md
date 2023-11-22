@@ -229,3 +229,9 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *30 mins* Supervisor meeting preparation
 
 
+## Week 10
+
+### 22 November
+* *1 hour* Fixing wiki pipeline
+* *1 hour* Learning how to test in angular and writing initial tests
+* *1 hour* Testing the navbar component , refactoring and adding documentation
