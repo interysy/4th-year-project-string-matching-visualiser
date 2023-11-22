@@ -1,6 +1,6 @@
 import { Component , ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from 'environment';
+import { environment } from '../../../../environments/environment.dev';
 
 @Component({
   selector: 'app-navbar',
