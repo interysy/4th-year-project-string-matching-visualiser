@@ -60,8 +60,6 @@ export class NavbarComponent {
 
     if (windowWidth > this.ResizeThreshold) {
       this.mobileMenu.nativeElement.classList.add('hidden');
-    } else {
-      this.mobileMenu.nativeElement.classList.remove('hidden');
     }
   }
 

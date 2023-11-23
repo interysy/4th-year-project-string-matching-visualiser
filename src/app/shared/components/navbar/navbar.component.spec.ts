@@ -62,14 +62,14 @@ describe('NavbarComponent', () => {
     expect(component.mobileMenu.nativeElement.classList.contains('hidden')).toBe(true);
   }));
 
-  it('should show mobile menu on window resize if window width < 768', fakeAsync(() => {
+  it('should show mobile menu on window resize if window width < 768 and toggle', fakeAsync(() => {
     Object.defineProperty(window, 'innerWidth', { value: 750, configurable: true });
 
     window.dispatchEvent(new Event('resize'));
     tick(300);
+    component.toggleMobileMenu();
 
     fixture.detectChanges();
-    console.log(component.mobileMenu.nativeElement.classList);
     expect(component.mobileMenu.nativeElement.classList.contains('hidden')).toBe(false);
   }));
 
