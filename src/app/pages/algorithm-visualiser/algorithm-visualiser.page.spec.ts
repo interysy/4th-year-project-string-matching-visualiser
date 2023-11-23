@@ -11,9 +11,6 @@ import { BruteForceAlgorithm } from 'src/app/modules/string-matching-algorithm-v
 import { TextAndPatternDrawer } from 'src/app/modules/string-matching-algorithm-visualiser/drawers/text-pattern.drawer.decorator';
 import { Subject } from 'rxjs';
 import { LastOccuranceTableDrawer } from 'src/app/modules/string-matching-algorithm-visualiser/drawers/last-occurance.drawer.decorator';
-import { StringMatchingAlgorithm } from 'src/app/modules/string-matching-algorithm-visualiser/models/algorithm.model';
-import { DrawStepDecorator } from 'src/app/modules/string-matching-algorithm-visualiser/models/drawer-step.decorator';
-import { StringMatchingAlgorithmToDraw } from 'src/app/modules/string-matching-algorithm-visualiser/models/algorithm-draw.model';
 
 describe('AlgorithmVisualiserPageComponent', () => {
   let component: AlgorithmVisualiserPageComponent;
