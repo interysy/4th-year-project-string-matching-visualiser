@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Observable, catchError, of } from 'rxjs';
 
 /**
  * @description The service is responsible for fetching the pseudocode of the algorithm from the assets folder.
@@ -25,6 +25,12 @@ export class PseudocodeParserService {
    * @returns A future string containing the pseudocode of the algorithm.
    */
   getAlgorithmPseudocode(algorithmName : string) : Observable<string> {
-    return this.http.get<string>(this.AssetsPath + algorithmName + this.FileSuffix , {responseType : this.ResponseType});
+
+    return this.http.get<string>(this.AssetsPath + algorithmName + this.FileSuffix , {responseType : this.ResponseType})
+    .pipe(
+      catchError(error => {
+        return of("ERROR  - Cannot fetch pseudocode for algorithm: " + algorithmName + ".");
+      })
+    );
   }
 }
