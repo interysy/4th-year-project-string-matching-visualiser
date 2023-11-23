@@ -6,10 +6,19 @@ import { AlgorithmVisualiserPageComponent } from './pages/algorithm-visualiser/a
 import { environment } from '../environments/environment.dev';
 import { TextAndPatternDrawer } from './modules/string-matching-algorithm-visualiser/drawers/text-pattern.drawer.decorator';
 
+/**
+   * @description Grab all supported algorithms and create a route for each one
+   * @example { path : "algorithm-visualiser/boyerMoore" ,  pathMatch: 'full',  component : AlgorithmVisualiserPageComponent , data : {requiredService : BoyerMooreAlgorithm , algorithmNameSlug : "boyer-moore" , decorators : [TextAndPatternDrawer, lastOccuranceTableDrawer]}}
+   * @type {Routes}
+*/
 const algorithmVisualiserRoutes  = environment.supportedAlgorithms.map(algorithm => {
-  return {path : "algorithm-visualiser/" + algorithm.urlParam ,  pathMatch: 'full',  component : AlgorithmVisualiserPageComponent , data : {requiredService : algorithm.requiredService , algorithmNameSlug : algorithm.nameSlug , decorators : [TextAndPatternDrawer , ...(algorithm.decorators)]}}
+  return {path : "algorithm-visualiser/" + algorithm.urlParam ,  pathMatch: 'full',  component : AlgorithmVisualiserPageComponent , data : {requiredService : algorithm.requiredService , algorithmNameSlug : algorithm.nameSlug , decorators : (algorithm.decorators)}}
 });
 
+/**
+   * @description Generate all application routes
+   * @type {Routes}
+*/
 const routes = [
   { path: "", component: HomePageComponent },
   { path : "about" , pathMatch: 'full', component : AboutPageComponent },
