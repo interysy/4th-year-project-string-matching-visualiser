@@ -1,5 +1,11 @@
 # StringMatchingVisualiser
 
+[![codecov](https://codecov.io/gh/interysy/4th-year-project-string-matching-visualiser/graph/badge.svg?token=KXXJVM1ZMC)](https://codecov.io/gh/interysy/4th-year-project-string-matching-visualiser)
+
+<a>
+<img src="https://codecov.io/gh/interysy/4th-year-project-string-matching-visualiser/graphs/sunburst.svg?token=KXXJVM1ZMC"/>
+</a>
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.3.
 
 ## Development server
