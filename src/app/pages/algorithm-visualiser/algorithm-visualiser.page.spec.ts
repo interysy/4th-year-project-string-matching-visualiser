@@ -18,10 +18,15 @@ describe('AlgorithmVisualiserPageComponent', () => {
   let mockAlgorithmProgressService: {
     injectAlgorithm: jasmine.Spy;
     setTextAndPattern: jasmine.Spy;
-    notifier: Subject<number>;
+    notifierGetter: Subject<number>;
+  };
+  let mockAlgorithmVisualiserComponent: {
+    constructor: jasmine.Spy,
+    textChanged : Subject<string>,
+    patternChanged : Subject<string>
   };
 
-  function configureTestingModule(data : any ) {
+  function configureTestingModule(data : any) {
     TestBed.configureTestingModule({
         declarations: [
           AlgorithmVisualiserPageComponent,
@@ -42,7 +47,8 @@ describe('AlgorithmVisualiserPageComponent', () => {
 
   beforeEach(() => {
     mockAlgorithmProgressService = jasmine.createSpyObj("AlgorithmProgressService",["injectAlgorithm" , "setTextAndPattern"]);
-    mockAlgorithmProgressService.notifier = new Subject<number>();
+    mockAlgorithmProgressService.notifierGetter = new Subject<number>();
+    mockAlgorithmVisualiserComponent = jasmine.createSpyObj("AlgorithmVisualiserComponent",["constructor"]);
 
     TestBed.configureTestingModule({
       declarations: [
