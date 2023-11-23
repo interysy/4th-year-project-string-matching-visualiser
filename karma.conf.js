@@ -3,10 +3,17 @@ module.exports = function (config) {
       frameworks: ['jasmine', '@angular-devkit/build-angular'],
       plugins: [
         require('karma-jasmine'),
-        require('karma-firefox-launcher'),
         require('@angular-devkit/build-angular/plugins/karma'),
+        require('karma-jasmine-html-reporter'),
+        require('karma-coverage-istanbul-reporter'),
+        require("karma-chrome-launcher"),
       ],
-      browsers: ['Firefox'],
+      browsers: ['Chrome', 'ChromeHeadless' ],
       singleRun: true,
+      reporters: ['progress', 'coverage-istanbul'],
+      coverageIstanbulReporter: {
+        reports: ['html', 'json', 'text-summary'],
+        fixWebpackSourcePaths: true
+      },
     });
   };
