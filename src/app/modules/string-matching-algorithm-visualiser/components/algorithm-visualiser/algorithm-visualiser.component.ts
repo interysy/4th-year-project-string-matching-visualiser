@@ -35,7 +35,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     .pipe(debounceTime(this.Debounce))
     .subscribe(_ => {
       this.algorithmProgressService.resetProgressService();
-       algorithmProgressService.setText = this.text;
+       algorithmProgressService.textSetter = this.text;
        const initialStateBuilder = new AlgorithmStepBuilder();
 
       initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
@@ -47,8 +47,8 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     this.patternChanged
     .pipe(debounceTime(this.Debounce))
     .subscribe(_ => {
-       algorithmProgressService.setPattern = this.pattern;
-       algorithmProgressService.setText = this.text;
+       algorithmProgressService.patternSetter = this.pattern;
+       algorithmProgressService.textSetter = this.text;
        const initialStateBuilder = new AlgorithmStepBuilder();
 
       initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
@@ -57,7 +57,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
       this.p5jsDrawService.changeSquareSize(this.canvas.nativeElement.offsetWidth , this.text.length)
     });
 
-    this.algorithmProgressService.notifier.subscribe((_) => {
+    this.algorithmProgressService.notifierGetter.subscribe((_) => {
       if (this.algorithmProgressService.stepGetter) this.p5jsDrawService.stepSetter = this.algorithmProgressService.stepGetter; else {
         const initialStateBuilder = new AlgorithmStepBuilder();
 
@@ -81,7 +81,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     initialStateBuilder.setLettersInText = lettersInText;
     const initialState = initialStateBuilder.build();
 
-    this.p5jsDrawService.initiate(this.canvas.nativeElement , canvasWidth, canvasHeight , initialState , this.algorithmProgressService.decoratedAlgorithm);
+    this.p5jsDrawService.initiate(this.canvas.nativeElement , canvasWidth, canvasHeight , initialState , this.algorithmProgressService.decoratedAlgorithmGetter);
 
   }
 

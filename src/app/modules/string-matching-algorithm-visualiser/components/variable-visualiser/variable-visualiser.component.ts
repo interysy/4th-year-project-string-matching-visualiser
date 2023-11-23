@@ -26,8 +26,8 @@ export class VariableVisualiserComponent {
     this.textLength = this.algorithmProgressService.textLength;
     this.patternLength = this.algorithmProgressService.patternLength;
 
-    this.algorithmProgressService.notifier.subscribe((_) => {
-      const additional = algorithmProgressService.getAdditionalVariables();
+    this.algorithmProgressService.notifierGetter.subscribe((_) => {
+      const additional = algorithmProgressService.additionalVariablesGetter;
       console.log(additional);
 
       if (additional["textLength"] != undefined) this.textLength = additional["textLength"];
