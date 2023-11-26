@@ -240,3 +240,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1.5 hours* Working on testing the page components and parser (adding documentation when tests pass)
 * *1.5 hours* Testing progress service and refactoring (adding documentation when tests pass)
 * *1.5* Working on test coverage export
+
+### 26 November
+* *1 hour* Finishing up KMP section and starting to write up BM section 
+* *1.5 hours* Writing up BM section, including adding of relevant diagrams
