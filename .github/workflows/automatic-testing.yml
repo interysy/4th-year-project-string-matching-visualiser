@@ -1,34 +1,40 @@
 name : Automatic Testing & Linting
- 
+
 on:
     push:
-      branches: ["main"] 
+      branches: ["main"]
     pull_request:
       branches: [ "main" , "staging"]
-  
-    workflow_dispatch: 
-   
+
+    workflow_dispatch:
+
 jobs:
-  build: 
+  build:
     name : Build 🔨 and Test 🎯
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up Node.js 
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: Install dependencies 
+      - name: Install dependencies
         run: npm ci
-      - name: Build Angular project 
+      - name: Build Angular project
         run: npm run build
-      - name: Run tests 
+      - name: Run tests
         run: npm run test-headless
-      - name : Upload code coverage  
+      - name : Upload code coverage
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage
-          path: ./coverage/string-matching-visualiser/index.html
-      - name : Lint Code   
+          path: ./coverage/coverage-final.json
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          files: ./coverage/coverage-final.json
+      - name : Lint Code
         run: npm run lint
