@@ -1,29 +1,35 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HomePageComponent } from './home.page';
+import { NavbarComponent } from 'src/app/shared/components/navbar/navbar.component';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faCompass } from '@fortawesome/free-solid-svg-icons';
 
-// import { HomePageComponent } from './home.page';
-// import { NavbarComponent } from 'src/app/shared/components/navbar/navbar.component';
-// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+describe('HomePageComponent', () => {
+  let component: HomePageComponent;
+  let fixture: ComponentFixture<HomePageComponent>;
 
-// describe('HomePageComponent', () => {
-//   let component: HomePageComponent;
-//   let fixture: ComponentFixture<HomePageComponent>;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        HomePageComponent,
+        NavbarComponent
+      ],
+      imports: [
+        FontAwesomeModule
+      ]
+    }).compileComponents();
+  });
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [
-//         HomePageComponent,
-//         NavbarComponent
-//       ],
-//       imports: [
-//         FontAwesomeModule
-//       ]
-//     });
-//     fixture = TestBed.createComponent(HomePageComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HomePageComponent);
+    component = fixture.componentInstance;
+    const faIconLibrary = TestBed.inject(FaIconLibrary);
+    faIconLibrary.addIcons(faGithub, faLinkedin, faCompass);
+    fixture.detectChanges();
+  });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

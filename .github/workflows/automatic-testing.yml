@@ -29,10 +29,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage
-          path: ./coverage/string-matching-visualiser/index.html
+          path: ./coverage/coverage-final.json
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          files: ./coverage/coverage-final.json
       - name : Lint Code
         run: npm run lint

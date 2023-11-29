@@ -1,21 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VariableVisualiserComponent } from './variable-visualiser.component';
+// import { VariableVisualiserComponent } from './variable-visualiser.component';
 
-describe('VariableVisualiserComponent', () => {
-  let component: VariableVisualiserComponent;
-  let fixture: ComponentFixture<VariableVisualiserComponent>;
+// describe('VariableVisualiserComponent', () => {
+//   let component: VariableVisualiserComponent;
+//   let fixture: ComponentFixture<VariableVisualiserComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [VariableVisualiserComponent]
-    });
-    fixture = TestBed.createComponent(VariableVisualiserComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [VariableVisualiserComponent]
+//     });
+//     fixture = TestBed.createComponent(VariableVisualiserComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

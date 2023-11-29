@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'string-matching-visualiser';
+  title = 'String Matching Algorithms Visualiser';
 }
