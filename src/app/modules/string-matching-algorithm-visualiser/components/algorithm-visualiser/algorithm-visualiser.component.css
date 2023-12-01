@@ -1,0 +1,12 @@
+.grid-container {
+    display: grid;
+    grid-auto-flow: column; /* Place items in a column direction */
+    gap: 1rem; /* Adjust as needed */
+  }
+
+  .grid-item {
+    /* Customize styles for each grid item */
+    background-color: #ccc;
+    padding: 1rem;
+    height: 96px; /* Adjust as needed */
+  }

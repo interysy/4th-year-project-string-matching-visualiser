@@ -3,5 +3,5 @@ import { AlgorithmStep } from "./algorithm-step.model";
 
 
 export interface StringMatchingAlgorithmToDraw {
-    draw(p : p5 , step : AlgorithmStep , squareSideSize : number) : void;
+    draw(p : p5) : void;
 }

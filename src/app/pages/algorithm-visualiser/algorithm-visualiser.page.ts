@@ -23,6 +23,8 @@ export class AlgorithmVisualiserPageComponent {
     const algorithmToInject = route.snapshot.data['requiredService'];
     const algorithmName = route.snapshot.data['algorithmNameSlug'];
     const decorators = route.snapshot.data['decorators'];
-    algorithmProgressService.injectAlgorithm(algorithmToInject, algorithmName , decorators);
+    const dynamicCanvasLayout = route.snapshot.data['canvas'];
+    console.log(dynamicCanvasLayout);
+    algorithmProgressService.injectAlgorithm(algorithmToInject, algorithmName , decorators , dynamicCanvasLayout);
   }
 }

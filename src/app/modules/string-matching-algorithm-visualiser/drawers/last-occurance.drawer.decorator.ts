@@ -15,16 +15,17 @@ export class LastOccuranceTableDrawer extends DrawStepDecorator {
         this.p5jsDrawService = Injector.create({providers: [{provide: P5jsDrawService, deps: []}]}).get(P5jsDrawService);
     }
 
-    override draw(p : p5 , step : AlgorithmStep , squareSideSize : number) : void {
-        this.earlierDrawer.draw(p, step , squareSideSize);
+    override draw(p : p5) : void {
+        this.earlierDrawer.draw(p);
+        console.log("Last occurance table drawer")
 
-        this.lastOccuranceTable = (step.additional['lastOccuranceTable']) ? step.additional['lastOccuranceTable'] : [];
-        const lastOccuranceToHighlight = (step.additional['lastOccuranceToHighlight']) ? step.additional['lastOccuranceToHighlight'] : null;
+        // this.lastOccuranceTable = (step.additional['lastOccuranceTable']) ? step.additional['lastOccuranceTable'] : [];
+        // const lastOccuranceToHighlight = (step.additional['lastOccuranceToHighlight']) ? step.additional['lastOccuranceToHighlight'] : null;
 
-        if (this.p5jsDrawService.activeWindow(p.width , squareSideSize , step.lettersInText.length)) {
-            const patternWidth =  this.p5jsDrawService.workOutTextWidth(step.lettersInPattern.length + step.patternOffset , squareSideSize);
-            this.p5jsDrawService.decentraliseDrawing(p,p.width,p.height, patternWidth + (step.patternOffset * squareSideSize));
-        }
-        this.p5jsDrawService.drawLastOccuranceTable(p , this.lastOccuranceTable , lastOccuranceToHighlight,  squareSideSize);
+        // if (this.p5jsDrawService.activeWindow(p.width , squareSideSize , step.lettersInText.length)) {
+        //     const patternWidth =  this.p5jsDrawService.workOutTextWidth(step.lettersInPattern.length + step.patternOffset , squareSideSize);
+        //     this.p5jsDrawService.decentraliseDrawing(p,p.width,p.height, patternWidth + (step.patternOffset * squareSideSize));
+        // }
+        // this.p5jsDrawService.drawLastOccuranceTable(p , this.lastOccuranceTable , lastOccuranceToHighlight,  squareSideSize);
     }
 }

@@ -10,7 +10,7 @@ export abstract class DrawStepDecorator implements StringMatchingAlgorithmToDraw
         this.earlierDrawer = earlierDrawer;
     }
 
-    draw(p : p5 , step : AlgorithmStep , squareSideSize : number) {
-        this.earlierDrawer.draw(p , step , squareSideSize);
+    draw(p : p5) {
+        this.earlierDrawer.draw(p);
     }
 }

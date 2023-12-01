@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { StringMatchingAlgorithm } from '../models/algorithm.model';
 import { DrawStepDecorator } from '../models/drawer-step.decorator';
 import { StringMatchingAlgorithmToDraw } from '../models/algorithm-draw.model';
+import {CanvasLayout} from '../models/canvas-layout.model';
 
 /**
  * @description The service is responsible for keeping track of the algorithm's progress. It also has functions so
@@ -28,12 +29,13 @@ export class AlgorithmProgressService {
   private pattern : string;
   private algorithm : StringMatchingAlgorithm;
   private speed = this.DefaultSpeed;
+  private dynamicCanvasLayout : CanvasLayout;
 
   /**
    * @description The decorated algorithm is used to decorate the algorithm with decorators that allow the algorithm to be visualised with
    * extra information when required.
    */
-  private decoratedAlgorithm : DrawStepDecorator
+  public decoratedAlgorithm : DrawStepDecorator
 
   constructor() {
     this.notifier.subscribe((value : number) => {
@@ -48,7 +50,7 @@ export class AlgorithmProgressService {
    * @param decorators The visual aspects to be drawn as an array of decorators
    * @returns void
    */
-  public injectAlgorithm(algorithmToInject : { new (algorithmName : string): StringMatchingAlgorithm } , algorithmName : string , decorators : { new (decoratorName : StringMatchingAlgorithmToDraw): DrawStepDecorator }[] ) : void {
+  public injectAlgorithm(algorithmToInject : { new (algorithmName : string): StringMatchingAlgorithm } , algorithmName : string , decorators : { new (decoratorName : StringMatchingAlgorithmToDraw): DrawStepDecorator }[], dynamicCanvasLayout : CanvasLayout) : void {
 
     this.resetProgressService();
     this.algorithm = new algorithmToInject(algorithmName);
@@ -59,6 +61,7 @@ export class AlgorithmProgressService {
         oldDecorator = this.decoratedAlgorithm;
       }
     }
+    this.dynamicCanvasLayout = dynamicCanvasLayout;
   }
 
   /**
@@ -224,6 +227,10 @@ export class AlgorithmProgressService {
 
   get speedGetter() {
     return this.speed;
+  }
+
+  get dynamicCanvasLayoutGetter()  {
+    return this.dynamicCanvasLayout;
   }
 
   set textSetter(text : string) {
