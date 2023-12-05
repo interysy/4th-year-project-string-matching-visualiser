@@ -1,0 +1,27 @@
+public knuthMorrisPratt(text : string , pattern : string) : number {
+    const textLength = text.length;
+    const patternLength = pattern.length;
+    let patternIndex = 0;
+    let textIndex = 0;
+
+    const borderTable = this.createBorderTable(pattern , patternLength);
+
+    while (textIndex < textLength) {
+        if (text.charAt(textIndex) == pattern.charAt(patternIndex)) {
+            patternIndex++;
+            textIndex++;
+            if (patternIndex == patternLength) return textIndex - patternIndex;
+        } else {
+            if (borderTable[patternIndex] > 0) {
+                patternIndex = borderTable[patternIndex];
+            } else {
+                if (patternIndex == 0) {
+                    textIndex++;
+                } else {
+                    patternIndex = 0;
+                }
+            }
+        }
+    }
+    return -1;
+}
