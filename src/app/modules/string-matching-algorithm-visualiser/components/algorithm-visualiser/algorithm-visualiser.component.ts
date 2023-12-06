@@ -33,12 +33,14 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   protected extraCanvas : string | null = null;
 
   private drawingServices: {service : P5jsDrawService , canvas : HTMLDivElement}[] = [];
-  private initialStepBuilder : AlgorithmStepBuilder;
+  private initialStepBuilder : AlgorithmStepBuilder = new AlgorithmStepBuilder();
+
+  leftButton = false;
+  rightButton = false;
 
   constructor(private readonly algorithmProgressService : AlgorithmProgressService) {
     this.algorithmProgressService.setTextAndPattern(this.text , this.pattern);
     this.extraCanvas = this.algorithmProgressService.extraCanvasGetter;
-
 
     this.textChanged
     .pipe(debounceTime(this.Debounce))
@@ -62,6 +64,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
       initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
       initialStateBuilder.setLettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
       this.drawersStepSet(this.createInitialStep());
+      this.rightButton = P5jsDrawService.needRightButton(this.drawingServices[1].canvas.offsetWidth , this.pattern.length);
     });
     this.algorithmProgressService.notifierGetter.subscribe((_) => {
       const step = (this.algorithmProgressService.stepGetter) ? this.algorithmProgressService.stepGetter : this.createInitialStep();
@@ -91,6 +94,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     const canvasWidth = this.canvasElement.nativeElement.offsetWidth;
     const canvasHeight = this.canvasElement.nativeElement.offsetHeight;
 
+
     const drawService = new P5jsDrawService(this.canvasElement.nativeElement, canvasWidth, canvasHeight, this.text.length, (p5) => {
       drawService.drawTextAndPattern(p5);
     });
@@ -100,6 +104,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     if (this.extraCanvas != undefined && this.extraCanvasElement != undefined) {
       const canvasWidth2 = this.extraCanvasElement.nativeElement.offsetWidth;
       const canvasHeight2 = this.extraCanvasElement.nativeElement.offsetHeight;
+      this.rightButton = P5jsDrawService.needRightButton(canvasWidth2 , this.pattern.length);
       const temp = new P5jsDrawService(this.extraCanvasElement.nativeElement, canvasWidth2, canvasHeight2, this.text.length, (p5) => {
         if (temp[this.extraCanvas as keyof P5jsDrawService] && typeof temp[this.extraCanvas as keyof P5jsDrawService] === 'function') {
           (temp[this.extraCanvas as keyof P5jsDrawService] as (p5 : any) => void)(p5);
@@ -144,5 +149,15 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
 
   protected toggleStringSettings() {
     this.stringSettings = !this.stringSettings;
+  }
+
+  protected skipRight() {
+    this.rightButton = this.drawingServices[1].service.skipRight();
+    this.leftButton = true;
+  }
+
+  protected skipLeft() {
+    this.leftButton = this.drawingServices[1].service.skipLeft();
+    this.rightButton = true;
   }
 }

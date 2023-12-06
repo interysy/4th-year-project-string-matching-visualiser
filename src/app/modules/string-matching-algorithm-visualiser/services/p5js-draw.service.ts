@@ -20,7 +20,6 @@ export class P5jsDrawService {
   private changeSizeSubject = new Subject<{width : number , height : number}>();
   private scrollable : boolean;
   private textSize = 15;
-  private angle = 0;
 
   constructor(containerElement: HTMLDivElement, width: number, height: number, initialTextLength : number, customDrawFunction: (p5: p5) => void , scrollable = false) {
     this.squareSideSize = this.determineSquareSize(this.DefaultSquareSize , initialTextLength, width);
@@ -226,5 +225,38 @@ export class P5jsDrawService {
       this.p5.remove();
       this.p5 = null;
     }
+  }
+
+  public static needRightButton(width : number , length : number) : boolean {
+    if ((length * 60) > width) {
+      return true;
+    }
+    return false;
+  }
+
+  public skipRight() : boolean {
+    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
+
+    if (this.p5 && lastOccuranceTable) {
+      this.scrollX += this.dictionaryElementSize;
+      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width);
+      if (this.scrollX >= (Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public skipLeft() : boolean {
+    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
+
+    if (this.p5 && lastOccuranceTable) {
+      this.scrollX -= this.dictionaryElementSize;
+      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width);
+      if (this.scrollX === 0) {
+        return false;
+      }
+    }
+    return true;
   }
 }
