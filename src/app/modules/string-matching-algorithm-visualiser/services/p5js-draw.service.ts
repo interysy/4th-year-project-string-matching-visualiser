@@ -12,7 +12,7 @@ export class P5jsDrawService {
   private readonly MinimumSquareSideSize = 20;
   private readonly MaximumSquareSideSize = 40;
 
-  private p5: p5;
+  private p5: p5 | null;
   private listItemWidth = 40;
   private scrollX = 0;
   private squareSideSize : number;
@@ -22,40 +22,40 @@ export class P5jsDrawService {
 
   constructor(containerElement: HTMLDivElement, width: number, height: number, initialTextLength : number, customDrawFunction: (p5: p5) => void , scrollable = false) {
     this.squareSideSize = this.determineSquareSize(this.DefaultSquareSize , initialTextLength, width);
-    this.p5 = new p5(this.generate_sketch(width, height , customDrawFunction), containerElement);
+    if (customDrawFunction) this.p5 = new p5(this.generate_sketch(width, height , customDrawFunction), containerElement);
     this.scrollable = scrollable;
   }
 
   set stepSetter(step : AlgorithmStep) {
     this.step = step;
-    this.squareSideSize = this.determineSquareSize(this.squareSideSize , step.lettersInText.length , this.p5.width);
+    if (this.p5) this.squareSideSize = this.determineSquareSize(this.squareSideSize , step.lettersInText.length , this.p5.width);
   }
 
   private generate_sketch(width: number, height: number ,  customDrawFunction : ((p5: p5) => void)) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
+      return ((p5: p5) => {
+        p5.setup = function () {
+          that.setup(p5, width, height);
+        };
 
-    return ((p5: p5) => {
-      p5.setup = function () {
-        that.setup(p5, width, height);
-      };
+        p5.draw = function () {
+          customDrawFunction(p5);
 
-      p5.draw = function () {
-        customDrawFunction(p5);
+        };
 
-      };
-
-      p5.mouseWheel = function (event) {
-        if (that.isMouseOverCanvas() && that.scrollable) {
-          that.mouseWheel(event);
-        }
-      };
-    });
+        p5.mouseWheel = function (event) {
+          if (that.isMouseOverCanvas() && that.scrollable) {
+            that.mouseWheel(event);
+          }
+        };
+      });
   }
 
 
-  isMouseOverCanvas() {
-    return this.p5.mouseX > 0 && this.p5.mouseX < this.p5.width && this.p5.mouseY > 0 && this.p5.mouseY < this.p5.height;
+  isMouseOverCanvas() : boolean {
+    if (this.p5) return this.p5.mouseX > 0 && this.p5.mouseX < this.p5.width && this.p5.mouseY > 0 && this.p5.mouseY < this.p5.height;
+    return false;
   }
 
   setup(p: p5, width: number, height: number) {
@@ -68,7 +68,7 @@ export class P5jsDrawService {
   mouseWheel(event : any) {
 
     const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
-    if (lastOccuranceTable) {
+    if (lastOccuranceTable && this.p5) {
       event.preventDefault();
       this.scrollX += event.deltaY;
       this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * this.listItemWidth - this.p5.width);
@@ -77,12 +77,15 @@ export class P5jsDrawService {
   }
 
   centraliseTextAndPattern(textWidth : number) : void {
-    const centralXCoordinate = (this.p5.width - textWidth)/2;
-    this.p5.translate(centralXCoordinate , 0);
+    if (this.p5) {
+      const centralXCoordinate = (this.p5.width - textWidth)/2;
+      this.p5.translate(centralXCoordinate , 0);
+    }
   }
 
 
   drawTextAndPattern(p : p5) {
+    console.log(this.squareSideSize)
     p.background(255);
     if (this.activeWindow(p.width)) {
       this.centraliseTextAndPattern(((this.step.patternOffset * 2 + this.step.lettersInPattern.length ) * this.squareSideSize));
@@ -174,16 +177,18 @@ export class P5jsDrawService {
   }
 
   public changeSquareSize(length : number) {
-    const width = this.p5.width;
-    const newSquareSideSize = this.determineSquareSize(this.squareSideSize , length , width);
-    this.squareSideSize = newSquareSideSize;
+    if (this.p5) {
+      const width = this.p5.width;
+      const newSquareSideSize = this.determineSquareSize(this.squareSideSize , length , width);
+      this.squareSideSize = newSquareSideSize;
+    }
   }
 
   public resizeCanvas(width : number , height : number) {
     const length = this.step ? this.step.lettersInText.length : 0;
     const newSquareSideSize = this.determineSquareSize(this.squareSideSize , length , width);
     this.squareSideSize = newSquareSideSize;
-    this.p5.resizeCanvas(width , height);
+    if (this.p5) this.p5.resizeCanvas(width , height);
   }
 
   protected determineSquareSize(currentSquareSize : number , textLength : number , canvasWidth : number) : number {
@@ -211,5 +216,12 @@ export class P5jsDrawService {
       return true;
     }
     return false;
+  }
+
+  public destroy() {
+    if (this.p5) {
+      this.p5.remove();
+      this.p5 = null;
+    }
   }
 }
