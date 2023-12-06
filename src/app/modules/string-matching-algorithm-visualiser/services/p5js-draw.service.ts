@@ -9,9 +9,11 @@ export class P5jsDrawService {
   private readonly MinimumSquareSideSize = 20;
   private readonly MaximumSquareSideSize = 40;
   private readonly gap = 5;
+  private readonly dictionaryGap = 10;
+  private readonly dictionaryOffset = 20;
 
   private p5: p5 | null;
-  private listItemWidth = 40;
+  private dictionaryElementSize = 60;
   private scrollX = 0;
   private squareSideSize : number;
   private step : AlgorithmStep;
@@ -59,7 +61,7 @@ export class P5jsDrawService {
   }
 
   setup(p: p5, width: number, height: number) {
-    p.createCanvas(width, height);
+    p.createCanvas(width, height );
     this.changeSizeSubject.subscribe( sizes => {
       this.resizeCanvas(sizes.width , sizes.height);
     });
@@ -71,7 +73,7 @@ export class P5jsDrawService {
     if (lastOccuranceTable && this.p5) {
       event.preventDefault();
       this.scrollX += event.deltaY;
-      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * this.listItemWidth - this.p5.width);
+      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width);
     }
 
   }
@@ -89,7 +91,6 @@ export class P5jsDrawService {
     p.textSize(this.textSize);
     p.rectMode(p.CENTER);
     p.textAlign(p.CENTER , p.CENTER);
-    // p.textAlign(p.CENTER , p.CENTER);
     if (this.activeWindow(p.width)) {
       this.centraliseTextAndPattern(((this.step.patternOffset * 2 + this.step.lettersInPattern.length ) * this.squareSideSize));
     } else {
@@ -150,26 +151,28 @@ export class P5jsDrawService {
   }
 
   drawLastOccurrenceTable(p5 : p5) {
-    p5.background(220);
+    p5.background(255);
+    p5.textSize(this.textSize);
+    p5.rectMode(p5.CENTER);
+    p5.textAlign(p5.CENTER , p5.CENTER);
+    // p5.translate(0 , this.dictionaryElementSize)
 
-    p5.text("Last Occurrence Table:" , 0 , 10);
+    const titleWidth = p5.textWidth("LAST OCCURRENCE TABLE");
+
+
+    p5.text("LAST OCCURRENCE TABLE:" ,(p5.width  / 2) , 10);
 
 
     const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
     if (lastOccuranceTable) {
-
       let i = 0;
+      const y = 50;
+      const gap = 10;
       for (const [key, value] of Object.entries(lastOccuranceTable)) {
-        const xPos = i * this.listItemWidth - this.scrollX;
-        if (xPos > -this.listItemWidth && xPos < p5.width) {
-          p5.fill(255);
-          p5.rect(xPos + this.listItemWidth - 20 , 20 , 30 , 30);
-          p5.fill(0);
-          p5.fill(255);
-          p5.rect(xPos + this.listItemWidth - 20 , 22 , 35 , 30);
-          p5.fill(0);
-          p5.text(key, xPos + this.listItemWidth - 20, 20);
-          p5.text(value as string, xPos + this.listItemWidth - 20, 20);
+        const xPos = i * (this.dictionaryElementSize + this.dictionaryGap) - this.scrollX + (this.dictionaryElementSize / 2);
+        if (xPos > -this.dictionaryElementSize && xPos < p5.width) {
+          p5.rect(xPos, y , this.dictionaryElementSize , this.dictionaryElementSize);
+          p5.text(key + " : " + value , xPos, y);
         }
         i++;
       }
