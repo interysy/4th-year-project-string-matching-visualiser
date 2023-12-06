@@ -10,7 +10,7 @@ export const environment = {
   logo : "../../../../assets/str_vis_logo_v2.png",
   supportedAlgorithms: [
     {name : "Brute Force" , nameSlug : "brute-force" , urlParam : "bruteForce" , requiredService : BruteForceAlgorithm , decorators : [TextAndPatternDrawer]},
-    {name : "Boyer Moore" ,nameSlug : "boyer-moore" , urlParam : "boyerMoore" , requiredService : BoyerMooreAlgorithm , decorators : [TextAndPatternDrawer, LastOccuranceTableDrawer], prePreprocessingCanvas : true, preProcessingFunction : ""},
-    {name : "Knuth-Morris-Pratt" , nameSlug : "knuth-morris-pratt" , urlParam : "knuthMorrisPratt" , requiredService : KnuthMorrisPrattAlgorithm , decorators : [TextAndPatternDrawer] , prePreprocessingCanvas : true, preProcessingFunction : ""},
+    {name : "Boyer Moore" ,nameSlug : "boyer-moore" , urlParam : "boyerMoore" , requiredService : BoyerMooreAlgorithm , decorators : [TextAndPatternDrawer, LastOccuranceTableDrawer], prePreprocessingCanvas : true, preProcessingFunction : "drawLastOccurrenceTable"},
+    {name : "Knuth-Morris-Pratt" , nameSlug : "knuth-morris-pratt" , urlParam : "knuthMorrisPratt" , requiredService : KnuthMorrisPrattAlgorithm , decorators : [TextAndPatternDrawer] , prePreprocessingCanvas : true, preProcessingFunction : "drawLastOccurrenceTable"},
   ]
 };

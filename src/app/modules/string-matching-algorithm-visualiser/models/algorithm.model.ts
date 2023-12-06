@@ -89,8 +89,6 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     }
 
     get extraCanvasGetter() {
-        console.log(this.preProcessingCanvas);
-        console.log(this.preProcessingFunction);
         if (this.preProcessingCanvas) return this.preProcessingFunction;
         return null;
     }
