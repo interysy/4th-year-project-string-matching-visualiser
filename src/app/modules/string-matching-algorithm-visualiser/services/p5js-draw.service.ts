@@ -239,7 +239,7 @@ export class P5jsDrawService {
 
     if (this.p5 && lastOccuranceTable) {
       this.scrollX += this.dictionaryElementSize;
-      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width);
+      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * (this.dictionaryElementSize + this.dictionaryGap) - this.p5.width);
       if (this.scrollX >= (Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width)) {
         return false;
       }
@@ -252,7 +252,7 @@ export class P5jsDrawService {
 
     if (this.p5 && lastOccuranceTable) {
       this.scrollX -= this.dictionaryElementSize;
-      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width);
+      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * (this.dictionaryElementSize + this.dictionaryGap) - this.p5.width);
       if (this.scrollX === 0) {
         return false;
       }
