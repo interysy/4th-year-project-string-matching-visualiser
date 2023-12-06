@@ -14,6 +14,15 @@
             </div>
         </form>
     </div>
-    <div #canvas class="h-96">
+    <div class = "flex flex-col w-full h-96" *ngIf="extraCanvas !== null; else oneCanvas">
+        <div #canvas class="w-full h-[70%]">
+        </div>
+        <div #extraCanvas class="w-full h-[30%]">
+        </div>
     </div>
+
+    <ng-template #oneCanvas>
+        <div #canvas class="w-full h-96">
+        </div>
+    </ng-template>
 </div>

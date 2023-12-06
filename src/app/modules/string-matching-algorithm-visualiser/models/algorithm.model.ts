@@ -87,6 +87,13 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
         return this.textLength;
     }
 
+    get extraCanvasGetter() {
+        console.log(this.preProcessingCanvas);
+        console.log(this.preProcessingFunction);
+        if (this.preProcessingCanvas) return this.preProcessingFunction;
+        return null;
+    }
+
     set patternLengthSetter(patternLength : number) {
         this.patternLength = patternLength;
     }

@@ -60,7 +60,7 @@ export class AlgorithmProgressService {
       }
     }
 
-    if (prePreprocessingCanvas && preProcessingFunction) {
+    if (prePreprocessingCanvas && preProcessingFunction != null) {
       this.algorithm.preProcessingCanvasSetter = true;
       this.algorithm.preProcessingFunctionSetter = preProcessingFunction;
     }
@@ -74,7 +74,6 @@ export class AlgorithmProgressService {
     this.algorithm.workOutSteps(this.text, this.pattern);
     this.amountOfSteps = this.algorithm.stepsLengthGetter;
     this.notifier.next(0);
-    console.log(this.algorithm.stepsGetter);
   }
 
   /**
@@ -230,6 +229,10 @@ export class AlgorithmProgressService {
 
   get speedGetter() {
     return this.speed;
+  }
+
+  get extraCanvasGetter() {
+    return this.algorithm.extraCanvasGetter;
   }
 
   set textSetter(text : string) {

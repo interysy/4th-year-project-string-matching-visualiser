@@ -17,8 +17,10 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   text = "The fox jumped over the lazy dog";
   pattern = "lazy";
 
-  @ViewChild('canvas', {static: true})
-  canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('canvas', {static: false})
+  canvasElement: ElementRef<HTMLCanvasElement>;
+  @ViewChild('extraCanvas', {static: false})
+  extraCanvasElement: ElementRef<HTMLDivElement>;
 
   stringSettings = true;
 
@@ -27,8 +29,11 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   textChanged: Subject<string> = new Subject<string>();
   patternChanged : Subject<string> = new Subject<string>();
 
+  protected extraCanvas : string | null = null;
+
   constructor(private readonly algorithmProgressService : AlgorithmProgressService , private readonly p5jsDrawService : P5jsDrawService ) {
     this.algorithmProgressService.setTextAndPattern(this.text , this.pattern);
+    this.extraCanvas = this.algorithmProgressService.extraCanvasGetter;
 
 
     this.textChanged
@@ -41,7 +46,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
       initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
       initialStateBuilder.setLettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
       this.p5jsDrawService.stepSetter = initialStateBuilder.build();
-      this.p5jsDrawService.changeSquareSize(this.canvas.nativeElement.offsetWidth , this.text.length)
+      this.p5jsDrawService.changeSquareSize(this.canvasElement.nativeElement.offsetWidth , this.text.length)
     });
 
     this.patternChanged
@@ -54,7 +59,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
       initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
       initialStateBuilder.setLettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
       this.p5jsDrawService.stepSetter = initialStateBuilder.build();
-      this.p5jsDrawService.changeSquareSize(this.canvas.nativeElement.offsetWidth , this.text.length)
+      this.p5jsDrawService.changeSquareSize(this.canvasElement.nativeElement.offsetWidth , this.text.length)
     });
 
     this.algorithmProgressService.notifierGetter.subscribe((_) => {
@@ -71,8 +76,8 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
 
   ngAfterViewInit() {
     this.p5jsDrawService.destroy();
-    const canvasWidth = this.canvas.nativeElement.offsetWidth;
-    const canvasHeight = this.canvas.nativeElement.offsetHeight;
+    const canvasWidth = this.canvasElement.nativeElement.offsetWidth;
+    const canvasHeight = this.canvasElement.nativeElement.offsetHeight;
 
     const lettersInText = this.stringToLetterObject(this.text , "#ffffff" , 1);
     const lettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
@@ -81,7 +86,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     initialStateBuilder.setLettersInText = lettersInText;
     const initialState = initialStateBuilder.build();
 
-    this.p5jsDrawService.initiate(this.canvas.nativeElement , canvasWidth, canvasHeight , initialState , this.algorithmProgressService.decoratedAlgorithmGetter);
+    this.p5jsDrawService.initiate(this.canvasElement.nativeElement , canvasWidth, canvasHeight , initialState , this.algorithmProgressService.decoratedAlgorithmGetter);
 
   }
 
@@ -112,8 +117,8 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
 
   @HostListener('window:resize')
   protected onResize() {
-    const canvasHeigth = this.canvas.nativeElement.offsetHeight;
-    const canvasWidth = this.canvas.nativeElement.offsetWidth;
+    const canvasHeigth = this.canvasElement.nativeElement.offsetHeight;
+    const canvasWidth = this.canvasElement.nativeElement.offsetWidth;
     this.p5jsDrawService.changeSizeSubject.next({width : canvasWidth , height : canvasHeigth});
   }
 
