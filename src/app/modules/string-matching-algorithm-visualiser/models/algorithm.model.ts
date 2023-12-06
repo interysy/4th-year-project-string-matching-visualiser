@@ -21,6 +21,9 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     protected readonly letterBuilder : LetterBuilder = new LetterBuilder();
     p5jsDrawService : P5jsDrawService;
 
+    protected preProcessingCanvas : boolean;
+    protected preProcessingFunction : string;
+
     abstract workOutSteps(text : string , pattern : string) : number;
     protected abstract addSetupSteps(textLength : number , patternLength  : number) : void;
 
@@ -70,6 +73,14 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
 
     set textLengthSetter(textLength : number) {
         this.textLength = textLength;
+    }
+
+    set preProcessingCanvasSetter(preProcessingCanvas : boolean) {
+        this.preProcessingCanvas = preProcessingCanvas;
+    }
+
+    set preProcessingFunctionSetter(preProcessingFunction : string) {
+        this.preProcessingFunction = preProcessingFunction;
     }
 
     get textLengthGetter() : number {

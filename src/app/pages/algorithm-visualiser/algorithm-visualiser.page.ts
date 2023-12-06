@@ -23,6 +23,8 @@ export class AlgorithmVisualiserPageComponent {
     const algorithmToInject = route.snapshot.data['requiredService'];
     const algorithmName = route.snapshot.data['algorithmNameSlug'];
     const decorators = route.snapshot.data['decorators'];
-    algorithmProgressService.injectAlgorithm(algorithmToInject, algorithmName , decorators);
+    const preProcessingCanvas = route.snapshot.data['preProcessingCanvas'] ? true : false;
+    const preProcessingFunction = route.snapshot.data['preProcessingFunction'] ? route.snapshot.data['preProcessingFunction'] : null;
+    algorithmProgressService.injectAlgorithm(algorithmToInject, algorithmName , decorators, preProcessingCanvas , preProcessingFunction);
   }
 }
