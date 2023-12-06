@@ -6,11 +6,9 @@ import { Subject } from 'rxjs';
 export class P5jsDrawService {
 
   private readonly DefaultSquareSize = 20;
-  private readonly RectangleOffset = 5;
-  private readonly SingleCharTextOffset = 10;
-  private readonly DoubleCharTextOffset = 7;
   private readonly MinimumSquareSideSize = 20;
   private readonly MaximumSquareSideSize = 40;
+  private readonly gap = 5;
 
   private p5: p5 | null;
   private listItemWidth = 40;
@@ -19,6 +17,8 @@ export class P5jsDrawService {
   private step : AlgorithmStep;
   private changeSizeSubject = new Subject<{width : number , height : number}>();
   private scrollable : boolean;
+  private textSize = 15;
+  private angle = 0;
 
   constructor(containerElement: HTMLDivElement, width: number, height: number, initialTextLength : number, customDrawFunction: (p5: p5) => void , scrollable = false) {
     this.squareSideSize = this.determineSquareSize(this.DefaultSquareSize , initialTextLength, width);
@@ -85,8 +85,11 @@ export class P5jsDrawService {
 
 
   drawTextAndPattern(p : p5) {
-    console.log(this.squareSideSize)
     p.background(255);
+    p.textSize(this.textSize);
+    p.rectMode(p.CENTER);
+    p.textAlign(p.CENTER , p.CENTER);
+    // p.textAlign(p.CENTER , p.CENTER);
     if (this.activeWindow(p.width)) {
       this.centraliseTextAndPattern(((this.step.patternOffset * 2 + this.step.lettersInPattern.length ) * this.squareSideSize));
     } else {
@@ -98,40 +101,38 @@ export class P5jsDrawService {
     const patternLettersToDraw = this.step.lettersInPattern;
     const graphicalOffset = patternOffset * this.squareSideSize;
 
-    this.drawText(textLettersToDraw , this.squareSideSize);
-    this.drawPattern(patternLettersToDraw , graphicalOffset , this.squareSideSize);
+    this.drawText(textLettersToDraw );
+    this.drawPattern(patternLettersToDraw , graphicalOffset);
 
   }
 
-  private drawText(lettersToDraw : Letter[] , squareSideSize : number) {
+  private drawText(lettersToDraw : Letter[]) {
       lettersToDraw.forEach(letterObject => {
         let y = 100;
         const index = letterObject.index;
         const colour = letterObject.colour;
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
-        const textOffset = (index > 9) ? this.DoubleCharTextOffset : this.SingleCharTextOffset;
 
         if (this.p5) {
-          this.p5.text(index , index * squareSideSize + textOffset , y);
-          y = y + 10;
+          this.p5.text(index , index * this.squareSideSize, y);
+          y = y + this.squareSideSize;
           this.p5.fill(colour.toString());
           this.p5.strokeWeight(strokeWeight);
-          this.p5.rect(index * squareSideSize + this.RectangleOffset , y , squareSideSize , squareSideSize);
-          y = y + 15;
+          this.p5.rect(index * this.squareSideSize, y , this.squareSideSize , this.squareSideSize);
           this.p5.fill("#000000");
           this.p5.strokeWeight(1);
-          this.p5.text(letter , index * squareSideSize  + textOffset , y);
+          this.p5.text(letter , index * this.squareSideSize , y);
         }
       });
 
   }
 
 
-    private drawPattern(lettersToDraw : Letter[] , offset : number , squareSideSize : number) {
+    private drawPattern(lettersToDraw : Letter[] , offset : number) {
 
       lettersToDraw.forEach(letterObject => {
-        let y = 125 + squareSideSize;
+        const y = 100 + this.squareSideSize*2 + this.gap;
         const index = letterObject.index;
         const colour = letterObject.colour;
         const letter = letterObject.letter;
@@ -140,11 +141,10 @@ export class P5jsDrawService {
         if (this.p5) {
           this.p5.fill(colour.toString());
           this.p5.strokeWeight(strokeWeight);
-          this.p5.rect(index * squareSideSize + this.RectangleOffset  + offset , y , squareSideSize , squareSideSize);
-          y = y + 15;
+          this.p5.rect(index * this.squareSideSize + offset , y , this.squareSideSize , this.squareSideSize);
           this.p5.fill("#000000");
           this.p5.strokeWeight(1);
-          this.p5.text(letter ,index * squareSideSize + this.SingleCharTextOffset  + offset  , y);
+          this.p5.text(letter ,index * this.squareSideSize + offset  , y);
         }
       })
   }
@@ -212,7 +212,7 @@ export class P5jsDrawService {
       return false;
     }
     const currentWidth = this.squareSideSize * this.step.lettersInText.length;
-    if (currentWidth > (canvasWidth - this.squareSideSize)) {
+    if (currentWidth > (canvasWidth - this.squareSideSize*2)) {
       return true;
     }
     return false;
