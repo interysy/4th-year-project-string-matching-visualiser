@@ -3,6 +3,7 @@ import { AlgorithmStep } from '../models/algorithm-step.model';
 import { Letter } from '../models/letter.model';
 import { Subject, last } from 'rxjs';
 import { compileDeclareFactoryFunction } from '@angular/compiler';
+import { MatchingAlgorithmColourConstants } from '../constants/matching-algorithm-colours.constant';
 
 export class P5jsDrawService {
 
@@ -12,6 +13,7 @@ export class P5jsDrawService {
   private readonly gap = 5;
   private readonly dictionaryGap = 10;
   private readonly dictionaryOffset = 20;
+  private readonly DefaultColour = "#FFFFFF";
 
   private p5: p5 | null;
   private dictionaryElementSize = 60;
@@ -72,7 +74,7 @@ export class P5jsDrawService {
   mouseWheel(event : any) {
 
     const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
-    if (lastOccuranceTable && this.p5) {
+    if (lastOccuranceTable && this.p5 && lastOccuranceTable.length * this.dictionaryElementSize > this.p5.width) {
       event.preventDefault();
       this.scrollX += event.deltaY;
       this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width);
@@ -168,13 +170,13 @@ export class P5jsDrawService {
     if (lastOccurrenceTable) {
       let i = 0;
       const y = 50;
-      let colour = "#FFFFFF";
+      let colour = this.DefaultColour;
       for (const [key, value] of Object.entries(lastOccurrenceTable)) {
         const xPos = i * (this.dictionaryElementSize + this.dictionaryGap) - this.scrollX + (this.dictionaryElementSize / 2);
 
         if (lastOccurrenceToHighlight == key && this.previousStep) {
           if (this.previousStep != this.step) this.scrollToLastOccurrenceElement(i);
-              colour = "#FF0000";
+              colour = MatchingAlgorithmColourConstants.MATCH;
         } else if (this.previousLastOccurrenceTable && Object.entries(this.previousLastOccurrenceTable).length !== Object.entries(lastOccurrenceTable).length) {
           this.scrollToLastOccurrenceElement(i);
         }
@@ -182,7 +184,7 @@ export class P5jsDrawService {
         if (xPos > -this.dictionaryElementSize && xPos < p5.width) {
           this.p5?.fill(colour);
           p5.rect(xPos, y , this.dictionaryElementSize , this.dictionaryElementSize);
-          colour = "#FFFFFF";
+          colour = this.DefaultColour
           this.p5?.fill("#000000");
           p5.text(key + " : " + value , xPos, y);
         }
