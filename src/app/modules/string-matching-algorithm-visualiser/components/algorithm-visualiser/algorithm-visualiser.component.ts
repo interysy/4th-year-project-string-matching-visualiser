@@ -52,6 +52,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
       initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
       initialStateBuilder.setLettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
       this.drawersStepSet(this.createInitialStep());
+      this.drawersResizeCanvas();
     });
 
     this.patternChanged
@@ -64,8 +65,10 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
       initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
       initialStateBuilder.setLettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
       this.drawersStepSet(this.createInitialStep());
-      this.rightButton = P5jsDrawService.needRightButton(this.drawingServices[1].canvas.offsetWidth , this.pattern.length);
+      this.drawersResizeCanvas();
     });
+
+
     this.algorithmProgressService.notifierGetter.subscribe((_) => {
       const step = (this.algorithmProgressService.stepGetter) ? this.algorithmProgressService.stepGetter : this.createInitialStep();
       this.drawersStepSet(step);

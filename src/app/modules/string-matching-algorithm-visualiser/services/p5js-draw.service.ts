@@ -14,6 +14,7 @@ export class P5jsDrawService {
   private readonly dictionaryGap = 10;
   private readonly dictionaryOffset = 20;
   private readonly DefaultColour = "#FFFFFF";
+  private readonly animationMargin = 20;
 
   private p5: p5 | null;
   private dictionaryElementSize = 60;
@@ -34,7 +35,7 @@ export class P5jsDrawService {
 
   set stepSetter(step : AlgorithmStep) {
     this.step = step;
-    if (this.p5) this.squareSideSize = this.determineSquareSize(this.squareSideSize , step.lettersInText.length , this.p5.width);
+    // if (this.p5) this.squareSideSize = this.determineSquareSize(this.squareSideSize , step.lettersInText.length , this.p5.width);
   }
 
   private generate_sketch(width: number, height: number ,  customDrawFunction : ((p5: p5) => void)) {
@@ -118,6 +119,8 @@ export class P5jsDrawService {
         const colour = letterObject.colour;
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
+
+        console.log(this.squareSideSize);
 
         if (this.p5) {
           this.p5.text(index , index * this.squareSideSize, y);
@@ -224,12 +227,12 @@ export class P5jsDrawService {
   protected determineSquareSize(currentSquareSize : number , textLength : number , canvasWidth : number) : number {
     let lengthInPixels = textLength * currentSquareSize;
     if (lengthInPixels > canvasWidth) {
-      while (lengthInPixels > canvasWidth-currentSquareSize && currentSquareSize > this.MinimumSquareSideSize) {
+      while (lengthInPixels > (canvasWidth-(currentSquareSize+this.animationMargin)) && currentSquareSize > this.MinimumSquareSideSize) {
         currentSquareSize = currentSquareSize - 1;
         lengthInPixels = textLength * currentSquareSize;
       }
     } else {
-      while (lengthInPixels < canvasWidth-currentSquareSize && currentSquareSize < this.MaximumSquareSideSize) {
+      while (lengthInPixels < (canvasWidth-(currentSquareSize+this.animationMargin)) && currentSquareSize < this.MaximumSquareSideSize) {
         currentSquareSize = currentSquareSize + 1;
         lengthInPixels = textLength * currentSquareSize;
       }
