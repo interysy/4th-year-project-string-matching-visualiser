@@ -61,7 +61,7 @@ describe('AlgorithmVisualiserPageComponent', () => {
       ],
       providers: [
         { provide: ActivatedRoute, useValue: {
-            snapshot: { data : { requiredService : BruteForceAlgorithm , algorithmNameSlug : "brute-force", decorators : [TextAndPatternDrawer] } }
+            snapshot: { data : { requiredService : BruteForceAlgorithm , algorithmNameSlug : "brute-force", decorators : [TextAndPatternDrawer], preProcessingCanvas : false , preProcessingFunction : null } }
         }},
         { provide: AlgorithmProgressService, useValue: mockAlgorithmProgressService}
       ],
@@ -81,7 +81,9 @@ describe('AlgorithmVisualiserPageComponent', () => {
   expect(mockAlgorithmProgressService.injectAlgorithm).toHaveBeenCalledWith(
     BruteForceAlgorithm,
     'brute-force',
-    [TextAndPatternDrawer]
+    [TextAndPatternDrawer],
+    false,
+    null
     );
   });
 
@@ -96,6 +98,8 @@ describe('AlgorithmVisualiserPageComponent', () => {
       requiredService: newAlgorithm,
       algorithmNameSlug: 'new-algorithm',
       decorators: newDecorators,
+      preProcessingCanvas : false,
+      preProcessingFunction : null
     });
 
     fixture = TestBed.createComponent(AlgorithmVisualiserPageComponent);
@@ -104,7 +108,9 @@ describe('AlgorithmVisualiserPageComponent', () => {
     expect(mockAlgorithmProgressService.injectAlgorithm).toHaveBeenCalledWith(
       newAlgorithm,
       'new-algorithm',
-      newDecorators
+      newDecorators,
+      false,
+      null
     );
   });
 });
