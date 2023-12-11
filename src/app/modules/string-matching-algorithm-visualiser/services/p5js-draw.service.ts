@@ -2,6 +2,7 @@ import * as p5 from 'p5';
 import { AlgorithmStep } from '../models/algorithm-step.model';
 import { Letter } from '../models/letter.model';
 import { Subject } from 'rxjs';
+import { compileDeclareFactoryFunction } from '@angular/compiler';
 
 export class P5jsDrawService {
 
@@ -17,6 +18,7 @@ export class P5jsDrawService {
   private scrollX = 0;
   private squareSideSize : number;
   private step : AlgorithmStep;
+  private previousStep : AlgorithmStep;
   private changeSizeSubject = new Subject<{width : number , height : number}>();
   private scrollable : boolean;
   private textSize = 15;
@@ -162,18 +164,39 @@ export class P5jsDrawService {
     p5.text("LAST OCCURRENCE TABLE:" ,(p5.width  / 2) , 10);
 
 
-    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
-    if (lastOccuranceTable) {
+    const lastOccurrenceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
+    const lastOccurrenceToHighlight = (this.step.additional['lastOccuranceToHighlight']) ? this.step.additional['lastOccuranceToHighlight'] : null;
+    if (lastOccurrenceTable) {
       let i = 0;
       const y = 50;
       const gap = 10;
-      for (const [key, value] of Object.entries(lastOccuranceTable)) {
+      let colour = "#FFFFFF";
+      for (const [key, value] of Object.entries(lastOccurrenceTable)) {
         const xPos = i * (this.dictionaryElementSize + this.dictionaryGap) - this.scrollX + (this.dictionaryElementSize / 2);
+        if (lastOccurrenceToHighlight == key) {
+          console.log("need to highlight " + key)
+          if (this.previousStep != this.step) this.scrollToLastOccurrenceElement(i);
+          colour = "#FF0000";
+        }
         if (xPos > -this.dictionaryElementSize && xPos < p5.width) {
+          this.p5?.fill(colour);
           p5.rect(xPos, y , this.dictionaryElementSize , this.dictionaryElementSize);
+          colour = "#FFFFFF";
+          this.p5?.fill("#000000");
           p5.text(key + " : " + value , xPos, y);
         }
+
         i++;
+      }
+    }
+    this.previousStep = this.step;
+  }
+
+  private scrollToLastOccurrenceElement(index : number) {
+    if (this.p5) {
+      const position = index * (this.dictionaryElementSize + this.dictionaryGap);
+      if (position < this.scrollX || position > this.p5.width) {
+        this.scrollX = position;
       }
     }
   }
