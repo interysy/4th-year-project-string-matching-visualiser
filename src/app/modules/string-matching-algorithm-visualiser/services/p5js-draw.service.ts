@@ -1,7 +1,7 @@
 import * as p5 from 'p5';
 import { AlgorithmStep } from '../models/algorithm-step.model';
 import { Letter } from '../models/letter.model';
-import { Subject } from 'rxjs';
+import { Subject, last } from 'rxjs';
 import { compileDeclareFactoryFunction } from '@angular/compiler';
 
 export class P5jsDrawService {
@@ -22,6 +22,7 @@ export class P5jsDrawService {
   private changeSizeSubject = new Subject<{width : number , height : number}>();
   private scrollable : boolean;
   private textSize = 15;
+  private previousLastOccurrenceTable : any;
 
   constructor(containerElement: HTMLDivElement, width: number, height: number, initialTextLength : number, customDrawFunction: (p5: p5) => void , scrollable = false) {
     this.squareSideSize = this.determineSquareSize(this.DefaultSquareSize , initialTextLength, width);
@@ -156,28 +157,28 @@ export class P5jsDrawService {
     p5.textSize(this.textSize);
     p5.rectMode(p5.CENTER);
     p5.textAlign(p5.CENTER , p5.CENTER);
-    // p5.translate(0 , this.dictionaryElementSize)
-
-    const titleWidth = p5.textWidth("LAST OCCURRENCE TABLE");
-
 
     p5.text("LAST OCCURRENCE TABLE:" ,(p5.width  / 2) , 10);
 
 
     const lastOccurrenceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
     const lastOccurrenceToHighlight = (this.step.additional['lastOccuranceToHighlight']) ? this.step.additional['lastOccuranceToHighlight'] : null;
+
+
     if (lastOccurrenceTable) {
       let i = 0;
       const y = 50;
-      const gap = 10;
       let colour = "#FFFFFF";
       for (const [key, value] of Object.entries(lastOccurrenceTable)) {
         const xPos = i * (this.dictionaryElementSize + this.dictionaryGap) - this.scrollX + (this.dictionaryElementSize / 2);
-        if (lastOccurrenceToHighlight == key) {
-          console.log("need to highlight " + key)
+
+        if (lastOccurrenceToHighlight == key && this.previousStep) {
           if (this.previousStep != this.step) this.scrollToLastOccurrenceElement(i);
-          colour = "#FF0000";
+              colour = "#FF0000";
+        } else if (this.previousLastOccurrenceTable && Object.entries(this.previousLastOccurrenceTable).length !== Object.entries(lastOccurrenceTable).length) {
+          this.scrollToLastOccurrenceElement(i);
         }
+
         if (xPos > -this.dictionaryElementSize && xPos < p5.width) {
           this.p5?.fill(colour);
           p5.rect(xPos, y , this.dictionaryElementSize , this.dictionaryElementSize);
@@ -189,17 +190,19 @@ export class P5jsDrawService {
         i++;
       }
     }
-    this.previousStep = this.step;
+    this.previousStep = JSON.parse(JSON.stringify(this.step));
+    this.previousLastOccurrenceTable = JSON.parse(JSON.stringify(lastOccurrenceTable));
   }
 
   private scrollToLastOccurrenceElement(index : number) {
     if (this.p5) {
       const position = index * (this.dictionaryElementSize + this.dictionaryGap);
-      if (position < this.scrollX || position > this.p5.width) {
+      if (position < this.scrollX || position > this.p5.width + this.scrollX) {
         this.scrollX = position;
       }
     }
   }
+
 
   public changeSquareSize(length : number) {
     if (this.p5) {
