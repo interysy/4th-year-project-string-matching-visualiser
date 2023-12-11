@@ -121,8 +121,6 @@ export class P5jsDrawService {
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
 
-        console.log(this.squareSideSize);
-
         if (this.p5) {
           this.p5.text(index , index * this.squareSideSize, y);
           y = y + this.squareSideSize;
@@ -259,12 +257,6 @@ export class P5jsDrawService {
     }
   }
 
-  public static needRightButton(width : number , length : number) : boolean {
-    if ((length * 60) > width) {
-      return true;
-    }
-    return false;
-  }
 
   public skipRight() : boolean {
     const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
