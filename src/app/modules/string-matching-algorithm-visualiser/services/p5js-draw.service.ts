@@ -1,9 +1,9 @@
 import * as p5 from 'p5';
 import { AlgorithmStep } from '../models/algorithm-step.model';
 import { Letter } from '../models/letter.model';
-import { Subject, last } from 'rxjs';
-import { compileDeclareFactoryFunction } from '@angular/compiler';
+import { Subject } from 'rxjs';
 import { MatchingAlgorithmColourConstants } from '../constants/matching-algorithm-colours.constant';
+import { AlgorithmStepBuilder } from '../model-builders/algorithm-step.builder';
 
 export class P5jsDrawService {
 
@@ -25,7 +25,8 @@ export class P5jsDrawService {
   private changeSizeSubject = new Subject<{width : number , height : number}>();
   private scrollable : boolean;
   private textSize = 15;
-  private previousLastOccurrenceTable : any;
+  private previousLastOccurrenceTable : {[character : string] : number; };
+  private algorithmStepBuilder : AlgorithmStepBuilder = new AlgorithmStepBuilder();
 
   constructor(containerElement: HTMLDivElement, width: number, height: number, initialTextLength : number, customDrawFunction: (p5: p5) => void , scrollable = false) {
     this.squareSideSize = this.determineSquareSize(this.DefaultSquareSize , initialTextLength, width);
@@ -289,5 +290,12 @@ export class P5jsDrawService {
       }
     }
     return true;
+  }
+
+  public resetDefaults() {
+    this.algorithmStepBuilder.setDefaults();
+    this.step = this.algorithmStepBuilder.build();
+    this.previousStep = this.algorithmStepBuilder.build();
+    this.previousLastOccurrenceTable = {};
   }
 }

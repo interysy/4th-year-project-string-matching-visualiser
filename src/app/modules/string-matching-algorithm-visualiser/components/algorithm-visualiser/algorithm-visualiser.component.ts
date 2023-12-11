@@ -46,11 +46,13 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     .pipe(debounceTime(this.Debounce))
     .subscribe(_ => {
       this.algorithmProgressService.resetProgressService();
-       algorithmProgressService.textSetter = this.text;
-       const initialStateBuilder = new AlgorithmStepBuilder();
+
+      algorithmProgressService.textSetter = this.text;
+      const initialStateBuilder = new AlgorithmStepBuilder();
 
       initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
       initialStateBuilder.setLettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
+      this.resetDrawers();
       this.drawersStepSet(this.createInitialStep());
       this.drawersResizeCanvas();
     });
@@ -58,12 +60,14 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     this.patternChanged
     .pipe(debounceTime(this.Debounce))
     .subscribe(_ => {
+      this.algorithmProgressService.resetProgressService();
        algorithmProgressService.patternSetter = this.pattern;
        algorithmProgressService.textSetter = this.text;
        const initialStateBuilder = new AlgorithmStepBuilder();
 
       initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
       initialStateBuilder.setLettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
+      this.resetDrawers();
       this.drawersStepSet(this.createInitialStep());
       this.drawersResizeCanvas();
     });
@@ -90,6 +94,12 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   private drawersResizeCanvas() {
     for (const drawer of this.drawingServices) {
       drawer.service.resizeCanvas(drawer.canvas.offsetWidth , drawer.canvas.offsetHeight);
+    }
+  }
+
+  private resetDrawers() {
+    for (const drawer of this.drawingServices) {
+      drawer.service.resetDefaults();
     }
   }
 

@@ -70,7 +70,10 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
 
     public resetSteps() {
         this.steps = [];
+        this.resetAdditionalVariables();
     }
+
+    abstract resetAdditionalVariables() : void;
 
     set textLengthSetter(textLength : number) {
         this.textLength = textLength;

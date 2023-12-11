@@ -275,5 +275,10 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setDefaults();
         }
 
+        resetAdditionalVariables() {
+            this.additionalVariables = new BruteForceAdditionalVariables();
+        }
+
+
 
 }

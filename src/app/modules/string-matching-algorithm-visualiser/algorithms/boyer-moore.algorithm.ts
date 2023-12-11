@@ -362,7 +362,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         return 1;
     }
 
-    private resetAdditionalVariables() {
+    resetAdditionalVariables() {
         this.additionalVariables = new BoyerMooreAdditionalVariables();
     }
 
