@@ -1,166 +1,293 @@
-import { Injectable } from '@angular/core';
 import * as p5 from 'p5';
-import { P5JSInvoker } from '../models/p5-jsinvoker';
-import { MatchingAlgorithmColourConstants } from '../constants/matching-algorithm-colours.constant';
-import { Letter } from '../models/letter.model';
 import { AlgorithmStep } from '../models/algorithm-step.model';
-import { DrawStepDecorator } from '../models/drawer-step.decorator';
+import { Letter } from '../models/letter.model';
 import { Subject } from 'rxjs';
+import { MatchingAlgorithmColourConstants } from '../constants/matching-algorithm-colours.constant';
+import { AlgorithmStepBuilder } from '../model-builders/algorithm-step.builder';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class P5jsDrawService extends P5JSInvoker {
+export class P5jsDrawService {
 
-  private readonly RectangleOffset = 5;
-  private readonly SingleCharTextOffset = 10;
-  private readonly DoubleCharTextOffset = 7;
+  private readonly DefaultSquareSize = 20;
+  private readonly MinimumSquareSideSize = 20;
+  private readonly MaximumSquareSideSize = 40;
+  private readonly gap = 5;
+  private readonly dictionaryGap = 10;
+  private readonly dictionaryOffset = 20;
+  private readonly DefaultColour = "#FFFFFF";
+  private readonly animationMargin = 20;
 
-  textWidth : number;
-  algorithm : DrawStepDecorator;
-  changeSizeSubject = new Subject<{width : number , height : number}>();
+  private p5: p5 | null;
+  private dictionaryElementSize = 60;
+  private scrollX = 0;
+  private squareSideSize : number;
+  private step : AlgorithmStep;
+  private previousStep : AlgorithmStep;
+  private changeSizeSubject = new Subject<{width : number , height : number}>();
+  private scrollable : boolean;
+  private textSize = 15;
+  private previousLastOccurrenceTable : {[character : string] : number; };
+  private algorithmStepBuilder : AlgorithmStepBuilder = new AlgorithmStepBuilder();
 
-
-  initiate(canvas : HTMLElement | null , width : number , height : number, step : AlgorithmStep, algorithm : DrawStepDecorator ) {
-    if (canvas) this.startP5JS(canvas , width , height , step , this) ;
-    this.algorithm = algorithm;
-  }
-
-  setup(p:p5 , width : number , height : number) {
-    p.createCanvas(width, height);
-
-    this.changeSizeSubject.subscribe( sizes => {
-      this.resizeCanvas(p , sizes.width , sizes.height);
-    });
-  }
-
-  draw(p : p5 , squareSideSize : number) {
-    if (this.step && this.algorithm) {
-      this.algorithm.draw(p , this.step , squareSideSize);
-    }
+  constructor(containerElement: HTMLDivElement, width: number, height: number, initialTextLength : number, customDrawFunction: (p5: p5) => void , scrollable = false) {
+    this.squareSideSize = this.determineSquareSize(this.DefaultSquareSize , initialTextLength, width);
+    if (customDrawFunction) this.p5 = new p5(this.generate_sketch(width, height , customDrawFunction), containerElement);
+    this.scrollable = scrollable;
   }
 
   set stepSetter(step : AlgorithmStep) {
     this.step = step;
+    // if (this.p5) this.squareSideSize = this.determineSquareSize(this.squareSideSize , step.lettersInText.length , this.p5.width);
   }
 
-  get stepGetter() : AlgorithmStep | null {
-    if (this.step) return this.step; else return null;
+  private generate_sketch(width: number, height: number ,  customDrawFunction : ((p5: p5) => void)) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const that = this;
+      return ((p5: p5) => {
+        p5.setup = function () {
+          that.setup(p5, width, height);
+        };
+
+        p5.draw = function () {
+          customDrawFunction(p5);
+
+        };
+
+        p5.mouseWheel = function (event) {
+          if (that.isMouseOverCanvas() && that.scrollable) {
+            that.mouseWheel(event);
+          }
+        };
+      });
   }
 
-  destroy() {
+
+  isMouseOverCanvas() : boolean {
+    if (this.p5) return this.p5.mouseX > 0 && this.p5.mouseX < this.p5.width && this.p5.mouseY > 0 && this.p5.mouseY < this.p5.height;
+    return false;
+  }
+
+  setup(p: p5, width: number, height: number) {
+    p.createCanvas(width, height );
+    this.changeSizeSubject.subscribe( sizes => {
+      this.resizeCanvas(sizes.width , sizes.height);
+    });
+  }
+
+  mouseWheel(event : any) {
+
+    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
+    if (lastOccuranceTable && this.p5 && lastOccuranceTable.length * this.dictionaryElementSize > this.p5.width) {
+      event.preventDefault();
+      this.scrollX += event.deltaY;
+      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width);
+    }
+
+  }
+
+  centraliseTextAndPattern(textWidth : number) : void {
     if (this.p5) {
-      this.p5.remove();
-      this.p5 = null;
+      const centralXCoordinate = (this.p5.width - textWidth)/2;
+      this.p5.translate(centralXCoordinate , 0);
     }
   }
 
-  workOutTextWidth(textLength : number , squareSideSize : number) : number {
-    return textLength * squareSideSize;
-  }
 
-  centraliseDrawing(p : p5, canvasWidth : number , canvasHeight : number, textWidth : number) : void {
-    if (p) {
-      const centralCoordinate = (canvasWidth - textWidth)/2;
-      p.translate(centralCoordinate , 0);
+  drawTextAndPattern(p : p5) {
+    p.background(255);
+    p.textSize(this.textSize);
+    p.rectMode(p.CENTER);
+    p.textAlign(p.CENTER , p.CENTER);
+    if (this.activeWindow(p.width)) {
+      this.centraliseTextAndPattern(((this.step.patternOffset * 2 + this.step.lettersInPattern.length ) * this.squareSideSize));
+    } else {
+      this.centraliseTextAndPattern(this.step.lettersInText.length * this.squareSideSize);
     }
+
+    const patternOffset = this.step.patternOffset;
+    const textLettersToDraw = this.step.lettersInText;
+    const patternLettersToDraw = this.step.lettersInPattern;
+    const graphicalOffset = patternOffset * this.squareSideSize;
+
+    this.drawText(textLettersToDraw );
+    this.drawPattern(patternLettersToDraw , graphicalOffset);
+
   }
 
-  decentraliseDrawing(p : p5 , canvasWidth : number , canvasHeight : number , textWidth : number) : void {
-    if (p) {
-      const centralCoordinate = (canvasWidth - textWidth)/2;
-      p.translate(-centralCoordinate , 0);
-    }
-  }
-
-  drawTextAndPattern(p : p5 ,textLettersToDraw : Letter[] , patternLettersToDraw : Letter[] , patternOffset : number , squareSideSize : number) {
-    if (p) {
-
-      const graphicalOffset = patternOffset * squareSideSize;
-      this.drawText(p , textLettersToDraw , squareSideSize);
-      this.drawPattern(p, patternLettersToDraw , graphicalOffset , squareSideSize);
-    }
-  }
-
-  private drawText(p : p5, lettersToDraw : Letter[] , squareSideSize : number) {
-    //console.log("drawing in ", this.squareSideSize);
+  private drawText(lettersToDraw : Letter[]) {
       lettersToDraw.forEach(letterObject => {
         let y = 100;
         const index = letterObject.index;
         const colour = letterObject.colour;
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
-        const textOffset = (index > 9) ? this.DoubleCharTextOffset : this.SingleCharTextOffset;
 
-        if (p) {
-          p.text(index , index * squareSideSize + textOffset , y);
-          y = y + 10;
-          p.fill(colour.toString());
-          p.strokeWeight(strokeWeight);
-          p.rect(index * squareSideSize + this.RectangleOffset , y , squareSideSize , squareSideSize);
-          y = y + 15;
-          p.fill("#000000");
-          p.strokeWeight(1);
-          p.text(letter , index * squareSideSize  + textOffset , y);
+        if (this.p5) {
+          this.p5.text(index , index * this.squareSideSize, y);
+          y = y + this.squareSideSize;
+          this.p5.fill(colour.toString());
+          this.p5.strokeWeight(strokeWeight);
+          this.p5.rect(index * this.squareSideSize, y , this.squareSideSize , this.squareSideSize);
+          this.p5.fill("#000000");
+          this.p5.strokeWeight(1);
+          this.p5.text(letter , index * this.squareSideSize , y);
         }
       });
 
   }
 
 
-    private drawPattern(p : p5 , lettersToDraw : Letter[] , offset : number , squareSideSize : number) {
+    private drawPattern(lettersToDraw : Letter[] , offset : number) {
 
       lettersToDraw.forEach(letterObject => {
-        let y = 125 + squareSideSize;
+        const y = 100 + this.squareSideSize*2 + this.gap;
         const index = letterObject.index;
         const colour = letterObject.colour;
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
 
-        if (p) {
-          p.fill(colour.toString());
-          p.strokeWeight(strokeWeight);
-          p.rect(index * squareSideSize + this.RectangleOffset  + offset , y , squareSideSize , squareSideSize);
-          y = y + 15;
-          p.fill("#000000");
-          p.strokeWeight(1);
-          p.text(letter ,index * squareSideSize + this.SingleCharTextOffset  + offset  , y);
+        if (this.p5) {
+          this.p5.fill(colour.toString());
+          this.p5.strokeWeight(strokeWeight);
+          this.p5.rect(index * this.squareSideSize + offset , y , this.squareSideSize , this.squareSideSize);
+          this.p5.fill("#000000");
+          this.p5.strokeWeight(1);
+          this.p5.text(letter ,index * this.squareSideSize + offset  , y);
         }
       })
   }
 
-  public drawLastOccuranceTable(p : p5 , lastOccuranceTable : {[character : string] : number} , lastOccuranceCharacter : string | null, squareSideSize : number) {
+  drawLastOccurrenceTable(p5 : p5) {
+    p5.background(255);
+    p5.textSize(this.textSize);
+    p5.rectMode(p5.CENTER);
+    p5.textAlign(p5.CENTER , p5.CENTER);
 
-    if (p) {
-      let y = 20;
-      let x = 20;
-      p.text("lastOccuranceTable = {" , 0 , y)
-      y  += 15;
-      p.fill("#000000");
-      for (const [key, value] of Object.entries(lastOccuranceTable)) {
-        if (lastOccuranceCharacter && key == lastOccuranceCharacter) {
-          p.fill(MatchingAlgorithmColourConstants.MISMATCH);
-        } else {
-          p.fill("#000000");
+    p5.text("LAST OCCURRENCE TABLE:" ,(p5.width  / 2) , 10);
+
+
+    const lastOccurrenceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
+    const lastOccurrenceToHighlight = (this.step.additional['lastOccuranceToHighlight']) ? this.step.additional['lastOccuranceToHighlight'] : null;
+
+
+    if (lastOccurrenceTable) {
+      let i = 0;
+      const y = 50;
+      let colour = this.DefaultColour;
+      for (const [key, value] of Object.entries(lastOccurrenceTable)) {
+        const xPos = i * (this.dictionaryElementSize + this.dictionaryGap) - this.scrollX + (this.dictionaryElementSize / 2);
+
+        if (lastOccurrenceToHighlight == key && this.previousStep) {
+          if (this.previousStep != this.step) this.scrollToLastOccurrenceElement(i);
+              colour = MatchingAlgorithmColourConstants.MATCH;
+        } else if (this.previousLastOccurrenceTable && Object.entries(this.previousLastOccurrenceTable).length !== Object.entries(lastOccurrenceTable).length) {
+          this.scrollToLastOccurrenceElement(i);
         }
-        p.text(key + ':' + value + ',', x , y);
-        y += 15;
-        if (y > 60) {
-          y = 35;
-          x += squareSideSize;
+
+        if (xPos > -this.dictionaryElementSize && xPos < p5.width) {
+          this.p5?.fill(colour);
+          p5.rect(xPos, y , this.dictionaryElementSize , this.dictionaryElementSize);
+          colour = this.DefaultColour
+          this.p5?.fill("#000000");
+          p5.text(key + " : " + value , xPos, y);
         }
+
+        i++;
       }
-      p.text('}', 0 , 70);
+    }
+    this.previousStep = JSON.parse(JSON.stringify(this.step));
+    this.previousLastOccurrenceTable = JSON.parse(JSON.stringify(lastOccurrenceTable));
+  }
+
+  private scrollToLastOccurrenceElement(index : number) {
+    if (this.p5) {
+      const position = index * (this.dictionaryElementSize + this.dictionaryGap);
+      if (position < this.scrollX || position > this.p5.width + this.scrollX) {
+        this.scrollX = position;
+      }
     }
   }
 
-  // resizeCanvas(p : p5, width : number , height : number) : void {
-  //   if (this.step) {
-  //     const newSquareSideSize = this.determineSquareSize(this.squareSideSize , this.step.lettersInText.length , width)
-  //     p.resizeCanvas(width, height);
-  //     this.squareSideSize = newSquareSideSize;
-  //   }
-  // }
+
+  public changeSquareSize(length : number) {
+    if (this.p5) {
+      const width = this.p5.width;
+      const newSquareSideSize = this.determineSquareSize(this.squareSideSize , length , width);
+      this.squareSideSize = newSquareSideSize;
+    }
+  }
+
+  public resizeCanvas(width : number , height : number) {
+    const length = this.step ? this.step.lettersInText.length : 0;
+    const newSquareSideSize = this.determineSquareSize(this.squareSideSize , length , width);
+    this.squareSideSize = newSquareSideSize;
+    if (this.p5) this.p5.resizeCanvas(width , height);
+  }
+
+  protected determineSquareSize(currentSquareSize : number , textLength : number , canvasWidth : number) : number {
+    let lengthInPixels = textLength * currentSquareSize;
+    if (lengthInPixels > canvasWidth) {
+      while (lengthInPixels > (canvasWidth-(currentSquareSize+this.animationMargin)) && currentSquareSize > this.MinimumSquareSideSize) {
+        currentSquareSize = currentSquareSize - 1;
+        lengthInPixels = textLength * currentSquareSize;
+      }
+    } else {
+      while (lengthInPixels < (canvasWidth-(currentSquareSize+this.animationMargin)) && currentSquareSize < this.MaximumSquareSideSize) {
+        currentSquareSize = currentSquareSize + 1;
+        lengthInPixels = textLength * currentSquareSize;
+      }
+    }
+    return currentSquareSize;
+  }
+
+  private activeWindow(canvasWidth : number) {
+    if (this.squareSideSize != this.MinimumSquareSideSize) {
+      return false;
+    }
+    const currentWidth = this.squareSideSize * this.step.lettersInText.length;
+    if (currentWidth > (canvasWidth - this.squareSideSize*2)) {
+      return true;
+    }
+    return false;
+  }
+
+  public destroy() {
+    if (this.p5) {
+      this.p5.remove();
+      this.p5 = null;
+    }
+  }
 
 
+  public skipRight() : boolean {
+    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
+
+    if (this.p5 && lastOccuranceTable) {
+      this.scrollX += this.dictionaryElementSize;
+      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * (this.dictionaryElementSize + this.dictionaryGap) - this.p5.width);
+      if (this.scrollX >= (Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public skipLeft() : boolean {
+    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
+
+    if (this.p5 && lastOccuranceTable) {
+      this.scrollX -= this.dictionaryElementSize;
+      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * (this.dictionaryElementSize + this.dictionaryGap) - this.p5.width);
+      if (this.scrollX === 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public resetDefaults() {
+    this.algorithmStepBuilder.setDefaults();
+    this.step = this.algorithmStepBuilder.build();
+    this.previousStep = this.algorithmStepBuilder.build();
+    this.previousLastOccurrenceTable = {};
+  }
 }

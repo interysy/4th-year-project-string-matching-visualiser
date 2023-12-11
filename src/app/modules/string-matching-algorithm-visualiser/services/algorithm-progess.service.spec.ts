@@ -24,7 +24,7 @@ describe('AlgorithmProgressService', () => {
   beforeEach(() => {
     const newAlgorithm = BruteForceAlgorithm ;
     const newDecorators = [LastOccuranceTableDrawer, TextAndPatternDrawer];
-    service.injectAlgorithm(newAlgorithm, 'test-algorithm', newDecorators);
+    service.injectAlgorithm(newAlgorithm, 'test-algorithm', newDecorators, false, null);
   });
 
   it('should inject and execute an algorithm', () => {

@@ -48,7 +48,7 @@ export class AlgorithmProgressService {
    * @param decorators The visual aspects to be drawn as an array of decorators
    * @returns void
    */
-  public injectAlgorithm(algorithmToInject : { new (algorithmName : string): StringMatchingAlgorithm } , algorithmName : string , decorators : { new (decoratorName : StringMatchingAlgorithmToDraw): DrawStepDecorator }[] ) : void {
+  public injectAlgorithm(algorithmToInject : { new (algorithmName : string): StringMatchingAlgorithm } , algorithmName : string , decorators : { new (decoratorName : StringMatchingAlgorithmToDraw): DrawStepDecorator }[], prePreprocessingCanvas : boolean , preProcessingFunction : string | null) : void {
 
     this.resetProgressService();
     this.algorithm = new algorithmToInject(algorithmName);
@@ -58,6 +58,11 @@ export class AlgorithmProgressService {
         this.decoratedAlgorithm = new decorator(oldDecorator);
         oldDecorator = this.decoratedAlgorithm;
       }
+    }
+
+    if (prePreprocessingCanvas && preProcessingFunction != null) {
+      this.algorithm.preProcessingCanvasSetter = true;
+      this.algorithm.preProcessingFunctionSetter = preProcessingFunction;
     }
   }
 
@@ -224,6 +229,10 @@ export class AlgorithmProgressService {
 
   get speedGetter() {
     return this.speed;
+  }
+
+  get extraCanvasGetter() {
+    return this.algorithm.extraCanvasGetter;
   }
 
   set textSetter(text : string) {

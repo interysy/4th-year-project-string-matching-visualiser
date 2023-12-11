@@ -21,6 +21,9 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     protected readonly letterBuilder : LetterBuilder = new LetterBuilder();
     p5jsDrawService : P5jsDrawService;
 
+    protected preProcessingCanvas : boolean;
+    protected preProcessingFunction : string;
+
     abstract workOutSteps(text : string , pattern : string) : number;
     protected abstract addSetupSteps(textLength : number , patternLength  : number) : void;
 
@@ -29,16 +32,17 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
          this.p5jsDrawService = Injector.create({providers: [{provide: P5jsDrawService, deps: []}]}).get(P5jsDrawService);
     }
 
-    draw(p : p5 , step : AlgorithmStep , squareSideSize : number) : void {
-        p.background(255);
-        const textLettersToDrawFromStep = step.lettersInText;
-        if (this.p5jsDrawService.activeWindow(p.width , squareSideSize , textLettersToDrawFromStep.length)) {
-            const patternWidth =  this.p5jsDrawService.workOutTextWidth(step.lettersInPattern.length + step.patternOffset , squareSideSize);
-            this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , patternWidth + (step.patternOffset * squareSideSize));
-        } else {
-            const textWidth = this.p5jsDrawService.workOutTextWidth(textLettersToDrawFromStep.length , squareSideSize);
-            this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , textWidth);
-        }
+    draw(p : p5) : void {
+        console.log("layer 1")
+        // p.background(255);
+        // const textLettersToDrawFromStep = step.lettersInText;
+        // if (this.p5jsDrawService.activeWindow(p.width , squareSideSize , textLettersToDrawFromStep.length)) {
+        //     const patternWidth =  this.p5jsDrawService.workOutTextWidth(step.lettersInPattern.length + step.patternOffset , squareSideSize);
+        //     this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , patternWidth + (step.patternOffset * squareSideSize));
+        // } else {
+        //     const textWidth = this.p5jsDrawService.workOutTextWidth(textLettersToDrawFromStep.length , squareSideSize);
+        //     this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , textWidth);
+        // }
     }
 
     protected addStep(algorithmStep : AlgorithmStep) {
@@ -66,14 +70,30 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
 
     public resetSteps() {
         this.steps = [];
+        this.resetAdditionalVariables();
     }
+
+    abstract resetAdditionalVariables() : void;
 
     set textLengthSetter(textLength : number) {
         this.textLength = textLength;
     }
 
+    set preProcessingCanvasSetter(preProcessingCanvas : boolean) {
+        this.preProcessingCanvas = preProcessingCanvas;
+    }
+
+    set preProcessingFunctionSetter(preProcessingFunction : string) {
+        this.preProcessingFunction = preProcessingFunction;
+    }
+
     get textLengthGetter() : number {
         return this.textLength;
+    }
+
+    get extraCanvasGetter() {
+        if (this.preProcessingCanvas) return this.preProcessingFunction;
+        return null;
     }
 
     set patternLengthSetter(patternLength : number) {

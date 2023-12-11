@@ -359,5 +359,10 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             });
         }
 
+        resetAdditionalVariables() {
+            this.additionalVariables = new KnuthMorrisPrattAdditionalVariables();
+        }
+
+
 
 }

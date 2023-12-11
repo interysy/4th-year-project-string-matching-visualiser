@@ -51,10 +51,6 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
 
     private setUpLastOccuranceDictionary(pattern : string , patternIndex : number , textIndex : number) : { [character : string] : number; } {
         const lastOccuranceDictionary : { [character : string] : number; } = {};
-        pattern.split("").forEach(character => {
-            if (lastOccuranceDictionary[character] === undefined) lastOccuranceDictionary[character] = pattern.lastIndexOf(character);
-        });
-
         this.algorithmStepBuilder.setPseudocodeLine = 8;
         this.algorithmStepBuilder.setPatternIndex = patternIndex;
         this.algorithmStepBuilder.setTextIndex = textIndex;
@@ -62,10 +58,36 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         this.algorithmStepBuilder.setLettersInText = this.previousStep.lettersInText;
         this.algorithmStepBuilder.setLettersInPattern = this.previousStep.lettersInPattern;
         this.algorithmStepBuilder.setCommand = "Creating a last occurance dictionary";
-        this.additionalVariables.lastOccuranceTable = lastOccuranceDictionary;
-        this.algorithmStepBuilder.setAdditional = this.additionalVariables;
-        const currentStep = this.algorithmStepBuilder.build();
+        let currentStep = this.algorithmStepBuilder.build();
         this.addStep(currentStep);
+
+        pattern.split("").forEach((character, index) => {
+            this.letterBuilder.setColor = MatchingAlgorithmColourConstants.CHECKING;
+            this.letterBuilder.setIndex = index;
+            this.letterBuilder.setLetter = character;
+            this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
+            this.algorithmStepBuilder.setPseudocodeLine = 8;
+            this.algorithmStepBuilder.setCommand = `Checking last occurrence for ${character}`;
+            this.additionalVariables.lastOccuranceTable = lastOccuranceDictionary;
+            this.algorithmStepBuilder.setAdditional = this.additionalVariables;
+            currentStep = this.algorithmStepBuilder.build();
+            this.addStep(currentStep);
+
+            if (lastOccuranceDictionary[character] === undefined) {
+                lastOccuranceDictionary[character] = pattern.lastIndexOf(character);
+                this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+                this.letterBuilder.setIndex = lastOccuranceDictionary[character];
+                this.letterBuilder.setLetter = character;
+                this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
+                this.algorithmStepBuilder.setCommand = `Last occurrence of ${character} is ${lastOccuranceDictionary[character]}`;
+                this.additionalVariables.lastOccuranceTable = lastOccuranceDictionary;
+                this.algorithmStepBuilder.setAdditional = this.additionalVariables;
+                currentStep = this.algorithmStepBuilder.build();
+                this.addStep(currentStep);
+            }
+        });
+
+
         this.algorithmStepBuilder.setDefaults();
         this.previousStep = currentStep;
 
@@ -340,7 +362,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         return 1;
     }
 
-    private resetAdditionalVariables() {
+    resetAdditionalVariables() {
         this.additionalVariables = new BoyerMooreAdditionalVariables();
     }
 

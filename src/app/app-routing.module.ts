@@ -12,7 +12,9 @@ import { TextAndPatternDrawer } from './modules/string-matching-algorithm-visual
    * @type {Routes}
 */
 const algorithmVisualiserRoutes  = environment.supportedAlgorithms.map(algorithm => {
-  return {path : "algorithm-visualiser/" + algorithm.urlParam ,  pathMatch: 'full',  component : AlgorithmVisualiserPageComponent , data : {requiredService : algorithm.requiredService , algorithmNameSlug : algorithm.nameSlug , decorators : (algorithm.decorators)}}
+  console.log(algorithm.prePreprocessingCanvas)
+  console.log(algorithm.preProcessingFunction)
+  return {path : "algorithm-visualiser/" + algorithm.urlParam ,  pathMatch: 'full',  component : AlgorithmVisualiserPageComponent , data : {requiredService : algorithm.requiredService , algorithmNameSlug : algorithm.nameSlug , decorators : (algorithm.decorators) , preProcessingCanvas : algorithm.prePreprocessingCanvas , preProcessingFunction : algorithm.preProcessingFunction}}
 });
 
 /**
