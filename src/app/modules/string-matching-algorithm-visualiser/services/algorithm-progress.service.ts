@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, debounceTime } from 'rxjs';
 import { StringMatchingAlgorithm } from '../models/algorithm.model';
 import { DrawStepDecorator } from '../models/drawer-step.decorator';
 import { StringMatchingAlgorithmToDraw } from '../models/algorithm-draw.model';
@@ -29,6 +29,13 @@ export class AlgorithmProgressService {
   private algorithm : StringMatchingAlgorithm;
   private speed = this.DefaultSpeed;
 
+
+  textChanged: Subject<string> = new Subject<string>();
+  patternChanged : Subject<string> = new Subject<string>();
+
+
+  private readonly Debounce = 1000;
+
   /**
    * @description The decorated algorithm is used to decorate the algorithm with decorators that allow the algorithm to be visualised with
    * extra information when required.
@@ -38,6 +45,14 @@ export class AlgorithmProgressService {
   constructor() {
     this.notifier.subscribe((value : number) => {
       this.currentStep = value
+    });
+
+    this.textChanged.pipe(debounceTime(this.Debounce)).subscribe((text : string) => {
+      this.textSetter = text;
+    });
+
+    this.patternChanged.pipe(debounceTime(this.Debounce)).subscribe((pattern : string) => {
+      this.patternSetter = pattern;
     });
   }
 
@@ -104,7 +119,6 @@ export class AlgorithmProgressService {
     this.currentlyPlaying = false;
     this.currentStep = 0;
     this.amountOfSteps = 0;
-    this.text = "";
     this.speed = this.DefaultSpeed;
   }
 

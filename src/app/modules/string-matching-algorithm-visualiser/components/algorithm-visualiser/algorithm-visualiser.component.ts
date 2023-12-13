@@ -27,8 +27,6 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   extraCanvasElement: ElementRef<HTMLDivElement>;
 
   stringSettings = true;
-  textChanged: Subject<string> = new Subject<string>();
-  patternChanged : Subject<string> = new Subject<string>();
 
   protected extraCanvas : string | null = null;
 
@@ -42,12 +40,12 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     this.algorithmProgressService.setTextAndPattern(this.text , this.pattern);
     this.extraCanvas = this.algorithmProgressService.extraCanvasGetter;
 
-    this.textChanged
+    this.algorithmProgressService.textChanged
     .pipe(debounceTime(this.Debounce))
-    .subscribe(_ => {
+    .subscribe(text => {
+      this.text = text;
       this.algorithmProgressService.resetProgressService();
 
-      algorithmProgressService.textSetter = this.text;
       const initialStateBuilder = new AlgorithmStepBuilder();
 
       initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
@@ -57,13 +55,13 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
       this.drawersResizeCanvas();
     });
 
-    this.patternChanged
+    this.algorithmProgressService.patternChanged
     .pipe(debounceTime(this.Debounce))
-    .subscribe(_ => {
+    .subscribe(pattern => {
+      this.pattern = pattern;
       this.algorithmProgressService.resetProgressService();
-       algorithmProgressService.patternSetter = this.pattern;
-       algorithmProgressService.textSetter = this.text;
-       const initialStateBuilder = new AlgorithmStepBuilder();
+
+      const initialStateBuilder = new AlgorithmStepBuilder();
 
       initialStateBuilder.setLettersInText=  this.stringToLetterObject(this.text , "#ffffff" , 1);
       initialStateBuilder.setLettersInPattern = this.stringToLetterObject(this.pattern , "#ffffff" , 1);
@@ -125,15 +123,6 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
       temp.stepSetter = this.algorithmProgressService.stepGetter;
       this.drawingServices.push({service : temp , canvas : this.extraCanvasElement.nativeElement});
     }
-  }
-
-
-  protected sendTextToService() {
-    this.textChanged.next(this.text)
-  }
-
-  protected sendPatternToService() {
-    this.patternChanged.next(this.pattern)
   }
 
   private stringToLetterObject(stringToChange : string , colour : string , strokeWeight : number ) : Letter[] {

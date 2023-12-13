@@ -8,7 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faPlay,faBackward, faForward, faRotate, faPause, faGear, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faPlay,faBackward, faForward, faRotate, faPause, faGear, faArrowRight, faArrowLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { ModalComponent } from './components/modal/modal.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { faPlay,faBackward, faForward, faRotate, faPause, faGear, faArrowRight, 
     VariableVisualiserComponent,
     CommandVisualiserComponent,
     PlaybackControlsComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +45,8 @@ export class StringMatchingAlgorithmVisualiserModule {
       faPause,
       faGear,
       faArrowRight,
-      faArrowLeft
+      faArrowLeft,
+      faXmark
     );
   }
 }
