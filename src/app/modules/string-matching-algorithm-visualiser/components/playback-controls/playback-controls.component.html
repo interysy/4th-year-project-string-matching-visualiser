@@ -1,4 +1,4 @@
-<div class="flex p-4 flex-row justify-center align-items-center gap-5 bg-gray-200 flex-wrap">
+<div class="flex p-4 flex-row justify-center gap-5 bg-gray-200 flex-wrap relative">
         <button (click)="previousStep()">
             <fa-icon *ngIf="paused" class="text-gray-400 hover:text-gray-900 disabled:text-gray-200" [icon]="['fas', 'backward']" size="xl"></fa-icon>
             <fa-icon *ngIf="!paused" class="text-gray-300" [icon]="['fas', 'backward']" size="xl"></fa-icon>
@@ -21,7 +21,7 @@
                 <input id="speed-slider" type="range" min="200" max="2200" (ngModelChange)="changePlaybackSpeed()" [(ngModel)]="speedOfPlayback" class="w-48 h-2 bg-gray-400 rounded-md appearance-none cursor-pointer thumb:w-4 thumb:h-4 thumb:bg-white hover:bg-gray-900">
             </div>
         </div>
-        <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
+        <div class="border-r border-2 border-gray-500 hidden block lg:hidden"></div>
         <div class="flex justify-center align-items-center gap-5">
             <span class="m-auto">Current Step</span>
             <div class = "flex justify-center align-items-center flex-col gap-2">
@@ -29,4 +29,8 @@
                 <input id="speed-slider" type="range" min="0" [max]="amountOfSteps-1" (ngModelChange)="setStep()" [(ngModel)]="currentStep" class="w-48 h-2 bg-gray-400 rounded-md appearance-none cursor-pointer thumb:w-4 thumb:h-4 thumb:bg-white hover:bg-gray-900">
             </div>
         </div>
+        <div class="border-r border-2 border-gray-500 lg:hidden block"></div>
+        <button>
+            <fa-icon class="text-gray-400 hover:text-gray-900 text-xl lg:absolute left-2 top-[50%] absolute-center" [icon]="['fas', 'gear']" size="xl"></fa-icon>
+        </button>
 </div>
