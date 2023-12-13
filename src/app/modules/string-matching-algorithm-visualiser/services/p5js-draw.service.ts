@@ -4,6 +4,7 @@ import { Letter } from '../models/letter.model';
 import { Subject } from 'rxjs';
 import { MatchingAlgorithmColourConstants } from '../constants/matching-algorithm-colours.constant';
 import { AlgorithmStepBuilder } from '../model-builders/algorithm-step.builder';
+import { AlgorithmProgressService } from './algorithm-progress.service';
 
 export class P5jsDrawService {
 
@@ -28,15 +29,24 @@ export class P5jsDrawService {
   private previousLastOccurrenceTable : {[character : string] : number; };
   private algorithmStepBuilder : AlgorithmStepBuilder = new AlgorithmStepBuilder();
 
-  constructor(containerElement: HTMLDivElement, width: number, height: number, initialTextLength : number, customDrawFunction: (p5: p5) => void , scrollable = false) {
+  private algorithmProgressService;
+  private animating = false;
+
+  private startTime = 0;
+  private framesToWait: number;
+  private currentFrame: number;
+
+
+  constructor(algorithmProgressService : AlgorithmProgressService , containerElement: HTMLDivElement, width: number, height: number, initialTextLength : number, customDrawFunction: (p5: p5) => void , scrollable = false) {
+    this.algorithmProgressService = algorithmProgressService;
     this.squareSideSize = this.determineSquareSize(this.DefaultSquareSize , initialTextLength, width);
     if (customDrawFunction) this.p5 = new p5(this.generate_sketch(width, height , customDrawFunction), containerElement);
     this.scrollable = scrollable;
   }
 
   set stepSetter(step : AlgorithmStep) {
+    if (this.step) this.previousStep = JSON.parse(JSON.stringify(this.step));
     this.step = step;
-    // if (this.p5) this.squareSideSize = this.determineSquareSize(this.squareSideSize , step.lettersInText.length , this.p5.width);
   }
 
   private generate_sketch(width: number, height: number ,  customDrawFunction : ((p5: p5) => void)) {
@@ -68,9 +78,11 @@ export class P5jsDrawService {
 
   setup(p: p5, width: number, height: number) {
     p.createCanvas(width, height );
+    p.frameRate(60);
     this.changeSizeSubject.subscribe( sizes => {
       this.resizeCanvas(sizes.width , sizes.height);
     });
+    this.framesToWait = 60 * (this.algorithmProgressService.speedGetter / 1000);
   }
 
   mouseWheel(event : any) {
@@ -103,15 +115,47 @@ export class P5jsDrawService {
       this.centraliseTextAndPattern(this.step.lettersInText.length * this.squareSideSize);
     }
 
+
+    if (this.currentFrame < this.framesToWait) {
+      this.currentFrame++;
+    } else {
+      this.currentFrame = 0;
+    }
+
+    const haveFramesChanged = Math.round(60 * (this.algorithmProgressService.speedGetter / 1000));
+    if (haveFramesChanged != this.framesToWait) {
+      this.currentFrame = p.constrain(haveFramesChanged , 0 , this.framesToWait);
+      this.framesToWait = haveFramesChanged;
+    }
+
     const patternOffset = this.step.patternOffset;
     const textLettersToDraw = this.step.lettersInText;
     const patternLettersToDraw = this.step.lettersInPattern;
     const graphicalOffset = patternOffset * this.squareSideSize;
 
-    this.drawText(textLettersToDraw );
-    this.drawPattern(patternLettersToDraw , graphicalOffset);
+    this.drawText(textLettersToDraw);
 
+
+    if (this.algorithmProgressService.currentlyPlayingGetter != this.animating && this.step.patternOffset != this.previousStep.patternOffset) {
+      this.animating = this.algorithmProgressService.currentlyPlayingGetter;
+      this.startTime = p.millis();
+    } else if (this.algorithmProgressService.currentlyPlayingGetter && this.step.patternOffset != this.previousStep.patternOffset) {
+      const currentTime = p.millis() - this.startTime;
+      const progress = p.constrain(currentTime / this.algorithmProgressService.speedGetter, 0, 1);
+      if (progress == 1) {
+        this.algorithmProgressService.moveToNextStep();
+        this.animating = false;
+      }
+      const interpolatedX = p.lerp(this.previousStep.patternOffset*this.squareSideSize, graphicalOffset, progress);
+      this.drawPattern(patternLettersToDraw , interpolatedX);
+    } else if (this.algorithmProgressService.currentlyPlayingGetter) {
+      this.drawPattern(patternLettersToDraw , graphicalOffset);
+      if (this.currentFrame == this.framesToWait) this.algorithmProgressService.moveToNextStep();
+    } else {
+      this.drawPattern(patternLettersToDraw , graphicalOffset);
+    }
   }
+
 
   private drawText(lettersToDraw : Letter[]) {
       lettersToDraw.forEach(letterObject => {
@@ -137,7 +181,7 @@ export class P5jsDrawService {
 
 
     private drawPattern(lettersToDraw : Letter[] , offset : number) {
-
+      console.log("offset " + offset)
       lettersToDraw.forEach(letterObject => {
         const y = 100 + this.squareSideSize*2 + this.gap;
         const index = letterObject.index;
@@ -194,7 +238,6 @@ export class P5jsDrawService {
         i++;
       }
     }
-    this.previousStep = JSON.parse(JSON.stringify(this.step));
     this.previousLastOccurrenceTable = JSON.parse(JSON.stringify(lastOccurrenceTable));
   }
 

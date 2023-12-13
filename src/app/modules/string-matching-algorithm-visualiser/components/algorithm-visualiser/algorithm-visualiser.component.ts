@@ -108,7 +108,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     const canvasHeight = this.canvasElement.nativeElement.offsetHeight;
 
 
-    const drawService = new P5jsDrawService(this.canvasElement.nativeElement, canvasWidth, canvasHeight, this.text.length, (p5) => {
+    const drawService = new P5jsDrawService(this.algorithmProgressService, this.canvasElement.nativeElement, canvasWidth, canvasHeight, this.text.length, (p5) => {
       drawService.drawTextAndPattern(p5);
     });
     drawService.stepSetter = this.algorithmProgressService.stepGetter;
@@ -117,7 +117,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     if (this.extraCanvas != undefined && this.extraCanvasElement != undefined) {
       const canvasWidth2 = this.extraCanvasElement.nativeElement.offsetWidth;
       const canvasHeight2 = this.extraCanvasElement.nativeElement.offsetHeight;
-      const temp = new P5jsDrawService(this.extraCanvasElement.nativeElement, canvasWidth2, canvasHeight2, this.text.length, (p5) => {
+      const temp = new P5jsDrawService(this.algorithmProgressService, this.extraCanvasElement.nativeElement, canvasWidth2, canvasHeight2, this.text.length, (p5) => {
         if (temp[this.extraCanvas as keyof P5jsDrawService] && typeof temp[this.extraCanvas as keyof P5jsDrawService] === 'function') {
           (temp[this.extraCanvas as keyof P5jsDrawService] as (p5 : any) => void)(p5);
         }

@@ -146,11 +146,7 @@ export class AlgorithmProgressService {
    */
   async play() : Promise<void> {
     this.currentlyPlaying = true;
-    while (this.currentStep != this.amountOfSteps-1 && this.currentlyPlaying) {
-      this.moveToNextStep();
-      await this.sleep(this.speed);
-    }
-    this.currentlyPlaying = false;
+    this.moveToNextStep();
   }
 
   /**
