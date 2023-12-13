@@ -11,6 +11,8 @@ export class ModalComponent implements OnInit {
 
   text = "The fox jumped over the lazy dog";
   pattern = "lazy";
+  preProcessingSteps = true;
+  smoothAnimations = false;
 
   constructor(private readonly algorithmProgressService : AlgorithmProgressService) {
     this.algorithmProgressService.textChanged.next(this.text)
@@ -27,5 +29,14 @@ export class ModalComponent implements OnInit {
 
   protected sendPatternToService() {
     this.algorithmProgressService.patternChanged.next(this.pattern)
+  }
+
+  protected setPreprocessingSteps() {
+    console.log(this.preProcessingSteps)
+    this.algorithmProgressService.preProcessingStepsSetter = this.preProcessingSteps;
+  }
+
+  protected setSmoothAnimations() {
+    console.log(this.smoothAnimations);
   }
 }

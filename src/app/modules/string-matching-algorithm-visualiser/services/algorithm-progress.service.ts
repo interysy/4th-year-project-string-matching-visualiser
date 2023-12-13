@@ -3,6 +3,7 @@ import { Subject, debounceTime } from 'rxjs';
 import { StringMatchingAlgorithm } from '../models/algorithm.model';
 import { DrawStepDecorator } from '../models/drawer-step.decorator';
 import { StringMatchingAlgorithmToDraw } from '../models/algorithm-draw.model';
+import { AlgorithmStep } from '../models/algorithm-step.model';
 
 /**
  * @description The service is responsible for keeping track of the algorithm's progress. It also has functions so
@@ -41,6 +42,8 @@ export class AlgorithmProgressService {
    * extra information when required.
    */
   private decoratedAlgorithm : DrawStepDecorator
+  preProcessingSteps: boolean;
+  steps: AlgorithmStep[];
 
   constructor() {
     this.notifier.subscribe((value : number) => {
@@ -87,6 +90,7 @@ export class AlgorithmProgressService {
    */
   public executeAlgorithm() : void {
     this.algorithm.workOutSteps(this.text, this.pattern);
+    this.steps = this.algorithm.stepsGetter;
     this.amountOfSteps = this.algorithm.stepsLengthGetter;
     this.notifier.next(0);
   }
@@ -194,23 +198,23 @@ export class AlgorithmProgressService {
   }
 
   get stepGetter() {
-    return this.algorithm.stepsGetter[this.currentStep];
+    return this.steps[this.currentStep];
   }
 
   get pseudocodeLine() {
-    return this.algorithm.stepsGetter[this.currentStep].pseudocodeLine;
+    return this.steps[this.currentStep].pseudocodeLine;
   }
 
   get patternIndex() {
-    return this.algorithm.stepsGetter[this.currentStep].patternIndex;
+    return this.steps[this.currentStep].patternIndex;
   }
 
   get textIndex() {
-    return this.algorithm.stepsGetter[this.currentStep].textIndex;
+    return this.steps[this.currentStep].textIndex;
   }
 
   get command() {
-    return this.algorithm.stepsGetter[this.currentStep].command;
+    return this.steps[this.currentStep].command;
   }
 
   get textLength() {
@@ -222,7 +226,7 @@ export class AlgorithmProgressService {
   }
 
   get additionalVariablesGetter() {
-    return this.algorithm.stepsGetter[this.currentStep].additional;
+    return this.steps[this.currentStep].additional;
   }
 
   get algorithmNameGetter() {
@@ -259,5 +263,11 @@ export class AlgorithmProgressService {
 
   set currentStepNumberSetter(step : number) {
     this.notifier.next(step);
+  }
+
+  set preProcessingStepsSetter(preProcessingSteps : boolean) {
+    this.preProcessingSteps = preProcessingSteps;
+    this.steps  = this.preProcessingSteps ?  this.algorithm.stepsGetter : this.algorithm.stepsGetter.filter((step) => step.extra == false);
+    this.currentStepNumberSetter = 0;
   }
 }

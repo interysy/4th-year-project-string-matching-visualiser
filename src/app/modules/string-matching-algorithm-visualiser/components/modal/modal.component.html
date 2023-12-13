@@ -54,6 +54,9 @@
               type="checkbox"
               value=""
               checked
+              name="preProcessingSteps"
+              [(ngModel)]="preProcessingSteps"
+              (ngModelChange)="setPreprocessingSteps()"
               id="preProcessingSteps" />
             <label
               class="inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -68,10 +71,13 @@
               type="checkbox"
               value=""
               checked
-              id="preProcessingSteps" />
+              name="smoothAnimations"
+              [(ngModel)]="smoothAnimations"
+              (ngModelChange)="setSmoothAnimations()"
+              id="smoothAnimations" />
             <label
               class="inline-block pl-[0.15rem] hover:cursor-pointer"
-              for="preprocessingSteps">
+              for="smoothAnimations">
               Smooth Animations
             </label>
           </div>
