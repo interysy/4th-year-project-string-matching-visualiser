@@ -122,7 +122,7 @@ export class AlgorithmProgressService {
   public resetProgressService() {
     this.currentlyPlaying = false;
     this.currentStep = 0;
-    this.amountOfSteps = 0;
+    // this.amountOfSteps = 0;
     this.speed = this.DefaultSpeed;
   }
 
