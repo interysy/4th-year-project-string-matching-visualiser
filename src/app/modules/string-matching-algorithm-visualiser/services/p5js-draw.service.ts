@@ -135,22 +135,25 @@ export class P5jsDrawService {
 
     this.drawText(textLettersToDraw);
 
-
-    if (this.algorithmProgressService.currentlyPlayingGetter != this.animating && this.step.patternOffset != this.previousStep.patternOffset) {
-      this.animating = this.algorithmProgressService.currentlyPlayingGetter;
-      this.startTime = p.millis();
-    } else if (this.algorithmProgressService.currentlyPlayingGetter && this.step.patternOffset != this.previousStep.patternOffset) {
-      const currentTime = p.millis() - this.startTime;
-      const progress = p.constrain(currentTime / this.algorithmProgressService.speedGetter, 0, 1);
-      if (progress == 1) {
-        this.algorithmProgressService.moveToNextStep();
-        this.animating = false;
+    if (this.algorithmProgressService.smoothAnimationsGetter) {
+      if (this.algorithmProgressService.currentlyPlayingGetter != this.animating && this.step.patternOffset != this.previousStep.patternOffset) {
+        this.animating = this.algorithmProgressService.currentlyPlayingGetter;
+        this.startTime = p.millis();
+      } else if (this.algorithmProgressService.currentlyPlayingGetter && this.step.patternOffset != this.previousStep.patternOffset) {
+        const currentTime = p.millis() - this.startTime;
+        const progress = p.constrain(currentTime / this.algorithmProgressService.speedGetter, 0, 1);
+        if (progress == 1) {
+          this.algorithmProgressService.moveToNextStep();
+          this.animating = false;
+        }
+        const interpolatedX = p.lerp(this.previousStep.patternOffset*this.squareSideSize, graphicalOffset, progress);
+        this.drawPattern(patternLettersToDraw , interpolatedX);
+      } else if (this.algorithmProgressService.currentlyPlayingGetter) {
+        this.drawPattern(patternLettersToDraw , graphicalOffset);
+        if (this.currentFrame == this.framesToWait) this.algorithmProgressService.moveToNextStep();
+      } else {
+        this.drawPattern(patternLettersToDraw , graphicalOffset);
       }
-      const interpolatedX = p.lerp(this.previousStep.patternOffset*this.squareSideSize, graphicalOffset, progress);
-      this.drawPattern(patternLettersToDraw , interpolatedX);
-    } else if (this.algorithmProgressService.currentlyPlayingGetter) {
-      this.drawPattern(patternLettersToDraw , graphicalOffset);
-      if (this.currentFrame == this.framesToWait) this.algorithmProgressService.moveToNextStep();
     } else {
       this.drawPattern(patternLettersToDraw , graphicalOffset);
     }

@@ -37,12 +37,14 @@ export class AlgorithmProgressService {
 
   private readonly Debounce = 1000;
 
+  private smoothAnimations = false;
+
   /**
    * @description The decorated algorithm is used to decorate the algorithm with decorators that allow the algorithm to be visualised with
    * extra information when required.
    */
   private decoratedAlgorithm : DrawStepDecorator
-  preProcessingSteps: boolean;
+  preProcessingSteps = true;
   steps: AlgorithmStep[];
 
   constructor() {
@@ -90,8 +92,8 @@ export class AlgorithmProgressService {
    */
   public executeAlgorithm() : void {
     this.algorithm.workOutSteps(this.text, this.pattern);
-    this.steps = this.algorithm.stepsGetter;
-    this.amountOfSteps = this.algorithm.stepsLengthGetter;
+    this.steps  = this.preProcessingSteps ?  this.algorithm.stepsGetter : this.algorithm.stepsGetter.filter((step) => step.extra == false);
+    this.amountOfSteps = this.steps.length;
     this.notifier.next(0);
   }
 
@@ -164,7 +166,13 @@ export class AlgorithmProgressService {
    */
   async play() : Promise<void> {
     this.currentlyPlaying = true;
-    this.moveToNextStep();
+    if (!this.smoothAnimations) {
+      while (this.currentStep != this.amountOfSteps-1 && this.currentlyPlaying && !this.smoothAnimations) {
+        this.moveToNextStep();
+        await this.sleep(this.speed);
+      }
+      if (!this.smoothAnimations) this.currentlyPlaying = false;
+    }
   }
 
   /**
@@ -249,6 +257,10 @@ export class AlgorithmProgressService {
     return this.algorithm.extraCanvasGetter;
   }
 
+  get smoothAnimationsGetter() {
+    return this.smoothAnimations;
+  }
+
   set textSetter(text : string) {
     this.text = text;
     this.algorithm.resetSteps();
@@ -269,5 +281,13 @@ export class AlgorithmProgressService {
     this.preProcessingSteps = preProcessingSteps;
     this.steps  = this.preProcessingSteps ?  this.algorithm.stepsGetter : this.algorithm.stepsGetter.filter((step) => step.extra == false);
     this.currentStepNumberSetter = 0;
+    this.amountOfSteps = this.steps.length;
+  }
+
+  set smoothAnimationsSetter(isAnimationSmooth : boolean) {
+    this.smoothAnimations = isAnimationSmooth;
+    if (this.smoothAnimations == false && this.currentlyPlaying == true) {
+      this.play();
+    }
   }
 }

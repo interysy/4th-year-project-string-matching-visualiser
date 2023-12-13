@@ -32,11 +32,10 @@ export class ModalComponent implements OnInit {
   }
 
   protected setPreprocessingSteps() {
-    console.log(this.preProcessingSteps)
     this.algorithmProgressService.preProcessingStepsSetter = this.preProcessingSteps;
   }
 
   protected setSmoothAnimations() {
-    console.log(this.smoothAnimations);
+    this.algorithmProgressService.smoothAnimationsSetter = this.smoothAnimations;
   }
 }
