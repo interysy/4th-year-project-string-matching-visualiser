@@ -26,10 +26,12 @@ export class ModalComponent implements OnInit {
   }
 
   protected sendTextToService() {
+    this.optionService.textSetter = this.text;
     this.optionService.textChangedSubscriberGetter.next(this.text)
   }
 
   protected sendPatternToService() {
+    this.optionService.patternSetter = this.pattern;
     this.optionService.patternChangedSubscriberGetter.next(this.pattern)
   }
 
