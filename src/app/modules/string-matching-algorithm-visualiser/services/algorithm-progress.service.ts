@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Subject, debounceTime } from 'rxjs';
+import { Subject, Subscription, debounceTime } from 'rxjs';
 import { StringMatchingAlgorithm } from '../models/algorithm.model';
 import { DrawStepDecorator } from '../models/drawer-step.decorator';
 import { StringMatchingAlgorithmToDraw } from '../models/algorithm-draw.model';
 import { AlgorithmStep } from '../models/algorithm-step.model';
+import { OptionService } from './option.service';
 
 /**
  * @description The service is responsible for keeping track of the algorithm's progress. It also has functions so
@@ -18,7 +19,8 @@ export class AlgorithmProgressService {
    * @description The notifier is used to notify the components that the algorithm's progress has changed.
    * It allows the implementation of the observer pattern, where each component receives a notification upon change.
    */
-  private notifier : Subject<number> = new Subject<number>();
+  private stepChanged$ : Subject<number> = new Subject<number>();
+  private speedChanged$ : Subject<number> = new Subject<number>();
 
   private readonly DefaultSpeed = 1000;
 
@@ -31,13 +33,11 @@ export class AlgorithmProgressService {
   private speed = this.DefaultSpeed;
 
 
-  textChanged: Subject<string> = new Subject<string>();
-  patternChanged : Subject<string> = new Subject<string>();
-
-
   private readonly Debounce = 1000;
 
   private smoothAnimations = false;
+
+  private subscriptions : Subscription[] = [];
 
   /**
    * @description The decorated algorithm is used to decorate the algorithm with decorators that allow the algorithm to be visualised with
@@ -47,19 +47,44 @@ export class AlgorithmProgressService {
   preProcessingSteps = true;
   steps: AlgorithmStep[];
 
-  constructor() {
-    this.notifier.subscribe((value : number) => {
+  constructor(private readonly optionService : OptionService) {
+    this.stepChanged$.subscribe((value : number) => {
       this.currentStep = value
     });
 
-    this.textChanged.pipe(debounceTime(this.Debounce)).subscribe((text : string) => {
+    this.subscriptions.push(this.optionService.textChangedSubscriberGetter.pipe(debounceTime(this.Debounce)).subscribe((text : string) => {
+      this.resetProgressService();
       this.textSetter = text;
-    });
+    }));
 
-    this.patternChanged.pipe(debounceTime(this.Debounce)).subscribe((pattern : string) => {
+    this.subscriptions.push(this.optionService.patternChangedSubscriberGetter.pipe(debounceTime(this.Debounce)).subscribe((pattern : string) => {
+      this.resetProgressService();
       this.patternSetter = pattern;
-    });
+    }));
+
+    this.subscriptions.push(this.optionService.preProcessingStepsChangedSubscriberGetter.subscribe((preProcessingSteps : boolean) => {
+      this.filterPreProcessingSteps(preProcessingSteps);
+    }));
+
+    this.subscriptions.push(this.optionService.smoothAnimationsChangedSubscriberGetter.subscribe((smoothAnimations : boolean) => {
+      this.smoothAnimationsSetter = smoothAnimations;
+      if (this.smoothAnimations == false && this.currentlyPlaying == true) {
+        this.play();
+      }
+    }));
+
+    this.text = this.optionService.textGetter;
+    this.pattern = this.optionService.patternGetter;
+
   }
+
+
+  private filterPreProcessingSteps(preProcessingSteps : boolean) {
+    this.steps  = preProcessingSteps ?  this.algorithm.stepsGetter : this.algorithm.stepsGetter.filter((step) => step.extra == false);
+    this.currentStepNumberSetter = 0;
+    this.amountOfSteps = this.steps.length;
+  }
+
 
   /**
    * @description The function injects the algorithm into the service. It also resets the progress of the algorithm to allow new algorithm to run.
@@ -84,6 +109,9 @@ export class AlgorithmProgressService {
       this.algorithm.preProcessingCanvasSetter = true;
       this.algorithm.preProcessingFunctionSetter = preProcessingFunction;
     }
+
+    this.executeAlgorithm();
+
   }
 
   /**
@@ -92,9 +120,8 @@ export class AlgorithmProgressService {
    */
   public executeAlgorithm() : void {
     this.algorithm.workOutSteps(this.text, this.pattern);
-    this.steps  = this.preProcessingSteps ?  this.algorithm.stepsGetter : this.algorithm.stepsGetter.filter((step) => step.extra == false);
-    this.amountOfSteps = this.steps.length;
-    this.notifier.next(0);
+    this.filterPreProcessingSteps(this.preProcessingSteps);
+    this.stepChanged$.next(0);
   }
 
   /**
@@ -115,7 +142,7 @@ export class AlgorithmProgressService {
    */
   public reset() {
     this.currentlyPlaying = false;
-    this.notifier.next(0);
+    this.stepChanged$.next(0);
   }
 
   /**
@@ -124,8 +151,10 @@ export class AlgorithmProgressService {
   public resetProgressService() {
     this.currentlyPlaying = false;
     this.currentStep = 0;
-    // this.amountOfSteps = 0;
     this.speed = this.DefaultSpeed;
+    this.steps = [];
+    this.preProcessingSteps = this.optionService.preProcessingStepsGetter;
+    this.smoothAnimations = this.optionService.smoothAnimationsGetter;
   }
 
   /**
@@ -135,7 +164,7 @@ export class AlgorithmProgressService {
    */
   public moveToNextStep() : void {
     if (this.currentStep != this.amountOfSteps - 1) {
-      this.notifier.next(this.currentStep + 1);
+      this.stepChanged$.next(this.currentStep + 1);
     }
   }
 
@@ -146,7 +175,7 @@ export class AlgorithmProgressService {
    */
   public moveToPreviousStep() : void {
     if (this.currentStep > 0) {
-      this.notifier.next(this.currentStep - 1);
+      this.stepChanged$.next(this.currentStep - 1);
     }
   }
 
@@ -190,11 +219,6 @@ export class AlgorithmProgressService {
    */
   changeSpeedOfPlayback(speed : number) : void {
     this.speed = speed;
-  }
-
-
-  get notifierGetter() {
-    return this.notifier;
   }
 
   get currentStepNumberGetter() {
@@ -261,6 +285,14 @@ export class AlgorithmProgressService {
     return this.smoothAnimations;
   }
 
+  get stepChangedSubscriberGetter() : Subject<number> {
+    return this.stepChanged$;
+  }
+
+  get speedChangedSubscriberGetter() : Subject<number> {
+    return this.speedChanged$;
+  }
+
   set textSetter(text : string) {
     this.text = text;
     this.algorithm.resetSteps();
@@ -273,15 +305,9 @@ export class AlgorithmProgressService {
      this.executeAlgorithm();
   }
 
-  set currentStepNumberSetter(step : number) {
-    this.notifier.next(step);
-  }
 
-  set preProcessingStepsSetter(preProcessingSteps : boolean) {
-    this.preProcessingSteps = preProcessingSteps;
-    this.steps  = this.preProcessingSteps ?  this.algorithm.stepsGetter : this.algorithm.stepsGetter.filter((step) => step.extra == false);
-    this.currentStepNumberSetter = 0;
-    this.amountOfSteps = this.steps.length;
+  set currentStepNumberSetter(step : number) {
+    this.stepChanged$.next(step);
   }
 
   set smoothAnimationsSetter(isAnimationSmooth : boolean) {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Modal, initTE } from 'tw-elements';
-import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
+import { OptionService } from '../../services/option.service';
 
 @Component({
   selector: 'app-modal',
@@ -9,14 +9,16 @@ import { AlgorithmProgressService } from '../../services/algorithm-progress.serv
 })
 export class ModalComponent implements OnInit {
 
-  text = "The fox jumped over the lazy dog";
-  pattern = "lazy";
-  preProcessingSteps = true;
-  smoothAnimations = false;
+  protected text : string;
+  protected pattern : string;
+  protected preProcessingSteps : boolean;
+  protected smoothAnimations : boolean ;
 
-  constructor(private readonly algorithmProgressService : AlgorithmProgressService) {
-    this.algorithmProgressService.textChanged.next(this.text)
-    this.algorithmProgressService.patternChanged.next(this.pattern)
+  constructor(private readonly optionService : OptionService) {
+    this.text = this.optionService.textGetter;
+    this.pattern = this.optionService.patternGetter;
+    this.smoothAnimations = this.optionService.smoothAnimationsGetter;
+    this.preProcessingSteps = this.optionService.preProcessingStepsGetter;
   }
 
   ngOnInit() {
@@ -24,18 +26,19 @@ export class ModalComponent implements OnInit {
   }
 
   protected sendTextToService() {
-    this.algorithmProgressService.textChanged.next(this.text)
+    this.optionService.textChangedSubscriberGetter.next(this.text)
   }
 
   protected sendPatternToService() {
-    this.algorithmProgressService.patternChanged.next(this.pattern)
+    this.optionService.patternChangedSubscriberGetter.next(this.pattern)
   }
 
   protected setPreprocessingSteps() {
-    this.algorithmProgressService.preProcessingStepsSetter = this.preProcessingSteps;
+    this.optionService.preProcessingStepsSetter = this.preProcessingSteps;
   }
 
   protected setSmoothAnimations() {
-    this.algorithmProgressService.smoothAnimationsSetter = this.smoothAnimations;
+    this.optionService.smoothAnimationsSetter = this.smoothAnimations;
   }
+
 }

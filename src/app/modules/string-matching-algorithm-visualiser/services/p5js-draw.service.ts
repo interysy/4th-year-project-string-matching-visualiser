@@ -1,13 +1,16 @@
 import * as p5 from 'p5';
 import { AlgorithmStep } from '../models/algorithm-step.model';
 import { Letter } from '../models/letter.model';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { MatchingAlgorithmColourConstants } from '../constants/matching-algorithm-colours.constant';
 import { AlgorithmStepBuilder } from '../model-builders/algorithm-step.builder';
 import { AlgorithmProgressService } from './algorithm-progress.service';
+import { OptionService } from './option.service';
 
 export class P5jsDrawService {
 
+  private readonly DefaultSquareColor: string;
+  private readonly DefaultStrokeWeight: number;
   private readonly DefaultSquareSize = 20;
   private readonly MinimumSquareSideSize = 20;
   private readonly MaximumSquareSideSize = 40;
@@ -23,13 +26,13 @@ export class P5jsDrawService {
   private squareSideSize : number;
   private step : AlgorithmStep;
   private previousStep : AlgorithmStep;
-  private changeSizeSubject = new Subject<{width : number , height : number}>();
+  private changeSizeSubject$ = new Subject<{width : number , height : number}>();
   private scrollable : boolean;
   private textSize = 15;
   private previousLastOccurrenceTable : {[character : string] : number; };
   private algorithmStepBuilder : AlgorithmStepBuilder = new AlgorithmStepBuilder();
 
-  private algorithmProgressService;
+
   private animating = false;
 
   private startTime = 0;
@@ -37,16 +40,56 @@ export class P5jsDrawService {
   private currentFrame: number;
 
 
-  constructor(algorithmProgressService : AlgorithmProgressService , containerElement: HTMLDivElement, width: number, height: number, initialTextLength : number, customDrawFunction: (p5: p5) => void , scrollable = false) {
-    this.algorithmProgressService = algorithmProgressService;
-    this.squareSideSize = this.determineSquareSize(this.DefaultSquareSize , initialTextLength, width);
-    if (customDrawFunction) this.p5 = new p5(this.generate_sketch(width, height , customDrawFunction), containerElement);
-    this.scrollable = scrollable;
-  }
+  private readonly algorithmProgressService : AlgorithmProgressService;
+  private readonly optionService: OptionService;
+  private subscriptions : Subscription[] = [];
 
-  set stepSetter(step : AlgorithmStep) {
-    if (this.step) this.previousStep = JSON.parse(JSON.stringify(this.step));
-    this.step = step;
+
+
+  constructor(algorithmProgressService : AlgorithmProgressService, optionService : OptionService, containerElement: HTMLDivElement, width: number, height: number, customDrawFunction: (p5: p5) => void , scrollable = false) {
+    if (customDrawFunction) {
+      this.algorithmProgressService = algorithmProgressService;
+      this.optionService = optionService;
+
+      this.squareSideSize = this.determineSquareSize(this.DefaultSquareSize , this.optionService.textGetter.length, width);
+      this.p5 = new p5(this.generate_sketch(width, height , customDrawFunction), containerElement);
+      this.scrollable = scrollable;
+      this.step = this.algorithmProgressService.stepGetter;
+      this.previousStep = JSON.parse(JSON.stringify(this.step));
+
+      this.subscriptions.push(this.algorithmProgressService.speedChangedSubscriberGetter.subscribe((speed : number) => {
+        const haveFramesChanged = this.workOutFramesToWait(speed);
+        if (this.p5) this.currentFrame = this.p5.constrain(haveFramesChanged , 0 , this.framesToWait);
+        this.framesToWait = haveFramesChanged;
+      }));
+
+      this.subscriptions.push(this.optionService.textChangedSubscriberGetter.subscribe((text : string) => {
+        this.resetDefaults();
+        this.step = this.algorithmProgressService.stepGetter;
+
+        if (this.p5) {
+          this.squareSideSize = this.determineSquareSize(this.squareSideSize , text.length , this.p5.width);
+          this.resizeCanvas(this.p5.width , this.p5.height);
+        }
+
+      }));
+
+      this.subscriptions.push(this.optionService.patternChangedSubscriberGetter.subscribe((pattern : string) => {
+        this.resetDefaults();
+        this.step = this.algorithmProgressService.stepGetter;
+
+        if (this.p5) {
+          this.squareSideSize = this.determineSquareSize(this.squareSideSize , pattern.length , this.p5.width);
+          this.resizeCanvas(this.p5.width , this.p5.height);
+        }
+      }));
+
+      this.subscriptions.push(this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((step : number) => {
+        if (this.step) this.previousStep = JSON.parse(JSON.stringify(this.step));
+        this.step = this.algorithmProgressService.stepGetter;
+      }));
+    }
+
   }
 
   private generate_sketch(width: number, height: number ,  customDrawFunction : ((p5: p5) => void)) {
@@ -76,13 +119,18 @@ export class P5jsDrawService {
     return false;
   }
 
+  workOutFramesToWait(speed : number) {
+    return Math.round(60 * (speed / 1000));
+  }
+
   setup(p: p5, width: number, height: number) {
     p.createCanvas(width, height );
     p.frameRate(60);
-    this.changeSizeSubject.subscribe( sizes => {
+    this.changeSizeSubject$.subscribe( sizes => {
       this.resizeCanvas(sizes.width , sizes.height);
     });
-    this.framesToWait = 60 * (this.algorithmProgressService.speedGetter / 1000);
+
+    this.framesToWait = this.workOutFramesToWait(this.algorithmProgressService.speedGetter);
   }
 
   mouseWheel(event : any) {
@@ -109,6 +157,9 @@ export class P5jsDrawService {
     p.textSize(this.textSize);
     p.rectMode(p.CENTER);
     p.textAlign(p.CENTER , p.CENTER);
+
+
+
     if (this.activeWindow(p.width)) {
       this.centraliseTextAndPattern(((this.step.patternOffset * 2 + this.step.lettersInPattern.length ) * this.squareSideSize));
     } else {
@@ -122,11 +173,6 @@ export class P5jsDrawService {
       this.currentFrame = 0;
     }
 
-    const haveFramesChanged = Math.round(60 * (this.algorithmProgressService.speedGetter / 1000));
-    if (haveFramesChanged != this.framesToWait) {
-      this.currentFrame = p.constrain(haveFramesChanged , 0 , this.framesToWait);
-      this.framesToWait = haveFramesChanged;
-    }
 
     const patternOffset = this.step.patternOffset;
     const textLettersToDraw = this.step.lettersInText;
@@ -135,7 +181,7 @@ export class P5jsDrawService {
 
     this.drawText(textLettersToDraw);
 
-    if (this.algorithmProgressService.smoothAnimationsGetter) {
+    if (this.optionService.smoothAnimationsGetter) {
       if (this.algorithmProgressService.currentlyPlayingGetter != this.animating && this.step.patternOffset != this.previousStep.patternOffset) {
         this.animating = this.algorithmProgressService.currentlyPlayingGetter;
         this.startTime = p.millis();
@@ -167,7 +213,7 @@ export class P5jsDrawService {
         const colour = letterObject.colour;
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
-
+        console.log(letterObject);
         if (this.p5) {
           this.p5.text(index , index * this.squareSideSize, y);
           y = y + this.squareSideSize;
@@ -184,7 +230,6 @@ export class P5jsDrawService {
 
 
     private drawPattern(lettersToDraw : Letter[] , offset : number) {
-      console.log("offset " + offset)
       lettersToDraw.forEach(letterObject => {
         const y = 100 + this.squareSideSize*2 + this.gap;
         const index = letterObject.index;
@@ -336,4 +381,25 @@ export class P5jsDrawService {
     this.previousStep = this.algorithmStepBuilder.build();
     this.previousLastOccurrenceTable = {};
   }
+
+  private createInitialStep(text : string , pattern : string) {
+    this.algorithmStepBuilder.setDefaults();
+    this.algorithmStepBuilder.setLettersInText=  this.stringToLetterObject(text , this.DefaultSquareColor , this.DefaultStrokeWeight);
+    this.algorithmStepBuilder.setLettersInPattern = this.stringToLetterObject(pattern , this.DefaultSquareColor , this.DefaultStrokeWeight);
+    return this.algorithmStepBuilder.build();
+  }
+
+
+  private stringToLetterObject(stringToChange : string , colour : string , strokeWeight : number ) : Letter[] {
+    return stringToChange.split('').map((letter , index) => {
+      const letterObj = new Letter();
+      letterObj.index = index;
+      letterObj.letter = letter;
+      letterObj.colour = colour;
+      letterObj.strokeWeight = strokeWeight;
+
+      return letterObj;
+    });
+  }
+
 }
