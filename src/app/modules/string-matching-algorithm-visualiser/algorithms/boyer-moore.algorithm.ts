@@ -61,6 +61,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         let currentStep = this.algorithmStepBuilder.build();
         this.addStep(currentStep);
 
+        this.algorithmStepBuilder.setExtra = true;
         pattern.split("").forEach((character, index) => {
             this.letterBuilder.setColor = MatchingAlgorithmColourConstants.CHECKING;
             this.letterBuilder.setIndex = index;

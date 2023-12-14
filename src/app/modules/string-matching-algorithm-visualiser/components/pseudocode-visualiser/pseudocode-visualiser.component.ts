@@ -26,7 +26,7 @@ export class PseudocodeVisualiserComponent implements OnInit {
   constructor(private readonly algorithmProgressService : AlgorithmProgressService,
               private readonly pseudocodeParserService : PseudocodeParserService) {
 
-    this.algorithmProgressService.notifierGetter.subscribe((_) => {
+    this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((_) => {
       this.highlightLine(this.algorithmProgressService.pseudocodeLine);
     });
   }

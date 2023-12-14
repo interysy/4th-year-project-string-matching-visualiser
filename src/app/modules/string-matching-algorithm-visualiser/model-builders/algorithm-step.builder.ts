@@ -22,6 +22,7 @@ export class AlgorithmStepBuilder {
             patternIndex : -1,
             command : "",
             additional : new AdditionalVariables(),
+            extra : false,
         };
     }
 
@@ -55,6 +56,10 @@ export class AlgorithmStepBuilder {
 
     set setAdditional(additional : AdditionalVariables) {
         this.step.additional = additional;
+    }
+
+    set setExtra(extra : boolean) {
+        this.step.extra = extra;
     }
 
     public build() {

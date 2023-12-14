@@ -19,7 +19,7 @@ export class PlaybackControlsComponent {
     this.currentStep = this.algorithmProgressService.currentStepNumberGetter;
     this.amountOfSteps = this.algorithmProgressService.amountOfStepsGetter;
 
-    this.algorithmProgressService.notifierGetter.subscribe((_) => {
+    this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((_) => {
       this.currentStep = this.algorithmProgressService.currentStepNumberGetter;
       this.amountOfSteps = this.algorithmProgressService.amountOfStepsGetter;
 

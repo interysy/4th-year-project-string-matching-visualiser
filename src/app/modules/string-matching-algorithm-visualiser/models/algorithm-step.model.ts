@@ -10,4 +10,5 @@ export interface AlgorithmStep {
     patternIndex : number;
     command : string;
     additional : AdditionalVariables;
+    extra : boolean;
 }
