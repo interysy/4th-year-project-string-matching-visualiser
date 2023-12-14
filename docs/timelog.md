@@ -242,5 +242,56 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1.5* Working on test coverage export
 
 ### 26 November
-* *1 hour* Finishing up KMP section and starting to write up BM section 
-* *1.5 hours* Writing up BM section, including adding of relevant diagrams
+* *1 hour* Finishing up KMP section and starting to write up BM section
+* *1.5 hours* Writing up BM section, including adding of relevant diagrams. Send dissertation to supervisor for feedback.
+
+### 28 November
+* *1 hour* Preparation for supervisor meeting.
+* *1 hour* Unsuccessfully attempted to write tests for the module components
+
+## Week 11
+
+
+### 28 November
+* *2 hours* Implement the KMP algorithm (no animations, but with O(n) border creation preprocessing algorithm)
+* *2 hours* Attempting to implement a scrollable canvas for preprocessing data structures and their animations
+
+### 29 November
+* *1 hour* Attempting to create a dynamic layout for scrollable canvas
+* *2 hours* Creatting an extra canvas for preprocessing steps (not dynamic, rather you can choose 1 or 2 depending on algorithm needs)
+
+### 4 December
+* *1 hour* Reading over and analysing responses from the prototype evaluation survey
+
+### 5 December
+* *30 mins* Prepare for supervisor meeting
+* *2 hours* Create initial animations for the KMP algorithm
+
+## Week 12
+
+### 6 December
+* *1 hour* Finish up second canvas feature for algorithms requiring extra space for the animation
+* *1 hour* Add 2 canvas handling to current code
+* *1.5 hours* Ensure characters are always centralised in the animation
+* *2.5 hours* Add scrollable last occurrence and ensure it is mobile friendly
+
+### 11 December
+* *2 hours* Add animations for the last occurrence preprocessing dictionary. Also make it auto scrollable when needing to focus during animation
+* *30 mins* Prepare for supervisor meeting
+* *30 mins* Supervisor meeting
+* *1 hour* Add vertical and horizontal centering of the canvases
+* *30 mins* Update broken tests
+
+### 12 December
+* *1 hour* Populate project Kanban board with things to do over Christmas
+* *1 hour* Starting to work on smooth animations
+
+### 13 December
+* *3 hours* Adding animation smoothing based on counting frames
+* *2 hours* Create a settings modal and move text and pattern textboxes there
+* *1 hour* Add extra steps filtering option and an animation smoothing option
+* *1.5 hours* Refactor everything based on new features
+
+### 14 December
+* *2 hours* Finish up the refactoring and update the resizeCanvas method to always fit on screen (done by adding margin)
+* *1 hour* Updating timelog and meeting notes (documentation in general)
