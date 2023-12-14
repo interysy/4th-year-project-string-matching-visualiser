@@ -1,10 +1,11 @@
 
 name: Create and publish a Docker image 🐋
 
-on: 
+on:
   workflow_dispatch:
-  push:
-    branches: ['staging' , 'main'] 
+  release:
+    types:
+      - created
 
 env:
   REGISTRY: ghcr.io
@@ -29,7 +30,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} 
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
