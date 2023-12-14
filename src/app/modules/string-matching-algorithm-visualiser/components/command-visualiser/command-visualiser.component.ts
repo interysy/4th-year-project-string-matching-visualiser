@@ -13,7 +13,7 @@ export class CommandVisualiserComponent {
 
     constructor(private readonly algorithmProgressService : AlgorithmProgressService) {
       this.currentCommand = this.algorithmProgressService.command;
-      this.algorithmProgressService.notifierGetter.subscribe((_) => {
+      this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((_) => {
           this.currentCommand = this.algorithmProgressService.command;
       });
 
