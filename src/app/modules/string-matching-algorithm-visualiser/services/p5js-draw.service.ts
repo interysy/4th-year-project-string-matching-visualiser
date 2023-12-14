@@ -18,7 +18,7 @@ export class P5jsDrawService {
   private readonly dictionaryGap = 10;
   private readonly dictionaryOffset = 20;
   private readonly DefaultColour = "#FFFFFF";
-  private readonly animationMargin = 20;
+  private readonly animationMargin = 50;
 
   private p5: p5 | null;
   private dictionaryElementSize = 60;
@@ -51,11 +51,12 @@ export class P5jsDrawService {
       this.algorithmProgressService = algorithmProgressService;
       this.optionService = optionService;
 
-      this.squareSideSize = this.determineSquareSize(this.DefaultSquareSize , this.optionService.textGetter.length, width);
+
       this.p5 = new p5(this.generate_sketch(width, height , customDrawFunction), containerElement);
       this.scrollable = scrollable;
       this.step = this.algorithmProgressService.stepGetter;
       this.previousStep = JSON.parse(JSON.stringify(this.step));
+      this.changeSquareSize(this.optionService.textGetter.length , width);
 
       this.subscriptions.push(this.algorithmProgressService.speedChangedSubscriberGetter.subscribe((speed : number) => {
         const haveFramesChanged = this.workOutFramesToWait(speed);
@@ -67,21 +68,14 @@ export class P5jsDrawService {
         this.resetDefaults();
         this.step = this.algorithmProgressService.stepGetter;
 
-        if (this.p5) {
-          this.squareSideSize = this.determineSquareSize(this.squareSideSize , text.length , this.p5.width);
-          this.resizeCanvas(this.p5.width , this.p5.height);
-        }
+        this.changeSquareSize(text.length);
 
       }));
 
       this.subscriptions.push(this.optionService.patternChangedSubscriberGetter.subscribe((pattern : string) => {
         this.resetDefaults();
         this.step = this.algorithmProgressService.stepGetter;
-
-        if (this.p5) {
-          this.squareSideSize = this.determineSquareSize(this.squareSideSize , pattern.length , this.p5.width);
-          this.resizeCanvas(this.p5.width , this.p5.height);
-        }
+        this.changeSquareSize(this.optionService.textGetter.length);
       }));
 
       this.subscriptions.push(this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((step : number) => {
@@ -213,7 +207,6 @@ export class P5jsDrawService {
         const colour = letterObject.colour;
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
-        console.log(letterObject);
         if (this.p5) {
           this.p5.text(index , index * this.squareSideSize, y);
           y = y + this.squareSideSize;
@@ -299,35 +292,27 @@ export class P5jsDrawService {
   }
 
 
-  public changeSquareSize(length : number) {
+  public changeSquareSize(length : number , width = 0) {
     if (this.p5) {
-      const width = this.p5.width;
-      const newSquareSideSize = this.determineSquareSize(this.squareSideSize , length , width);
+      const canvasWidth = (width == 0) ? this.p5.width : width;
+      const newSquareSideSize = this.determineSquareSize(length , canvasWidth);
       this.squareSideSize = newSquareSideSize;
     }
   }
 
   public resizeCanvas(width : number , height : number) {
-    const length = this.step ? this.step.lettersInText.length : 0;
-    const newSquareSideSize = this.determineSquareSize(this.squareSideSize , length , width);
-    this.squareSideSize = newSquareSideSize;
+    const length = this.optionService.textGetter.length;
+    this.changeSquareSize(length , width);
     if (this.p5) this.p5.resizeCanvas(width , height);
   }
 
-  protected determineSquareSize(currentSquareSize : number , textLength : number , canvasWidth : number) : number {
-    let lengthInPixels = textLength * currentSquareSize;
-    if (lengthInPixels > canvasWidth) {
-      while (lengthInPixels > (canvasWidth-(currentSquareSize+this.animationMargin)) && currentSquareSize > this.MinimumSquareSideSize) {
-        currentSquareSize = currentSquareSize - 1;
-        lengthInPixels = textLength * currentSquareSize;
-      }
-    } else {
-      while (lengthInPixels < (canvasWidth-(currentSquareSize+this.animationMargin)) && currentSquareSize < this.MaximumSquareSideSize) {
-        currentSquareSize = currentSquareSize + 1;
-        lengthInPixels = textLength * currentSquareSize;
-      }
-    }
-    return currentSquareSize;
+  protected determineSquareSize(textLength : number , canvasWidth : number) : number {
+
+    let newSquareSideSize = Math.round((canvasWidth - (this.animationMargin*2)) / textLength);
+    newSquareSideSize = (newSquareSideSize > this.MaximumSquareSideSize) ? this.MaximumSquareSideSize : newSquareSideSize;
+    newSquareSideSize = (newSquareSideSize < this.MinimumSquareSideSize) ? this.MinimumSquareSideSize : newSquareSideSize;
+    return newSquareSideSize;
+
   }
 
   private activeWindow(canvasWidth : number) {
@@ -381,25 +366,4 @@ export class P5jsDrawService {
     this.previousStep = this.algorithmStepBuilder.build();
     this.previousLastOccurrenceTable = {};
   }
-
-  private createInitialStep(text : string , pattern : string) {
-    this.algorithmStepBuilder.setDefaults();
-    this.algorithmStepBuilder.setLettersInText=  this.stringToLetterObject(text , this.DefaultSquareColor , this.DefaultStrokeWeight);
-    this.algorithmStepBuilder.setLettersInPattern = this.stringToLetterObject(pattern , this.DefaultSquareColor , this.DefaultStrokeWeight);
-    return this.algorithmStepBuilder.build();
-  }
-
-
-  private stringToLetterObject(stringToChange : string , colour : string , strokeWeight : number ) : Letter[] {
-    return stringToChange.split('').map((letter , index) => {
-      const letterObj = new Letter();
-      letterObj.index = index;
-      letterObj.letter = letter;
-      letterObj.colour = colour;
-      letterObj.strokeWeight = strokeWeight;
-
-      return letterObj;
-    });
-  }
-
 }
