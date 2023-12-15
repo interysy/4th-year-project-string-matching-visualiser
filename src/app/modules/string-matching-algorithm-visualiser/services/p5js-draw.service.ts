@@ -24,6 +24,7 @@ export class P5jsDrawService {
   private dictionaryElementSize = 60;
   private scrollX = 0;
   private squareSideSize : number;
+  private borderTableSquareSideSize = 20;
   private step : AlgorithmStep;
   private previousStep : AlgorithmStep;
   private changeSizeSubject$ = new Subject<{width : number , height : number}>();
@@ -241,7 +242,7 @@ export class P5jsDrawService {
       })
   }
 
-  drawLastOccurrenceTable(p5 : p5) {
+  private drawLastOccurrenceTable(p5 : p5) {
     p5.background(255);
     p5.textSize(this.textSize);
     p5.rectMode(p5.CENTER);
@@ -280,6 +281,38 @@ export class P5jsDrawService {
       }
     }
     this.previousLastOccurrenceTable = JSON.parse(JSON.stringify(lastOccurrenceTable));
+  }
+
+
+  private drawBorderTable(p5 : p5) {
+    p5.background(255);
+    p5.textSize(this.textSize);
+    p5.rectMode(p5.CENTER);
+    p5.textAlign(p5.CENTER , p5.CENTER);
+
+    p5.text("BORDER TABLE:" ,(p5.width  / 2) , 10);
+
+    const patternLength = 8;
+    this.centraliseTextAndPattern(patternLength* this.borderTableSquareSideSize);
+    p5.text("String" , 0 , 50 + this.borderTableSquareSideSize);
+    p5.text("Border" , 0 , 50 + this.borderTableSquareSideSize * 2);
+    const textWidth = p5.textWidth("String")
+    let y = 50;
+
+    for (let i = 0 ; i < patternLength ; i++) {
+      p5.text(i , i * this.borderTableSquareSideSize + textWidth, y);
+      y = y + this.borderTableSquareSideSize;
+      p5.rect(i * this.borderTableSquareSideSize+ textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+      p5.text(" " , i * this.borderTableSquareSideSize + textWidth , y);
+      y = y + this.borderTableSquareSideSize;
+      p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+      y = 50;
+
+    }
+
+
+
+
   }
 
   private scrollToLastOccurrenceElement(index : number) {
