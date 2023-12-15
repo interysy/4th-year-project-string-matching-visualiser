@@ -42,11 +42,13 @@ export class P5jsDrawService {
   private startTime = 0;
   private framesToWait: number;
   private currentFrame: number;
+  private smoothOffset : number;
 
 
   private readonly algorithmProgressService : AlgorithmProgressService;
   private readonly optionService: OptionService;
   private subscriptions : Subscription[] = [];
+  progress = 0;
 
 
 
@@ -60,12 +62,13 @@ export class P5jsDrawService {
       this.scrollable = scrollable;
       this.step = this.algorithmProgressService.stepGetter;
       this.previousStep = JSON.parse(JSON.stringify(this.step));
+      this.smoothOffset = this.step.patternOffset*this.squareSideSize;
       this.changeSquareSize(this.optionService.textGetter.length , width);
       this.algorithm = this.algorithmProgressService.decoratedAlgorithmGetter;
 
       this.subscriptions.push(this.algorithmProgressService.speedChangedSubscriberGetter.subscribe((speed : number) => {
         const haveFramesChanged = this.workOutFramesToWait(speed);
-        if (this.p5) this.currentFrame = this.p5.constrain(haveFramesChanged , 0 , this.framesToWait);
+        this.currentFrame = 0;
         this.framesToWait = haveFramesChanged;
       }));
 
@@ -164,41 +167,40 @@ export class P5jsDrawService {
     }
 
 
-    if (this.currentFrame < this.framesToWait) {
-      this.currentFrame++;
-    } else {
-      this.currentFrame = 0;
-    }
-
-
     const patternOffset = this.step.patternOffset;
     const textLettersToDraw = this.step.lettersInText;
     const patternLettersToDraw = this.step.lettersInPattern;
     const graphicalOffset = patternOffset * this.squareSideSize;
 
+    this.drawPattern(patternLettersToDraw , this.smoothOffset);
     this.drawText(textLettersToDraw);
+    this.currentFrame++;
 
-    if (this.optionService.smoothAnimationsGetter) {
-      if (this.algorithmProgressService.currentlyPlayingGetter != this.animating && this.step.patternOffset != this.previousStep.patternOffset) {
-        this.animating = this.algorithmProgressService.currentlyPlayingGetter;
-        this.startTime = p.millis();
-      } else if (this.algorithmProgressService.currentlyPlayingGetter && this.step.patternOffset != this.previousStep.patternOffset) {
-        const currentTime = p.millis() - this.startTime;
-        const progress = p.constrain(currentTime / this.algorithmProgressService.speedGetter, 0, 1);
+
+    if (this.algorithmProgressService.currentlyPlayingGetter) {
+      if (!this.animating) {
+        this.animating = true;
+        this.currentFrame = 0;
+        this.smoothOffset = this.previousStep.patternOffset*this.squareSideSize;
+      } else {
+        const progress = p.constrain(this.currentFrame / this.framesToWait, 0, 1);
+        this.progress = progress;
+
+        if (this.optionService.smoothAnimationsGetter) {
+          const interpolatedX = p.lerp(this.previousStep.patternOffset*this.squareSideSize, graphicalOffset, progress);
+          this.smoothOffset = interpolatedX;
+        } else {
+          this.smoothOffset = graphicalOffset;
+        }
+
         if (progress == 1) {
           this.algorithmProgressService.moveToNextStep();
           this.animating = false;
+          this.progress = 0;
         }
-        const interpolatedX = p.lerp(this.previousStep.patternOffset*this.squareSideSize, graphicalOffset, progress);
-        this.drawPattern(patternLettersToDraw , interpolatedX);
-      } else if (this.algorithmProgressService.currentlyPlayingGetter) {
-        this.drawPattern(patternLettersToDraw , graphicalOffset);
-        if (this.currentFrame == this.framesToWait) this.algorithmProgressService.moveToNextStep();
-      } else {
-        this.drawPattern(patternLettersToDraw , graphicalOffset);
       }
-    } else {
-      this.drawPattern(patternLettersToDraw , graphicalOffset);
+    } else  {
+      this.smoothOffset = graphicalOffset;
     }
 
     this.algorithm.draw(this);
@@ -206,29 +208,30 @@ export class P5jsDrawService {
 
 
   private drawText(lettersToDraw : Letter[]) {
-      lettersToDraw.forEach(letterObject => {
-        let y = 100;
-        const index = letterObject.index;
-        const colour = letterObject.colour;
-        const letter = letterObject.letter;
-        const strokeWeight = letterObject.strokeWeight;
-        if (this.p5) {
-          this.p5.text(index , index * this.squareSideSize, y);
-          y = y + this.squareSideSize;
-          this.p5.fill(colour.toString());
-          this.p5.strokeWeight(strokeWeight);
-          this.p5.rect(index * this.squareSideSize, y , this.squareSideSize , this.squareSideSize);
-          this.p5.fill("#000000");
-          this.p5.strokeWeight(1);
-          this.p5.text(letter , index * this.squareSideSize , y);
-        }
-      });
+    lettersToDraw.forEach(letterObject => {
+      let y = 100;
+      const index = letterObject.index;
+      const colour = letterObject.colour;
+      const letter = letterObject.letter;
+      const strokeWeight = letterObject.strokeWeight;
+      if (this.p5) {
+        this.p5.text(index , index * this.squareSideSize, y);
+        y = y + this.squareSideSize;
+        this.p5.fill(colour.toString());
+        this.p5.strokeWeight(strokeWeight);
+        this.p5.rect(index * this.squareSideSize, y , this.squareSideSize , this.squareSideSize);
+        this.p5.fill("#000000");
+        this.p5.strokeWeight(1);
+        this.p5.text(letter , index * this.squareSideSize , y);
+      }
+    });
 
-  }
+}
 
 
-    private drawPattern(lettersToDraw : Letter[] , offset : number) {
-      lettersToDraw.forEach(letterObject => {
+    private drawPattern(lettersToDraw : Letter[] , offset : number ) {
+      lettersToDraw.forEach((letterObject , letterObjectIndex) => {
+        //const previousLetterObject = this.previousStep.lettersInPattern[letterObjectIndex];
         const y = 100 + this.squareSideSize*2 + this.gap;
         const index = letterObject.index;
         const colour = letterObject.colour;
@@ -236,6 +239,7 @@ export class P5jsDrawService {
         const strokeWeight = letterObject.strokeWeight;
 
         if (this.p5) {
+          //const interpolatedColour = this.p5.lerpColor(this.p5.color(previousLetterObject.colour.toString()), this.p5.color(colour.toString()), fade);
           this.p5.fill(colour.toString());
           this.p5.strokeWeight(strokeWeight);
           this.p5.rect(index * this.squareSideSize + offset , y , this.squareSideSize , this.squareSideSize);
