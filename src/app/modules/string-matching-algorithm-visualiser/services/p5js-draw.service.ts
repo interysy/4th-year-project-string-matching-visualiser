@@ -292,7 +292,10 @@ export class P5jsDrawService {
 
     p5.text("BORDER TABLE:" ,(p5.width  / 2) , 10);
 
-    const patternLength = 8;
+    const borderTable = (this.step.additional['borderTable']) ? this.step.additional['borderTable'] : null;
+    const borderOne = (this.step.additional['borderOne']) ? this.step.additional['borderOne'] : null;
+
+    const patternLength = this.step.lettersInPattern.length + 1;
     this.centraliseTextAndPattern(patternLength* this.borderTableSquareSideSize);
     p5.text("String" , 0 , 50 + this.borderTableSquareSideSize);
     p5.text("Border" , 0 , 50 + this.borderTableSquareSideSize * 2);
@@ -302,10 +305,13 @@ export class P5jsDrawService {
     for (let i = 0 ; i < patternLength ; i++) {
       p5.text(i , i * this.borderTableSquareSideSize + textWidth, y);
       y = y + this.borderTableSquareSideSize;
-      p5.rect(i * this.borderTableSquareSideSize+ textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
-      p5.text(" " , i * this.borderTableSquareSideSize + textWidth , y);
+      p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+      const nextLetter = (i-1 < 0) ? '""' : this.step.lettersInPattern[i-1].letter;
+      p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth , y);
       y = y + this.borderTableSquareSideSize;
       p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+      const nextBorderValue = (borderTable != null && borderTable[i] != null) ? borderTable[i] : "";
+      p5.text(nextBorderValue , i * this.borderTableSquareSideSize + textWidth , y);
       y = 50;
 
     }

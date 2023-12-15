@@ -61,10 +61,11 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     }
 
     protected replaceLetter(toHighlight :  Letter[] , newLetterDraw : Letter) : Letter[] {
-        toHighlight = toHighlight.filter(letterDraw => {
-            return letterDraw.index !== newLetterDraw.index;
+        const indexToReplace = toHighlight.findIndex(letterDraw => {
+            return letterDraw.index === newLetterDraw.index;
         });
-        toHighlight.push(newLetterDraw);
+
+        toHighlight[indexToReplace] = newLetterDraw;
         return toHighlight;
     }
 
