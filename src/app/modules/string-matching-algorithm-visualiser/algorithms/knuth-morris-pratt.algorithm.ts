@@ -53,23 +53,8 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
         }
 
         private createBorderTable(pattern : string , patternLength : number) : number[] {
-            const borderTable = new Array<number>(patternLength);
-            borderTable[0] = 0;
-            borderTable[1] = 0;
-            let i = 0;
-
-            for (let j = 2 ; j < patternLength; j++) {
-                i = borderTable[j - 1];
-                while (pattern[i] != pattern[j - 1] && i > 0) {
-                    i = borderTable[i];
-                }
-
-                if (pattern[i] != pattern[j-1] && i==0) {
-                    borderTable[j] = 0;
-                } else {
-                    borderTable[j] = i + 1;
-                }
-            }
+            const borderTable = new Array<number>(patternLength + 1);
+            const beforeBorderTableStep = JSON.parse(JSON.stringify(this.previousStep));
 
             this.algorithmStepBuilder.setPseudocodeLine = 7;
             this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
@@ -77,14 +62,190 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setPatternOffset = this.previousStep.patternOffset;
             this.algorithmStepBuilder.setLettersInText = this.previousStep.lettersInText;
             this.algorithmStepBuilder.setLettersInPattern = this.previousStep.lettersInPattern;
-            this.algorithmStepBuilder.setCommand = "Creating a border table";
+            this.algorithmStepBuilder.setCommand = `Creating a border table of length ${pattern.length}`;
             this.additionalVariables.borderTable = borderTable;
             this.algorithmStepBuilder.setAdditional = this.additionalVariables;
-            const currentStep = this.algorithmStepBuilder.build();
+            let currentStep = this.algorithmStepBuilder.build();
             this.addStep(currentStep);
-            this.algorithmStepBuilder.setDefaults();
-            this.previousStep = currentStep;
 
+            borderTable[0] = 0;
+
+            this.algorithmStepBuilder.setPseudocodeLine = 6;
+            this.algorithmStepBuilder.setCommand = 'The first element of the border table is the border of the empty string "", this is 0';
+            this.additionalVariables.borderTable = borderTable;
+            this.algorithmStepBuilder.setAdditional = this.additionalVariables;
+            currentStep = this.algorithmStepBuilder.build();
+            this.addStep(currentStep);
+
+            borderTable[1] = 0;
+
+            this.algorithmStepBuilder.setPseudocodeLine = 6;
+            this.algorithmStepBuilder.setCommand = `The second element of the border table is the border of the first character "${pattern.charAt(0)}", this is 0` ;
+            this.additionalVariables.borderTable = borderTable;
+            this.algorithmStepBuilder.setAdditional = this.additionalVariables;
+            this.letterBuilder.setIndex = 0;
+            this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+            this.letterBuilder.setLetter = pattern.charAt(0);
+            this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
+            currentStep = this.algorithmStepBuilder.build();
+            this.addStep(currentStep);
+            this.letterBuilder.setDefaults();
+            this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
+
+
+            let i = 0;
+            this.algorithmStepBuilder.setPseudocodeLine = 6;
+            this.algorithmStepBuilder.setCommand = "Initialising i to 0";
+            this.algorithmStepBuilder.setLettersInPattern = this.previousStep.lettersInPattern;
+            currentStep = this.algorithmStepBuilder.build();
+            this.addStep(currentStep);
+
+            this.algorithmStepBuilder.setPseudocodeLine = 6;
+            this.algorithmStepBuilder.setCommand = "Initialising j to 2";
+            currentStep = this.algorithmStepBuilder.build();
+            this.addStep(currentStep);
+
+
+            for (let j = 2 ; j < patternLength; j++) {
+
+                i = borderTable[j - 1];
+                this.algorithmStepBuilder.setPseudocodeLine = 6;
+                this.algorithmStepBuilder.setCommand = `Grabbing previous border value for "${pattern.substring(0, j-1)}" , which was ${borderTable[j-1]}`;
+                currentStep = this.algorithmStepBuilder.build();
+                this.addStep(currentStep);
+
+
+                this.algorithmStepBuilder.setPseudocodeLine = 6;
+                this.letterBuilder.setIndex = i;
+                this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+                this.letterBuilder.setLetter = pattern.charAt(i);
+                let temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
+                this.letterBuilder.setIndex = j-1;
+                this.letterBuilder.setColor = MatchingAlgorithmColourConstants.CHECKING;
+                this.letterBuilder.setLetter = pattern.charAt(j-1);
+                this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
+                this.additionalVariables.borderOne = [i, j-1];
+                this.algorithmStepBuilder.setAdditional = this.additionalVariables;
+                this.algorithmStepBuilder.setCommand = `We will check whether substring "${pattern.substring(0,j)}" has a border by checking if the last character "${pattern.charAt(i)}" of last substring "${pattern.substring(0,i+1)}" is equal to character which is now at the end of the substring "${pattern.substring(0,j)}"`;
+                currentStep = this.algorithmStepBuilder.build();
+                this.addStep(currentStep);
+                this.letterBuilder.setDefaults();
+                this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
+
+
+                console.log("Current i : " + i);
+                console.log("Current j : " + j);
+                console.log("Border element " + pattern.charAt(i) + " " + pattern.charAt(j - 1));
+
+                if (pattern[i] != pattern[j-1]) {
+                    this.algorithmStepBuilder.setCommand = `"${pattern.charAt(i)}" != "${pattern.charAt(j-1)}"`;
+                    this.letterBuilder.setIndex = i;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setLetter = pattern.charAt(i);
+                    temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
+                    this.letterBuilder.setIndex = j-1;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setLetter = pattern.charAt(j-1);
+                    this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
+                    currentStep = this.algorithmStepBuilder.build();
+                    this.addStep(currentStep);
+                    this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep))
+                }
+
+                while (pattern[i] != pattern[j - 1] && i > 0) {
+                    this.algorithmStepBuilder.setPseudocodeLine = 6;
+                    this.letterBuilder.setIndex = i;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setLetter = pattern.charAt(i);
+                    temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
+                    this.letterBuilder.setIndex = j-1;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setLetter = pattern.charAt(j-1);
+                    this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
+                    this.algorithmStepBuilder.setCommand = `The added character in the substring:  ${pattern.charAt(j-1)} is not equal to the character at the border ${pattern.charAt(i)}`;
+                    currentStep = this.algorithmStepBuilder.build();
+                    this.addStep(currentStep);
+                    this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep))
+
+                    i = borderTable[i];
+
+                    this.algorithmStepBuilder.setPseudocodeLine = 6;
+                    this.algorithmStepBuilder.setCommand = `Reducing i to ${i}`;
+                    this.letterBuilder.setIndex = i;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+                    this.letterBuilder.setLetter = pattern.charAt(i);
+                    temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
+                    this.letterBuilder.setIndex = j-1;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.CHECKING;
+                    this.letterBuilder.setLetter = pattern.charAt(j-1);
+                    this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
+                    currentStep = this.algorithmStepBuilder.build();
+                    this.addStep(currentStep);
+                    this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep))
+
+
+                    this.algorithmStepBuilder.setPseudocodeLine = 6;
+                    this.algorithmStepBuilder.setCommand = `Checking if there is a smaller border for the substring "${pattern.substring(0,j)}, by comparing the last character "${pattern.charAt(i)}" of the substring "${pattern.substring(0,i+1)}" to the character at the end of the substring "${pattern.substring(0,j)}"`;
+                    this.letterBuilder.setIndex = i;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+                    this.letterBuilder.setLetter = pattern.charAt(i);
+                    temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
+                    this.letterBuilder.setIndex = j-1;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.CHECKING;
+                    this.letterBuilder.setLetter = pattern.charAt(j-1);
+                    this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
+                    currentStep = this.algorithmStepBuilder.build();
+                    this.addStep(currentStep);
+                    this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep))
+
+                }
+
+                if (pattern[i] != pattern[j-1] && i==0) {
+                    borderTable[j] = 0;
+                    this.algorithmStepBuilder.setPseudocodeLine = 6;
+                    this.algorithmStepBuilder.setCommand = `Since the characters don't match and there is no characters left to compare then there must be no border`;
+                    this.letterBuilder.setIndex = i;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setLetter = pattern.charAt(i);
+                    temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
+                    this.letterBuilder.setIndex = j-1;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setLetter = pattern.charAt(j-1);
+                    this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
+                    currentStep = this.algorithmStepBuilder.build();
+                    this.additionalVariables.borderTable = borderTable;
+                    this.algorithmStepBuilder.setAdditional = this.additionalVariables;
+                    currentStep = this.algorithmStepBuilder.build();
+                    this.addStep(currentStep);
+                    this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep))
+                } else {
+                    borderTable[j] = i + 1;
+
+                    this.algorithmStepBuilder.setCommand = `"${pattern.charAt(i)}" === "${pattern.charAt(j-1)}"`;
+                    this.letterBuilder.setIndex = i;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+                    this.letterBuilder.setLetter = pattern.charAt(i);
+                    temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
+                    this.letterBuilder.setIndex = j-1;
+                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+                    this.letterBuilder.setLetter = pattern.charAt(j-1);
+                    this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
+                    currentStep = this.algorithmStepBuilder.build();
+                    this.addStep(currentStep);
+                    this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep))
+
+
+                    this.algorithmStepBuilder.setPseudocodeLine = 6;
+                    this.algorithmStepBuilder.setCommand = `Since the characters at the start and end match, the border must be 1 more than previous border, hence "borderTable[j] = i + 1 = ${i} + 1 = ${borderTable[j]}"`;
+                    this.additionalVariables.borderTable = borderTable;
+                    this.algorithmStepBuilder.setAdditional = this.additionalVariables;
+                    currentStep = this.algorithmStepBuilder.build();
+                    this.addStep(currentStep);
+                }
+            }
+
+            // this.previousStep = currentStep;
+            // console.log(this.steps);
             return borderTable;
         }
 
