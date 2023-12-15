@@ -1,120 +1,90 @@
-    
+
 \documentclass[11pt]{article}
+
 \usepackage{times}
-    \usepackage{fullpage}
-    
-    \title{Audio feedback for gesture recognition}
-    \author{John Williamson 9804750w}
+\usepackage{fullpage}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-    \begin{document}
-    \maketitle
-    
-    
-     
+\title{ String Matching Algorithms Visualiser}
+\author{ Michal Wozniak - 2554268w }
 
-
-
-\section{Proposal}\label{proposal}
-
-\subsection{Motivation}\label{motivation}
-
-Gesture recognition offers the opportunity to add controls to a myriad of sensing
-devices, particularly on mobile devices with limited control inputs. However, the
-resulting interfaces are hard to interpret. Adding auditory feedback to indicate
-the progress and success of gesture recognition could improve the usability of
-gesture recognition systems.
+\begin{document}
+\maketitle
 
 
-\subsection{Aims}\label{aims}
+\section{Status report}
 
-This project will develop a software framework for systematically exploring
-audio feedback options for gesture recognition. This will be a modular visual
-programming environment that allows various gesture recognisers to be configured
-and their output processed and fed to audio synthesis devices. The effectiveness
-of the project in improving gesture usability will be experimentally validated.
+\subsection{Proposal}\label{proposal}
 
-\section{Progress}\label{progress}
+\subsubsection{Motivation}\label{motivation}
 
+There are many visualiser solutions for string matching, but I believe there is room for improvement in areas such as; mobile support, ease of learning and usability. Most solutions are quite barebone, while others are slightly dated and hard to use. My project aims to improve in those areas e.g. adding a visualiser for the O(n) border table creation algorithm, hence helping users (mainly 3rd year computer science students at the University Of Glasgow) learn and understand string matching algorithms - foundational to modern software.
+
+\subsubsection{Aims}\label{aims}
+
+The final deliverable will be a web application with support for KMP, BM and Brute Force approach (hopefully a few more algorithms as well). The app will have the following high-level requirements identified in the requirement-gathering workshop and the prototype survey:
 \begin{itemize}
     \tightlist
-\item Language and GUI framework chosen: project will be implemented in Java,
-using Swing for GUI development.
-\item Software architecture outlined and basic class structure written.
-\item  Background research conducted on gesture recognition technologies and
-feedback mechanisms.
-\item  Interfacing to inertial sensing unit in Java completed.
-\item  Initial version of GUI developed, which allows basic signal processing to
-be applied to mouse input, with interchangable blocks.
-\item  Basic finite state machine gesture recogniser implemented.
-\item  Initial MIDI note based output implemented and working. Limited to
-pitch mapping.
+    \item Pseudocode following along with the animation
+    \item Ability to see variable values in real time
+    \item Messages reporting what is happening in the animation
+    \item Ability to pause, play, move forward and move backwards
+    \item Mobile-Friendly Layout
+    \item Clear UI
 \end{itemize}
 
-\section{Problems and risks}\label{problems-and-risks}
+Whether my app implements the required features in a way that makes learning easy and the system usable will depend on the evaluation to be completed by participants in the second semester.
 
-\subsection{Problems}\label{problems}
+\subsection{Progress}\label{progress}
 
-The following issues were encountered in the project so far.
+The project is in a good state at the time of writing. Animations for Brute Force, KMP and BM are implemented, including preprocessing animations for BM. All requirements from above are at a minimum in a working state. It is important to note some extra features have also been made:
 \begin{itemize}
     \tightlist
-\item Inertial sensing unit had unsupported and out-of-date drivers. Some tricky
-fixes had to be applied to get inputs.
-\item Many different types of gesture recognition; not clear which ones to focus
-on.
-\item Implemented FSM recogniser is not robust.
-\item Significant latency issues in rendering audio via Java with default audio
-generation libraries.
+\item Ability to filter out preprocessing steps (last occurrence table of BM)
+\item Ability to turn toggle smooth animations on/off
+\item Automatic animation resizing depending on screen size
+\item Last occurrence table for Boyer-Moore being scrollable (layout flexibility)
 \end{itemize}
 
-\subsection{Risks}\label{risks}
+The latest version of the software can be seen at the \href{https://string-search-visualiser-prod.netlify.app/}{following link}. The latest stable version can be seen \href{https://string-search-visualiser-staging.netlify.app/algorithm-visualiser/bruteForce}{here}.
+
+\subsection{Problems and risks}\label{problems-and-risks}
+
+\subsubsection{Problems}\label{problems}
+
+There haven't been too many issues. The biggest blocker I had throughout the first semester was the integration of p5js (used for animations) into Angular, as there is no native support. This means that the "drawing" code can be fragile at times. The other issue that has been a blocker for a while during the first semester is the pseudocode visualiser. Unfortunately, the library (PrismJS) will not let me use my self-defined theme, so the syntax highlighting will need to be implemented natively or scrapped. On top of this, I am still unsure how to display the pseudocode in a clear way (currently it is getting cut off).
+
+\subsubsection{Risks}\label{risks}
+
+The main problem ahead of me is constructing the layout in a way that both pseudocode and animation are clear. My idea at the moment is to make the size of each area resizeable so the user can set the relative sizes to whatever they want.  Another risk I can see is testing for animations. The integration with angular has been a problem in the past, so I am unsure how integrating Mocha (testing framework) will work out. Right now I cannot propose a mitigation, as I haven't done enough research into the framework, but this is something I am looking to do over Christmas.
+
+
+\subsection{Plan}\label{plan}
 
 \begin{itemize}
 \tightlist
-\item   Many different gesture recognisers to explore. \textbf{Mitigation}: will narrow
-down to three possibilities by start of next semester.
-\item Unclear how to evaluate success of the project. \textbf{Mitigation}: will do
-background research to investigate how success of audio recognition has
-been performed in the research literature.
-\item Inertial sensing device seems to be unreliable. \textbf{No clear mitigation available at this stage}
+\item \textbf{Christmas} Firstly I want to finish smooth animations including colours fading in and out and border table animations for KMP. I also want to handle all responses from the initial prototype survey and create themes (users can pick themes according to preference). If possible I want to start refactoring a little bit to allow for easy integration with new algorithms. If time allows for it I want to research Mocha (p5js testing framework).
+    \item \textbf{Week 13} Continue refactoring and final touches.
+    \item \textbf{Week 14} Implement 1-2 extra string matching algorithms. Testing
+    \item \textbf{Week 15} Testing and Evaluation Plan
+    \item \textbf{Week 16} Start writing dissertation and Evaluation Plan
+    \item \textbf{Week 17} Release evaluation and continue writing dissertation
+    \item \textbf{Week 18-24} Dissertation with evaluation finished up in week 20/21
 \end{itemize}
-    
-\section{Plan}\label{plan}
 
-\subsection{Semester 2}
 
-\begin{itemize}
-    \tightlist
-    \item
-      Week 1-2: develop visual programming interface. \textbf{Deliverable:}
-      complete interface that allows components to be added, removed and
-      rearranged.
-    \item
-      Week 3-5: implement three recognisers and test them with a standard
-      recognition task. \textbf{Deliverable:} tested recognisers with
-      initial performance metrics and integration with visual programming
-      environment.
-    \item
-      Week 6: research on how to best evaluate performance of final system.
-      \textbf{Deliverable:} detailed evaluation plan, with participant
-      numbers, information sheet and analysis plan.
-    \item
-      Week 7-9: final implementation and improvements to audio rendering.
-      \textbf{Deliverable: polished software ready, passing basic tests,
-      ready for evaluation stage.}
-    \item
-      Week 9: evaluation experiments run. \textbf{Deliverable: quantitative
-      measures of usability and qualitative measures of effectiveness for at
-      least ten users.}
-    \item
-      Week 8-10: Write up. \textbf{Deliverable: first draft submitted to
-      supervisor two weeks before final deadline.}
-    \end{itemize}
-    
+\subsection{Ethics and data}\label{ethics}
 
-\section{Ethics}
-
-This project will involve tests with human users.  These will be user studies
-using standard hardware, and require no personally identifiable information to be captured.
-I have verified that the experiments I plan to do comply with the Ethics Checklist.
+My evaluation will likely be a survey combined with focus groups and usability studies. The survey will collect qualitative and quantitative metrics for learning ease, mobile friendliness, user feedback, and areas for improvement. The focus group will be for me to observe how easy people find the software to use and whether there are any stages where people find the system confusing. Lastly, the usability study will be used to determine the usability - was there anything that could have made it better.  The data will be a mix of written responses, quantitative responses and written notes from my observations. To achieve this I will need to have \emph{have verified that the ethics checklist will apply to any evaluation I need to do. I will sign and complete the checklist.}
 
 \end{document}
