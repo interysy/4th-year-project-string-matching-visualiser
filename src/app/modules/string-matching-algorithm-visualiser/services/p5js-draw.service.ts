@@ -172,8 +172,8 @@ export class P5jsDrawService {
     const patternLettersToDraw = this.step.lettersInPattern;
     const graphicalOffset = patternOffset * this.squareSideSize;
 
-    this.drawPattern(patternLettersToDraw , this.smoothOffset);
-    this.drawText(textLettersToDraw);
+    this.drawPattern(patternLettersToDraw , this.smoothOffset , this.progress);
+    this.drawText(textLettersToDraw, this.progress);
     this.currentFrame++;
 
 
@@ -200,6 +200,7 @@ export class P5jsDrawService {
         }
       }
     } else  {
+      this.progress = 1;
       this.smoothOffset = graphicalOffset;
     }
 
@@ -207,17 +208,19 @@ export class P5jsDrawService {
   }
 
 
-  private drawText(lettersToDraw : Letter[]) {
+  private drawText(lettersToDraw : Letter[], fade : number) {
     lettersToDraw.forEach(letterObject => {
+      if (this.p5) {
       let y = 100;
       const index = letterObject.index;
-      const colour = letterObject.colour;
+      let colour = this.p5.color(letterObject.colour.toString());
       const letter = letterObject.letter;
       const strokeWeight = letterObject.strokeWeight;
-      if (this.p5) {
+
         this.p5.text(index , index * this.squareSideSize, y);
         y = y + this.squareSideSize;
-        this.p5.fill(colour.toString());
+        if (this.optionService.smoothAnimationsGetter) colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
+        this.p5.fill(colour);
         this.p5.strokeWeight(strokeWeight);
         this.p5.rect(index * this.squareSideSize, y , this.squareSideSize , this.squareSideSize);
         this.p5.fill("#000000");
@@ -229,18 +232,17 @@ export class P5jsDrawService {
 }
 
 
-    private drawPattern(lettersToDraw : Letter[] , offset : number ) {
-      lettersToDraw.forEach((letterObject , letterObjectIndex) => {
-        //const previousLetterObject = this.previousStep.lettersInPattern[letterObjectIndex];
+    private drawPattern(lettersToDraw : Letter[] , offset : number , fade : number) {
+      lettersToDraw.forEach(letterObject  => {
+        if (this.p5) {
         const y = 100 + this.squareSideSize*2 + this.gap;
         const index = letterObject.index;
-        const colour = letterObject.colour;
+        let colour = this.p5?.color(letterObject.colour.toString());
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
 
-        if (this.p5) {
-          //const interpolatedColour = this.p5.lerpColor(this.p5.color(previousLetterObject.colour.toString()), this.p5.color(colour.toString()), fade);
-          this.p5.fill(colour.toString());
+          if (this.optionService.smoothAnimationsGetter) colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
+          this.p5.fill(colour);
           this.p5.strokeWeight(strokeWeight);
           this.p5.rect(index * this.squareSideSize + offset , y , this.squareSideSize , this.squareSideSize);
           this.p5.fill("#000000");
