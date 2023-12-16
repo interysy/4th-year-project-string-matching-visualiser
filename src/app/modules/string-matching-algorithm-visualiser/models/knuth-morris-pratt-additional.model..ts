@@ -6,4 +6,6 @@ export class KnuthMorrisPrattAdditionalVariables extends AdditionalVariables {
     borderTableLetters : Letter[];
     borderOne : [number, number];
     borderTwo : [number, number];
+    i : number;
+    j : number;
 }
