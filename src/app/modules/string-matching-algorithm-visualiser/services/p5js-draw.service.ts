@@ -6,6 +6,7 @@ import { MatchingAlgorithmColourConstants } from '../constants/matching-algorith
 import { AlgorithmStepBuilder } from '../model-builders/algorithm-step.builder';
 import { AlgorithmProgressService } from './algorithm-progress.service';
 import { OptionService } from './option.service';
+import { DrawStepDecorator } from '../models/drawer-step.decorator';
 
 export class P5jsDrawService {
 
@@ -32,6 +33,7 @@ export class P5jsDrawService {
   private textSize = 15;
   private previousLastOccurrenceTable : {[character : string] : number; };
   private algorithmStepBuilder : AlgorithmStepBuilder = new AlgorithmStepBuilder();
+
 
 
   private animating = false;
@@ -153,8 +155,6 @@ export class P5jsDrawService {
     p.rectMode(p.CENTER);
     p.textAlign(p.CENTER , p.CENTER);
 
-
-
     if (this.activeWindow(p.width)) {
       this.centraliseTextAndPattern(((this.step.patternOffset * 2 + this.step.lettersInPattern.length ) * this.squareSideSize));
     } else {
@@ -198,6 +198,8 @@ export class P5jsDrawService {
     } else {
       this.drawPattern(patternLettersToDraw , graphicalOffset);
     }
+
+
   }
 
 
@@ -237,6 +239,19 @@ export class P5jsDrawService {
           this.p5.rect(index * this.squareSideSize + offset , y , this.squareSideSize , this.squareSideSize);
           this.p5.fill("#000000");
           this.p5.strokeWeight(1);
+          if (this.step.additional['borderOne'] && this.step.additional['i'] == index) {
+            const borderOne = this.step.additional['borderOne']
+            this.p5.line(index * this.squareSideSize , y + this.squareSideSize /2 + 5 , index * this.squareSideSize + this.squareSideSize/2 , y + 50);
+            this.p5.text(`Potential Border is "${this.optionService.patternGetter.substring(borderOne[0] , borderOne[1] + 1)}"`,index * this.squareSideSize + this.squareSideSize *2 , y +75)
+          }
+
+          if (this.step.additional['borderTwo'] && this.step.additional['j'] - 1 == index) {
+            const borderTwo = this.step.additional['borderTwo']
+            this.p5.line(index * this.squareSideSize , y - this.squareSideSize /2  , index * this.squareSideSize + this.squareSideSize/2 , y - 75);
+            this.p5.text(`Potential Border is "${this.optionService.patternGetter.substring(borderTwo[0] , borderTwo[1] + 1)}"`,index * this.squareSideSize + this.squareSideSize*3 , y - 100)
+          }
+
+
           this.p5.text(letter ,index * this.squareSideSize + offset  , y);
         }
       })
@@ -310,16 +325,14 @@ export class P5jsDrawService {
       p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth , y);
       y = y + this.borderTableSquareSideSize;
       p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+      p5.line((patternLength -1 )* this.borderTableSquareSideSize + textWidth - this.borderTableSquareSideSize/2 , y - this.borderTableSquareSideSize/2 , (patternLength -1 )* this.borderTableSquareSideSize + textWidth + this.borderTableSquareSideSize/2, y + this.borderTableSquareSideSize/2);
       const nextBorderValue = (borderTable != null && borderTable[i] != null) ? borderTable[i] : "";
       p5.text(nextBorderValue , i * this.borderTableSquareSideSize + textWidth , y);
       y = 50;
 
     }
-
-
-
-
   }
+
 
   private scrollToLastOccurrenceElement(index : number) {
     if (this.p5) {
