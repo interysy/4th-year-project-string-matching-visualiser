@@ -67,6 +67,7 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setAdditional = this.additionalVariables;
             let currentStep = this.algorithmStepBuilder.build();
             this.addStep(currentStep);
+            this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
 
             borderTable[0] = 0;
 
@@ -76,6 +77,7 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setAdditional = this.additionalVariables;
             currentStep = this.algorithmStepBuilder.build();
             this.addStep(currentStep);
+            this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
 
             borderTable[1] = 0;
 
@@ -99,23 +101,31 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setLettersInPattern = this.previousStep.lettersInPattern;
             currentStep = this.algorithmStepBuilder.build();
             this.addStep(currentStep);
+            this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
 
             this.algorithmStepBuilder.setPseudocodeLine = 6;
             this.algorithmStepBuilder.setCommand = "Initialising j to 2";
             currentStep = this.algorithmStepBuilder.build();
             this.addStep(currentStep);
+            this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
 
 
             for (let j = 2 ; j < patternLength; j++) {
-
                 i = borderTable[j - 1];
+
                 this.algorithmStepBuilder.setPseudocodeLine = 6;
                 this.algorithmStepBuilder.setCommand = `Grabbing previous border value for "${pattern.substring(0, j-1)}" , which was ${borderTable[j-1]}`;
                 currentStep = this.algorithmStepBuilder.build();
                 this.addStep(currentStep);
+                this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
 
 
                 this.algorithmStepBuilder.setPseudocodeLine = 6;
+                this.additionalVariables.i = i;
+                this.additionalVariables.j = j;
+                this.additionalVariables.borderOne = [0  , i];
+                const difference = this.additionalVariables.borderOne[1] - this.additionalVariables.borderOne[0];
+                this.additionalVariables.borderTwo = [j - 1 - difference , j - 1];
                 this.letterBuilder.setIndex = i;
                 this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
                 this.letterBuilder.setLetter = pattern.charAt(i);
@@ -124,7 +134,6 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                 this.letterBuilder.setColor = MatchingAlgorithmColourConstants.CHECKING;
                 this.letterBuilder.setLetter = pattern.charAt(j-1);
                 this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
-                this.additionalVariables.borderOne = [i, j-1];
                 this.algorithmStepBuilder.setAdditional = this.additionalVariables;
                 this.algorithmStepBuilder.setCommand = `We will check whether substring "${pattern.substring(0,j)}" has a border by checking if the last character "${pattern.charAt(i)}" of last substring "${pattern.substring(0,i+1)}" is equal to character which is now at the end of the substring "${pattern.substring(0,j)}"`;
                 currentStep = this.algorithmStepBuilder.build();
@@ -133,9 +142,6 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                 this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
 
 
-                console.log("Current i : " + i);
-                console.log("Current j : " + j);
-                console.log("Border element " + pattern.charAt(i) + " " + pattern.charAt(j - 1));
 
                 if (pattern[i] != pattern[j-1]) {
                     this.algorithmStepBuilder.setCommand = `"${pattern.charAt(i)}" != "${pattern.charAt(j-1)}"`;
@@ -171,6 +177,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
 
                     this.algorithmStepBuilder.setPseudocodeLine = 6;
                     this.algorithmStepBuilder.setCommand = `Reducing i to ${i}`;
+                    this.additionalVariables.i = i;
+                    this.additionalVariables.j = j;
+                    this.additionalVariables.borderOne = [0  , i];
+                    const difference = this.additionalVariables.borderOne[1] - this.additionalVariables.borderOne[0];
+                    this.additionalVariables.borderTwo = [j - 1 - difference , j - 1];
                     this.letterBuilder.setIndex = i;
                     this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
                     this.letterBuilder.setLetter = pattern.charAt(i);
@@ -241,11 +252,16 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                     this.algorithmStepBuilder.setAdditional = this.additionalVariables;
                     currentStep = this.algorithmStepBuilder.build();
                     this.addStep(currentStep);
+                    this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
                 }
             }
 
-            // this.previousStep = currentStep;
-            // console.log(this.steps);
+            this.resetAdditionalVariables();
+            this.algorithmStepBuilder.setDefaults();
+            this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
+            this.letterBuilder.setDefaults();
+            this.additionalVariables.borderTable = borderTable;
+            this.algorithmStepBuilder.setAdditional = this.additionalVariables;
             return borderTable;
         }
 
