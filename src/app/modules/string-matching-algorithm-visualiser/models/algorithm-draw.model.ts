@@ -1,7 +1,6 @@
-import * as p5 from "p5";
-import { AlgorithmStep } from "./algorithm-step.model";
+import { P5jsDrawService } from "../services/p5js-draw.service";
 
 
 export interface StringMatchingAlgorithmToDraw {
-    draw(p : p5 , step : AlgorithmStep , squareSideSize : number) : void;
+    draw(obj : P5jsDrawService) : void;
 }
