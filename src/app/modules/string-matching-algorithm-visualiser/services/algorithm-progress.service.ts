@@ -293,6 +293,10 @@ export class AlgorithmProgressService {
     return this.speedChanged$;
   }
 
+  get pseudocodeFilenameGetter() {
+    return this.steps[this.currentStep].pseudocodeFilename;
+  }
+
   set textSetter(text : string) {
     this.text = text;
     this.algorithm.resetSteps();

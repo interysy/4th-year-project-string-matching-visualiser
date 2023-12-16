@@ -11,4 +11,5 @@ export interface AlgorithmStep {
     command : string;
     additional : AdditionalVariables;
     extra : boolean;
+    pseudocodeFilename : string;
 }

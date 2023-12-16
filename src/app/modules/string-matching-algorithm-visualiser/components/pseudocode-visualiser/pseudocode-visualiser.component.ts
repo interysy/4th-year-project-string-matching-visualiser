@@ -22,19 +22,27 @@ export class PseudocodeVisualiserComponent implements OnInit {
   private pseudocode: string;
   protected formattedPseudocode: string;
 
-
   constructor(private readonly algorithmProgressService : AlgorithmProgressService,
               private readonly pseudocodeParserService : PseudocodeParserService) {
 
     this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((_) => {
+      if (this.algorithmProgressService.pseudocodeFilenameGetter != "") {
+        this.loadPseudocode(this.algorithmProgressService.pseudocodeFilenameGetter);
+      } else {
+        this.loadPseudocode(this.algorithmProgressService.algorithmNameGetter);
+      }
       this.highlightLine(this.algorithmProgressService.pseudocodeLine);
+
     });
   }
 
   ngOnInit(): void {
     this.createButtons();
+    this.loadPseudocode(this.algorithmProgressService.algorithmNameGetter);
+  }
 
-    this.pseudocodeParserService.getAlgorithmPseudocode(this.algorithmProgressService.algorithmNameGetter).subscribe((pseudocode) => {
+  private loadPseudocode(filename : string) {
+    this.pseudocodeParserService.getAlgorithmPseudocode(filename).subscribe((pseudocode) => {
       this.pseudocode =  "\n" + pseudocode.trim();
       this.formattedPseudocode = Prism.highlight(this.pseudocode, Prism.languages[this.language] , this.language);
     });

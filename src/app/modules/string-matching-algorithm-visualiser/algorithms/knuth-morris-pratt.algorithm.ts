@@ -73,8 +73,10 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
 
             this.algorithmStepBuilder.setPseudocodeLine = 6;
             this.algorithmStepBuilder.setCommand = 'The first element of the border table is the border of the empty string "", this is 0';
+            this.algorithmStepBuilder.setExtra = true;
             this.additionalVariables.borderTable = borderTable;
             this.algorithmStepBuilder.setAdditional = this.additionalVariables;
+            this.algorithmStepBuilder.setPseudocodeFilename = "border-table";
             currentStep = this.algorithmStepBuilder.build();
             this.addStep(currentStep);
             this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
