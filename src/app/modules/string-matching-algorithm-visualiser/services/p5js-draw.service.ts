@@ -237,6 +237,7 @@ export class P5jsDrawService {
 }
 
 
+
     private drawPattern(lettersToDraw : Letter[] , offset : number , fade : number) {
       lettersToDraw.forEach((letterObject, letterIndex)  => {
         if (this.p5) {
@@ -247,6 +248,7 @@ export class P5jsDrawService {
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
 
+        if (this.p5) {
           if (this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
             colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
           } else {
@@ -259,6 +261,7 @@ export class P5jsDrawService {
           this.p5.strokeWeight(1);
           this.p5.text(letter ,index * this.squareSideSize + offset  , y);
         }
+      }
       })
   }
 
@@ -313,7 +316,6 @@ export class P5jsDrawService {
     p5.text("BORDER TABLE:" ,(p5.width  / 2) , 10);
 
     const borderTable = (this.step.additional['borderTable']) ? this.step.additional['borderTable'] : null;
-    const borderOne = (this.step.additional['borderOne']) ? this.step.additional['borderOne'] : null;
 
     const patternLength = this.step.lettersInPattern.length + 1;
     this.centraliseTextAndPattern(patternLength* this.borderTableSquareSideSize);
