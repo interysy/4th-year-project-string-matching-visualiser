@@ -42,11 +42,13 @@ export class P5jsDrawService {
   private startTime = 0;
   private framesToWait: number;
   private currentFrame: number;
+  private smoothOffset : number;
 
 
   private readonly algorithmProgressService : AlgorithmProgressService;
   private readonly optionService: OptionService;
   private subscriptions : Subscription[] = [];
+  progress = 0;
 
 
 
@@ -60,12 +62,13 @@ export class P5jsDrawService {
       this.scrollable = scrollable;
       this.step = this.algorithmProgressService.stepGetter;
       this.previousStep = JSON.parse(JSON.stringify(this.step));
+      this.smoothOffset = this.step.patternOffset*this.squareSideSize;
       this.changeSquareSize(this.optionService.textGetter.length , width);
       this.algorithm = this.algorithmProgressService.decoratedAlgorithmGetter;
 
       this.subscriptions.push(this.algorithmProgressService.speedChangedSubscriberGetter.subscribe((speed : number) => {
         const haveFramesChanged = this.workOutFramesToWait(speed);
-        if (this.p5) this.currentFrame = this.p5.constrain(haveFramesChanged , 0 , this.framesToWait);
+        this.currentFrame = 0;
         this.framesToWait = haveFramesChanged;
       }));
 
@@ -133,14 +136,8 @@ export class P5jsDrawService {
   }
 
   mouseWheel(event : any) {
-
-    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
-    if (lastOccuranceTable && this.p5 && lastOccuranceTable.length * this.dictionaryElementSize > this.p5.width) {
       event.preventDefault();
       this.scrollX += event.deltaY;
-      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width);
-    }
-
   }
 
   centraliseTextAndPattern(textWidth : number) : void {
@@ -164,85 +161,101 @@ export class P5jsDrawService {
     }
 
 
-    if (this.currentFrame < this.framesToWait) {
-      this.currentFrame++;
-    } else {
-      this.currentFrame = 0;
-    }
-
-
     const patternOffset = this.step.patternOffset;
     const textLettersToDraw = this.step.lettersInText;
     const patternLettersToDraw = this.step.lettersInPattern;
     const graphicalOffset = patternOffset * this.squareSideSize;
 
-    this.drawText(textLettersToDraw);
+    this.drawPattern(patternLettersToDraw , this.smoothOffset , this.progress);
+    this.drawText(textLettersToDraw, this.progress);
+    this.currentFrame++;
 
-    if (this.optionService.smoothAnimationsGetter) {
-      if (this.algorithmProgressService.currentlyPlayingGetter != this.animating && this.step.patternOffset != this.previousStep.patternOffset) {
-        this.animating = this.algorithmProgressService.currentlyPlayingGetter;
-        this.startTime = p.millis();
-      } else if (this.algorithmProgressService.currentlyPlayingGetter && this.step.patternOffset != this.previousStep.patternOffset) {
-        const currentTime = p.millis() - this.startTime;
-        const progress = p.constrain(currentTime / this.algorithmProgressService.speedGetter, 0, 1);
+
+    if (this.algorithmProgressService.currentlyPlayingGetter) {
+      if (!this.animating) {
+        this.animating = true;
+        this.currentFrame = 0;
+        this.smoothOffset = this.previousStep.patternOffset*this.squareSideSize;
+      } else {
+        const progress = p.constrain(this.currentFrame / this.framesToWait, 0, 1);
+        this.progress = progress;
+
+        if (this.optionService.smoothAnimationsGetter) {
+          const interpolatedX = p.lerp(this.previousStep.patternOffset*this.squareSideSize, graphicalOffset, progress);
+          this.smoothOffset = interpolatedX;
+        } else {
+          this.smoothOffset = graphicalOffset;
+        }
+
         if (progress == 1) {
           this.algorithmProgressService.moveToNextStep();
           this.animating = false;
+          this.progress = 0;
         }
-        const interpolatedX = p.lerp(this.previousStep.patternOffset*this.squareSideSize, graphicalOffset, progress);
-        this.drawPattern(patternLettersToDraw , interpolatedX);
-      } else if (this.algorithmProgressService.currentlyPlayingGetter) {
-        this.drawPattern(patternLettersToDraw , graphicalOffset);
-        if (this.currentFrame == this.framesToWait) this.algorithmProgressService.moveToNextStep();
-      } else {
-        this.drawPattern(patternLettersToDraw , graphicalOffset);
       }
-    } else {
-      this.drawPattern(patternLettersToDraw , graphicalOffset);
+    } else  {
+      this.progress = 1;
+      this.smoothOffset = graphicalOffset;
     }
 
     this.algorithm.draw(this);
   }
 
 
-  private drawText(lettersToDraw : Letter[]) {
-      lettersToDraw.forEach(letterObject => {
+  private drawText(lettersToDraw : Letter[], fade : number) {
+    lettersToDraw.forEach((letterObject, letterIndex)=> {
+      if (this.p5) {
+        const previousLetter = this.previousStep.lettersInText[letterIndex];
         let y = 100;
         const index = letterObject.index;
-        const colour = letterObject.colour;
+        let colour = this.p5.color(letterObject.colour.toString());
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
-        if (this.p5) {
-          this.p5.text(index , index * this.squareSideSize, y);
-          y = y + this.squareSideSize;
-          this.p5.fill(colour.toString());
-          this.p5.strokeWeight(strokeWeight);
-          this.p5.rect(index * this.squareSideSize, y , this.squareSideSize , this.squareSideSize);
-          this.p5.fill("#000000");
-          this.p5.strokeWeight(1);
-          this.p5.text(letter , index * this.squareSideSize , y);
+
+        this.p5.text(index , index * this.squareSideSize, y);
+        y = y + this.squareSideSize;
+        if (letterObject && this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
+          colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
+        } else {
+          colour = this.p5.color(colour.toString());
         }
-      });
+        this.p5.fill(colour);
+        this.p5.strokeWeight(strokeWeight);
+        this.p5.rect(index * this.squareSideSize, y , this.squareSideSize , this.squareSideSize);
+        this.p5.fill("#000000");
+        this.p5.strokeWeight(1);
+        this.p5.text(letter , index * this.squareSideSize , y);
+      }
+    });
 
-  }
+}
 
 
-    private drawPattern(lettersToDraw : Letter[] , offset : number) {
-      lettersToDraw.forEach(letterObject => {
+
+    private drawPattern(lettersToDraw : Letter[] , offset : number , fade : number) {
+      lettersToDraw.forEach((letterObject, letterIndex)  => {
+        if (this.p5) {
+        const previousLetter = this.previousStep.lettersInPattern[letterIndex];
         const y = 100 + this.squareSideSize*2 + this.gap;
         const index = letterObject.index;
-        const colour = letterObject.colour;
+        let colour = this.p5?.color(letterObject.colour.toString());
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
 
         if (this.p5) {
-          this.p5.fill(colour.toString());
+          if (letterObject && this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
+            colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
+          } else {
+            colour = this.p5.color(colour.toString());
+          }
+          this.p5.fill(colour);
           this.p5.strokeWeight(strokeWeight);
           this.p5.rect(index * this.squareSideSize + offset , y , this.squareSideSize , this.squareSideSize);
           this.p5.fill("#000000");
           this.p5.strokeWeight(1);
           this.p5.text(letter ,index * this.squareSideSize + offset  , y);
         }
+      }
       })
   }
 
@@ -297,30 +310,51 @@ export class P5jsDrawService {
     p5.text("BORDER TABLE:" ,(p5.width  / 2) , 10);
 
     const borderTable = (this.step.additional['borderTable']) ? this.step.additional['borderTable'] : null;
-    const borderOne = (this.step.additional['borderOne']) ? this.step.additional['borderOne'] : null;
+    const borderTableIndexToHighlight = (this.step.additional['borderTableIndexToHighlight']) ? this.step.additional['borderTableIndexToHighlight'] : null;
 
     const patternLength = this.step.lettersInPattern.length + 1;
     this.centraliseTextAndPattern(patternLength* this.borderTableSquareSideSize);
-    p5.text("String" , 0 , 50 + this.borderTableSquareSideSize);
-    p5.text("Border" , 0 , 50 + this.borderTableSquareSideSize * 2);
-    const textWidth = p5.textWidth("String")
+    const textWidth = p5.textWidth("String");
+    p5.text("String" , 0 - this.scrollX , 50 + this.borderTableSquareSideSize);
+    p5.text("Border" , 0 - this.scrollX, 50 + this.borderTableSquareSideSize * 2);
+
     let y = 50;
 
     for (let i = 0 ; i < patternLength ; i++) {
-      p5.text(i , i * this.borderTableSquareSideSize + textWidth, y);
-      y = y + this.borderTableSquareSideSize;
-      p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
-      const nextLetter = (i-1 < 0) ? '""' : this.step.lettersInPattern[i-1].letter;
-      p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth , y);
-      y = y + this.borderTableSquareSideSize;
-      p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
-      p5.line((patternLength -1 )* this.borderTableSquareSideSize + textWidth - this.borderTableSquareSideSize/2 , y - this.borderTableSquareSideSize/2 , (patternLength -1 )* this.borderTableSquareSideSize + textWidth + this.borderTableSquareSideSize/2, y + this.borderTableSquareSideSize/2);
-      const nextBorderValue = (borderTable != null && borderTable[i] != null) ? borderTable[i] : "";
-      p5.text(nextBorderValue , i * this.borderTableSquareSideSize + textWidth , y);
-      y = 50;
+
+        p5.text(i , i * this.borderTableSquareSideSize + textWidth - this.scrollX, y);
+        y = y + this.borderTableSquareSideSize;
+        if (borderTableIndexToHighlight != null && borderTableIndexToHighlight == i) {
+          p5.fill(MatchingAlgorithmColourConstants.CHECKING);
+          p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+          p5.fill("#000000")
+        } else {
+          p5.fill("#FFFFFF")
+          p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+          p5.fill("#000000")
+        }
+
+        const nextLetter = (i-1 < 0) ? '""' : this.step.lettersInPattern[i-1].letter;
+        p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth - this.scrollX , y);
+        y = y + this.borderTableSquareSideSize;
+        // p5.fill("#FFFFFF")
+        if (borderTableIndexToHighlight != null && borderTableIndexToHighlight == i) {
+          p5.fill(MatchingAlgorithmColourConstants.CHECKING);
+          p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+          p5.fill("#000000")
+        } else {
+          p5.fill("#FFFFFF")
+          p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+          p5.fill("#000000")
+        }
+
+        p5.line((patternLength -1 )* this.borderTableSquareSideSize + textWidth - this.borderTableSquareSideSize/2 - this.scrollX , y - this.borderTableSquareSideSize/2 , (patternLength -1 )* this.borderTableSquareSideSize + textWidth + this.borderTableSquareSideSize/2 - this.scrollX, y + this.borderTableSquareSideSize/2);
+        const nextBorderValue = (borderTable != null && borderTable[i] != null) ? borderTable[i] : "";
+        p5.text(nextBorderValue , i * this.borderTableSquareSideSize + textWidth - this.scrollX , y);
+        y = 50;
+      }
 
     }
-  }
 
   public annotatePattern() {
     const y = 100 + this.squareSideSize*2 + this.gap;
@@ -328,7 +362,6 @@ export class P5jsDrawService {
       if (this.step.additional['borderOne'] && this.step.additional['i'] != null) {
         const borderOne = this.step.additional['borderOne'];
         const i = this.step.additional['i'];
-        console.log(borderOne);
         this.p5.line( i * this.squareSideSize , y + this.squareSideSize /2 + 5 , i * this.squareSideSize + this.squareSideSize/2 , y + 55);
         this.p5.strokeWeight(5);
         this.p5.stroke(MatchingAlgorithmColourConstants.MATCH);
@@ -424,28 +457,12 @@ export class P5jsDrawService {
 
 
   public skipRight() : boolean {
-    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
-
-    if (this.p5 && lastOccuranceTable) {
-      this.scrollX += this.dictionaryElementSize;
-      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * (this.dictionaryElementSize + this.dictionaryGap) - this.p5.width);
-      if (this.scrollX >= (Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width)) {
-        return false;
-      }
-    }
+    this.scrollX += 40;
     return true;
   }
 
   public skipLeft() : boolean {
-    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
-
-    if (this.p5 && lastOccuranceTable) {
-      this.scrollX -= this.dictionaryElementSize;
-      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * (this.dictionaryElementSize + this.dictionaryGap) - this.p5.width);
-      if (this.scrollX === 0) {
-        return false;
-      }
-    }
+    this.scrollX -= 40;
     return true;
   }
 

@@ -95,6 +95,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
 
         this.algorithmStepBuilder.setDefaults();
         this.resetAdditionalVariables();
+        this.additionalVariables.lastOccuranceTable = lastOccuranceDictionary;
         this.previousStep = currentStep;
 
         return lastOccuranceDictionary;

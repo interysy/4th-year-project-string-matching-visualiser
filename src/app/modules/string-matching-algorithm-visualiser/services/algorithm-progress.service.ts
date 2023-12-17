@@ -195,13 +195,6 @@ export class AlgorithmProgressService {
    */
   async play() : Promise<void> {
     this.currentlyPlaying = true;
-    if (!this.smoothAnimations) {
-      while (this.currentStep != this.amountOfSteps-1 && this.currentlyPlaying && !this.smoothAnimations) {
-        this.moveToNextStep();
-        await this.sleep(this.speed);
-      }
-      if (!this.smoothAnimations) this.currentlyPlaying = false;
-    }
   }
 
   /**
@@ -219,6 +212,7 @@ export class AlgorithmProgressService {
    */
   changeSpeedOfPlayback(speed : number) : void {
     this.speed = speed;
+    this.speedChanged$.next(speed);
   }
 
   get currentStepNumberGetter() {
