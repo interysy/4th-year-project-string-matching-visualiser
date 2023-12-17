@@ -35,15 +35,16 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                     }
                 } else {
                     if (borderTable[patternIndex] > 0) {
+                        const temp = patternIndex;
                         patternIndex = borderTable[patternIndex];
-                        this.addMismatchStep(1 , patternIndex , textIndex);
+                        this.addMismatchStep(1 , patternIndex , textIndex , temp);
                     } else {
                         if (patternIndex == 0) {
                             textIndex++;
-                            this.addMismatchStep(2 , 0 , textIndex);
+                            this.addMismatchStep(2 , 0 , textIndex , null);
                         } else {
                             patternIndex = 0;
-                            this.addMismatchStep(3 , 0 , textIndex);
+                            this.addMismatchStep(3 , 0 , textIndex , null);
                         }
                     }
                 }
@@ -439,7 +440,7 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.addStep(step);
         }
 
-        private addMismatchStep(mismatchCase : number , patternIndex : number , textIndex : number) {
+        private addMismatchStep(mismatchCase : number , patternIndex : number , textIndex : number , borderIndex : number | null) {
             this.algorithmStepBuilder.setPseudocodeLine = 14;
             this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
             this.algorithmStepBuilder.setTextIndex = this.previousStep.textIndex;
@@ -477,6 +478,7 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                 case 1: {
                     this.algorithmStepBuilder.setPseudocodeLine = 16;
                     this.algorithmStepBuilder.setCommand = "Border table has a value for the current pattern index";
+                    this.additionalVariables.borderTableIndexToHighlight = borderIndex;
                     this.algorithmStepBuilder.setAdditional = this.additionalVariables;
                     this.algorithmStepBuilder.setPatternIndex = patternIndex;
                     this.algorithmStepBuilder.setPatternOffset = textIndex - patternIndex;
@@ -518,6 +520,7 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             step = this.algorithmStepBuilder.build();
             this.addStep(step);
             this.previousStep = step;
+            this.additionalVariables.borderTableIndexToHighlight = null;
             this.algorithmStepBuilder.setDefaults();
         }
 

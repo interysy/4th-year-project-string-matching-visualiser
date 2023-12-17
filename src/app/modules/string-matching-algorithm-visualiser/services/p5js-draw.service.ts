@@ -206,15 +206,15 @@ export class P5jsDrawService {
     lettersToDraw.forEach((letterObject, letterIndex)=> {
       if (this.p5) {
         const previousLetter = this.previousStep.lettersInText[letterIndex];
-      let y = 100;
-      const index = letterObject.index;
-      let colour = this.p5.color(letterObject.colour.toString());
-      const letter = letterObject.letter;
-      const strokeWeight = letterObject.strokeWeight;
+        let y = 100;
+        const index = letterObject.index;
+        let colour = this.p5.color(letterObject.colour.toString());
+        const letter = letterObject.letter;
+        const strokeWeight = letterObject.strokeWeight;
 
         this.p5.text(index , index * this.squareSideSize, y);
         y = y + this.squareSideSize;
-        if (this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
+        if (letterObject && this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
           colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
         } else {
           colour = this.p5.color(colour.toString());
@@ -243,7 +243,7 @@ export class P5jsDrawService {
         const strokeWeight = letterObject.strokeWeight;
 
         if (this.p5) {
-          if (this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
+          if (letterObject && this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
             colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
           } else {
             colour = this.p5.color(colour.toString());
@@ -310,6 +310,7 @@ export class P5jsDrawService {
     p5.text("BORDER TABLE:" ,(p5.width  / 2) , 10);
 
     const borderTable = (this.step.additional['borderTable']) ? this.step.additional['borderTable'] : null;
+    const borderTableIndexToHighlight = (this.step.additional['borderTableIndexToHighlight']) ? this.step.additional['borderTableIndexToHighlight'] : null;
 
     const patternLength = this.step.lettersInPattern.length + 1;
     this.centraliseTextAndPattern(patternLength* this.borderTableSquareSideSize);
@@ -320,30 +321,38 @@ export class P5jsDrawService {
     let y = 50;
 
     for (let i = 0 ; i < patternLength ; i++) {
-      // const xPos = i * (this.borderTableSquareSideSize + textWidth) - this.scrollX;
+
         p5.text(i , i * this.borderTableSquareSideSize + textWidth - this.scrollX, y);
         y = y + this.borderTableSquareSideSize;
-        p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+        if (borderTableIndexToHighlight != null && borderTableIndexToHighlight == i) {
+          p5.fill(MatchingAlgorithmColourConstants.CHECKING);
+          p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+          p5.fill("#000000")
+        } else {
+          p5.fill("#FFFFFF")
+          p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+          p5.fill("#000000")
+        }
+
         const nextLetter = (i-1 < 0) ? '""' : this.step.lettersInPattern[i-1].letter;
         p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth - this.scrollX , y);
         y = y + this.borderTableSquareSideSize;
-        p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+        // p5.fill("#FFFFFF")
+        if (borderTableIndexToHighlight != null && borderTableIndexToHighlight == i) {
+          p5.fill(MatchingAlgorithmColourConstants.CHECKING);
+          p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+          p5.fill("#000000")
+        } else {
+          p5.fill("#FFFFFF")
+          p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+          p5.fill("#000000")
+        }
+
         p5.line((patternLength -1 )* this.borderTableSquareSideSize + textWidth - this.borderTableSquareSideSize/2 - this.scrollX , y - this.borderTableSquareSideSize/2 , (patternLength -1 )* this.borderTableSquareSideSize + textWidth + this.borderTableSquareSideSize/2 - this.scrollX, y + this.borderTableSquareSideSize/2);
         const nextBorderValue = (borderTable != null && borderTable[i] != null) ? borderTable[i] : "";
         p5.text(nextBorderValue , i * this.borderTableSquareSideSize + textWidth - this.scrollX , y);
         y = 50;
       }
-      // p5.text(i , i * this.borderTableSquareSideSize + textWidth, y);
-      // y = y + this.borderTableSquareSideSize;
-      // p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
-      // const nextLetter = (i-1 < 0) ? '""' : this.step.lettersInPattern[i-1].letter;
-      // p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth , y);
-      // y = y + this.borderTableSquareSideSize;
-      // p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
-      // p5.line((patternLength -1 )* this.borderTableSquareSideSize + textWidth - this.borderTableSquareSideSize/2 , y - this.borderTableSquareSideSize/2 , (patternLength -1 )* this.borderTableSquareSideSize + textWidth + this.borderTableSquareSideSize/2, y + this.borderTableSquareSideSize/2);
-      // const nextBorderValue = (borderTable != null && borderTable[i] != null) ? borderTable[i] : "";
-      // p5.text(nextBorderValue , i * this.borderTableSquareSideSize + textWidth , y);
-      // y = 50;
 
     }
 
