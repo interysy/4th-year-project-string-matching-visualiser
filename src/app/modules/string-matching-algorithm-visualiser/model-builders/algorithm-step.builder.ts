@@ -23,6 +23,7 @@ export class AlgorithmStepBuilder {
             command : "",
             additional : new AdditionalVariables(),
             extra : false,
+            pseudocodeFilename : ""
         };
     }
 
@@ -60,6 +61,10 @@ export class AlgorithmStepBuilder {
 
     set setExtra(extra : boolean) {
         this.step.extra = extra;
+    }
+
+    set setPseudocodeFilename(pseudocodeFilename : string) {
+        this.step.pseudocodeFilename = pseudocodeFilename;
     }
 
     public build() {

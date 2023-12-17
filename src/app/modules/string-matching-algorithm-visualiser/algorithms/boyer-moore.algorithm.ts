@@ -50,6 +50,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
     }
 
     private setUpLastOccuranceDictionary(pattern : string , patternIndex : number , textIndex : number) : { [character : string] : number; } {
+        const beforeBorderTableStep = JSON.parse(JSON.stringify(this.previousStep));
         const lastOccuranceDictionary : { [character : string] : number; } = {};
         this.algorithmStepBuilder.setPseudocodeLine = 8;
         this.algorithmStepBuilder.setPatternIndex = patternIndex;
@@ -60,6 +61,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         this.algorithmStepBuilder.setCommand = "Creating a last occurance dictionary";
         let currentStep = this.algorithmStepBuilder.build();
         this.addStep(currentStep);
+        this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
 
         this.algorithmStepBuilder.setExtra = true;
         pattern.split("").forEach((character, index) => {
@@ -73,6 +75,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setAdditional = this.additionalVariables;
             currentStep = this.algorithmStepBuilder.build();
             this.addStep(currentStep);
+            this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
 
             if (lastOccuranceDictionary[character] === undefined) {
                 lastOccuranceDictionary[character] = pattern.lastIndexOf(character);
@@ -85,11 +88,13 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
                 this.algorithmStepBuilder.setAdditional = this.additionalVariables;
                 currentStep = this.algorithmStepBuilder.build();
                 this.addStep(currentStep);
+                this.previousStep = JSON.parse(JSON.stringify(beforeBorderTableStep));
             }
         });
 
 
         this.algorithmStepBuilder.setDefaults();
+        this.resetAdditionalVariables();
         this.previousStep = currentStep;
 
         return lastOccuranceDictionary;

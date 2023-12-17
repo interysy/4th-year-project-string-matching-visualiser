@@ -1,6 +1,7 @@
 import { BoyerMooreAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/boyer-moore.algorithm";
 import { BruteForceAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/brute-force.algorithm";
 import { KnuthMorrisPrattAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/knuth-morris-pratt.algorithm";
+import { BorderTableDrawer } from "src/app/modules/string-matching-algorithm-visualiser/drawers/border-table.drawer";
 import { LastOccuranceTableDrawer } from "src/app/modules/string-matching-algorithm-visualiser/drawers/last-occurance.drawer.decorator";
 import { TextAndPatternDrawer } from "src/app/modules/string-matching-algorithm-visualiser/drawers/text-pattern.drawer.decorator";
 
@@ -11,6 +12,16 @@ export const environment = {
   supportedAlgorithms: [
     {name : "Brute Force" , nameSlug : "brute-force" , urlParam : "bruteForce" , requiredService : BruteForceAlgorithm , decorators : [TextAndPatternDrawer]},
     {name : "Boyer Moore" ,nameSlug : "boyer-moore" , urlParam : "boyerMoore" , requiredService : BoyerMooreAlgorithm , decorators : [TextAndPatternDrawer, LastOccuranceTableDrawer], prePreprocessingCanvas : true, preProcessingFunction : "drawLastOccurrenceTable"},
-    {name : "Knuth-Morris-Pratt" , nameSlug : "knuth-morris-pratt" , urlParam : "knuthMorrisPratt" , requiredService : KnuthMorrisPrattAlgorithm , decorators : [TextAndPatternDrawer] , prePreprocessingCanvas : true, preProcessingFunction : "drawLastOccurrenceTable"},
+    {name : "Knuth-Morris-Pratt" , nameSlug : "knuth-morris-pratt" , urlParam : "knuthMorrisPratt" , requiredService : KnuthMorrisPrattAlgorithm , decorators : [BorderTableDrawer] , prePreprocessingCanvas : true, preProcessingFunction : "drawBorderTable"},
+  ],
+  additionalVariablesToExclude : [
+    "textLength",
+    "patternLength",
+    "textIndex",
+    "patternIndex",
+    "lastOccuranceTable",
+    "borderTable",
+    "borderOne",
+    "borderTwo"
   ]
 };

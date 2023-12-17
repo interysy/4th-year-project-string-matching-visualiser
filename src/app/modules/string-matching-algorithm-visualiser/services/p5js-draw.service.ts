@@ -6,6 +6,7 @@ import { MatchingAlgorithmColourConstants } from '../constants/matching-algorith
 import { AlgorithmStepBuilder } from '../model-builders/algorithm-step.builder';
 import { AlgorithmProgressService } from './algorithm-progress.service';
 import { OptionService } from './option.service';
+import { DrawStepDecorator } from '../models/drawer-step.decorator';
 
 export class P5jsDrawService {
 
@@ -24,6 +25,7 @@ export class P5jsDrawService {
   private dictionaryElementSize = 60;
   private scrollX = 0;
   private squareSideSize : number;
+  private borderTableSquareSideSize = 20;
   private step : AlgorithmStep;
   private previousStep : AlgorithmStep;
   private changeSizeSubject$ = new Subject<{width : number , height : number}>();
@@ -31,6 +33,8 @@ export class P5jsDrawService {
   private textSize = 15;
   private previousLastOccurrenceTable : {[character : string] : number; };
   private algorithmStepBuilder : AlgorithmStepBuilder = new AlgorithmStepBuilder();
+  private algorithm : DrawStepDecorator;
+
 
 
   private animating = false;
@@ -57,6 +61,7 @@ export class P5jsDrawService {
       this.step = this.algorithmProgressService.stepGetter;
       this.previousStep = JSON.parse(JSON.stringify(this.step));
       this.changeSquareSize(this.optionService.textGetter.length , width);
+      this.algorithm = this.algorithmProgressService.decoratedAlgorithmGetter;
 
       this.subscriptions.push(this.algorithmProgressService.speedChangedSubscriberGetter.subscribe((speed : number) => {
         const haveFramesChanged = this.workOutFramesToWait(speed);
@@ -152,8 +157,6 @@ export class P5jsDrawService {
     p.rectMode(p.CENTER);
     p.textAlign(p.CENTER , p.CENTER);
 
-
-
     if (this.activeWindow(p.width)) {
       this.centraliseTextAndPattern(((this.step.patternOffset * 2 + this.step.lettersInPattern.length ) * this.squareSideSize));
     } else {
@@ -197,6 +200,8 @@ export class P5jsDrawService {
     } else {
       this.drawPattern(patternLettersToDraw , graphicalOffset);
     }
+
+    this.algorithm.draw(this);
   }
 
 
@@ -241,7 +246,7 @@ export class P5jsDrawService {
       })
   }
 
-  drawLastOccurrenceTable(p5 : p5) {
+  private drawLastOccurrenceTable(p5 : p5) {
     p5.background(255);
     p5.textSize(this.textSize);
     p5.rectMode(p5.CENTER);
@@ -281,6 +286,90 @@ export class P5jsDrawService {
     }
     this.previousLastOccurrenceTable = JSON.parse(JSON.stringify(lastOccurrenceTable));
   }
+
+
+  private drawBorderTable(p5 : p5) {
+    p5.background(255);
+    p5.textSize(this.textSize);
+    p5.rectMode(p5.CENTER);
+    p5.textAlign(p5.CENTER , p5.CENTER);
+
+    p5.text("BORDER TABLE:" ,(p5.width  / 2) , 10);
+
+    const borderTable = (this.step.additional['borderTable']) ? this.step.additional['borderTable'] : null;
+    const borderOne = (this.step.additional['borderOne']) ? this.step.additional['borderOne'] : null;
+
+    const patternLength = this.step.lettersInPattern.length + 1;
+    this.centraliseTextAndPattern(patternLength* this.borderTableSquareSideSize);
+    p5.text("String" , 0 , 50 + this.borderTableSquareSideSize);
+    p5.text("Border" , 0 , 50 + this.borderTableSquareSideSize * 2);
+    const textWidth = p5.textWidth("String")
+    let y = 50;
+
+    for (let i = 0 ; i < patternLength ; i++) {
+      p5.text(i , i * this.borderTableSquareSideSize + textWidth, y);
+      y = y + this.borderTableSquareSideSize;
+      p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+      const nextLetter = (i-1 < 0) ? '""' : this.step.lettersInPattern[i-1].letter;
+      p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth , y);
+      y = y + this.borderTableSquareSideSize;
+      p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+      p5.line((patternLength -1 )* this.borderTableSquareSideSize + textWidth - this.borderTableSquareSideSize/2 , y - this.borderTableSquareSideSize/2 , (patternLength -1 )* this.borderTableSquareSideSize + textWidth + this.borderTableSquareSideSize/2, y + this.borderTableSquareSideSize/2);
+      const nextBorderValue = (borderTable != null && borderTable[i] != null) ? borderTable[i] : "";
+      p5.text(nextBorderValue , i * this.borderTableSquareSideSize + textWidth , y);
+      y = 50;
+
+    }
+  }
+
+  public annotatePattern() {
+    const y = 100 + this.squareSideSize*2 + this.gap;
+    if (this.p5 && this.step) {
+      if (this.step.additional['borderOne'] && this.step.additional['i'] != null) {
+        const borderOne = this.step.additional['borderOne'];
+        const i = this.step.additional['i'];
+        console.log(borderOne);
+        this.p5.line( i * this.squareSideSize , y + this.squareSideSize /2 + 5 , i * this.squareSideSize + this.squareSideSize/2 , y + 55);
+        this.p5.strokeWeight(5);
+        this.p5.stroke(MatchingAlgorithmColourConstants.MATCH);
+        this.p5.line(borderOne[0] * this.squareSideSize - this.squareSideSize/2 , y - this.squareSideSize/2, borderOne[0] * this.squareSideSize - this.squareSideSize/2 , y + this.squareSideSize/2);
+        this.p5.line(borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y - this.squareSideSize/2, borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y + this.squareSideSize/2);
+        this.p5.stroke("#000000");
+        this.p5.strokeWeight(1);
+        this.p5.text(`Potential Border is "${this.optionService.patternGetter.substring(borderOne[0] , borderOne[1] + 1)}"`,i * this.squareSideSize + this.squareSideSize *2 , y + 75)
+      }
+
+      if (this.step.additional['borderTwo'] && this.step.additional['j'] != null) {
+        const borderTwo = this.step.additional['borderTwo'];
+        const j = this.step.additional['j'] - 1;
+        this.p5.line(j * this.squareSideSize , y - this.squareSideSize /2  , j * this.squareSideSize + this.squareSideSize/2 , y - 90);
+        this.p5.strokeWeight(5);
+        this.p5.stroke(MatchingAlgorithmColourConstants.CHECKING);
+        this.p5.line(borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y - this.squareSideSize/2, borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y + this.squareSideSize/2);
+        this.p5.line(borderTwo[1] * this.squareSideSize + this.squareSideSize/2 , y - this.squareSideSize/2, borderTwo[1] * this.squareSideSize + this.squareSideSize/2 , y + this.squareSideSize/2);
+        this.p5.stroke("#000000");
+        this.p5.strokeWeight(1);
+        this.p5.text(`Potential Border is "${this.optionService.patternGetter.substring(borderTwo[0] , borderTwo[1] + 1)}"`, j * this.squareSideSize + this.squareSideSize/2 , y - 110)
+      }
+
+      if (this.step.additional['borderTwo'] && this.step.additional['borderOne']) {
+        const borderOne = this.step.additional['borderOne'];
+        const borderTwo = this.step.additional['borderTwo'];
+
+        if (borderOne[1] == borderTwo[0] - 1) {
+          this.p5.strokeWeight(5);
+          this.p5.stroke(MatchingAlgorithmColourConstants.MATCH);
+          this.p5.line(borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y - this.squareSideSize/2, borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y);
+          this.p5.stroke(MatchingAlgorithmColourConstants.CHECKING);
+          this.p5.line(borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y , borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y + this.squareSideSize/2);
+          this.p5.stroke("#000000");
+          this.p5.strokeWeight(1);
+        }
+      }
+    }
+
+  }
+
 
   private scrollToLastOccurrenceElement(index : number) {
     if (this.p5) {

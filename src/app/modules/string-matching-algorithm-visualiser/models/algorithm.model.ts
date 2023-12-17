@@ -32,17 +32,8 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
          this.p5jsDrawService = Injector.create({providers: [{provide: P5jsDrawService, deps: []}]}).get(P5jsDrawService);
     }
 
-    draw(p : p5) : void {
-        console.log("layer 1")
-        // p.background(255);
-        // const textLettersToDrawFromStep = step.lettersInText;
-        // if (this.p5jsDrawService.activeWindow(p.width , squareSideSize , textLettersToDrawFromStep.length)) {
-        //     const patternWidth =  this.p5jsDrawService.workOutTextWidth(step.lettersInPattern.length + step.patternOffset , squareSideSize);
-        //     this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , patternWidth + (step.patternOffset * squareSideSize));
-        // } else {
-        //     const textWidth = this.p5jsDrawService.workOutTextWidth(textLettersToDrawFromStep.length , squareSideSize);
-        //     this.p5jsDrawService.centraliseDrawing(p, p.width , p.height , textWidth);
-        // }
+    draw(obj : P5jsDrawService) : void {
+        console.log("layer 1");
     }
 
     protected addStep(algorithmStep : AlgorithmStep) {
@@ -61,10 +52,11 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     }
 
     protected replaceLetter(toHighlight :  Letter[] , newLetterDraw : Letter) : Letter[] {
-        toHighlight = toHighlight.filter(letterDraw => {
-            return letterDraw.index !== newLetterDraw.index;
+        const indexToReplace = toHighlight.findIndex(letterDraw => {
+            return letterDraw.index === newLetterDraw.index;
         });
-        toHighlight.push(newLetterDraw);
+
+        toHighlight[indexToReplace] = newLetterDraw;
         return toHighlight;
     }
 
