@@ -330,6 +330,12 @@ export class P5jsDrawService {
         const i = this.step.additional['i'];
         console.log(borderOne);
         this.p5.line( i * this.squareSideSize , y + this.squareSideSize /2 + 5 , i * this.squareSideSize + this.squareSideSize/2 , y + 55);
+        this.p5.strokeWeight(5);
+        this.p5.stroke(MatchingAlgorithmColourConstants.MATCH);
+        this.p5.line(borderOne[0] * this.squareSideSize - this.squareSideSize/2 , y - this.squareSideSize/2, borderOne[0] * this.squareSideSize - this.squareSideSize/2 , y + this.squareSideSize/2);
+        this.p5.line(borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y - this.squareSideSize/2, borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y + this.squareSideSize/2);
+        this.p5.stroke("#000000");
+        this.p5.strokeWeight(1);
         this.p5.text(`Potential Border is "${this.optionService.patternGetter.substring(borderOne[0] , borderOne[1] + 1)}"`,i * this.squareSideSize + this.squareSideSize *2 , y + 75)
       }
 
@@ -337,7 +343,28 @@ export class P5jsDrawService {
         const borderTwo = this.step.additional['borderTwo'];
         const j = this.step.additional['j'] - 1;
         this.p5.line(j * this.squareSideSize , y - this.squareSideSize /2  , j * this.squareSideSize + this.squareSideSize/2 , y - 90);
+        this.p5.strokeWeight(5);
+        this.p5.stroke(MatchingAlgorithmColourConstants.CHECKING);
+        this.p5.line(borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y - this.squareSideSize/2, borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y + this.squareSideSize/2);
+        this.p5.line(borderTwo[1] * this.squareSideSize + this.squareSideSize/2 , y - this.squareSideSize/2, borderTwo[1] * this.squareSideSize + this.squareSideSize/2 , y + this.squareSideSize/2);
+        this.p5.stroke("#000000");
+        this.p5.strokeWeight(1);
         this.p5.text(`Potential Border is "${this.optionService.patternGetter.substring(borderTwo[0] , borderTwo[1] + 1)}"`, j * this.squareSideSize + this.squareSideSize/2 , y - 110)
+      }
+
+      if (this.step.additional['borderTwo'] && this.step.additional['borderOne']) {
+        const borderOne = this.step.additional['borderOne'];
+        const borderTwo = this.step.additional['borderTwo'];
+
+        if (borderOne[1] == borderTwo[0] - 1) {
+          this.p5.strokeWeight(5);
+          this.p5.stroke(MatchingAlgorithmColourConstants.MATCH);
+          this.p5.line(borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y - this.squareSideSize/2, borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y);
+          this.p5.stroke(MatchingAlgorithmColourConstants.CHECKING);
+          this.p5.line(borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y , borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y + this.squareSideSize/2);
+          this.p5.stroke("#000000");
+          this.p5.strokeWeight(1);
+        }
       }
     }
 
