@@ -13,6 +13,8 @@ export class ModalComponent implements OnInit {
   protected pattern : string;
   protected preProcessingSteps : boolean;
   protected smoothAnimations : boolean ;
+  protected themes = [{name : "default" , colorOne : "#FFFFFF" , colorTwo : "#E3E5EA"} , {name : "light" , colorOne : "#78EA78" , colorTwo : "#25AB19"} , {name : "dark" , colorOne : "#00023E" , colorTwo : "#E3E5EA"} , {name : "alternate" , colorOne : "#000000" , colorTwo : "#FFFFFF"}];
+  protected selectedTheme = this.themes[0].name;
 
   constructor(private readonly optionService : OptionService) {
     this.text = this.optionService.textGetter;
@@ -41,6 +43,11 @@ export class ModalComponent implements OnInit {
 
   protected setSmoothAnimations() {
     this.optionService.smoothAnimationsSetter = this.smoothAnimations;
+  }
+
+  protected selectTheme(theme : string) {
+    this.selectedTheme = theme;
+    console.log("changing theme " + this.selectedTheme);
   }
 
 }

@@ -81,6 +81,23 @@
               Smooth Animations
             </label>
           </div>
+          <div class="flex flex-wrap gap-5">
+            <p>Theme:</p>
+            <div class="flex items-center" *ngFor="let theme of themes">
+              <input
+                [checked]="selectedTheme === theme.name"
+                (change)="selectTheme(theme.name)"
+                [style.background-color]="theme.colorOne"
+                [style.background-image]="'-webkit-linear-gradient(45deg, ' + theme.colorOne + ' 50%, ' + theme.colorTwo + ' 50.5%)'"
+                [style.border-color]="selectedTheme === theme.name ? 'red' : '#000000'"
+                class="w-6 h-6 appearance-none hover:border-blue-500 rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none"
+                type="radio"
+                id="{{ theme.name }}"
+                name="themeRadio"
+                value="{{ theme.name }}"
+              />
+            </div>
+          </div>
       </form>
       </div>
     </div>
