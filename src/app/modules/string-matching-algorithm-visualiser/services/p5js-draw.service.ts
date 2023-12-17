@@ -209,8 +209,9 @@ export class P5jsDrawService {
 
 
   private drawText(lettersToDraw : Letter[], fade : number) {
-    lettersToDraw.forEach(letterObject => {
+    lettersToDraw.forEach((letterObject, letterIndex)=> {
       if (this.p5) {
+        const previousLetter = this.previousStep.lettersInText[letterIndex];
       let y = 100;
       const index = letterObject.index;
       let colour = this.p5.color(letterObject.colour.toString());
@@ -219,7 +220,11 @@ export class P5jsDrawService {
 
         this.p5.text(index , index * this.squareSideSize, y);
         y = y + this.squareSideSize;
-        if (this.optionService.smoothAnimationsGetter) colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
+        if (this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
+          colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
+        } else {
+          colour = this.p5.color(colour.toString());
+        }
         this.p5.fill(colour);
         this.p5.strokeWeight(strokeWeight);
         this.p5.rect(index * this.squareSideSize, y , this.squareSideSize , this.squareSideSize);
@@ -233,15 +238,20 @@ export class P5jsDrawService {
 
 
     private drawPattern(lettersToDraw : Letter[] , offset : number , fade : number) {
-      lettersToDraw.forEach(letterObject  => {
+      lettersToDraw.forEach((letterObject, letterIndex)  => {
         if (this.p5) {
+        const previousLetter = this.previousStep.lettersInPattern[letterIndex];
         const y = 100 + this.squareSideSize*2 + this.gap;
         const index = letterObject.index;
         let colour = this.p5?.color(letterObject.colour.toString());
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
 
-          if (this.optionService.smoothAnimationsGetter) colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
+          if (this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
+            colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
+          } else {
+            colour = this.p5.color(colour.toString());
+          }
           this.p5.fill(colour);
           this.p5.strokeWeight(strokeWeight);
           this.p5.rect(index * this.squareSideSize + offset , y , this.squareSideSize , this.squareSideSize);
