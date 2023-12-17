@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
+import { environment } from 'src/environments/environment.dev';
 
 @Component({
   selector: 'app-variable-visualiser',
@@ -8,20 +9,15 @@ import { AlgorithmProgressService } from '../../services/algorithm-progress.serv
 })
 export class VariableVisualiserComponent {
 
-  textLength : number;
-  patternLength : number;
-  textIndex : number;
-  patternIndex : number;
-  additionalVariables : { [variableName: string]: number | string; }[] = [];
-  doNotDisplay = [
-    "textLength",
-    "patternLength",
-    "textIndex",
-    "patternIndex",
-    "lastOccuranceTable"
-  ]
+  protected textLength : number;
+  protected patternLength : number;
+  protected textIndex : number;
+  protected patternIndex : number;
+  protected additionalVariables : { [variableName: string]: number | string; }[] = [];
+  private doNotDisplay : string[] = [];
 
   constructor(private algorithmProgressService : AlgorithmProgressService) {
+    this.doNotDisplay = environment.additionalVariablesToExclude;
 
     this.textLength = this.algorithmProgressService.textLength;
     this.patternLength = this.algorithmProgressService.patternLength;
