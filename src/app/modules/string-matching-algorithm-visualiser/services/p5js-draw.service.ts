@@ -82,12 +82,16 @@ export class P5jsDrawService {
 
       this.subscriptions.push(this.optionService.patternChangedSubscriberGetter.subscribe((pattern : string) => {
         this.resetDefaults();
+        this.animating = false;
+        this.progress = 0;
         this.step = this.algorithmProgressService.stepGetter;
         this.changeSquareSize(this.optionService.textGetter.length);
       }));
 
       this.subscriptions.push(this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((step : number) => {
         if (this.step) this.previousStep = JSON.parse(JSON.stringify(this.step));
+        this.animating = false;
+        this.progress = 0;
         this.step = this.algorithmProgressService.stepGetter;
       }));
     }
@@ -214,7 +218,7 @@ export class P5jsDrawService {
 
         this.p5.text(index , index * this.squareSideSize, y);
         y = y + this.squareSideSize;
-        if (letterObject && this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
+        if (previousLetter && this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
           colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
         } else {
           colour = this.p5.color(colour.toString());
@@ -243,7 +247,7 @@ export class P5jsDrawService {
         const strokeWeight = letterObject.strokeWeight;
 
         if (this.p5) {
-          if (letterObject && this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
+          if (previousLetter && this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
             colour = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), this.p5.color(colour.toString()), fade);
           } else {
             colour = this.p5.color(colour.toString());
@@ -337,7 +341,6 @@ export class P5jsDrawService {
         const nextLetter = (i-1 < 0) ? '""' : this.step.lettersInPattern[i-1].letter;
         p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth - this.scrollX , y);
         y = y + this.borderTableSquareSideSize;
-        // p5.fill("#FFFFFF")
         if (borderTableIndexToHighlight != null && borderTableIndexToHighlight == i) {
           p5.fill(MatchingAlgorithmColourConstants.CHECKING);
           p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
