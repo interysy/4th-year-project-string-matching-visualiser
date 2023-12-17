@@ -136,14 +136,8 @@ export class P5jsDrawService {
   }
 
   mouseWheel(event : any) {
-
-    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
-    if (lastOccuranceTable && this.p5 && lastOccuranceTable.length * this.dictionaryElementSize > this.p5.width) {
       event.preventDefault();
       this.scrollX += event.deltaY;
-      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width);
-    }
-
   }
 
   centraliseTextAndPattern(textWidth : number) : void {
@@ -319,26 +313,39 @@ export class P5jsDrawService {
 
     const patternLength = this.step.lettersInPattern.length + 1;
     this.centraliseTextAndPattern(patternLength* this.borderTableSquareSideSize);
-    p5.text("String" , 0 , 50 + this.borderTableSquareSideSize);
-    p5.text("Border" , 0 , 50 + this.borderTableSquareSideSize * 2);
-    const textWidth = p5.textWidth("String")
+    const textWidth = p5.textWidth("String");
+    p5.text("String" , 0 - this.scrollX , 50 + this.borderTableSquareSideSize);
+    p5.text("Border" , 0 - this.scrollX, 50 + this.borderTableSquareSideSize * 2);
+
     let y = 50;
 
     for (let i = 0 ; i < patternLength ; i++) {
-      p5.text(i , i * this.borderTableSquareSideSize + textWidth, y);
-      y = y + this.borderTableSquareSideSize;
-      p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
-      const nextLetter = (i-1 < 0) ? '""' : this.step.lettersInPattern[i-1].letter;
-      p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth , y);
-      y = y + this.borderTableSquareSideSize;
-      p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
-      p5.line((patternLength -1 )* this.borderTableSquareSideSize + textWidth - this.borderTableSquareSideSize/2 , y - this.borderTableSquareSideSize/2 , (patternLength -1 )* this.borderTableSquareSideSize + textWidth + this.borderTableSquareSideSize/2, y + this.borderTableSquareSideSize/2);
-      const nextBorderValue = (borderTable != null && borderTable[i] != null) ? borderTable[i] : "";
-      p5.text(nextBorderValue , i * this.borderTableSquareSideSize + textWidth , y);
-      y = 50;
+      // const xPos = i * (this.borderTableSquareSideSize + textWidth) - this.scrollX;
+        p5.text(i , i * this.borderTableSquareSideSize + textWidth - this.scrollX, y);
+        y = y + this.borderTableSquareSideSize;
+        p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+        const nextLetter = (i-1 < 0) ? '""' : this.step.lettersInPattern[i-1].letter;
+        p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth - this.scrollX , y);
+        y = y + this.borderTableSquareSideSize;
+        p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+        p5.line((patternLength -1 )* this.borderTableSquareSideSize + textWidth - this.borderTableSquareSideSize/2 - this.scrollX , y - this.borderTableSquareSideSize/2 , (patternLength -1 )* this.borderTableSquareSideSize + textWidth + this.borderTableSquareSideSize/2 - this.scrollX, y + this.borderTableSquareSideSize/2);
+        const nextBorderValue = (borderTable != null && borderTable[i] != null) ? borderTable[i] : "";
+        p5.text(nextBorderValue , i * this.borderTableSquareSideSize + textWidth - this.scrollX , y);
+        y = 50;
+      }
+      // p5.text(i , i * this.borderTableSquareSideSize + textWidth, y);
+      // y = y + this.borderTableSquareSideSize;
+      // p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+      // const nextLetter = (i-1 < 0) ? '""' : this.step.lettersInPattern[i-1].letter;
+      // p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth , y);
+      // y = y + this.borderTableSquareSideSize;
+      // p5.rect(i * this.borderTableSquareSideSize + textWidth, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
+      // p5.line((patternLength -1 )* this.borderTableSquareSideSize + textWidth - this.borderTableSquareSideSize/2 , y - this.borderTableSquareSideSize/2 , (patternLength -1 )* this.borderTableSquareSideSize + textWidth + this.borderTableSquareSideSize/2, y + this.borderTableSquareSideSize/2);
+      // const nextBorderValue = (borderTable != null && borderTable[i] != null) ? borderTable[i] : "";
+      // p5.text(nextBorderValue , i * this.borderTableSquareSideSize + textWidth , y);
+      // y = 50;
 
     }
-  }
 
   public annotatePattern() {
     const y = 100 + this.squareSideSize*2 + this.gap;
@@ -346,7 +353,6 @@ export class P5jsDrawService {
       if (this.step.additional['borderOne'] && this.step.additional['i'] != null) {
         const borderOne = this.step.additional['borderOne'];
         const i = this.step.additional['i'];
-        console.log(borderOne);
         this.p5.line( i * this.squareSideSize , y + this.squareSideSize /2 + 5 , i * this.squareSideSize + this.squareSideSize/2 , y + 55);
         this.p5.strokeWeight(5);
         this.p5.stroke(MatchingAlgorithmColourConstants.MATCH);
@@ -442,28 +448,12 @@ export class P5jsDrawService {
 
 
   public skipRight() : boolean {
-    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
-
-    if (this.p5 && lastOccuranceTable) {
-      this.scrollX += this.dictionaryElementSize;
-      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * (this.dictionaryElementSize + this.dictionaryGap) - this.p5.width);
-      if (this.scrollX >= (Object.entries(lastOccuranceTable).length * this.dictionaryElementSize - this.p5.width)) {
-        return false;
-      }
-    }
+    this.scrollX += 40;
     return true;
   }
 
   public skipLeft() : boolean {
-    const lastOccuranceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
-
-    if (this.p5 && lastOccuranceTable) {
-      this.scrollX -= this.dictionaryElementSize;
-      this.scrollX = this.p5.constrain(this.scrollX, 0, Object.entries(lastOccuranceTable).length * (this.dictionaryElementSize + this.dictionaryGap) - this.p5.width);
-      if (this.scrollX === 0) {
-        return false;
-      }
-    }
+    this.scrollX -= 40;
     return true;
   }
 
