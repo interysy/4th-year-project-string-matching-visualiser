@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlgorithmVisualiserComponent } from 'src/app/modules/string-matching-algorithm-visualiser/components/algorithm-visualiser/algorithm-visualiser.component';
 import { AlgorithmProgressService } from 'src/app/modules/string-matching-algorithm-visualiser/services/algorithm-progress.service';
@@ -13,7 +13,7 @@ import { AlgorithmProgressService } from 'src/app/modules/string-matching-algori
   templateUrl: './algorithm-visualiser.page.html',
   styleUrls: ['./algorithm-visualiser.page.css']
 })
-export class AlgorithmVisualiserPageComponent {
+export class AlgorithmVisualiserPageComponent implements AfterViewInit {
 
   @ViewChild('leftHandSide', {static: true})
   leftHandSideElement: ElementRef<HTMLDivElement>;
@@ -22,6 +22,7 @@ export class AlgorithmVisualiserPageComponent {
 
   private resizing = false;
   dragX: any;
+  innerWidth: number;
 
   /**
    * @description The constuctor creates the page and setups a progress service to be used by the app with the correct algorithm
@@ -37,6 +38,10 @@ export class AlgorithmVisualiserPageComponent {
     algorithmProgressService.injectAlgorithm(algorithmToInject, algorithmName , decorators, preProcessingCanvas , preProcessingFunction);
   }
 
+  ngAfterViewInit() {
+    this.innerWidth = window.innerWidth;
+  }
+
   protected startResize($event : any) {
     this.resizing = true;
     this.dragX = $event.clientX;
@@ -45,9 +50,11 @@ export class AlgorithmVisualiserPageComponent {
   @HostListener('document:mousemove', ['$event'])
   onMouseMove($event : any) {
     if (this.resizing) {
-      this.leftHandSideElement.nativeElement.style.width = this.leftHandSideElement.nativeElement.offsetWidth+ $event.clientX - this.dragX + "px";
-      this.dragX = $event.clientX;
-      this.child.drawersResizeCanvas();
+      if (this.leftHandSideElement.nativeElement.offsetWidth + $event.clientX - this.dragX > 300) {
+        this.leftHandSideElement.nativeElement.style.width = this.leftHandSideElement.nativeElement.offsetWidth+ $event.clientX - this.dragX + "px";
+        this.dragX = $event.clientX;
+        this.child.drawersResizeCanvas();
+      }
     }
   }
 
@@ -56,5 +63,10 @@ export class AlgorithmVisualiserPageComponent {
   onMouseUp($event : any) {
     this.resizing = false;
     this.child.drawersResizeCanvas();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize($event : any) {
+    this.innerWidth = window.innerWidth;
   }
 }
