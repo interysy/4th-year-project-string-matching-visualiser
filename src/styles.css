@@ -6,3 +6,69 @@
 @import "prismjs/plugins/line-highlight/prism-line-highlight.css";
 @import "prismjs/plugins/toolbar/prism-toolbar.css";
 @import "prismjs/plugins/match-braces/prism-match-braces.css";
+
+@layer base {
+    :root {
+        --color-text-base : #333333;
+        --color-text-secondary: #000000;
+        --color-text-tertiary: #b342f5;
+        --color-fill-main : #FFFFFF;
+        --color-fill-secondary : #F4F4F4;
+        --color-fill-tertiary : #555555;
+        --color-fill-tertiary-hover : #999999;
+        --color-fill-quaternary : #7C8A96;
+        --color-text-github : #333333;
+        --color-icon : #555555;
+        --color-icon-hover : #999999;
+        --color-icon-disabled : #CCCCCC;
+        --color-icon-seperator : #6C757D;
+        --color-border-focus : #555555;
+        --color-ring-focus : #555555;
+    }
+
+    .theme-dark-green {
+        --color-text-base : #FFFFFF;
+        --color-text-secondary: #5B85AA;
+        --color-text-tertiary: #b342f5;
+        --color-text-github : #FFFFFF;
+        --color-icon : #b342f5;
+        --color-icon-hover : #7743DB;
+        --color-icon-disabled : #00FF7F;
+        --color-icon-seperator : #6b7280;
+        --color-border-focus : #b342f5;
+        --color-ring-focus : #b342f5;
+        --color-fill-main : #1C2128;
+        --color-fill-secondary : #2D333B;
+        --color-fill-tertiary : #b342f5;
+        --color-fill-tertiary-hover : #29C828;
+        --color-fill-quaternary : #6b7280;
+        --color-icon : #29FD2F;
+        --color-border-focus : #29FD2F;
+        --color-ring-focus : #29FD2F;
+        --color-fill-tertiary : #29FD2F;
+        --color-icon-hover : #29C828;
+    }
+
+    .theme-dark-blue {
+        --color-text-base : #FFFFFF;
+        --color-text-secondary: #5B85AA;
+        --color-text-tertiary: #b342f5;
+        --color-text-github : #FFFFFF;
+        --color-icon : #b342f5;
+        --color-icon-hover : #7743DB;
+        --color-icon-disabled : #9AC5DA;
+        --color-icon-seperator : #6b7280;
+        --color-border-focus : #b342f5;
+        --color-ring-focus : #b342f5;
+        --color-fill-main : #1C2128;
+        --color-fill-secondary : #2D333B;
+        --color-fill-tertiary : #b342f5;
+        --color-fill-tertiary-hover : #0026AE;
+        --color-fill-quaternary : #6b7280;
+        --color-icon : #1b7ced;
+        --color-border-focus : #1b7ced;
+        --color-ring-focus : #1b7ced;
+        --color-fill-tertiary : #1b7ced;
+        --color-icon-hover : #0026AE;
+    }
+}
