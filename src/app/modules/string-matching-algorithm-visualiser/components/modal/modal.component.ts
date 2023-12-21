@@ -14,7 +14,7 @@ export class ModalComponent implements OnInit {
   protected pattern : string;
   protected preProcessingSteps : boolean;
   protected smoothAnimations : boolean ;
-  protected themes = [{name : "base" , colorOne : "#FFFFFF" , colorTwo : "#E3E5EA"} , {name : "theme-experimental" , colorOne : "#78EA78" , colorTwo : "#25AB19"} ];
+  protected themes = [{name : "base" , colorOne : "#FFFFFF" , colorTwo : "#E3E5EA"} , {name : "theme-dark-green" , colorOne : "#2D333B" , colorTwo : "#29FD2F"}, {name : "theme-dark-blue" , colorOne : "#2D333B" , colorTwo : "#1b7ced"}];
   protected selectedTheme = this.themes[0].name;
 
   @ViewChild('modal', {static: true})
