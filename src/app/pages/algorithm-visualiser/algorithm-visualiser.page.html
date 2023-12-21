@@ -1,14 +1,14 @@
 
 <app-navbar></app-navbar>
 
-<div class="flex flex-col md:flex-row mx-2 justify-center items-center flex-wrap">
-  <div #leftHandSide class="w-full md:w-1/2 resize-x h-full">
+<div class="flex flex-col md:flex-row mx-2 justify-center items-center flex-wrap md: flex-nowrap">
+  <div #leftHandSide class="max-w-full md:w-1/2 resize-x h-full">
     <app-algorithm-visualiser-animation></app-algorithm-visualiser-animation>
     <app-command-visualiser></app-command-visualiser>
     <div class="border-t border-2 border-gray-500"></div>
     <app-variable-visualiser></app-variable-visualiser>
   </div>
   <div (pointerdown)="startResize($event)" class="slider px-1 mx-1 hidden md:block">||</div>
-  <app-pseudocode-visualiser class="max-w-full md:flex-1 md:overflow-auto"></app-pseudocode-visualiser>
+  <app-pseudocode-visualiser class="max-w-full md:flex-1 overflow-auto"></app-pseudocode-visualiser>
 </div>
 <app-playback-controls class="w-full sticky bottom-0"></app-playback-controls>

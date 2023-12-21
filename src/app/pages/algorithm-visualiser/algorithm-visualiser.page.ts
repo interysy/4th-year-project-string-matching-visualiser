@@ -17,12 +17,15 @@ export class AlgorithmVisualiserPageComponent implements AfterViewInit {
 
   @ViewChild('leftHandSide', {static: true})
   leftHandSideElement: ElementRef<HTMLDivElement>;
+  @ViewChild('rightHandSide', {static: true})
+  rightHandSideElement: ElementRef<HTMLDivElement>;
 
   @ViewChild(AlgorithmVisualiserComponent) child:AlgorithmVisualiserComponent;
 
   private resizing = false;
   dragX: any;
   innerWidth: number;
+  showArrow = false;
 
   /**
    * @description The constuctor creates the page and setups a progress service to be used by the app with the correct algorithm
@@ -63,6 +66,7 @@ export class AlgorithmVisualiserPageComponent implements AfterViewInit {
   onMouseUp($event : any) {
     this.resizing = false;
     this.child.drawersResizeCanvas();
+    this.dragX = 0;
   }
 
   @HostListener('window:resize', ['$event'])
