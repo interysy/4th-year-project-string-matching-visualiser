@@ -27,7 +27,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   }
 
 
-  private drawersResizeCanvas() {
+  public drawersResizeCanvas() {
     for (const drawer of this.drawingServices) {
       drawer.service.resizeCanvas(drawer.canvas.offsetWidth , drawer.canvas.offsetHeight);
     }
