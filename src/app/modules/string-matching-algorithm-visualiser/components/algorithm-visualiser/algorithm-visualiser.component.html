@@ -1,13 +1,13 @@
-<div class="m-2">
+<div>
     <div class = "flex flex-col h-96 m-auto" *ngIf="extraCanvas !== null; else oneCanvas">
         <div #canvas class="w-full h-[70%]">
         </div>
             <div class="inline-flex w-full flex-row h-[30%] gap-5 justify-center items-center">
-                <fa-icon class="w-fit text-gray-400 hover:text-gray-900 text-xl" (click)="skipLeft()" [icon]="['fas', 'arrow-left']" size="xl"></fa-icon>
+                <fa-icon class="w-fit text-skin-icon hover:text-skin-icon-hover text-xl" (click)="skipLeft()" [icon]="['fas', 'arrow-left']" size="xl"></fa-icon>
                 <div #extraCanvas class="w-[80%] h-full">
                 </div>
                 <div>
-                    <fa-icon class="w-fit text-gray-400 hover:text-gray-900 text-xl" (click)="skipRight()" [icon]="['fas', 'arrow-right']" size="xl"></fa-icon>
+                    <fa-icon class="w-fit text-skin-icon hover:text-skin-icon-hover text-xl" (click)="skipRight()" [icon]="['fas', 'arrow-right']" size="xl"></fa-icon>
                 </div>
             </div>
     </div>
