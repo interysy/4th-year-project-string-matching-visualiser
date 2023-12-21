@@ -8,7 +8,9 @@
     <div class="border-t border-2 border-gray-500"></div>
     <app-variable-visualiser></app-variable-visualiser>
   </div>
-  <div (pointerdown)="startResize($event)" class="slider px-1 mx-1 hidden md:block">||</div>
+  <div (pointerdown)="startResize($event)" class="slider self-stretch mx-2 p-4 hidden md:block bg-gray-200 rounded-lg relative">
+      <p class="css-center"> || </p>
+  </div>
   <app-pseudocode-visualiser class="max-w-full md:flex-1 overflow-auto"></app-pseudocode-visualiser>
 </div>
 <app-playback-controls class="w-full sticky bottom-0"></app-playback-controls>
