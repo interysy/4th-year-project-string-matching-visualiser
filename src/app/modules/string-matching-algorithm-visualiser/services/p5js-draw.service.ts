@@ -275,7 +275,7 @@ export class P5jsDrawService {
     p5.textAlign(p5.CENTER , p5.CENTER);
 
     p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
-    p5.text("LAST OCCURRENCE TABLE:" ,(p5.width  / 2) , 10);
+    p5.text("LAST OCCURRENCE TABLE:" ,(p5.width  / 2) , 30);
     p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
 
 
@@ -285,7 +285,7 @@ export class P5jsDrawService {
 
     if (lastOccurrenceTable) {
       let i = 0;
-      const y = 50;
+      const y = 70;
       let colour = this.themeSelectorService.currentThemeForDrawer.DEFAULT;
       for (const [key, value] of Object.entries(lastOccurrenceTable)) {
         const xPos = i * (this.dictionaryElementSize + this.dictionaryGap) - this.scrollX + (this.dictionaryElementSize / 2);
@@ -321,7 +321,7 @@ export class P5jsDrawService {
     p5.textAlign(p5.CENTER , p5.CENTER);
 
     p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
-    p5.text("BORDER TABLE:" ,(p5.width  / 2) , 10);
+    p5.text("BORDER TABLE:" ,(p5.width  / 2) , 30);
     p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
 
     const borderTable = (this.step.additional['borderTable']) ? this.step.additional['borderTable'] : null;
@@ -382,7 +382,7 @@ export class P5jsDrawService {
         const borderOne = this.step.additional['borderOne'];
         const i = this.step.additional['i'];
         this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK_ONE);
-        this.p5.line( i * this.squareSideSize , y + this.squareSideSize /2 + 5 , i * this.squareSideSize + this.squareSideSize/2 , y + 55);
+        this.p5.line( i * this.squareSideSize , y + this.squareSideSize /2 + 5 , i * this.squareSideSize + this.squareSideSize/2 , y + 45);
         this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
         this.p5.strokeWeight(5);
         this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK_ONE);
@@ -391,7 +391,7 @@ export class P5jsDrawService {
         this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
         this.p5.strokeWeight(0);
         this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
-        this.p5.text(`Potential Border is "${this.optionService.patternGetter.substring(borderOne[0] , borderOne[1] + 1)}"`,i * this.squareSideSize + this.squareSideSize *2 , y + 75);
+        this.p5.text(`Potential Border is "${this.optionService.patternGetter.substring(borderOne[0] , borderOne[1] + 1)}"`,i * this.squareSideSize + this.squareSideSize *2 , y + 50);
         this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
       }
 
@@ -439,21 +439,11 @@ export class P5jsDrawService {
       // this.p5.textAlign(this.p5.CENTER , this.p5.CENTER);
       this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
       let headingWidth = this.p5.textWidth("LEGEND:");
-      this.p5.text("LEGEND:" ,this.animationMargin/2 + 40, 200);
+      this.p5.text("LEGEND:" ,this.animationMargin/2 + 40, 240);
       this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
 
-      // let headingWidth = this.p5.textWidth("LEGEND:");
-
-      // this.p5.fill("#6C757D");
-      // this.p5.strokeWeight(5);
-      // this.p5.stroke("#000000");
-      // this.p5.rect(this.p5.width/2 , 30 , (this.p5.width/4) * 3 , 30);
-      // this.p5.fill("#FFFFFF");
-      // this.p5.stroke("#FFFFFF");
-      // this.p5.strokeWeight(0);
-
       let i = 0;
-      let y = 200;
+      let y = 240;
       for (const key in this.themeSelectorService.currentThemeForDrawer) {
         if (key == "MISMATCH" || key == "MATCH" || key == "BORDER_CHECK_ONE" || key == "BORDER_CHECK_TWO" || key == "BORDER_CHECK") {
         const textWidth = this.p5.textWidth(key);
