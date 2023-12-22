@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Modal, initTE } from 'tw-elements';
 import { OptionService } from '../../services/option.service';
-import { ThemeSelectorService } from 'src/app/services/theme-selector.service';
+import { ThemeSelectorService } from 'src/app/modules/string-matching-algorithm-visualiser/services/theme-selector.service';
 
 @Component({
   selector: 'app-modal',

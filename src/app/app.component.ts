@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ThemeSelectorService } from './services/theme-selector.service';
+import { ThemeSelectorService } from './modules/string-matching-algorithm-visualiser/services/theme-selector.service';
 
 @Component({
   selector: 'app-root',
