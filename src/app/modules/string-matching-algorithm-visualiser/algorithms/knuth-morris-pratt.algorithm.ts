@@ -1,5 +1,3 @@
-import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
-import { AdditionalVariables } from "../models/additional-variables.model";
 import { StringMatchingAlgorithm } from "../models/algorithm.model";
 import { KnuthMorrisPrattAdditionalVariables } from "../models/knuth-morris-pratt-additional.model.";
 import { Letter } from "../models/letter.model";
@@ -89,7 +87,7 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.additionalVariables.borderTable = borderTable;
             this.algorithmStepBuilder.setAdditional = this.additionalVariables;
             this.letterBuilder.setIndex = 0;
-            this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+            this.letterBuilder.setColor = "BORDER_CHECK";
             this.letterBuilder.setLetter = pattern.charAt(0);
             this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
             currentStep = this.algorithmStepBuilder.build();
@@ -137,11 +135,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                 const difference = this.additionalVariables.borderOne[1] - this.additionalVariables.borderOne[0];
                 this.additionalVariables.borderTwo = [j - 1 - difference , j - 1];
                 this.letterBuilder.setIndex = i;
-                this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+                this.letterBuilder.setColor = "BORDER_CHECK";
                 this.letterBuilder.setLetter = pattern.charAt(i);
                 let temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
                 this.letterBuilder.setIndex = j-1;
-                this.letterBuilder.setColor = MatchingAlgorithmColourConstants.CHECKING;
+                this.letterBuilder.setColor = "BORDER_CHECK";
                 this.letterBuilder.setLetter = pattern.charAt(j-1);
                 this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
                 this.algorithmStepBuilder.setAdditional = this.additionalVariables;
@@ -156,11 +154,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                 if (pattern[i] != pattern[j-1]) {
                     this.algorithmStepBuilder.setCommand = `"${pattern.charAt(i)}" != "${pattern.charAt(j-1)}"`;
                     this.letterBuilder.setIndex = i;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setColor = "MISMATCH";
                     this.letterBuilder.setLetter = pattern.charAt(i);
                     temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
                     this.letterBuilder.setIndex = j-1;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setColor = "MISMATCH";
                     this.letterBuilder.setLetter = pattern.charAt(j-1);
                     this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
                     currentStep = this.algorithmStepBuilder.build();
@@ -171,11 +169,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                 while (pattern[i] != pattern[j - 1] && i > 0) {
                     this.algorithmStepBuilder.setPseudocodeLine = 9;
                     this.letterBuilder.setIndex = i;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setColor = "MISMATCH";
                     this.letterBuilder.setLetter = pattern.charAt(i);
                     temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
                     this.letterBuilder.setIndex = j-1;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setColor = "MISMATCH";
                     this.letterBuilder.setLetter = pattern.charAt(j-1);
                     this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
                     this.algorithmStepBuilder.setCommand = `The added character in the substring:  ${pattern.charAt(j-1)} is not equal to the character at the border ${pattern.charAt(i)}`;
@@ -193,11 +191,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                     const difference = this.additionalVariables.borderOne[1] - this.additionalVariables.borderOne[0];
                     this.additionalVariables.borderTwo = [j - 1 - difference , j - 1];
                     this.letterBuilder.setIndex = i;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+                    this.letterBuilder.setColor = "BORDER_CHECK";
                     this.letterBuilder.setLetter = pattern.charAt(i);
                     temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
                     this.letterBuilder.setIndex = j-1;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.CHECKING;
+                    this.letterBuilder.setColor = "BORDER_CHECK";
                     this.letterBuilder.setLetter = pattern.charAt(j-1);
                     this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
                     currentStep = this.algorithmStepBuilder.build();
@@ -208,11 +206,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                     this.algorithmStepBuilder.setPseudocodeLine = 9;
                     this.algorithmStepBuilder.setCommand = `Checking if there is a smaller border for the substring "${pattern.substring(0,j)}, by comparing the last character "${pattern.charAt(i)}" of the substring "${pattern.substring(0,i+1)}" to the character at the end of the substring "${pattern.substring(0,j)}"`;
                     this.letterBuilder.setIndex = i;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+                    this.letterBuilder.setColor = "BORDER_CHECK";
                     this.letterBuilder.setLetter = pattern.charAt(i);
                     temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
                     this.letterBuilder.setIndex = j-1;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.CHECKING;
+                    this.letterBuilder.setColor = "BORDER_CHECK";
                     this.letterBuilder.setLetter = pattern.charAt(j-1);
                     this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
                     currentStep = this.algorithmStepBuilder.build();
@@ -226,11 +224,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                     this.algorithmStepBuilder.setPseudocodeLine = 14;
                     this.algorithmStepBuilder.setCommand = `Since the characters don't match and there is no characters left to compare then there must be no border`;
                     this.letterBuilder.setIndex = i;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setColor = "MISMATCH";
                     this.letterBuilder.setLetter = pattern.charAt(i);
                     temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
                     this.letterBuilder.setIndex = j-1;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+                    this.letterBuilder.setColor = "MISMATCH";
                     this.letterBuilder.setLetter = pattern.charAt(j-1);
                     this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
                     currentStep = this.algorithmStepBuilder.build();
@@ -245,11 +243,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                     this.algorithmStepBuilder.setCommand = `"${pattern.charAt(i)}" === "${pattern.charAt(j-1)}"`;
                     this.algorithmStepBuilder.setPseudocodeLine = 15;
                     this.letterBuilder.setIndex = i;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+                    this.letterBuilder.setColor = "MATCH";
                     this.letterBuilder.setLetter = pattern.charAt(i);
                     temp = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
                     this.letterBuilder.setIndex = j-1;
-                    this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+                    this.letterBuilder.setColor = "MATCH";
                     this.letterBuilder.setLetter = pattern.charAt(j-1);
                     this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(temp, this.letterBuilder.build());
                     currentStep = this.algorithmStepBuilder.build();
@@ -298,14 +296,14 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                 if (command) this.algorithmStepBuilder.setCommand = command;
 
                 if (highlightText) {
-                    this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , MatchingAlgorithmColourConstants.CHECKING , 1);
+                    this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , "CHECKING" , 1);
                 } else {
-                    this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , MatchingAlgorithmColourConstants.DEFAULT , 1);
+                    this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , "DEFAULT" , 1);
                 }
                 if (highlightPattern) {
-                    this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , MatchingAlgorithmColourConstants.CHECKING , 1);
+                    this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , "CHECKING" , 1);
                 } else {
-                    this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , MatchingAlgorithmColourConstants.DEFAULT , 1);
+                    this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , "DEFAULT" , 1);
                 }
 
                 if (textIndex != undefined) this.algorithmStepBuilder.setTextIndex = textIndex;
@@ -348,7 +346,7 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
 
             this.letterBuilder.setIndex = textIndex;
             this.letterBuilder.setLetter = this.text.charAt(textIndex);
-            this.letterBuilder.setColor = MatchingAlgorithmColourConstants.CHECKING;
+            this.letterBuilder.setColor = "CHECKING";
             this.letterBuilder.setStrokeWeight = 4;
             this.algorithmStepBuilder.setLettersInText = this.replaceLetter(this.previousStep.lettersInText, this.letterBuilder.build());
 
@@ -378,14 +376,14 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
 
             this.letterBuilder.setIndex = this.previousStep.patternIndex;
             this.letterBuilder.setLetter = this.pattern.charAt(this.previousStep.patternIndex);
-            this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+            this.letterBuilder.setColor = "MATCH";
             this.letterBuilder.setStrokeWeight = 4;
 
             this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
 
             this.letterBuilder.setIndex = this.previousStep.textIndex;
             this.letterBuilder.setLetter = this.text.charAt(this.previousStep.textIndex);
-            this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+            this.letterBuilder.setColor = "MATCH";
             this.letterBuilder.setStrokeWeight = 4;
 
             this.algorithmStepBuilder.setLettersInText = this.replaceLetter(this.previousStep.lettersInText, this.letterBuilder.build());
@@ -407,8 +405,8 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
 
             this.algorithmStepBuilder.setPseudocodeLine = 13;
             this.algorithmStepBuilder.setCommand = "Check if the whole string has been matched";
-            // this.algorithmStepBuilder.setLettersInText = this.recolourLetters(this.previousStep.lettersInText , MatchingAlgorithmColourConstants.CHECKING);
-            // this.algorithmStepBuilder.setLettersInPattern = this.recolourLetters(this.previousStep.lettersInPattern , MatchingAlgorithmColourConstants.CHECKING);
+            // this.algorithmStepBuilder.setLettersInText = this.recolourLetters(this.previousStep.lettersInText , "CHECKING");
+            // this.algorithmStepBuilder.setLettersInPattern = this.recolourLetters(this.previousStep.lettersInPattern , "CHECKING");
             step = this.algorithmStepBuilder.build();
             this.addStep(step);
             this.previousStep = step;
@@ -450,15 +448,15 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
 
             this.letterBuilder.setIndex = this.previousStep.patternIndex;
             this.letterBuilder.setLetter = this.pattern.charAt(this.previousStep.patternIndex);
-            this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+            this.letterBuilder.setColor = "MISMATCH";
             this.letterBuilder.setStrokeWeight = 4;
 
-            this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(this.highlightEntireLine(this.pattern,MatchingAlgorithmColourConstants.DEFAULT, 1), this.letterBuilder.build());
+            this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(this.highlightEntireLine(this.pattern,"DEFAULT", 1), this.letterBuilder.build());
 
             this.letterBuilder.setIndex = this.previousStep.textIndex;
             this.letterBuilder.setLetter = this.text.charAt(this.previousStep.textIndex);
 
-            this.algorithmStepBuilder.setLettersInText = this.replaceLetter(this.highlightEntireLine(this.text,MatchingAlgorithmColourConstants.DEFAULT, 1), this.letterBuilder.build());
+            this.algorithmStepBuilder.setLettersInText = this.replaceLetter(this.highlightEntireLine(this.text,"DEFAULT", 1), this.letterBuilder.build());
 
             let step = this.algorithmStepBuilder.build();
             this.addStep(step);
@@ -467,8 +465,8 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setPseudocodeLine = 15;
             this.algorithmStepBuilder.setPatternIndex = 0;
             this.algorithmStepBuilder.setCommand = "Check whether border table has a value for the current pattern index";
-            this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , MatchingAlgorithmColourConstants.DEFAULT , 1);
-            this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , MatchingAlgorithmColourConstants.DEFAULT , 1);
+            this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , "DEFAULT" , 1);
+            this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , "DEFAULT" , 1);
 
             step = this.algorithmStepBuilder.build();
             this.addStep(step);
@@ -482,8 +480,8 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
                     this.algorithmStepBuilder.setAdditional = this.additionalVariables;
                     this.algorithmStepBuilder.setPatternIndex = patternIndex;
                     this.algorithmStepBuilder.setPatternOffset = textIndex - patternIndex;
-                    this.algorithmStepBuilder.setLettersInText = this.highlightSubstringOfLine(this.previousStep.lettersInText , MatchingAlgorithmColourConstants.MATCH , textIndex - patternIndex, textIndex - 1);
-                    this.algorithmStepBuilder.setLettersInPattern = this.highlightSubstringOfLine(this.previousStep.lettersInPattern , MatchingAlgorithmColourConstants.MATCH , 0 , patternIndex - 1);
+                    this.algorithmStepBuilder.setLettersInText = this.highlightSubstringOfLine(this.previousStep.lettersInText , "MATCH" , textIndex - patternIndex, textIndex - 1);
+                    this.algorithmStepBuilder.setLettersInPattern = this.highlightSubstringOfLine(this.previousStep.lettersInPattern , "MATCH" , 0 , patternIndex - 1);
                     break;
                 }
                 case 2 : {
@@ -531,8 +529,8 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setCommand = "No match !";
-            this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , MatchingAlgorithmColourConstants.MISMATCH , 4);
-            this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , MatchingAlgorithmColourConstants.MISMATCH , 4);
+            this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , "MISMATCH" , 4);
+            this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , "MISMATCH" , 4);
             this.algorithmStepBuilder.setAdditional = this.additionalVariables;
 
             const step = this.algorithmStepBuilder.build();
@@ -541,14 +539,14 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setDefaults();
         }
 
-        private recolourLetters(letters : Letter[] , colour : MatchingAlgorithmColourConstants) {
+        private recolourLetters(letters : Letter[] , colour : string) {
             return letters.map(letter => {
                 letter.colour = colour;
                 return letter;
             });
         }
 
-        private highlightSubstringOfLine(letters : Letter[] , colour : MatchingAlgorithmColourConstants , start : number , end : number) {
+        private highlightSubstringOfLine(letters : Letter[] , colour : string , start : number , end : number) {
             return letters.map(letter => {
                 if (letter.index >= start && letter.index <= end) {
                     letter.colour = colour;
