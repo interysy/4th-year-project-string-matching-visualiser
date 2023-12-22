@@ -427,8 +427,23 @@ export class P5jsDrawService {
       }
       this.p5.pop();
     }
-
   }
+
+  public drawLegend() {
+    const legend = [{color : this.themeSelectorService.currentThemeForDrawer.MATCH , text : "Match"}, {color : this.themeSelectorService.currentThemeForDrawer.CHECKING , text : "Checking"}]
+    let seperator = 0
+    if (this.p5) {
+      legend.forEach((legendItem , index) => {
+        this.p5?.fill(legendItem.color);
+        this.p5?.rect(index * 50 + seperator, 10 , 10 ,10);
+        this.p5?.fill("#000000");
+        const textWidth = this.p5?.textWidth(legendItem.text) ? this.p5?.textWidth(legendItem.text) : 0;
+        this.p5?.text(legendItem.text , index * 50 + 10 + textWidth/2 + seperator , 10);
+        seperator = textWidth;
+      });
+    }
+  }
+
 
 
   private scrollToLastOccurrenceElement(index : number) {
@@ -439,7 +454,6 @@ export class P5jsDrawService {
       }
     }
   }
-
 
   public changeSquareSize(length : number , width = 0) {
     if (this.p5) {

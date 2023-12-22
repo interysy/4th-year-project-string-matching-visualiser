@@ -4,7 +4,7 @@ import { HomePageComponent } from './pages/home/home.page';
 import { AboutPageComponent } from './pages/about/about.page';
 import { AlgorithmVisualiserPageComponent } from './pages/algorithm-visualiser/algorithm-visualiser.page';
 import { environment } from '../environments/environment.dev';
-import { TextAndPatternDrawer } from './modules/string-matching-algorithm-visualiser/drawers/text-pattern.drawer.decorator';
+
 
 /**
    * @description Grab all supported algorithms and create a route for each one

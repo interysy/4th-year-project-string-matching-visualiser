@@ -4,14 +4,14 @@ import { P5jsDrawService } from "../services/p5js-draw.service";
 
 
 
-export class BorderTableDrawer extends DrawStepDecorator {
+export class LegendDrawer extends DrawStepDecorator {
 
     constructor(earlierDrawer : StringMatchingAlgorithmToDraw) {
         super(earlierDrawer);
     }
 
     override draw(obj : P5jsDrawService) : void {
-        obj.annotatePattern();
+        obj.drawLegend();
         this.earlierDrawer.draw(obj);
     }
 }
