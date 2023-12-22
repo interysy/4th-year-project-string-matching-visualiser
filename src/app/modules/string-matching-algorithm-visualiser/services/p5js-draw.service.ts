@@ -148,7 +148,6 @@ export class P5jsDrawService {
     }
   }
 
-
   drawTextAndPattern(p : p5) {
     const background = this.themeSelectorService.currentThemeForDrawer.BACKGROUND;
     p.background(background);
@@ -430,17 +429,51 @@ export class P5jsDrawService {
   }
 
   public drawLegend() {
-    const legend = [{color : this.themeSelectorService.currentThemeForDrawer.MATCH , text : "Match"}, {color : this.themeSelectorService.currentThemeForDrawer.CHECKING , text : "Checking"}]
-    let seperator = 0
+    let seperator = 10;
+
     if (this.p5) {
-      legend.forEach((legendItem , index) => {
-        this.p5?.fill(legendItem.color);
-        this.p5?.rect(index * 50 + seperator, 10 , 10 ,10);
-        this.p5?.fill("#000000");
-        const textWidth = this.p5?.textWidth(legendItem.text) ? this.p5?.textWidth(legendItem.text) : 0;
-        this.p5?.text(legendItem.text , index * 50 + 10 + textWidth/2 + seperator , 10);
-        seperator = textWidth;
-      });
+      this.p5.push();
+
+      this.p5.resetMatrix();
+      // this.p5.rectMode(this.p5.CENTER);
+      // this.p5.textAlign(this.p5.CENTER , this.p5.CENTER);
+      this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
+      let headingWidth = this.p5.textWidth("LEGEND:");
+      this.p5.text("LEGEND:" ,this.animationMargin/2 + 40, 200);
+      this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+
+      // let headingWidth = this.p5.textWidth("LEGEND:");
+
+      // this.p5.fill("#6C757D");
+      // this.p5.strokeWeight(5);
+      // this.p5.stroke("#000000");
+      // this.p5.rect(this.p5.width/2 , 30 , (this.p5.width/4) * 3 , 30);
+      // this.p5.fill("#FFFFFF");
+      // this.p5.stroke("#FFFFFF");
+      // this.p5.strokeWeight(0);
+
+      let i = 0;
+      let y = 200;
+      for (const key in this.themeSelectorService.currentThemeForDrawer) {
+        if (key == "MISMATCH" || key == "MATCH" || key == "BORDER_CHECK_ONE" || key == "BORDER_CHECK_TWO" || key == "BORDER_CHECK") {
+        const textWidth = this.p5.textWidth(key);
+        if (i * 25 + headingWidth + seperator + 10 + textWidth > this.p5.width) {
+          y += 20;
+          i = 0;
+          seperator = 0;
+          headingWidth = 0;
+        }
+        this.p5.fill(this.themeSelectorService.currentThemeForDrawer[key]);
+        this.p5.rect(i * 25 + headingWidth + seperator + 40, y , 10 ,10);
+        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
+        this.p5.text(key , i * 25 + headingWidth + seperator + textWidth/2 + 10 + 40 , y);
+        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+        seperator = seperator+textWidth;
+        i++;
+      }
+     }
+      this.p5.pop();
     }
   }
 
