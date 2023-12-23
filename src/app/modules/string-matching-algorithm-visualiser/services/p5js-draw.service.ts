@@ -433,19 +433,17 @@ export class P5jsDrawService {
   public drawLegend() {
     let seperator = 10;
 
-    if (this.p5) {
+    if (this.p5 && this.optionService.showLegendGetter) {
       this.p5.push();
 
       this.p5.resetMatrix();
-      // this.p5.rectMode(this.p5.CENTER);
-      // this.p5.textAlign(this.p5.CENTER , this.p5.CENTER);
       this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
       let headingWidth = this.p5.textWidth("LEGEND:");
-      this.p5.text("LEGEND:" ,this.animationMargin/2 + 40, 240);
+      this.p5.text("LEGEND:" ,this.animationMargin/2 + 40, 260);
       this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
 
       let i = 0;
-      let y = 240;
+      let y = 260;
       for (const key in this.themeSelectorService.currentThemeForDrawer) {
         if (key == "MISMATCH" || key == "MATCH" || key == "BORDER_CHECK_ONE" || key == "BORDER_CHECK_TWO" || key == "BORDER_CHECK") {
         const textWidth = this.p5.textWidth(key);

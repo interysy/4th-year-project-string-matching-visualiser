@@ -14,6 +14,7 @@ export class ModalComponent implements OnInit {
   protected pattern : string;
   protected preProcessingSteps : boolean;
   protected smoothAnimations : boolean ;
+  protected showLegend : boolean;
   protected themes = [{name : "base" , colorOne : "#FFFFFF" , colorTwo : "#E3E5EA"} , {name : "theme-dark-green" , colorOne : "#2D333B" , colorTwo : "#29FD2F"}, {name : "theme-dark-blue" , colorOne : "#2D333B" , colorTwo : "#1b7ced"}];
   protected selectedTheme = this.themes[0].name;
 
@@ -25,6 +26,8 @@ export class ModalComponent implements OnInit {
     this.pattern = this.optionService.patternGetter;
     this.smoothAnimations = this.optionService.smoothAnimationsGetter;
     this.preProcessingSteps = this.optionService.preProcessingStepsGetter;
+    this.selectedTheme = this.themingService.currentThemeGetter;
+    this.showLegend = this.optionService.showLegendGetter;
   }
 
   ngOnInit() {
@@ -52,6 +55,10 @@ export class ModalComponent implements OnInit {
   protected selectTheme(theme : string) {
     this.selectedTheme = theme;
     this.themingService.themeSetter = theme;
+  }
+
+  protected setShowLegend() {
+    this.optionService.showLegendSetter = this.showLegend;
   }
 
   protected openModal() {

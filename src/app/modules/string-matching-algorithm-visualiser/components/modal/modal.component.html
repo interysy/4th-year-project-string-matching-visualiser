@@ -64,6 +64,24 @@
         <fa-icon class="text-skin-base" [icon]="['fas', 'check']" size="lg"></fa-icon>
       </label>
     </div>
+    <div class="relative">
+      <input
+        type="checkbox"
+        class="mt-5 mr-2 appearance-none w-4 h-4 rounded-sm border border-skin-icon-separator bg-skin-fill-quaternary outline-none checked:border-skin-border-focus checked:bg-skin-fill-tertiary"
+        value=""
+        name="showLegend"
+        [(ngModel)]="showLegend"
+        (ngModelChange)="setShowLegend()"
+        id="showLegend" />
+      <label
+        class="absolute top-5 left-6"
+        for="smoothAnimations">
+        Show Animation Legend
+      </label>
+      <label *ngIf="showLegend" class="absolute top-4 left-0" style="pointer-events: none;" for="smoothAnimations">
+        <fa-icon class="text-skin-base" [icon]="['fas', 'check']" size="lg"></fa-icon>
+      </label>
+    </div>
       <div class="flex flex-wrap gap-5 mt-5">
         <p>Theme:</p>
         <div class="flex items-center" *ngFor="let theme of themes">
@@ -81,6 +99,7 @@
           />
         </div>
       </div>
+
   </form>
   </div>
 </div>
