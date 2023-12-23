@@ -392,7 +392,9 @@ export class P5jsDrawService {
         this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
         this.p5.strokeWeight(0);
         this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
-        this.p5.text(`Potential Border is "${this.optionService.patternGetter.substring(borderOne[0] , borderOne[1] + 1)}"`,i * this.squareSideSize + this.squareSideSize *2 , y + 50);
+        const potentialBorderText = `Potential Border is "${this.optionService.patternGetter.substring(borderOne[0] , borderOne[1] + 1)}"`;
+        const potentialBorederTextLength = this.p5.textWidth(potentialBorderText);
+        this.p5.text(potentialBorderText,i * this.squareSideSize + potentialBorederTextLength/2  , y + 50);
         this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
       }
 
@@ -408,7 +410,9 @@ export class P5jsDrawService {
         this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.DEFAULT_STROKE);
         this.p5.strokeWeight(0);
         this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
-        this.p5.text(`Potential Border is "${this.optionService.patternGetter.substring(borderTwo[0] , borderTwo[1] + 1)}"`, j * this.squareSideSize + this.squareSideSize/2 , y - 110)
+        const potentialBorderText = `Potential Border is "${this.optionService.patternGetter.substring(borderTwo[0] , borderTwo[1] + 1)}"`;
+        const potentialBorederTextLength = this.p5.textWidth(potentialBorderText);
+        this.p5.text(potentialBorderText, j * this.squareSideSize + potentialBorederTextLength/2 , y - 110)
         this.p5.fill("#000000");
       }
 
@@ -434,11 +438,12 @@ export class P5jsDrawService {
     let seperator = 10;
 
     if (this.p5 && this.optionService.showLegendGetter) {
+      let headingWidth = this.p5.textWidth("LEGEND:");
       this.p5.push();
 
       this.p5.resetMatrix();
       this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
-      let headingWidth = this.p5.textWidth("LEGEND:");
+
       this.p5.text("LEGEND:" ,this.animationMargin/2 + 40, 260);
       this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
 
