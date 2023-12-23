@@ -12,5 +12,6 @@ export class BorderTableDrawer extends DrawStepDecorator {
 
     override draw(obj : P5jsDrawService) : void {
         obj.annotatePattern();
+        this.earlierDrawer.draw(obj);
     }
 }
