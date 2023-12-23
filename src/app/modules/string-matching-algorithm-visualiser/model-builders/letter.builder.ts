@@ -1,5 +1,6 @@
-import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
+
 import { Letter } from "../models/letter.model";
+import { ThemeSelectorService } from "../services/theme-selector.service";
 
 
 
@@ -7,14 +8,14 @@ export class LetterBuilder {
 
     private letter : Letter;
 
-    constructor() {
+    constructor(private readonly themeSelectorService : ThemeSelectorService) {
         this.setDefaults();
     }
 
     public setDefaults() : void {
         this.letter = {
             index : 0,
-            colour : MatchingAlgorithmColourConstants.DEFAULT,
+            colour : this.themeSelectorService.currentThemeForDrawer.DEFAULT,
             strokeWeight : 1,
             letter : "",
         };

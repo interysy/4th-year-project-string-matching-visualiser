@@ -7,6 +7,7 @@ import * as p5 from "p5";
 import { StringMatchingAlgorithmToDraw } from "./algorithm-draw.model";
 import { Injector } from "@angular/core";
 import { P5jsDrawService } from "../services/p5js-draw.service";
+import { ThemeSelectorService } from "../services/theme-selector.service";
 
 export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithmToDraw {
 
@@ -18,11 +19,12 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     protected pattern : string;
     protected algorithmName : string;
     protected readonly algorithmStepBuilder: AlgorithmStepBuilder = new AlgorithmStepBuilder();
-    protected readonly letterBuilder : LetterBuilder = new LetterBuilder();
+    protected readonly letterBuilder : LetterBuilder;
     p5jsDrawService : P5jsDrawService;
 
     protected preProcessingCanvas : boolean;
     protected preProcessingFunction : string;
+    themeSelectorService: ThemeSelectorService;
 
     abstract workOutSteps(text : string , pattern : string) : number;
     protected abstract addSetupSteps(textLength : number , patternLength  : number) : void;
@@ -30,6 +32,8 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     constructor(algorithmName : string) {
         this.algorithmName = algorithmName;
          this.p5jsDrawService = Injector.create({providers: [{provide: P5jsDrawService, deps: []}]}).get(P5jsDrawService);
+         this.themeSelectorService = Injector.create({providers: [{provide: ThemeSelectorService, deps: []}]}).get(ThemeSelectorService);
+         this.letterBuilder = new LetterBuilder(this.themeSelectorService);
     }
 
     draw(obj : P5jsDrawService) : void {
@@ -40,7 +44,7 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
         this.steps.push(algorithmStep);
     }
 
-    protected highlightEntireLine(stringToHighlight : string , colour : MatchingAlgorithmColourConstants, weight : number) : Letter[] {
+    protected highlightEntireLine(stringToHighlight : string , colour : string, weight : number) : Letter[] {
         return stringToHighlight.split("").map((char , index) => {
             const letter = new Letter();
             letter.index = index;

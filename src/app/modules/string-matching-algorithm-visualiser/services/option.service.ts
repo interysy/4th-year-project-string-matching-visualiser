@@ -11,11 +11,13 @@ export class OptionService {
   private $patternChanged : Subject<string> = new Subject<string>();
   private $smoothAnimationsChanged : Subject<boolean> = new Subject<boolean>();
   private $preProcessingStepsChanged : Subject<boolean> = new Subject<boolean>();
+  private $showLegendChanged : Subject<boolean> = new Subject<boolean>();
 
   private text = "The fox jumped over the lazy dog";
   private pattern = "lazy";
   private smoothAnimations = false;
   private preProcessingSteps = true;
+  private showLegend = false;
 
   get textChangedSubscriberGetter() : Subject<string> {
     return this.$textChanged;
@@ -31,6 +33,10 @@ export class OptionService {
 
   get preProcessingStepsChangedSubscriberGetter() : Subject<boolean> {
     return this.$preProcessingStepsChanged;
+  }
+
+  get showLegendChangedSubscriberGetter() : Subject<boolean> {
+    return this.$showLegendChanged;
   }
 
   set textSetter(text : string) {
@@ -53,6 +59,11 @@ export class OptionService {
     this.$preProcessingStepsChanged.next(this.preProcessingSteps);
   }
 
+  set showLegendSetter(showLegend : boolean) {
+    this.showLegend = showLegend;
+    this.$showLegendChanged.next(this.showLegend);
+  }
+
   get textGetter() : string {
     return this.text;
   }
@@ -67,6 +78,10 @@ export class OptionService {
 
   get preProcessingStepsGetter() : boolean {
     return this.preProcessingSteps;
+  }
+
+  get showLegendGetter() : boolean {
+    return this.showLegend;
   }
 
 }

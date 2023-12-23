@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChil
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { P5jsDrawService } from '../../services/p5js-draw.service';
 import { OptionService } from '../../services/option.service';
+import { ThemeSelectorService } from '../../services/theme-selector.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   private drawingServices: {service : P5jsDrawService , canvas : HTMLDivElement}[] = [];
 
 
-  constructor(private readonly algorithmProgressService : AlgorithmProgressService , private readonly optionService : OptionService) {
+  constructor(private readonly algorithmProgressService : AlgorithmProgressService , private readonly optionService : OptionService , private readonly themeSelectorService : ThemeSelectorService) {
     this.extraCanvas = this.algorithmProgressService.extraCanvasGetter;
   }
 
@@ -38,7 +39,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     const canvasWidth = this.canvasElement.nativeElement.offsetWidth;
     const canvasHeight = this.canvasElement.nativeElement.offsetHeight;
 
-    const drawService = new P5jsDrawService(this.algorithmProgressService, this.optionService, this.canvasElement.nativeElement, canvasWidth, canvasHeight, (p5) => {
+    const drawService = new P5jsDrawService(this.algorithmProgressService, this.optionService, this.themeSelectorService,this.canvasElement.nativeElement, canvasWidth, canvasHeight, (p5) => {
       drawService.drawTextAndPattern(p5);
     });
     this.drawingServices.push({service : drawService , canvas : this.canvasElement.nativeElement});
@@ -46,7 +47,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     if (this.extraCanvas != undefined && this.extraCanvasElement != undefined) {
       const canvasWidth2 = this.extraCanvasElement.nativeElement.offsetWidth;
       const canvasHeight2 = this.extraCanvasElement.nativeElement.offsetHeight;
-      const temp = new P5jsDrawService(this.algorithmProgressService, this.optionService, this.extraCanvasElement.nativeElement, canvasWidth2, canvasHeight2, (p5) => {
+      const temp = new P5jsDrawService(this.algorithmProgressService, this.optionService, this.themeSelectorService,this.extraCanvasElement.nativeElement, canvasWidth2, canvasHeight2, (p5) => {
         if (temp[this.extraCanvas as keyof P5jsDrawService] && typeof temp[this.extraCanvas as keyof P5jsDrawService] === 'function') {
           (temp[this.extraCanvas as keyof P5jsDrawService] as (p5 : any) => void)(p5);
         }

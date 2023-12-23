@@ -55,14 +55,14 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
                 if (command) this.algorithmStepBuilder.setCommand = command;
 
                 if (highlightText) {
-                    this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , MatchingAlgorithmColourConstants.CHECKING , 1);
+                    this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , "CHECKING" , 1);
                 } else {
-                    this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , MatchingAlgorithmColourConstants.DEFAULT , 1);
+                    this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , "DEFAULT" , 1);
                 }
                 if (highlightPattern) {
-                    this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , MatchingAlgorithmColourConstants.CHECKING , 1);
+                    this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , "CHECKING" , 1);
                 } else {
-                    this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , MatchingAlgorithmColourConstants.DEFAULT , 1);
+                    this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , "DEFAULT" , 1);
                 }
 
                 if (textIndex != undefined) this.algorithmStepBuilder.setTextIndex = textIndex;
@@ -107,7 +107,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
             this.letterBuilder.setIndex = textIndex;
             this.letterBuilder.setLetter = this.text.charAt(textIndex);
-            this.letterBuilder.setColor = MatchingAlgorithmColourConstants.CHECKING;
+            this.letterBuilder.setColor = "CHECKING";
             this.letterBuilder.setStrokeWeight = 4;
             this.algorithmStepBuilder.setLettersInText = this.replaceLetter(this.previousStep.lettersInText, this.letterBuilder.build());
 
@@ -137,14 +137,14 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
             this.letterBuilder.setIndex = this.previousStep.patternIndex;
             this.letterBuilder.setLetter = this.pattern.charAt(this.previousStep.patternIndex);
-            this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+            this.letterBuilder.setColor = "MATCH";
             this.letterBuilder.setStrokeWeight = 4;
 
             this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(this.previousStep.lettersInPattern, this.letterBuilder.build());
 
             this.letterBuilder.setIndex = this.previousStep.textIndex;
             this.letterBuilder.setLetter = this.text.charAt(this.previousStep.textIndex);
-            this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MATCH;
+            this.letterBuilder.setColor = "MATCH";
             this.letterBuilder.setStrokeWeight = 4;
 
             this.algorithmStepBuilder.setLettersInText = this.replaceLetter(this.previousStep.lettersInText, this.letterBuilder.build());
@@ -176,15 +176,15 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
             this.letterBuilder.setIndex = this.previousStep.patternIndex;
             this.letterBuilder.setLetter = this.pattern.charAt(this.previousStep.patternIndex);
-            this.letterBuilder.setColor = MatchingAlgorithmColourConstants.MISMATCH;
+            this.letterBuilder.setColor = "MISMATCH";
             this.letterBuilder.setStrokeWeight = 4;
 
-            this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(this.highlightEntireLine(this.pattern,MatchingAlgorithmColourConstants.DEFAULT, 1), this.letterBuilder.build());
+            this.algorithmStepBuilder.setLettersInPattern = this.replaceLetter(this.highlightEntireLine(this.pattern,"DEFAULT", 1), this.letterBuilder.build());
 
             this.letterBuilder.setIndex = this.previousStep.textIndex;
             this.letterBuilder.setLetter = this.text.charAt(this.previousStep.textIndex);
 
-            this.algorithmStepBuilder.setLettersInText = this.replaceLetter(this.highlightEntireLine(this.text,MatchingAlgorithmColourConstants.DEFAULT, 1), this.letterBuilder.build());
+            this.algorithmStepBuilder.setLettersInText = this.replaceLetter(this.highlightEntireLine(this.text,"DEFAULT", 1), this.letterBuilder.build());
 
             let step = this.algorithmStepBuilder.build();
             this.addStep(step);
@@ -193,8 +193,8 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setPseudocodeLine = 13;
             this.algorithmStepBuilder.setPatternIndex = 0;
             this.algorithmStepBuilder.setCommand = "Reset pattern index to 0";
-            this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , MatchingAlgorithmColourConstants.DEFAULT , 1);
-            this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , MatchingAlgorithmColourConstants.DEFAULT , 1);
+            this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , "DEFAULT" , 1);
+            this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , "DEFAULT" , 1);
 
             step = this.algorithmStepBuilder.build();
             this.addStep(step);
@@ -265,8 +265,8 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setPatternIndex = patternIndex;
             this.algorithmStepBuilder.setTextIndex = textIndex;
             this.algorithmStepBuilder.setCommand = "No match !";
-            this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , MatchingAlgorithmColourConstants.MISMATCH , 4);
-            this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , MatchingAlgorithmColourConstants.MISMATCH , 4);
+            this.algorithmStepBuilder.setLettersInText = this.highlightEntireLine(this.text , "MISMATCH" , 4);
+            this.algorithmStepBuilder.setLettersInPattern = this.highlightEntireLine(this.pattern , "MISMATCH" , 4);
             this.algorithmStepBuilder.setAdditional = this.additionalVariables;
 
             step = this.algorithmStepBuilder.build();

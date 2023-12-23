@@ -2,7 +2,7 @@ import { MatchingAlgorithmColourConstants } from "../constants/matching-algorith
 
 export class Letter {
     index : number;
-    colour : MatchingAlgorithmColourConstants;
+    colour : string;
     strokeWeight : number;
     letter : string;
 }

@@ -1,6 +1,4 @@
-export abstract class MatchingAlgorithmColourConstants{
-    static readonly MISMATCH = "#ff0000";
-    static readonly MATCH = "#00ff00";
-    static readonly DEFAULT = "#ffffff";
-    static readonly CHECKING = "#FFA500";
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface MatchingAlgorithmColourConstants {
+
 }
