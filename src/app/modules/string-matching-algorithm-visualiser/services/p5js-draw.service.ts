@@ -382,7 +382,8 @@ export class P5jsDrawService {
         const borderOne = this.step.additional['borderOne'];
         const i = this.step.additional['i'];
         this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK_ONE);
-        this.p5.line( i * this.squareSideSize , y + this.squareSideSize /2 + 5 , i * this.squareSideSize + this.squareSideSize/2 , y + 45);
+        this.p5.strokeWeight(2);
+        this.p5.line( i * this.squareSideSize , y + this.squareSideSize /2 + 5 , i * this.squareSideSize + this.squareSideSize/2 , y + 40);
         this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
         this.p5.strokeWeight(5);
         this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK_ONE);
@@ -399,6 +400,7 @@ export class P5jsDrawService {
         const borderTwo = this.step.additional['borderTwo'];
         const j = this.step.additional['j'] - 1;
         this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK_TWO);
+        this.p5.strokeWeight(2);
         this.p5.line(j * this.squareSideSize , y - this.squareSideSize /2  , j * this.squareSideSize + this.squareSideSize/2 , y - 90);
         this.p5.strokeWeight(5);
         this.p5.line(borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y - this.squareSideSize/2, borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y + this.squareSideSize/2);
