@@ -317,5 +317,4 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ## Week 15 (Christmas Break)
 
 ### 28 December
-* *1.5 hours* Updating timelog, kanban board and meeting notes on Moodle (general update of documentation from my notes)
-
+* *2 hours* Updating timelog, kanban board and meeting notes on Moodle (general update of documentation from my notes, including spelling and formatting to make everything easy to read)
