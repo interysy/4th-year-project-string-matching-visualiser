@@ -31,7 +31,11 @@ export class NavbarComponent {
    * The environment variable, explicitly set for HTML access
    */
   public environment = environment;
-  protected ResizeThreshold = 768
+
+  /**
+   * @description Variable used to determine when mobile view should be triggered
+   */
+  protected readonly ResizeThreshold = 768
 
 
   /**
@@ -46,7 +50,7 @@ export class NavbarComponent {
    * @returns void
   */
   public toggleMobileMenu() : void {
-    this.mobileMenu.nativeElement.classList.toggle('hidden');
+    this.mobileMenu.nativeElement.classList.toggle("hidden");
   }
 
   /**
@@ -54,12 +58,12 @@ export class NavbarComponent {
    * avoids bug where the mobile menu is still visible on a larger screen if not closed.
    * @returns void
    */
-  @HostListener('window:resize')
+  @HostListener("window:resize")
   public onResize() : void {
     const windowWidth = window.innerWidth;
 
     if (windowWidth > this.ResizeThreshold) {
-      this.mobileMenu.nativeElement.classList.add('hidden');
+      this.mobileMenu.nativeElement.classList.add("hidden");
     }
   }
 
