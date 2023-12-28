@@ -1,5 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { ThemeSelectorService } from './modules/string-matching-algorithm-visualiser/services/theme-selector.service';
+import { Subscription } from 'rxjs';
 
 /**
  * @description
@@ -10,7 +11,7 @@ import { ThemeSelectorService } from './modules/string-matching-algorithm-visual
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
 
   /**
    * @description Title of the application
@@ -31,6 +32,9 @@ export class AppComponent {
   currentTheme : string;
 
 
+  subscriptions : Subscription[]  = [];
+
+
   /**
    * @description Constructor. Injects the ThemeSelectorService from the StringMatchingVisualiserModule that will be used to change theme.
    * @param themeSelectorService
@@ -38,9 +42,17 @@ export class AppComponent {
   constructor(private readonly themeSelectorService: ThemeSelectorService) {
     this.currentTheme = themeSelectorService.currentThemeGetter;
 
-    this.themeSelectorService.themeChangedSubscriberGetter.subscribe((newTheme : string) => {
+    this.subscriptions.push(this.themeSelectorService.themeChangedSubscriberGetter.subscribe((newTheme : string) => {
       this.themingDivElement.nativeElement.classList.replace(this.currentTheme, newTheme);
       this.currentTheme = newTheme;
-    });
+    }));
+  }
+
+
+  /**
+   * @description Unsubscribe from all subscriptions on destroy
+   */
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }

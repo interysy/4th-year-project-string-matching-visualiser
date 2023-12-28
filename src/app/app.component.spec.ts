@@ -36,7 +36,7 @@ describe('AppComponent', () => {
     expect(app.themingDivElement).toBeTruthy();
   });
 
-  it('should apply the initial theme from the service', () => {
+  it("should apply the initial theme from the service", () => {
 
     mockedThemeChangedObserver$.next("base")
     fixture.detectChanges();
@@ -45,7 +45,7 @@ describe('AppComponent', () => {
     expect(app.themingDivElement.nativeElement.classList.contains("base")).toBe(true);
   });
 
-  it('should update theme on theme change', fakeAsync(() => {
+  it("should update theme on theme change", fakeAsync(() => {
 
     mockedThemeChangedObserver$.next("new-theme");
 
@@ -55,5 +55,10 @@ describe('AppComponent', () => {
     expect(app.currentTheme).toBe("new-theme");
     expect(app.themingDivElement.nativeElement.classList.contains("new-theme")).toBe(true);
   }));
+
+  it("should unsubscribe from themeChangedSubscriberGetter on destroy" , () => {
+    app.ngOnDestroy();
+    expect(app.subscriptions[0].closed).toBe(true);
+  });
 
 });
