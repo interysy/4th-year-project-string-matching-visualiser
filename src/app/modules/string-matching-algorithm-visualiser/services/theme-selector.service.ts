@@ -1,35 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { MatchingAlgorithmColourConstants } from '../constants/matching-algorithm-colours.constant';
-import { DefaultTheme } from '../constants/default.theme';
-import { DarkGreenTheme } from '../constants/dark-green.theme';
-import { DarkBlueTheme } from '../constants/dark-blue.theme';
-
+import { environment } from 'src/environments/environment.dev';
+import { Theme } from '../constants/matching-algorithm-colours.constant';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeSelectorService {
 
+  private _currentTheme : string;
+  private _currentThemeObject : Theme;
+  private _themeChangedObserver$ : Subject<string> = new Subject<string>();
+  private _themes;
 
-  private currentTheme = "base";
-  public currentThemeForDrawer : any = new DefaultTheme();
-  protected themes = [{name : "base" , colorOne : "#FFFFFF" , colorTwo : "#E3E5EA" , themeObject : DefaultTheme} , {name : "theme-dark-green" , colorOne : "#2D333B" , colorTwo : "#29FD2F" , themeObject : DarkGreenTheme}, {name : "theme-dark-blue" , colorOne : "#2D333B" , colorTwo : "#1b7ced" , themeObject : DarkBlueTheme}];
-  private themeChangedObserver$ : Subject<string> = new Subject<string>();
+  constructor() {
+    this._themes = environment.themes;
+    this._currentTheme = "base";
+    this._currentThemeObject= this._themes.base;
+    this._currentThemeObject = new this._themes.base.themeObject();
+  }
 
   set themeSetter(theme : string) {
-    this.currentTheme = theme;
-    this.themeChangedObserver$.next(theme);
-    const newThemeObject = this.themes.find(themeToCompare => themeToCompare.name === theme);
-    if (newThemeObject) this.currentThemeForDrawer = new newThemeObject.themeObject();
+    this._currentTheme = theme;
+    this._themeChangedObserver$.next(theme);
+
+    const themeAsKeyOfThemes = theme as keyof typeof environment.themes;
+    const newThemeObject = this._themes[themeAsKeyOfThemes];
+    if (newThemeObject) this._currentThemeObject = new newThemeObject.themeObject();
   }
 
   get currentThemeGetter() : string {
-    return this.currentTheme;
+    return this._currentTheme;
   }
 
   get themeChangedSubscriberGetter() : Subject<string> {
-    return this.themeChangedObserver$;
+    return this._themeChangedObserver$;
+  }
+
+  get currentThemeObjectGetter() : Theme {
+    return this._currentThemeObject;
   }
 
 }
