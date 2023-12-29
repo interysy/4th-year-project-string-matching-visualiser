@@ -146,6 +146,7 @@ export class AlgorithmProgressService {
    */
   public resetProgress() : void {
     this._currentlyPlaying = false;
+    this._currentStep = 0;
     this._stepChanged$.next(0);
   }
 
@@ -346,6 +347,7 @@ export class AlgorithmProgressService {
    * @description Update step number
    */
   set currentStepNumberSetter(step : number) {
+    this._currentStep = step;
     this._stepChanged$.next(step);
   }
 }

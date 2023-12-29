@@ -5,6 +5,7 @@ import { BruteForceAdditionalVariables } from "../models/brute-force-additional-
 export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
         private additionalVariables : BruteForceAdditionalVariables = new BruteForceAdditionalVariables();
+        override algorithmName = "brute-force";
 
         public workOutSteps(text : string , pattern : string) : number {
             this.text  = text;

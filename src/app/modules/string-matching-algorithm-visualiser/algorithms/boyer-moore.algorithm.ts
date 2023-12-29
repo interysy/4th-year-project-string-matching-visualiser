@@ -5,6 +5,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
 
     private startingPoint : number;
     private lastOccuranceTable : { [character : string] : number; };
+    override algorithmName = "boyer-moore";
     additionalVariables : BoyerMooreAdditionalVariables = new BoyerMooreAdditionalVariables();
 
     public workOutSteps(text : string , pattern : string) : number {

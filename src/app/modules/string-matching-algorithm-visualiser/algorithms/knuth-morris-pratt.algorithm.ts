@@ -6,6 +6,7 @@ import { Letter } from "../models/letter.model";
 
 export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
 
+        override algorithmName = "knuth-morris-pratt";
         additionalVariables = new KnuthMorrisPrattAdditionalVariables();
         public workOutSteps(text : string , pattern : string) : number {
            this.text = text;
