@@ -1,4 +1,3 @@
-import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
 import { StringMatchingAlgorithm } from "../models/algorithm.model";
 import { BruteForceAdditionalVariables } from "../models/brute-force-additional-variables.model";
 

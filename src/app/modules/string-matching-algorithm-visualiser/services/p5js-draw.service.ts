@@ -149,7 +149,7 @@ export class P5jsDrawService {
   }
 
   drawTextAndPattern(p : p5) {
-    const background = this.themeSelectorService.currentThemeForDrawer.BACKGROUND;
+    const background = this.themeSelectorService.currentThemeObjectGetter.BACKGROUND;
     p.background(background);
     p.textSize(this.textSize);
     p.rectMode(p.CENTER);
@@ -209,14 +209,14 @@ export class P5jsDrawService {
         const previousLetter = this.previousStep.lettersInText[letterIndex];
         let y = 100;
         const index = letterObject.index;
-        const colour = letterObject.colour as keyof typeof this.themeSelectorService.currentThemeForDrawer;
-        let color = this.p5.color(this.themeSelectorService.currentThemeForDrawer[colour]);
+        const colour = letterObject.colour as keyof typeof this.themeSelectorService.currentThemeObjectGetter;
+        let color = this.p5.color(this.themeSelectorService.currentThemeObjectGetter[colour]);
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
 
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
         this.p5.text(index , index * this.squareSideSize, y);
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT)
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT)
         y = y + this.squareSideSize;
         if (previousLetter && this.optionService.smoothAnimationsGetter && previousLetter.colour !== letterObject.colour) {
           color = this.p5.lerpColor(this.p5.color(this.DefaultColour.toString()), color, fade);
@@ -226,11 +226,11 @@ export class P5jsDrawService {
         this.p5.fill(color);
         this.p5.strokeWeight(strokeWeight);
         this.p5.rect(index * this.squareSideSize, y , this.squareSideSize , this.squareSideSize);
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
         this.p5.strokeWeight(1);
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR_SECONDARY);
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR_SECONDARY);
         this.p5.text(letter , index * this.squareSideSize , y);
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
       }
     });
 
@@ -244,8 +244,8 @@ export class P5jsDrawService {
         const previousLetter = this.previousStep.lettersInPattern[letterIndex];
         const y = 100 + this.squareSideSize*2 + this.gap;
         const index = letterObject.index;
-        const colour = letterObject.colour as keyof typeof this.themeSelectorService.currentThemeForDrawer;
-        let color = this.p5.color(this.themeSelectorService.currentThemeForDrawer[colour]);
+        const colour = letterObject.colour as keyof typeof this.themeSelectorService.currentThemeObjectGetter;
+        let color = this.p5.color(this.themeSelectorService.currentThemeObjectGetter[colour]);
         const letter = letterObject.letter;
         const strokeWeight = letterObject.strokeWeight;
 
@@ -258,25 +258,25 @@ export class P5jsDrawService {
           this.p5.fill(color);
           this.p5.strokeWeight(strokeWeight);
           this.p5.rect(index * this.squareSideSize + offset , y , this.squareSideSize , this.squareSideSize);
-          this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR_SECONDARY);
+          this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR_SECONDARY);
           this.p5.strokeWeight(1);
           this.p5.text(letter ,index * this.squareSideSize + offset  , y);
-          this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT)
+          this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT)
         }
       }
       })
   }
 
   private drawLastOccurrenceTable(p5 : p5) {
-    const background = this.themeSelectorService.currentThemeForDrawer.BACKGROUND;
+    const background = this.themeSelectorService.currentThemeObjectGetter.BACKGROUND;
     p5.background(background);
     p5.textSize(this.textSize);
     p5.rectMode(p5.CENTER);
     p5.textAlign(p5.CENTER , p5.CENTER);
 
-    p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
+    p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
     p5.text("LAST OCCURRENCE TABLE:" ,(p5.width  / 2) , 30);
-    p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+    p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
 
 
     const lastOccurrenceTable = (this.step.additional['lastOccuranceTable']) ? this.step.additional['lastOccuranceTable'] : null;
@@ -286,13 +286,13 @@ export class P5jsDrawService {
     if (lastOccurrenceTable) {
       let i = 0;
       const y = 70;
-      let colour = this.themeSelectorService.currentThemeForDrawer.DEFAULT;
+      let colour = this.themeSelectorService.currentThemeObjectGetter.DEFAULT;
       for (const [key, value] of Object.entries(lastOccurrenceTable)) {
         const xPos = i * (this.dictionaryElementSize + this.dictionaryGap) - this.scrollX + (this.dictionaryElementSize / 2);
 
         if (lastOccurrenceToHighlight == key && this.previousStep) {
           if (this.previousStep != this.step) this.scrollToLastOccurrenceElement(i);
-              colour = this.themeSelectorService.currentThemeForDrawer.MATCH;
+              colour = this.themeSelectorService.currentThemeObjectGetter.MATCH;
         } else if (this.previousLastOccurrenceTable && Object.entries(this.previousLastOccurrenceTable).length !== Object.entries(lastOccurrenceTable).length) {
           this.scrollToLastOccurrenceElement(i);
         }
@@ -301,9 +301,9 @@ export class P5jsDrawService {
           this.p5?.fill(colour);
           p5.rect(xPos, y , this.dictionaryElementSize , this.dictionaryElementSize);
           colour = this.DefaultColour
-          this.p5?.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR_SECONDARY);
+          this.p5?.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR_SECONDARY);
           p5.text(key + " : " + value , xPos, y);
-          this.p5?.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+          this.p5?.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
         }
 
         i++;
@@ -314,15 +314,15 @@ export class P5jsDrawService {
 
 
   private drawBorderTable(p5 : p5) {
-    const background = this.themeSelectorService.currentThemeForDrawer.BACKGROUND;
+    const background = this.themeSelectorService.currentThemeObjectGetter.BACKGROUND;
     p5.background(background);
     p5.textSize(this.textSize);
     p5.rectMode(p5.CENTER);
     p5.textAlign(p5.CENTER , p5.CENTER);
 
-    p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
+    p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
     p5.text("BORDER TABLE:" ,(p5.width  / 2) , 30);
-    p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+    p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
 
     const borderTable = (this.step.additional['borderTable']) ? this.step.additional['borderTable'] : null;
     const borderTableIndexToHighlight = (this.step.additional['borderTableIndexToHighlight']) ? this.step.additional['borderTableIndexToHighlight'] : null;
@@ -337,37 +337,37 @@ export class P5jsDrawService {
 
     for (let i = 0 ; i < patternLength ; i++) {
 
-        p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
+        p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
         p5.text(i , i * this.borderTableSquareSideSize + textWidth - this.scrollX, y);
-        p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+        p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
         y = y + this.borderTableSquareSideSize;
         if (borderTableIndexToHighlight != null && borderTableIndexToHighlight == i) {
-          p5.fill(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK);
+          p5.fill(this.themeSelectorService.currentThemeObjectGetter.BORDER_CHECK);
           p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
-          p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT)
+          p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT)
         } else {
           p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
         }
 
         const nextLetter = (i-1 < 0) ? '""' : this.step.lettersInPattern[i-1].letter;
 
-        p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR_SECONDARY);
+        p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR_SECONDARY);
         p5.text(nextLetter, i * this.borderTableSquareSideSize + textWidth - this.scrollX , y);
-        p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+        p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
         y = y + this.borderTableSquareSideSize;
         if (borderTableIndexToHighlight != null && borderTableIndexToHighlight == i) {
-          p5.fill(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK);
+          p5.fill(this.themeSelectorService.currentThemeObjectGetter.BORDER_CHECK);
           p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
-          p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT)
+          p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT)
         } else {
           p5.rect(i * this.borderTableSquareSideSize + textWidth - this.scrollX, y , this.borderTableSquareSideSize , this.borderTableSquareSideSize);
         }
 
         p5.line((patternLength -1 )* this.borderTableSquareSideSize + textWidth - this.borderTableSquareSideSize/2 - this.scrollX , y - this.borderTableSquareSideSize/2 , (patternLength -1 )* this.borderTableSquareSideSize + textWidth + this.borderTableSquareSideSize/2 - this.scrollX, y + this.borderTableSquareSideSize/2);
         const nextBorderValue = (borderTable != null && borderTable[i] != null) ? borderTable[i] : "";
-        p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR_SECONDARY);
+        p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR_SECONDARY);
         p5.text(nextBorderValue , i * this.borderTableSquareSideSize + textWidth - this.scrollX , y);
-        p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+        p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
         y = 50;
       }
 
@@ -381,35 +381,35 @@ export class P5jsDrawService {
       if (this.step.additional['borderOne'] && this.step.additional['i'] != null) {
         const borderOne = this.step.additional['borderOne'];
         const i = this.step.additional['i'];
-        this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK_ONE);
+        this.p5.stroke(this.themeSelectorService.currentThemeObjectGetter.BORDER_CHECK_ONE);
         this.p5.strokeWeight(2);
         this.p5.line( i * this.squareSideSize , y + this.squareSideSize /2 + 5 , i * this.squareSideSize + this.squareSideSize/2 , y + 40);
-        this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+        this.p5.stroke(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
         this.p5.strokeWeight(5);
-        this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK_ONE);
+        this.p5.stroke(this.themeSelectorService.currentThemeObjectGetter.BORDER_CHECK_ONE);
         this.p5.line(borderOne[0] * this.squareSideSize - this.squareSideSize/2 , y - this.squareSideSize/2, borderOne[0] * this.squareSideSize - this.squareSideSize/2 , y + this.squareSideSize/2);
         this.p5.line(borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y - this.squareSideSize/2, borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y + this.squareSideSize/2);
-        this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+        this.p5.stroke(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
         this.p5.strokeWeight(0);
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
         const potentialBorderText = `Potential Border is "${this.optionService.patternGetter.substring(borderOne[0] , borderOne[1] + 1)}"`;
         const potentialBorederTextLength = this.p5.textWidth(potentialBorderText);
         this.p5.text(potentialBorderText,i * this.squareSideSize + potentialBorederTextLength/2  , y + 50);
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
       }
 
       if (this.step.additional['borderTwo'] && this.step.additional['j'] != null) {
         const borderTwo = this.step.additional['borderTwo'];
         const j = this.step.additional['j'] - 1;
-        this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK_TWO);
+        this.p5.stroke(this.themeSelectorService.currentThemeObjectGetter.BORDER_CHECK_TWO);
         this.p5.strokeWeight(2);
         this.p5.line(j * this.squareSideSize , y - this.squareSideSize /2  , j * this.squareSideSize + this.squareSideSize/2 , y - 90);
         this.p5.strokeWeight(5);
         this.p5.line(borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y - this.squareSideSize/2, borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y + this.squareSideSize/2);
         this.p5.line(borderTwo[1] * this.squareSideSize + this.squareSideSize/2 , y - this.squareSideSize/2, borderTwo[1] * this.squareSideSize + this.squareSideSize/2 , y + this.squareSideSize/2);
-        this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.DEFAULT_STROKE);
+        this.p5.stroke(this.themeSelectorService.currentThemeObjectGetter.DEFAULT_STROKE);
         this.p5.strokeWeight(0);
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
         const potentialBorderText = `Potential Border is "${this.optionService.patternGetter.substring(borderTwo[0] , borderTwo[1] + 1)}"`;
         const potentialBorederTextLength = this.p5.textWidth(potentialBorderText);
         this.p5.text(potentialBorderText, j * this.squareSideSize + potentialBorederTextLength/2 , y - 110)
@@ -422,11 +422,11 @@ export class P5jsDrawService {
 
         if (borderOne[1] == borderTwo[0] - 1) {
           this.p5.strokeWeight(5);
-          this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK_ONE);
+          this.p5.stroke(this.themeSelectorService.currentThemeObjectGetter.BORDER_CHECK_ONE);
           this.p5.line(borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y - this.squareSideSize/2, borderOne[1] * this.squareSideSize + this.squareSideSize/2 , y);
-          this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.BORDER_CHECK_TWO);
+          this.p5.stroke(this.themeSelectorService.currentThemeObjectGetter.BORDER_CHECK_TWO);
           this.p5.line(borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y , borderTwo[0] * this.squareSideSize - this.squareSideSize/2 , y + this.squareSideSize/2);
-          this.p5.stroke(this.themeSelectorService.currentThemeForDrawer.DEFAULT_STROKE);
+          this.p5.stroke(this.themeSelectorService.currentThemeObjectGetter.DEFAULT_STROKE);
           this.p5.strokeWeight(0);
         }
       }
@@ -442,14 +442,14 @@ export class P5jsDrawService {
       this.p5.push();
 
       this.p5.resetMatrix();
-      this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
+      this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
 
       this.p5.text("LEGEND:" ,this.animationMargin/2 + 40, 260);
-      this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+      this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
 
       let i = 0;
       let y = 260;
-      for (const key in this.themeSelectorService.currentThemeForDrawer) {
+      for (const key in this.themeSelectorService.currentThemeObjectGetter) {
         if (key == "MISMATCH" || key == "MATCH" || key == "BORDER_CHECK_ONE" || key == "BORDER_CHECK_TWO" || key == "BORDER_CHECK") {
         const textWidth = this.p5.textWidth(key);
         if (i * 25 + headingWidth + seperator + 10 + textWidth > this.p5.width) {
@@ -458,12 +458,12 @@ export class P5jsDrawService {
           seperator = 0;
           headingWidth = 0;
         }
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer[key]);
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter[key]);
         this.p5.rect(i * 25 + headingWidth + seperator + 40, y , 10 ,10);
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.TEXT_COLOUR);
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
         this.p5.text(key , i * 25 + headingWidth + seperator + textWidth/2 + 10 + 40 , y);
-        this.p5.fill(this.themeSelectorService.currentThemeForDrawer.DEFAULT);
+        this.p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
         seperator = seperator+textWidth;
         i++;
       }

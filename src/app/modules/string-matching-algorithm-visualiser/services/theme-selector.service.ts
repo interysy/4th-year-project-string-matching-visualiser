@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
-import { Theme } from '../constants/matching-algorithm-colours.constant';
+import { Theme } from '../themes/theme';
 
 /**
  * @description This service is responsible for changing active theme of the application.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class ThemeSelectorService {
 
+  private readonly DefaultTheme = "base";
 
   /**
     * @description The current theme is used to keep track of the current theme of the application.
@@ -39,8 +40,7 @@ export class ThemeSelectorService {
    */
   constructor() {
     this._themes = environment.themes;
-    this._currentTheme = "base";
-    this._currentThemeObject= this._themes.base;
+    this._currentTheme = this.DefaultTheme;
     this._currentThemeObject = new this._themes.base.themeObject();
   }
 
@@ -51,12 +51,13 @@ export class ThemeSelectorService {
    *
    */
   set themeSetter(theme : string) {
-    this._currentTheme = theme;
-    this._themeChangedObserver$.next(theme);
-
     const themeAsKeyOfThemes = theme as keyof typeof environment.themes;
     const newThemeObject = this._themes[themeAsKeyOfThemes];
-    if (newThemeObject) this._currentThemeObject = new newThemeObject.themeObject();
+    if (newThemeObject) {
+      this._currentThemeObject = new newThemeObject.themeObject();
+      this._currentTheme = theme;
+      this._themeChangedObserver$.next(theme);
+    }
   }
 
 

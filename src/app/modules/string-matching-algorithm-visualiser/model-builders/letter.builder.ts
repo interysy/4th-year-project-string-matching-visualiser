@@ -15,7 +15,7 @@ export class LetterBuilder {
     public setDefaults() : void {
         this.letter = {
             index : 0,
-            colour : this.themeSelectorService.currentThemeForDrawer.DEFAULT,
+            colour : this.themeSelectorService.currentThemeObjectGetter.DEFAULT,
             strokeWeight : 1,
             letter : "",
         };

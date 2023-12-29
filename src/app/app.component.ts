@@ -32,6 +32,9 @@ export class AppComponent implements OnDestroy {
   currentTheme : string;
 
 
+  /**
+   * @description The subscriptions from which the app receives updates.
+   */
   subscriptions : Subscription[]  = [];
 
 

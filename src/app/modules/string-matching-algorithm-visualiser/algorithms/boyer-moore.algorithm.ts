@@ -1,5 +1,4 @@
 import { StringMatchingAlgorithm } from "../models/algorithm.model";
-import { MatchingAlgorithmColourConstants } from "../constants/matching-algorithm-colours.constant";
 import { BoyerMooreAdditionalVariables } from "../models/boyer-moore-additional-variables.model";
 
 export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {

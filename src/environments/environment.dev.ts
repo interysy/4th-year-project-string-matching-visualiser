@@ -1,9 +1,9 @@
 import { BoyerMooreAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/boyer-moore.algorithm";
 import { BruteForceAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/brute-force.algorithm";
 import { KnuthMorrisPrattAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/knuth-morris-pratt.algorithm";
-import { DarkBlueTheme } from "src/app/modules/string-matching-algorithm-visualiser/constants/dark-blue.theme";
-import { DarkGreenTheme } from "src/app/modules/string-matching-algorithm-visualiser/constants/dark-green.theme";
-import { DefaultTheme } from "src/app/modules/string-matching-algorithm-visualiser/constants/default.theme";
+import { DarkBlueTheme } from "src/app/modules/string-matching-algorithm-visualiser/themes/dark-blue.theme";
+import { DarkGreenTheme } from "src/app/modules/string-matching-algorithm-visualiser/themes/dark-green.theme";
+import { DefaultTheme } from "src/app/modules/string-matching-algorithm-visualiser/themes/default.theme";
 import { BorderTableDrawer } from "src/app/modules/string-matching-algorithm-visualiser/drawers/border-table.drawer";
 import { LegendDrawer } from "src/app/modules/string-matching-algorithm-visualiser/drawers/legend.drawer";
 
