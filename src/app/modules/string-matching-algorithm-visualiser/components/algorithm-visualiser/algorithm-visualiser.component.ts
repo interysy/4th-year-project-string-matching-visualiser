@@ -61,7 +61,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
     for (const drawer of this.drawingServices) {
       drawer.service.destroy();
     }
-    this.algorithmProgressService.resetProgressService();
+    this.algorithmProgressService.resetProgress();
   }
 
   @HostListener('window:resize')

@@ -44,7 +44,7 @@ export class PlaybackControlsComponent {
 
   reset() {
     this.paused = true;
-    this.algorithmProgressService.reset();
+    this.algorithmProgressService.resetProgress();
   }
 
   pause() {
