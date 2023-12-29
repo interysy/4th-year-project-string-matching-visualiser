@@ -319,4 +319,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 28 December
 * *2 hours* Updating timelog, kanban board and meeting notes on Moodle (general update of documentation from my notes, including spelling and formatting to make everything easy to read)
 * *1 hour* Attempting to upgrade Angular to latest version on the app (needed to utilise the cookie service for keeping track of user options)
-* *1.5 hours* Working on adding unit tests and documentation (done the app component and navbar)
+* *1.5 hours* Working on adding unit tests and documentation (done the app component and navbar) 
+
+### 29 December 
+* *2.5 hours* Refactoring, documenting and creating tests for theme and option services. Started doing the same for the algorithm progress service.
