@@ -325,4 +325,5 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2.5 hours* Refactoring, documenting and creating tests for theme and option services. Started doing the same for the algorithm progress service.
 
 ### 30 December  
-* *2.5 hours* Finished tests for progress service. Started refactoring on the P5JSDrawingService.
+* *2.5 hours* Finished tests for progress service. Started refactoring on the P5JSDrawingService. 
+* *2 hours* Further refactoring on P5JSDrawingService. Cleaned up drawText , drawPattern , centralisation functions , scroller functions , drawLastOccurrenceTable and drawBorderTable.
