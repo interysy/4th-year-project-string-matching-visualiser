@@ -28,8 +28,8 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     abstract workOutSteps(text : string , pattern : string) : number;
     protected abstract addSetupSteps(textLength : number , patternLength  : number) : void;
 
-    constructor(algorithmName : string) {
-        this.algorithmName = algorithmName;
+    constructor() {
+        // this.algorithmName = algorithmName;
          this.p5jsDrawService = Injector.create({providers: [{provide: P5jsDrawService, deps: []}]}).get(P5jsDrawService);
          this.themeSelectorService = Injector.create({providers: [{provide: ThemeSelectorService, deps: []}]}).get(ThemeSelectorService);
          this.letterBuilder = new LetterBuilder(this.themeSelectorService);

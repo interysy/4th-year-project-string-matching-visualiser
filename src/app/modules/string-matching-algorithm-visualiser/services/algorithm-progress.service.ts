@@ -14,8 +14,8 @@ import { OptionService } from './option.service';
 })
 export class AlgorithmProgressService {
 
-  private readonly DefaultSpeed = 1000;
-  private readonly Debounce = 1000;
+  public readonly DefaultSpeed = 1000;
+  public readonly Debounce = 1000;
 
   /**
    * @description The notifier is used to notify the components that the algorithm's progress has changed.
@@ -54,20 +54,20 @@ export class AlgorithmProgressService {
   /**
    * @description The variable is used to store all subscriptions to things that can change.
    */
-  private subscriptions : Subscription[] = [];
+  subscriptions : Subscription[] = [];
 
 
   /**
    * @description The decorated algorithm is used to decorate the algorithm with decorators that allow the algorithm to be visualised with
    * extra information when required.
    */
-  private decoratedAlgorithm : DrawStepDecorator
+  private _decoratedAlgorithm : DrawStepDecorator;
 
 
   /**
    * @description The variable is used to store the steps of the algorithm for a specific text and pattern.
    */
-  steps: AlgorithmStep[];
+  private _steps: AlgorithmStep[];
 
 
   /**
@@ -97,7 +97,7 @@ export class AlgorithmProgressService {
    * @returns void
    */
   private filterPreProcessingSteps(preProcessingSteps : boolean) : void {
-    this.steps  = preProcessingSteps ?  this._algorithm.stepsGetter : this._algorithm.stepsGetter.filter((step) => step.extra == false);
+    this._steps  = preProcessingSteps ?  this._algorithm.stepsGetter : this._algorithm.stepsGetter.filter((step) => step.extra == false);
     this.currentStepNumberSetter = 0;
   }
 
@@ -117,8 +117,8 @@ export class AlgorithmProgressService {
     if (decorators.length !== 0) {
       let oldDecorator = this._algorithm as StringMatchingAlgorithmToDraw;
       decorators.forEach((decorator) => {
-        this.decoratedAlgorithm = new decorator(oldDecorator);
-        oldDecorator = this.decoratedAlgorithm;
+        this._decoratedAlgorithm = new decorator(oldDecorator);
+        oldDecorator = this._decoratedAlgorithm;
       });
     }
 
@@ -157,7 +157,7 @@ export class AlgorithmProgressService {
   private resetService() {
     this._currentlyPlaying = false;
     this._currentStep = 0;
-    this.steps = [];
+    this._steps = [];
   }
 
   /**
@@ -166,7 +166,7 @@ export class AlgorithmProgressService {
    * @see play()
    */
   public moveToNextStep() : void {
-    if (this._currentStep != this.steps.length - 1) {
+    if (this._currentStep != this._steps.length - 1) {
       this._currentStep += 1;
       this._stepChanged$.next(this._currentStep);
     }
@@ -226,42 +226,42 @@ export class AlgorithmProgressService {
    * @description Get amount of steps the algorithm has generated
    */
   get amountOfStepsGetter() {
-    return this.steps.length;
+    return this._steps.length;
   }
 
   /**
    * @description Get the current step object
    */
   get stepGetter() {
-    return this.steps[this._currentStep];
+    return this._steps[this._currentStep];
   }
 
   /**
    * @description Get the current pseudocode line number.
    */
   get pseudocodeLine() {
-    return this.steps[this._currentStep].pseudocodeLine;
+    return this._steps[this._currentStep].pseudocodeLine;
   }
 
   /**
    * @description Get the current pattern index.
    */
   get patternIndex() {
-    return this.steps[this._currentStep].patternIndex;
+    return this._steps[this._currentStep].patternIndex;
   }
 
   /**
    * @description Get the current text index.
    */
   get textIndex() {
-    return this.steps[this._currentStep].textIndex;
+    return this._steps[this._currentStep].textIndex;
   }
 
   /**
    * @description Get the current message regarding what algorithm is doing.
    */
   get command() {
-    return this.steps[this._currentStep].command;
+    return this._steps[this._currentStep].command;
   }
 
   /**
@@ -283,7 +283,7 @@ export class AlgorithmProgressService {
    * @example KMP algorithm has a table that needs to be displayed.
    */
   get additionalVariablesGetter() {
-    return this.steps[this._currentStep].additional;
+    return this._steps[this._currentStep].additional;
   }
 
   /**
@@ -297,7 +297,7 @@ export class AlgorithmProgressService {
    * @description Get algorithm decorated with functions that draw on top of animation.
    */
   get decoratedAlgorithmGetter() {
-    return this.decoratedAlgorithm;
+    return this._decoratedAlgorithm;
   }
 
   /**
@@ -340,7 +340,7 @@ export class AlgorithmProgressService {
    * @example KMP has a border table creation algorithm
    */
   get pseudocodeFilenameGetter() {
-    return this.steps[this._currentStep].pseudocodeFilename;
+    return this._steps[this._currentStep].pseudocodeFilename;
   }
 
   /**
