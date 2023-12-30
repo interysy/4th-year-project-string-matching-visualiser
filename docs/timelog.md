@@ -327,3 +327,4 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 30 December  
 * *2.5 hours* Finished tests for progress service. Started refactoring on the P5JSDrawingService. 
 * *2 hours* Further refactoring on P5JSDrawingService. Cleaned up drawText , drawPattern , centralisation functions , scroller functions , drawLastOccurrenceTable and drawBorderTable.
+* *1.5 hours* Working on refactoring drawLegend , annotatePattern. Also fixed bugs with resizing of animation.
