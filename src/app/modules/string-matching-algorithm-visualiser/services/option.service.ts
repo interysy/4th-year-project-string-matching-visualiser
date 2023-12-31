@@ -13,12 +13,12 @@ export class OptionService {
   /**
    * @description The default text used for string matching.
    */
-  public readonly DefaultText = "The fox jumped over the lazy dog";
+  public readonly DefaultText = "bacbababaacaabaaca";
 
   /**
    * @description The default pattern used for string matching.
    */
-  public readonly DefaultPattern = "lazy";
+  public readonly DefaultPattern = "ababaca";
 
 
   /**
@@ -38,6 +38,7 @@ export class OptionService {
   private _smoothAnimations = false;
   private _preProcessingSteps = true;
   private _showLegend = false;
+  private _centraliseScroll = false;
 
   /**
    * @description Set default options.
@@ -81,6 +82,7 @@ export class OptionService {
   get showLegendChangedSubscriberGetter() : Subject<boolean> {
     return this._showLegendChanged$;
   }
+
 
   /**
    * Sets the text value and emits the text changed event.
@@ -127,6 +129,10 @@ export class OptionService {
     this._showLegendChanged$.next(this._showLegend);
   }
 
+  set centraliseScrollSetter(centraliseScroll : boolean) {
+    this._centraliseScroll = centraliseScroll;
+  }
+
   /**
    * Returns the current text value.
    */
@@ -160,6 +166,10 @@ export class OptionService {
    */
   get showLegendGetter() : boolean {
     return this._showLegend;
+  }
+
+  get centraliseScrollGetter() : boolean {
+    return this._centraliseScroll;
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Modal, initTE } from 'tw-elements';
 import { OptionService } from '../../services/option.service';
 import { ThemeSelectorService } from 'src/app/modules/string-matching-algorithm-visualiser/services/theme-selector.service';
+import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 
 @Component({
   selector: 'app-modal',
@@ -21,7 +22,7 @@ export class ModalComponent implements OnInit {
   @ViewChild('modal', {static: true})
   modalElement: ElementRef<HTMLDivElement>;
 
-  constructor(private readonly optionService : OptionService , private themingService : ThemeSelectorService ) {
+  constructor(private readonly algorithmProgressService : AlgorithmProgressService , private readonly optionService : OptionService , private themingService : ThemeSelectorService ) {
     this.text = this.optionService.textGetter;
     this.pattern = this.optionService.patternGetter;
     this.smoothAnimations = this.optionService.smoothAnimationsGetter;
@@ -69,4 +70,16 @@ export class ModalComponent implements OnInit {
     this.modalElement.nativeElement.classList.add('hidden');
   }
 
+  protected centraliseScroll() {
+    this.optionService.centraliseScrollSetter = true;
+  }
+
+  protected canAlgorithmDataBeCentralised() : boolean {
+    const supported = ["knuth-morris-pratt" , "boyer-moore"];
+
+    if (supported.findIndex((value: string) => value === this.algorithmProgressService.algorithmNameGetter) !== -1) {
+      return true;
+    }
+    return false;
+  }
 }

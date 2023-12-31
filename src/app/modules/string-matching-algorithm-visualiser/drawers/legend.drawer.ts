@@ -10,8 +10,8 @@ export class LegendDrawer extends DrawStepDecorator {
         super(earlierDrawer);
     }
 
-    override draw(obj : P5jsDrawService) : void {
-        obj.drawLegend();
-        this.earlierDrawer.draw(obj);
+    override draw(drawingClass : P5jsDrawService) : void {
+        drawingClass.drawLegend();
+        this.earlierDrawer.draw(drawingClass);
     }
 }

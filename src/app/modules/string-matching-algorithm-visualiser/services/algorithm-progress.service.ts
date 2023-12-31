@@ -69,6 +69,11 @@ export class AlgorithmProgressService {
    */
   private _steps: AlgorithmStep[];
 
+  /**
+   * @description Stores the number of the previous step that has been shown
+   */
+  private _previousStep : number;
+
 
   /**
    * @description Constructor initiates all required subscribers
@@ -138,6 +143,7 @@ export class AlgorithmProgressService {
     this._algorithm.workOutSteps(this.optionService.textGetter, this.optionService.patternGetter);
     this.filterPreProcessingSteps(this.optionService.preProcessingStepsGetter);
     this._currentStep = 0;
+    this._previousStep = 0;
     this._stepChanged$.next(0);
   }
 
@@ -147,6 +153,7 @@ export class AlgorithmProgressService {
   public resetProgress() : void {
     this._currentlyPlaying = false;
     this._currentStep = 0;
+    this._previousStep = 0;
     this._stepChanged$.next(0);
   }
 
@@ -155,9 +162,9 @@ export class AlgorithmProgressService {
    * @see resetProgress() This avoids changing algorithm, so steps remain the same.
    */
   private resetService() {
-    this._currentlyPlaying = false;
-    this._currentStep = 0;
+    this.resetProgress();
     this._steps = [];
+    if (this._algorithm) this._algorithm.resetSteps();
   }
 
   /**
@@ -167,8 +174,13 @@ export class AlgorithmProgressService {
    */
   public moveToNextStep() : void {
     if (this._currentStep != this._steps.length - 1) {
+      this._previousStep = this._currentStep;
       this._currentStep += 1;
       this._stepChanged$.next(this._currentStep);
+
+
+    } else {
+      this._currentlyPlaying = false;
     }
   }
 
@@ -179,6 +191,7 @@ export class AlgorithmProgressService {
    */
   public moveToPreviousStep() : void {
     if (this._currentStep >= 0) {
+      this._previousStep = this._currentStep;
       this._currentStep -= 1;
       this._stepChanged$.next(this._currentStep);
     }
@@ -216,10 +229,24 @@ export class AlgorithmProgressService {
   }
 
   /**
-   * @description Get current step numner
+   * @description Get current step number
    */
   get currentStepNumberGetter() {
     return this._currentStep;
+  }
+
+  /**
+   * @description Gets the previous step number
+   */
+  get previousStepNumberGetter() {
+    return this._previousStep;
+  }
+
+  /**
+   * @description Return the previously shown step
+   */
+  get previousStepGetter() {
+    return this._steps[this._previousStep];
   }
 
   /**
@@ -347,7 +374,9 @@ export class AlgorithmProgressService {
    * @description Update step number
    */
   set currentStepNumberSetter(step : number) {
+    this._previousStep = this._currentStep;
     this._currentStep = step;
     this._stepChanged$.next(step);
   }
+
 }
