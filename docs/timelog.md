@@ -330,4 +330,5 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1.5 hours* Working on refactoring drawLegend , annotatePattern. Also fixed bugs with resizing of animation. 
 
 ### 31 December   
-* *1.5 hours* Refactored drawLegend and all auxiliary functions within P5JSDrawService. Still need to rework smooth animations and playing functionality of the animation.
+* *1.5 hours* Refactored drawLegend and all auxiliary functions within P5JSDrawService. Still need to rework smooth animations and playing functionality of the animation. 
+* *2 hours* Finished refactoring of the draw service.Started working on testing it and documenting.
