@@ -8,7 +8,7 @@ import { Letter } from '../models/letter.model';
 /**
  * @description Represents a class for drawing visuals on a within a specific DOM element using the p5.js library.
  */
-export class P5jsDrawService {
+export class P5jsDrawClass {
 
   /**
    * @description The default frame rate for the application.
@@ -20,15 +20,16 @@ export class P5jsDrawService {
    * @description Minimum size of squares included in animation
    */
   public readonly MinimumSquareSideSize = 15;
-
-  /**
-   * @description Maximum size of squares included in animation
-   */
   public readonly MaximumSquareSideSize = 40;
 
-  public readonly MaximumDictionarySquareSideSize = 60;
 
+  /**
+   * @description Minimum size of dictionary squares included in animation
+   */
+  public readonly MaximumDictionarySquareSideSize = 60;
   public readonly MinimumDictionarySquareSideSize = 30;
+
+
 
   public readonly DictionaryElementsPerPage = 5
 
@@ -118,17 +119,13 @@ export class P5jsDrawService {
   private _framesToWait: number;
   private _currentFrame = 0;
 
- // private smoothOffset : number;
-
-
   private _smoothAnimationProgress = 0;
   private _offsetProgress = 0;
 
 
-  private _subscriptions : Subscription[] = [];
+  subscriptions : Subscription[] = [];
 
   private _lastOccurrenceScroll = false;
-  // private lastLastOccurrenceScrollElement : string;
 
 
   constructor(private readonly algorithmProgressService: AlgorithmProgressService,
@@ -150,21 +147,21 @@ export class P5jsDrawService {
       this.changeSquareSize(Math.max(this.optionService.textGetter.length,this.optionService.patternGetter.length) , width);
 
 
-      this._subscriptions.push(this.algorithmProgressService.speedChangedSubscriberGetter.subscribe((speed : number) => {
+      this.subscriptions.push(this.algorithmProgressService.speedChangedSubscriberGetter.subscribe((speed : number) => {
         const haveFramesChanged = this.workOutFramesToWait(speed);
         this._currentFrame = 0;
         this._framesToWait = haveFramesChanged;
       }));
 
       const textPatternChangeSubscribers = [this.optionService.textChangedSubscriberGetter , this.optionService.patternChangedSubscriberGetter];
-      this._subscriptions.push(...textPatternChangeSubscribers.map(subscriber => subscriber.subscribe(() => {
+      this.subscriptions.push(...textPatternChangeSubscribers.map(subscriber => subscriber.subscribe(() => {
         this.changeSquareSize(Math.max(this.optionService.textGetter.length , this.optionService.patternGetter.length));
         this._animating = false;
         this._smoothAnimationProgress = 0;
       })));
 
 
-      this._subscriptions.push(this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((step : number) => {
+      this.subscriptions.push(this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((step : number) => {
         this._lastOccurrenceScroll = false;
       }));
     }
@@ -202,7 +199,7 @@ export class P5jsDrawService {
     p5.createCanvas(width, height);
     p5.frameRate(this.DefaultFrameRate);
 
-    this._subscriptions.push(this._changeSizeSubject$.subscribe(sizes => {
+    this.subscriptions.push(this._changeSizeSubject$.subscribe(sizes => {
       this.resizeCanvas(sizes.width , sizes.height);
     }));
 
@@ -515,12 +512,12 @@ export class P5jsDrawService {
 
     this._p5.push();
 
-    const borderOne = this.algorithmProgressService.stepGetter.additional[this.BorderOneVariableName] ? this.algorithmProgressService.stepGetter.additional[this.BorderOneVariableName] : null;
+    const borderOne = this.algorithmProgressService.stepGetter.additional[this.BorderOneVariableName]  ? this.algorithmProgressService.stepGetter.additional[this.BorderOneVariableName] : null;
     const borderTwo = this.algorithmProgressService.stepGetter.additional[this.BorderTwoVariableName] ? this.algorithmProgressService.stepGetter.additional[this.BorderTwoVariableName] : null;
-    const i = this.algorithmProgressService.stepGetter.additional[this.IVariableName] ? this.algorithmProgressService.stepGetter.additional[this.IVariableName] : null;
-    j = this.algorithmProgressService.stepGetter.additional[this.JVariableName] ? this.algorithmProgressService.stepGetter.additional[this.JVariableName] : null;
+    const i = (this.algorithmProgressService.stepGetter.additional[this.IVariableName] != undefined) ? this.algorithmProgressService.stepGetter.additional[this.IVariableName] : null;
+    j = (this.algorithmProgressService.stepGetter.additional[this.JVariableName] != undefined) ? this.algorithmProgressService.stepGetter.additional[this.JVariableName] : null;
 
-    if (borderOne && i) {
+    if (borderOne != undefined && i != undefined) {
 
       this._p5.stroke(this.themeSelectorService.currentThemeObjectGetter.BORDER_CHECK_ONE);
       this._p5.strokeWeight(lineWeight);
@@ -533,6 +530,9 @@ export class P5jsDrawService {
       this._p5.stroke(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
       this._p5.strokeWeight(0);
 
+
+      console.log(this.optionService.patternGetter.substring(borderOne[0] , borderOne[1] + 1));
+
       potentialBorderText = this.createPotentialBorderText((this.optionService.patternGetter.substring(borderOne[0] , borderOne[1] + 1)) as string);
       potentialBorderTextLength = this._p5.textWidth(potentialBorderText);
 
@@ -542,7 +542,7 @@ export class P5jsDrawService {
     }
 
 
-    if (borderTwo && j) {
+    if (borderTwo != undefined && j != undefined) {
 
       j -= 1;
 
@@ -566,7 +566,7 @@ export class P5jsDrawService {
       this._p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
     }
 
-    if (borderTwo && borderOne && borderOne[1] == borderTwo[0] - 1) {
+    if (borderTwo != undefined && borderOne != undefined && borderOne[1] == borderTwo[0] - 1) {
       this._p5.strokeWeight(outlineWeight);
       this._p5.stroke(this.themeSelectorService.currentThemeObjectGetter.BORDER_CHECK_ONE);
       this._p5.line(borderOne[1] * this._squareSideSize + this._squareSideSize/2 , y - this._squareSideSize/2, borderOne[1] * this._squareSideSize + this._squareSideSize/2 , y);
@@ -649,6 +649,7 @@ export class P5jsDrawService {
     const maxLength = Math.max(this.optionService.textGetter.length , this.optionService.patternGetter.length);
     this.changeSquareSize(maxLength , width);
     this._p5.resizeCanvas(width , height);
+    this.centraliseScroll();
   }
 
   protected determineSquareSize(textLength : number , canvasWidth : number) : number {
@@ -667,7 +668,7 @@ export class P5jsDrawService {
 
   public destroy() : void {
     this._p5.remove();
-    this._subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 

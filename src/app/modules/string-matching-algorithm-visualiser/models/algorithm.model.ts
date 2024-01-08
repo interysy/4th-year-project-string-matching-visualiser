@@ -5,7 +5,7 @@ import { Letter } from "./letter.model";
 import * as p5 from "p5";
 import { StringMatchingAlgorithmToDraw } from "./algorithm-draw.model";
 import { Injector } from "@angular/core";
-import { P5jsDrawService } from "../services/p5js-draw.service";
+import { P5jsDrawClass } from "../services/p5js.drawer";
 import { ThemeSelectorService } from "../services/theme-selector.service";
 
 export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithmToDraw {
@@ -19,7 +19,7 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     protected algorithmName : string;
     protected readonly algorithmStepBuilder: AlgorithmStepBuilder = new AlgorithmStepBuilder();
     protected readonly letterBuilder : LetterBuilder;
-    p5jsDrawService : P5jsDrawService;
+    p5jsDrawService : P5jsDrawClass;
 
     protected preProcessingCanvas : boolean;
     protected preProcessingFunction : string;
@@ -29,13 +29,12 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     protected abstract addSetupSteps(textLength : number , patternLength  : number) : void;
 
     constructor() {
-        // this.algorithmName = algorithmName;
-         this.p5jsDrawService = Injector.create({providers: [{provide: P5jsDrawService, deps: []}]}).get(P5jsDrawService);
+         this.p5jsDrawService = Injector.create({providers: [{provide: P5jsDrawClass, deps: []}]}).get(P5jsDrawClass);
          this.themeSelectorService = Injector.create({providers: [{provide: ThemeSelectorService, deps: []}]}).get(ThemeSelectorService);
          this.letterBuilder = new LetterBuilder(this.themeSelectorService);
     }
 
-    draw(obj : P5jsDrawService) : void {
+    draw(obj : P5jsDrawClass) : void {
         console.log("layer 1");
     }
 
