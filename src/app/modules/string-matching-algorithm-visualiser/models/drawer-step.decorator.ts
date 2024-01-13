@@ -1,5 +1,5 @@
 import { StringMatchingAlgorithmToDraw } from "./algorithm-draw.model";
-import { P5jsDrawClass } from "../services/p5js.drawer";
+import { P5jsDrawClass } from "../drawers/p5js.drawer";
 
 export abstract class DrawStepDecorator implements StringMatchingAlgorithmToDraw {
     earlierDrawer : StringMatchingAlgorithmToDraw;

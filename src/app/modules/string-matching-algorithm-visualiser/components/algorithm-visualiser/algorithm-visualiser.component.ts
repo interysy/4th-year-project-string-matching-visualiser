@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
-import { P5jsDrawClass } from '../../services/p5js.drawer';
+import { P5jsDrawClass } from '../../drawers/p5js.drawer';
 import { OptionService } from '../../services/option.service';
 import { ThemeSelectorService } from '../../services/theme-selector.service';
 
