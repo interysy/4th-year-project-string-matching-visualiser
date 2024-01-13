@@ -332,3 +332,12 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 31 December   
 * *1.5 hours* Refactored drawLegend and all auxiliary functions within P5JSDrawService. Still need to rework smooth animations and playing functionality of the animation. 
 * *2 hours* Finished refactoring of the draw service.Started working on testing it and documenting.
+
+  
+### 10 January 
+* *1 hour* Preparing documents for the meeting
+* *30 mins* Supervisor meeting
+
+### 13 January  
+* *1.5 hours* Refactoring algorithm visualiser component, documenting it and starting to add tests.
+
