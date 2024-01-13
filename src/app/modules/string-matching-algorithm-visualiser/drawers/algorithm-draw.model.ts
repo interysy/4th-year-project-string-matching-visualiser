@@ -1,4 +1,4 @@
-import { P5jsDrawClass } from "../drawers/p5js.drawer";
+import { P5jsDrawClass } from "./p5js.drawer";
 
 
 export interface StringMatchingAlgorithmToDraw {

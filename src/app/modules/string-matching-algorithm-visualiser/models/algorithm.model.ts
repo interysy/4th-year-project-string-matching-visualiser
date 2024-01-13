@@ -3,7 +3,7 @@ import { AlgorithmStepBuilder } from "../model-builders/algorithm-step.builder";
 import { LetterBuilder } from "../model-builders/letter.builder";
 import { Letter } from "./letter.model";
 import * as p5 from "p5";
-import { StringMatchingAlgorithmToDraw } from "./algorithm-draw.model";
+import { StringMatchingAlgorithmToDraw } from "../drawers/algorithm-draw.model";
 import { Injector } from "@angular/core";
 import { P5jsDrawClass } from "../drawers/p5js.drawer";
 import { ThemeSelectorService } from "../services/theme-selector.service";

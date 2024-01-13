@@ -1,4 +1,4 @@
-import { StringMatchingAlgorithmToDraw } from "../models/algorithm-draw.model";
+import { StringMatchingAlgorithmToDraw } from "./algorithm-draw.model";
 import { DrawStepDecorator } from "../models/drawer-step.decorator";
 import { P5jsDrawClass } from "./p5js.drawer";
 

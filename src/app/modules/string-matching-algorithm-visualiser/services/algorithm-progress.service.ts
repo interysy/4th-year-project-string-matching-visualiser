@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, Subscription, debounceTime } from 'rxjs';
 import { StringMatchingAlgorithm } from '../models/algorithm.model';
 import { DrawStepDecorator } from '../models/drawer-step.decorator';
-import { StringMatchingAlgorithmToDraw } from '../models/algorithm-draw.model';
+import { StringMatchingAlgorithmToDraw } from '../drawers/algorithm-draw.model';
 import { AlgorithmStep } from '../models/algorithm-step.model';
 import { OptionService } from './option.service';
 
