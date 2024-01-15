@@ -40,8 +40,8 @@ export class ThemeSelectorService {
    */
   constructor() {
     this._themes = environment.themes;
-    this._currentTheme = this.DefaultTheme;
-    this._currentThemeObject = new this._themes.base.themeObject();
+    this._currentTheme = environment.defaultTheme;
+    this._currentThemeObject = new this._themes[this._currentTheme as keyof  typeof environment.themes].themeObject();
   }
 
   /**

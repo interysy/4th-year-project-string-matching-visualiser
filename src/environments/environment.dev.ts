@@ -16,6 +16,7 @@ export const environment = {
     {name : "Boyer Moore" ,nameSlug : "boyer-moore" , urlParam : "boyerMoore" , requiredService : BoyerMooreAlgorithm , decorators : [LegendDrawer], prePreprocessingCanvas : true, preProcessingFunction : "drawLastOccurrenceTable"},
     {name : "Knuth-Morris-Pratt" , nameSlug : "knuth-morris-pratt" , urlParam : "knuthMorrisPratt" , requiredService : KnuthMorrisPrattAlgorithm , decorators : [BorderTableDrawer , LegendDrawer] , prePreprocessingCanvas : true, preProcessingFunction : "drawBorderTable"},
   ],
+  centraliseScroll : ["knuth-morris-pratt" , "boyer-moore"],
   additionalVariablesToExclude : [
     "textLength",
     "patternLength",
@@ -30,5 +31,6 @@ export const environment = {
     "base" : {colorOne : "#FFFFFF" , colorTwo : "#E3E5EA", themeObject : DefaultTheme},
     "theme-dark-green" : {colorOne : "#2D333B" , colorTwo : "#29FD2F" , themeObject : DarkGreenTheme},
     "theme-dark-blue" : {colorOne : "#2D333B" , colorTwo : "#1B7CED", themeObject : DarkBlueTheme}
-  }
+  },
+  defaultTheme : "base"
 };
