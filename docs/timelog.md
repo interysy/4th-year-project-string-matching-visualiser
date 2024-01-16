@@ -343,3 +343,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 15 January   
 * *2.5 hours* Refactoring command displayer component and the modal component. With this documentatin has been added and unit tests begun. 
 
+### 16 January    
+* *2.5 hours* Testing of command displayer and modal component, aswell as adding documentation and refactoring.
+* *1 hour* Refactoring tests for progress service and option service, as earlier work required getters and setters to be made into explicit functions.
+* *3 hours* Further work on testing, mainly on algorithm visualiser page and the playback component. Testing also included refactoring, documentation and handling speed issues from the evaluation.
