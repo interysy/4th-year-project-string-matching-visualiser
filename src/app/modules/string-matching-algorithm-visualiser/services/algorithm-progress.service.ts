@@ -15,6 +15,8 @@ import { OptionService } from './option.service';
 export class AlgorithmProgressService {
 
   public readonly DefaultSpeed = 1000;
+  public readonly MinimumSpeed = 100;
+  public readonly MaximumSpeed = 2050;
   public readonly Debounce = 1000;
 
   /**
