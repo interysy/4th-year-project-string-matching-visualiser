@@ -16,21 +16,21 @@ export class CommandVisualiserComponent implements OnDestroy {
      * @description Current command to display.
      */
     private _currentCommand : string;
-    private _subscriptions : Subscription[] = [];
+    subscriptions : Subscription[] = [];
 
 
     /**
      * @description Create instance of CommandVisualiserComponent, inject relevant services and subscribe to progress service to get notifications of step changes.
      */
     constructor(private readonly algorithmProgressService : AlgorithmProgressService) {
-      this._currentCommand = this.algorithmProgressService.command;
-      this._subscriptions.push(this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((_) => {
-          this._currentCommand = this.algorithmProgressService.command;
+      this._currentCommand = this.algorithmProgressService.command();
+      this.subscriptions.push(this.algorithmProgressService.stepChangedSubscriberGetter().subscribe((_) => {
+          this._currentCommand = this.algorithmProgressService.command();
       }));
     }
 
     /**
-     * @description Get the current command.
+     * @description Get the current command. Only used for testing.
      * @returns {string} Current command.
      */
     get currentCommand() : string {
@@ -41,6 +41,6 @@ export class CommandVisualiserComponent implements OnDestroy {
      * @description Unsubscribe from all subscriptions upon desctruction.
      */
     ngOnDestroy() {
-      this._subscriptions.forEach(subscription => subscription.unsubscribe());
+      this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
   }
