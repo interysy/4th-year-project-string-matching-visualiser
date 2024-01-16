@@ -16,12 +16,12 @@ export class PlaybackControlsComponent {
   amountOfSteps : number;
 
   constructor(private algorithmProgressService : AlgorithmProgressService) {
-    this.currentStep = this.algorithmProgressService.currentStepNumberGetter;
-    this.amountOfSteps = this.algorithmProgressService.amountOfStepsGetter;
+    this.currentStep = this.algorithmProgressService.currentStepNumberGetter();
+    this.amountOfSteps = this.algorithmProgressService.amountOfStepsGetter();
 
-    this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((_) => {
-      this.currentStep = this.algorithmProgressService.currentStepNumberGetter;
-      this.amountOfSteps = this.algorithmProgressService.amountOfStepsGetter;
+    this.algorithmProgressService.stepChangedSubscriberGetter().subscribe((_) => {
+      this.currentStep = this.algorithmProgressService.currentStepNumberGetter();
+      this.amountOfSteps = this.algorithmProgressService.amountOfStepsGetter();
 
       if (this.currentStep == this.amountOfSteps - 1 && !this.paused) {
         this.paused = true;
@@ -57,7 +57,7 @@ export class PlaybackControlsComponent {
   }
 
   setStep() {
-    this.algorithmProgressService.currentStepNumberSetter = this.currentStep;
+    this.algorithmProgressService.currentStepNumberSetter(this.currentStep);
   }
 
 }

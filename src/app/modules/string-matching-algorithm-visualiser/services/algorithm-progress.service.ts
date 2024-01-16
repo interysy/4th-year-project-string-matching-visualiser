@@ -81,7 +81,7 @@ export class AlgorithmProgressService {
    */
   constructor(private readonly optionService : OptionService) {
 
-    const subscribersForReset = [this.optionService.textChangedSubscriberGetter , this.optionService.patternChangedSubscriberGetter];
+    const subscribersForReset = [this.optionService.textChangedSubscriberGetter() , this.optionService.patternChangedSubscriberGetter()];
 
     subscribersForReset.forEach((subscriber) => {
       this.subscriptions.push(subscriber.pipe(debounceTime(this.Debounce)).subscribe((_) => {
@@ -90,7 +90,7 @@ export class AlgorithmProgressService {
       }));
     });
 
-    this.subscriptions.push(this.optionService.preProcessingStepsChangedSubscriberGetter.subscribe((preProcessingSteps : boolean) => {
+    this.subscriptions.push(this.optionService.preProcessingStepsChangedSubscriberGetter().subscribe((preProcessingSteps : boolean) => {
       this.filterPreProcessingSteps(preProcessingSteps);
     }));
   }
@@ -103,7 +103,7 @@ export class AlgorithmProgressService {
    */
   private filterPreProcessingSteps(preProcessingSteps : boolean) : void {
     this._steps  = preProcessingSteps ?  this._algorithm.stepsGetter : this._algorithm.stepsGetter.filter((step) => step.extra == false);
-    this.currentStepNumberSetter = 0;
+    this.currentStepNumberSetter(0);
   }
 
 
@@ -140,8 +140,8 @@ export class AlgorithmProgressService {
    * @returns void
    */
   private executeAlgorithm() : void {
-    this._algorithm.workOutSteps(this.optionService.textGetter, this.optionService.patternGetter);
-    this.filterPreProcessingSteps(this.optionService.preProcessingStepsGetter);
+    this._algorithm.workOutSteps(this.optionService.textGetter(), this.optionService.patternGetter());
+    this.filterPreProcessingSteps(this.optionService.preProcessingStepsGetter());
     this._currentStep = 0;
     this._previousStep = 0;
     this._stepChanged$.next(0);
@@ -190,7 +190,7 @@ export class AlgorithmProgressService {
    * @see play()
    */
   public moveToPreviousStep() : void {
-    if (this._currentStep >= 0) {
+    if (this._currentStep > 0) {
       this._previousStep = this._currentStep;
       this._currentStep -= 1;
       this._stepChanged$.next(this._currentStep);
@@ -231,77 +231,77 @@ export class AlgorithmProgressService {
   /**
    * @description Get current step number
    */
-  get currentStepNumberGetter() {
+  public currentStepNumberGetter() {
     return this._currentStep;
   }
 
   /**
    * @description Gets the previous step number
    */
-  get previousStepNumberGetter() {
+  public previousStepNumberGetter() {
     return this._previousStep;
   }
 
   /**
    * @description Return the previously shown step
    */
-  get previousStepGetter() {
+  public previousStepGetter() {
     return this._steps[this._previousStep];
   }
 
   /**
    * @description Get amount of steps the algorithm has generated
    */
-  get amountOfStepsGetter() {
+  public amountOfStepsGetter() {
     return this._steps.length;
   }
 
   /**
    * @description Get the current step object
    */
-  get stepGetter() {
+  public stepGetter() {
     return this._steps[this._currentStep];
   }
 
   /**
    * @description Get the current pseudocode line number.
    */
-  get pseudocodeLine() {
+  public pseudocodeLine() {
     return this._steps[this._currentStep].pseudocodeLine;
   }
 
   /**
    * @description Get the current pattern index.
    */
-  get patternIndex() {
+  public patternIndex() {
     return this._steps[this._currentStep].patternIndex;
   }
 
   /**
    * @description Get the current text index.
    */
-  get textIndex() {
+  public textIndex() {
     return this._steps[this._currentStep].textIndex;
   }
 
   /**
    * @description Get the current message regarding what algorithm is doing.
    */
-  get command() {
+  public command() {
     return this._steps[this._currentStep].command;
   }
 
   /**
    * @description Get the current text length.
    */
-  get textLength() {
+  public textLength() {
     return this.optionService.textGetter.length;
   }
 
   /**
    * @description Get the current pattern length.
    */
-  get patternLength() {
+  public patternLength() {
     return this._algorithm.patternLengthGetter;
   }
 
@@ -309,56 +309,56 @@ export class AlgorithmProgressService {
    * @description Get additional variables for an algorithm.
    * @example KMP algorithm has a table that needs to be displayed.
    */
-  get additionalVariablesGetter() {
+  public additionalVariablesGetter() {
     return this._steps[this._currentStep].additional;
   }
 
   /**
    * @description Get the name of the currently injected algorithm.
    */
-  get algorithmNameGetter() {
+  public algorithmNameGetter() {
     return this._algorithm.algorithmNameGetter;
   }
 
   /**
    * @description Get algorithm decorated with functions that draw on top of animation.
    */
-  get decoratedAlgorithmGetter() {
+  public decoratedAlgorithmGetter() {
     return this._decoratedAlgorithm;
   }
 
   /**
    * @description Find out whether animation is currently playing.
    */
-  get currentlyPlayingGetter() {
+  public currentlyPlayingGetter() {
     return this._currentlyPlaying;
   }
 
   /**
    * @description Get the current speed of playback.
    */
-  get speedGetter() {
+  public speedGetter() {
     return this._speed;
   }
 
   /**
    * @description Find out whether algorithm requires an extra canvas for drawing.
    */
-  get extraCanvasGetter() {
+  public extraCanvasGetter() {
     return this._algorithm.extraCanvasGetter;
   }
 
   /**
    * @description Get the subscription for changing steps. This is used by components to get notifications on step changes.
    */
-  get stepChangedSubscriberGetter() : Subject<number> {
+  public stepChangedSubscriberGetter() : Subject<number> {
     return this._stepChanged$;
   }
 
   /**
    * @description Get the subscription for changing speed. This is used by components to get notifications on speed changes.
    */
-  get speedChangedSubscriberGetter() : Subject<number> {
+  public speedChangedSubscriberGetter() : Subject<number> {
     return this._speedChanged$;
   }
 
@@ -366,14 +366,15 @@ export class AlgorithmProgressService {
    * @description Get the pseudocode filename for the current algorithm - may not be a string matching algorithm, but perhaps a helper.
    * @example KMP has a border table creation algorithm
    */
-  get pseudocodeFilenameGetter() {
+  public pseudocodeFilenameGetter() {
     return this._steps[this._currentStep].pseudocodeFilename;
   }
 
   /**
    * @description Update step number
    */
-  set currentStepNumberSetter(step : number) {
+  public currentStepNumberSetter(step : number) : void {
+    if (step < 0 || step > this._steps.length - 1) return;
     this._previousStep = this._currentStep;
     this._currentStep = step;
     this._stepChanged$.next(step);

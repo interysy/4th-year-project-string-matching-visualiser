@@ -1,5 +1,6 @@
 import { AlgorithmStep } from '../models/algorithm-step.model';
 import { StringMatchingAlgorithm } from '../models/algorithm.model';
+import { P5jsDrawClass } from '../drawers/p5js.drawer';
 
 export class StringMatchingAlgorithmStub extends StringMatchingAlgorithm {
 
@@ -24,6 +25,9 @@ export class StringMatchingAlgorithmStub extends StringMatchingAlgorithm {
       return this.steps;
   }
 
+  override draw(obj: P5jsDrawClass): void {
+    return;
+  }
 
 
 }

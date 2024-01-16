@@ -25,20 +25,20 @@ export class PseudocodeVisualiserComponent implements OnInit {
   constructor(private readonly algorithmProgressService : AlgorithmProgressService,
               private readonly pseudocodeParserService : PseudocodeParserService) {
 
-    this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((_) => {
-      if (this.algorithmProgressService.pseudocodeFilenameGetter != "") {
-        this.loadPseudocode(this.algorithmProgressService.pseudocodeFilenameGetter);
+    this.algorithmProgressService.stepChangedSubscriberGetter().subscribe((_) => {
+      if (this.algorithmProgressService.pseudocodeFilenameGetter() != "") {
+        this.loadPseudocode(this.algorithmProgressService.pseudocodeFilenameGetter());
       } else {
-        this.loadPseudocode(this.algorithmProgressService.algorithmNameGetter);
+        this.loadPseudocode(this.algorithmProgressService.algorithmNameGetter());
       }
-      this.highlightLine(this.algorithmProgressService.pseudocodeLine);
+      this.highlightLine(this.algorithmProgressService.pseudocodeLine());
 
     });
   }
 
   ngOnInit(): void {
     this.createButtons();
-    this.loadPseudocode(this.algorithmProgressService.algorithmNameGetter);
+    this.loadPseudocode(this.algorithmProgressService.algorithmNameGetter());
   }
 
   private loadPseudocode(filename : string) {

@@ -51,35 +51,35 @@ export class OptionService {
   /**
    * Returns the subject for subscribing to text changes.
    */
-  get textChangedSubscriberGetter() : Subject<string> {
+  public textChangedSubscriberGetter() : Subject<string> {
     return this._textChanged$;
   }
 
   /**
    * Returns the subject for subscribing to pattern changes.
    */
-  get patternChangedSubscriberGetter() : Subject<string> {
+  public patternChangedSubscriberGetter() : Subject<string> {
     return this._patternChanged$;
   }
 
   /**
    * Returns the subject for subscribing to smooth animations changes.
    */
-  get smoothAnimationsChangedSubscriberGetter() : Subject<boolean> {
+  public smoothAnimationsChangedSubscriberGetter() : Subject<boolean> {
     return this._smoothAnimationsChanged$;
   }
 
   /**
    * Returns the subject for subscribing to pre-processing steps changes.
    */
-  get preProcessingStepsChangedSubscriberGetter() : Subject<boolean> {
+  public preProcessingStepsChangedSubscriberGetter() : Subject<boolean> {
     return this._preProcessingStepsChanged$;
   }
 
   /**
    * Returns the subject for subscribing to show legend changes.
    */
-  get showLegendChangedSubscriberGetter() : Subject<boolean> {
+  public showLegendChangedSubscriberGetter() : Subject<boolean> {
     return this._showLegendChanged$;
   }
 
@@ -88,7 +88,7 @@ export class OptionService {
    * Sets the text value and emits the text changed event.
    * @param text The new text value.
    */
-  set textSetter(text : string) {
+  public textSetter(text : string) {
     this._text = text;
     this._textChanged$.next(this._text);
   }
@@ -97,7 +97,7 @@ export class OptionService {
    * Sets the pattern value and emits the pattern changed event.
    * @param pattern The new pattern value.
    */
-  set patternSetter(pattern : string) {
+  public patternSetter(pattern : string) {
     this._pattern = pattern;
     this._patternChanged$.next(this._pattern);
   }
@@ -106,7 +106,7 @@ export class OptionService {
    * Sets the smooth animations value and emits the smooth animations changed event.
    * @param smoothAnimations The new smooth animations value.
    */
-  set smoothAnimationsSetter(smoothAnimations : boolean) {
+  public smoothAnimationsSetter(smoothAnimations : boolean) {
     this._smoothAnimations = smoothAnimations;
     this._smoothAnimationsChanged$.next(this._smoothAnimations);
   }
@@ -115,7 +115,7 @@ export class OptionService {
    * Sets the pre-processing steps value and emits the pre-processing steps changed event.
    * @param preProcessingSteps The new pre-processing steps value.
    */
-  set preProcessingStepsSetter(preProcessingSteps : boolean) {
+  public preProcessingStepsSetter(preProcessingSteps : boolean) {
     this._preProcessingSteps = preProcessingSteps;
     this._preProcessingStepsChanged$.next(this._preProcessingSteps);
   }
@@ -124,51 +124,55 @@ export class OptionService {
    * Sets the show legend value and emits the show legend changed event.
    * @param showLegend The new show legend value.
    */
-  set showLegendSetter(showLegend : boolean) {
+  public showLegendSetter(showLegend : boolean) {
     this._showLegend = showLegend;
     this._showLegendChanged$.next(this._showLegend);
   }
 
-  set centraliseScrollSetter(centraliseScroll : boolean) {
+  public centraliseScrollSetter(centraliseScroll : boolean) {
     this._centraliseScroll = centraliseScroll;
   }
 
   /**
-   * Returns the current text value.
+   * @description Returns the current text value.
    */
-  get textGetter() : string {
+  public textGetter() : string {
     return this._text;
   }
 
   /**
-   * Returns the current pattern value.
+   * @description Returns the current pattern value.
    */
-  get patternGetter() : string {
+  public patternGetter() : string {
     return this._pattern;
   }
 
   /**
-   * Returns the current smooth animations value.
+   * @description Returns the current smooth animations value.
    */
-  get smoothAnimationsGetter() : boolean {
+  public smoothAnimationsGetter() : boolean {
     return this._smoothAnimations;
   }
 
   /**
-   * Returns the current pre-processing steps value.
+   * @description Returns the current pre-processing steps value.
    */
-  get preProcessingStepsGetter() : boolean {
+  public preProcessingStepsGetter() : boolean {
     return this._preProcessingSteps;
   }
 
   /**
-   * Returns the current show legend value.
+   * @description Returns the current show legend value.
    */
-  get showLegendGetter() : boolean {
+  public showLegendGetter() : boolean {
     return this._showLegend;
   }
 
-  get centraliseScrollGetter() : boolean {
+  /**
+   * A getter for the centralise scroll value
+   * @returns {boolean} Whether scroll needs to be centralised
+   */
+  public centraliseScrollGetter() : boolean {
     return this._centraliseScroll;
   }
 

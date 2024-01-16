@@ -218,13 +218,13 @@ export class P5jsDrawClass {
       this.changeSquareSize(Math.max(this.optionService.textGetter.length,this.optionService.patternGetter.length) , width);
 
 
-      this.subscriptions.push(this.algorithmProgressService.speedChangedSubscriberGetter.subscribe((speed : number) => {
+      this.subscriptions.push(this.algorithmProgressService.speedChangedSubscriberGetter().subscribe((speed : number) => {
         const haveFramesChanged = this.workOutFramesToWait(speed);
         this._currentFrame = 0;
         this._framesToWait = haveFramesChanged;
       }));
 
-      const textPatternChangeSubscribers = [this.optionService.textChangedSubscriberGetter , this.optionService.patternChangedSubscriberGetter];
+      const textPatternChangeSubscribers = [this.optionService.textChangedSubscriberGetter() , this.optionService.patternChangedSubscriberGetter()];
       this.subscriptions.push(...textPatternChangeSubscribers.map(subscriber => subscriber.subscribe(() => {
         this.changeSquareSize(Math.max(this.optionService.textGetter.length , this.optionService.patternGetter.length));
         this._animating = false;
@@ -232,7 +232,7 @@ export class P5jsDrawClass {
       })));
 
 
-      this.subscriptions.push(this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((_ : number) => {
+      this.subscriptions.push(this.algorithmProgressService.stepChangedSubscriberGetter().subscribe((_ : number) => {
         this._lastOccurrenceScroll = false;
       }));
     }
@@ -297,7 +297,7 @@ export class P5jsDrawClass {
       this.resizeCanvas(sizes.width , sizes.height);
     }));
 
-    this._framesToWait = this.workOutFramesToWait(this.algorithmProgressService.speedGetter);
+    this._framesToWait = this.workOutFramesToWait(this.algorithmProgressService.speedGetter());
   }
 
   /**
@@ -371,7 +371,7 @@ export class P5jsDrawClass {
    * @returns The faded colour as a p5js colour object
    */
   private createColourFade(previousLetter : Letter , previousColourAsAString : string, currentLetterColour : p5.Color , fade : number) : p5.Color {
-    if (previousLetter && this.optionService.smoothAnimationsGetter && previousLetter.colour !== previousColourAsAString) {
+    if (previousLetter && this.optionService.smoothAnimationsGetter() && previousLetter.colour !== previousColourAsAString) {
       return this._p5.lerpColor(this._p5.color(this.themeSelectorService.currentThemeObjectGetter.DEFAULT), currentLetterColour, fade);
     }
     return currentLetterColour;
@@ -385,7 +385,7 @@ export class P5jsDrawClass {
    * @see {@link _smoothAnimationProgress}
    */
   private updateAnimationProgress() : void {
-    if (this.algorithmProgressService.currentlyPlayingGetter) {
+    if (this.algorithmProgressService.currentlyPlayingGetter()) {
       if (!this._animating) {
         this._animating = true;
         this._currentFrame = 0;
@@ -414,7 +414,7 @@ export class P5jsDrawClass {
 
     this.drawingFunctionSetUp(p5 , background);
 
-    const stepToDraw = this.algorithmProgressService.stepGetter;
+    const stepToDraw = this.algorithmProgressService.stepGetter();
     const maxAnimationWidth =  this._squareSideSize * Math.max(stepToDraw.lettersInPattern.length , stepToDraw.lettersInText.length)
     const maxAnimationHeight = this.StartingYToDraw + this._squareSideSize*3 + this.AnimationGap;
 
@@ -432,11 +432,11 @@ export class P5jsDrawClass {
 
     this._currentFrame++;
 
-    const previousStepOffset = this.algorithmProgressService.previousStepGetter.patternOffset;
+    const previousStepOffset = this.algorithmProgressService.previousStepGetter().patternOffset;
 
     this.updateAnimationProgress();
 
-    if (this.optionService.smoothAnimationsGetter) {
+    if (this.optionService.smoothAnimationsGetter()) {
       const interpolatedX = p5.lerp(previousStepOffset * this._squareSideSize, graphicalOffset, this._smoothAnimationProgress);
       this._offsetProgress = interpolatedX;
     } else {
@@ -449,7 +449,7 @@ export class P5jsDrawClass {
 
     this.drawText(textLettersToDraw, this._smoothAnimationProgress);
 
-    this.algorithmProgressService.decoratedAlgorithmGetter.draw(this);
+    this.algorithmProgressService.decoratedAlgorithmGetter().draw(this);
   }
 
   /**
@@ -459,7 +459,7 @@ export class P5jsDrawClass {
    * @param fade The fade value (between 0 and 1) - used when smooth aniamtions utilised
    */
   private drawText(lettersToDraw : Letter[], fade : number) : void {
-    const previousStepTextLetters  = this.algorithmProgressService.previousStepGetter.lettersInText;
+    const previousStepTextLetters  = this.algorithmProgressService.previousStepGetter().lettersInText;
     let y = this.StartingYToDraw;
     let colour : p5.Color, index : number , letter : string , strokeWeight : number , previousLetter : Letter;
 
@@ -499,7 +499,7 @@ export class P5jsDrawClass {
    * @param fade The fade value (between 0 and 1) - used when smooth aniamtions utilised
    */
   private drawPattern(lettersToDraw : Letter[] , offset : number , fade : number) : void {
-    const previousStepPatternLetters = this.algorithmProgressService.previousStepGetter.lettersInPattern;
+    const previousStepPatternLetters = this.algorithmProgressService.previousStepGetter().lettersInPattern;
     const y = this.StartingYToDraw + this._squareSideSize*2 + this.AnimationGap;
     let colour : p5.Color, index : number , letter : string , strokeWeight : number , previousLetter : Letter;
 
@@ -536,9 +536,9 @@ export class P5jsDrawClass {
     this.drawingFunctionSetUp(p5 , background);
     this.centraliseDrawingInY(this.StartingYToDraw + this._dictionarySquareSideSize * 2);
 
-    if (this.optionService.centraliseScrollGetter) {
+    if (this.optionService.centraliseScrollGetter()) {
       this.centraliseScroll();
-      this.optionService.centraliseScrollSetter = false;
+      this.optionService.centraliseScrollSetter(false);
    }
 
     p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
@@ -547,8 +547,8 @@ export class P5jsDrawClass {
 
     y = this._dictionarySquareSideSize;
 
-    const lastOccurrenceTable = (this.algorithmProgressService.stepGetter.additional[this.LastOccurrenceVariableName]) ? this.algorithmProgressService.stepGetter.additional[this.LastOccurrenceVariableName] : null;
-    const lastOccurrenceToHighlight = (this.algorithmProgressService.stepGetter.additional[this.LastOccurrenceToHighlightVariableName]) ? this.algorithmProgressService.stepGetter.additional[this.LastOccurrenceToHighlightVariableName] : null;
+    const lastOccurrenceTable = (this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceVariableName] : null;
+    const lastOccurrenceToHighlight = (this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceToHighlightVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceToHighlightVariableName] : null;
 
 
     if (lastOccurrenceTable) {
@@ -562,7 +562,7 @@ export class P5jsDrawClass {
           this.scrollToLastOccurrenceElement(index);
           this._lastOccurrenceScroll = true;
           colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.CHECKING);
-        } else if ((this.algorithmProgressService.previousStepGetter.additional[this.LastOccurrenceVariableName]) && lastOccurrenceTable.length != Object.entries(this.algorithmProgressService.previousStepGetter.additional[this.LastOccurrenceVariableName]).length && !this._lastOccurrenceScroll) {
+        } else if ((this.algorithmProgressService.previousStepGetter().additional[this.LastOccurrenceVariableName]) && lastOccurrenceTable.length != Object.entries(this.algorithmProgressService.previousStepGetter().additional[this.LastOccurrenceVariableName]).length && !this._lastOccurrenceScroll) {
           this.scrollToLastOccurrenceElement(lastOccurrenceTableLength - 1);
           colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
           this._lastOccurrenceScroll = true;
@@ -590,23 +590,23 @@ export class P5jsDrawClass {
     const background = this.themeSelectorService.currentThemeObjectGetter.BACKGROUND;
     const startingPointOfBorderTable = 20;
     const textWidth = Math.max(p5.textWidth("String") , p5.textWidth("Border"));
-    const patternLength = this.algorithmProgressService.stepGetter.lettersInPattern.length + 1;
+    const patternLength = this.algorithmProgressService.stepGetter().lettersInPattern.length + 1;
     let y = this.StartingYToDraw;
     this.drawingFunctionSetUp(p5 , background);
 
     this.centraliseDrawingInY(startingPointOfBorderTable + this.StartingYToDraw + 3 * this._borderTableSquareSideSize);
 
-    if (this.optionService.centraliseScrollGetter) {
+    if (this.optionService.centraliseScrollGetter()) {
        this.centraliseScroll(textWidth + this._borderTableSquareSideSize * patternLength);
-       this.optionService.centraliseScrollSetter = false;
+       this.optionService.centraliseScrollSetter(false);
     }
 
     p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
     p5.text(this.BorderTableTitle ,(p5.width  / 2) , y);
     p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
 
-    const borderTable = (this.algorithmProgressService.stepGetter.additional[this.BorderTableVariableName]) ? this.algorithmProgressService.stepGetter.additional[this.BorderTableVariableName] : null;
-    const borderTableIndexToHighlight = (this.algorithmProgressService.stepGetter.additional[this.BorderTableToHighlightVariableName]) ? this.algorithmProgressService.stepGetter.additional[this.BorderTableToHighlightVariableName] : null;
+    const borderTable = (this.algorithmProgressService.stepGetter().additional[this.BorderTableVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.BorderTableVariableName] : null;
+    const borderTableIndexToHighlight = (this.algorithmProgressService.stepGetter().additional[this.BorderTableToHighlightVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.BorderTableToHighlightVariableName] : null;
 
     if (borderTable) {
 
@@ -631,7 +631,7 @@ export class P5jsDrawClass {
           p5.rect(i * this._borderTableSquareSideSize + textWidth - this._scrollX, y , this._borderTableSquareSideSize , this._borderTableSquareSideSize);
         }
 
-        const nextLetter = (i-1 < 0) ? '""' : this.algorithmProgressService.stepGetter.lettersInPattern[i-1].letter;
+        const nextLetter = (i-1 < 0) ? '""' : this.algorithmProgressService.stepGetter().lettersInPattern[i-1].letter;
 
         p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR_SECONDARY);
         p5.text(nextLetter, i * this._borderTableSquareSideSize + textWidth - this._scrollX , y);
@@ -680,10 +680,10 @@ export class P5jsDrawClass {
 
     this._p5.push();
 
-    const borderOne = this.algorithmProgressService.stepGetter.additional[this.BorderOneVariableName]  ? this.algorithmProgressService.stepGetter.additional[this.BorderOneVariableName] : null;
-    const borderTwo = this.algorithmProgressService.stepGetter.additional[this.BorderTwoVariableName] ? this.algorithmProgressService.stepGetter.additional[this.BorderTwoVariableName] : null;
-    const i = (this.algorithmProgressService.stepGetter.additional[this.IVariableName] != undefined) ? this.algorithmProgressService.stepGetter.additional[this.IVariableName] : null;
-    j = (this.algorithmProgressService.stepGetter.additional[this.JVariableName] != undefined) ? this.algorithmProgressService.stepGetter.additional[this.JVariableName] : null;
+    const borderOne = this.algorithmProgressService.stepGetter().additional[this.BorderOneVariableName]  ? this.algorithmProgressService.stepGetter().additional[this.BorderOneVariableName] : null;
+    const borderTwo = this.algorithmProgressService.stepGetter().additional[this.BorderTwoVariableName] ? this.algorithmProgressService.stepGetter().additional[this.BorderTwoVariableName] : null;
+    const i = (this.algorithmProgressService.stepGetter().additional[this.IVariableName] != undefined) ? this.algorithmProgressService.stepGetter().additional[this.IVariableName] : null;
+    j = (this.algorithmProgressService.stepGetter().additional[this.JVariableName] != undefined) ? this.algorithmProgressService.stepGetter().additional[this.JVariableName] : null;
 
     if (borderOne != undefined && i != undefined) {
 
@@ -698,7 +698,7 @@ export class P5jsDrawClass {
       this._p5.stroke(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
       this._p5.strokeWeight(0);
 
-      potentialBorderText = this.createPotentialBorderText((this.optionService.patternGetter.substring(borderOne[0] , borderOne[1] + 1)) as string);
+      potentialBorderText = this.createPotentialBorderText((this.optionService.patternGetter().substring(borderOne[0] , borderOne[1] + 1)) as string);
       potentialBorderTextLength = this._p5.textWidth(potentialBorderText);
 
       this._p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
@@ -723,7 +723,7 @@ export class P5jsDrawClass {
       this._p5.stroke(this.themeSelectorService.currentThemeObjectGetter.DEFAULT_STROKE);
       this._p5.strokeWeight(0);
 
-      potentialBorderText = this.createPotentialBorderText(this.optionService.patternGetter.substring(borderTwo[0] , borderTwo[1] + 1) as string);
+      potentialBorderText = this.createPotentialBorderText(this.optionService.patternGetter().substring(borderTwo[0] , borderTwo[1] + 1) as string);
       potentialBorderTextLength = this._p5.textWidth(potentialBorderText);
 
       this._p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
@@ -756,7 +756,7 @@ export class P5jsDrawClass {
     const legendSquareSideSize = 10;
     const keysToShow = ["MISMATCH" , "MATCH" ,  "BORDER_CHECK_ONE" ,"BORDER_CHECK_TWO","BORDER_CHECK"];
 
-    if (this.optionService.showLegendGetter) {
+    if (this.optionService.showLegendGetter()) {
       this._p5.push();
       this._p5.textSize(this.LegendTextSize);
 

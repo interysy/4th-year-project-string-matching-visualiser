@@ -74,8 +74,9 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
 
     this.constructDrawer(this.canvasElement , "drawTextAndPattern" , false);
 
-    if (this.algorithmProgressService.extraCanvasGetter != undefined && this.extraCanvasElement != undefined) {
-      this.constructDrawer(this.extraCanvasElement , this.algorithmProgressService.extraCanvasGetter , true);
+    const extraCanvas = this.algorithmProgressService.extraCanvasGetter();
+    if (extraCanvas != undefined && this.extraCanvasElement != undefined) {
+      this.constructDrawer(this.extraCanvasElement , extraCanvas , true);
     }
 
   }
