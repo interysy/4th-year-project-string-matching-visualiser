@@ -17,13 +17,20 @@ export class PlaybackControlsComponent implements OnDestroy {
   /**
    * @description Stores current step number locally so that it can be bound to an input field in the template.
    */
-  currentStepNumber : number;
+  protected currentStepNumber: number;
+
 
   /**
    * @description Stores current speed as a multiplier so that it can be bound to an input field in the template.
    * @see convertSpeedToMultiplier
    */
-  currentSpeed : number;
+  protected currentSpeed : number;
+
+
+  /**
+   * @description Stores the amount of steps in the algorithm.
+   */
+  protected amountOfSteps : number;
 
   /**
    * @description Stores the subscriptions to the observables from the algorithm progress service.
@@ -98,6 +105,18 @@ export class PlaybackControlsComponent implements OnDestroy {
     this.subscriptions.forEach((subscription : Subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  get currentStepNumberGetter(): number {
+    return this.currentStepNumber;
+  }
+
+  get currentSpeedGetter(): number {
+    return this.currentSpeed;
+  }
+
+  get amountOfStepsGetter(): number {
+    return this.amountOfSteps;
   }
 
 }

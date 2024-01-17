@@ -1,24 +1,24 @@
 <div class="flex p-4 flex-row justify-center gap-5 text-skin-base bg-skin-fill-secondary flex-wrap relative">
-        <button (click)="previousStep()" [disabled]="algorithmProgressService.currentlyPlayingGetter()">
+        <button id="previousStepButton" (click)="previousStep()" [disabled]="algorithmProgressService.currentlyPlayingGetter()">
             <fa-icon *ngIf="!algorithmProgressService.currentlyPlayingGetter()" class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'backward']" size="xl"></fa-icon>
             <fa-icon *ngIf="algorithmProgressService.currentlyPlayingGetter()" class="text-skin-icon-disabled" [icon]="['fas', 'backward']" size="xl"></fa-icon>
         </button>
-        <button *ngIf="!algorithmProgressService.currentlyPlayingGetter()"  (click)="play()"><fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'play']" size="xl"></fa-icon></button>
-        <button *ngIf="algorithmProgressService.currentlyPlayingGetter()" (click)="pause()"><fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'pause']" size="xl"></fa-icon></button>
-        <button (click)="nextStep()" [disabled]="algorithmProgressService.currentlyPlayingGetter()">
+        <button id="playButton" *ngIf="!algorithmProgressService.currentlyPlayingGetter()"  (click)="play()"><fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'play']" size="xl"></fa-icon></button>
+        <button id="pauseButton" *ngIf="algorithmProgressService.currentlyPlayingGetter()" (click)="pause()"><fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'pause']" size="xl"></fa-icon></button>
+        <button id="nextStepButton" (click)="nextStep()" [disabled]="algorithmProgressService.currentlyPlayingGetter()">
             <fa-icon *ngIf="!algorithmProgressService.currentlyPlayingGetter()" class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'forward']" size="xl"></fa-icon>
             <fa-icon *ngIf="algorithmProgressService.currentlyPlayingGetter()" class="text-skin-icon-disabled" [icon]="['fas', 'forward']" size="xl"></fa-icon></button>
         <div class="border-r border-2 border-skin-icon-separator"></div>
         <div class="flex justify-center align-items-center gap-5">
             <span class="m-auto">Reset</span>
-            <button (click)="reset()"><fa-icon class="text-skin-icon hover:text-skin-icon-hover text-xl" [icon]="['fas', 'rotate']" size="xl"></fa-icon></button>
+            <button id="resetButton" (click)="reset()"><fa-icon class="text-skin-icon hover:text-skin-icon-hover text-xl" [icon]="['fas', 'rotate']" size="xl"></fa-icon></button>
         </div>
         <div class="border-r border-2 border-skin-icon-separator"></div>
         <div class="flex justify-center align-items-center gap-5">
             <span class="m-auto">Speed</span>
             <div class = "flex justify-center align-items-center flex-col gap-2">
-                <span class="m-auto"> {{ currentSpeed | speedAsMultiplierPipe : algorithmProgressService.DefaultSpeed | number : '1.2-2' }}x</span>
-                <input id="speed-slider" id="reversedRangeInputField" type="range" [min]="algorithmProgressService.MinimumSpeed" [max]="algorithmProgressService.MaximumSpeed" [(ngModel)]="currentSpeed" (ngModelChange)="changePlaybackSpeed()" class="w-48 h-2 bg-skin-fill-tertiary rounded-md appearance-none cursor-pointer thumb:w-4 thumb:h-4  hover:bg-skin-fill-tertiary-hover">
+                <span id="speedSliderValue" class="m-auto"> {{ currentSpeed | speedAsMultiplierPipe : algorithmProgressService.DefaultSpeed | number : '1.2-2' }}x</span>
+                <input id="reversedSpeedSlider" type="range" [min]="algorithmProgressService.MinimumSpeed" [max]="algorithmProgressService.MaximumSpeed" [(ngModel)]="currentSpeed" (ngModelChange)="changePlaybackSpeed()" class="w-48 h-2 bg-skin-fill-tertiary rounded-md appearance-none cursor-pointer thumb:w-4 thumb:h-4  hover:bg-skin-fill-tertiary-hover">
             </div>
         </div>
         <div class="border-r border-2 border-skin-icon-separator hidden lg:block"></div>
@@ -26,7 +26,7 @@
             <span class="m-auto">Current Step</span>
             <div class = "flex justify-center align-items-center flex-col gap-2">
                 <span class="m-auto"> Step : {{currentStepNumber}} </span>
-                <input id="speed-slider" type="range" min="0" [max]="algorithmProgressService.amountOfStepsGetter() - 1" [(ngModel)]= "currentStepNumber" (ngModelChange)="setStep()" class="w-48 h-2 bg-skin-fill-tertiary rounded-md appearance-none cursor-pointer thumb:w-4 thumb:h-4 thumb:bg-skin-fill-tertiary-hover hover:bg-skin-fill-tertiary-hover">
+                <input id="stepSlider" type="range" min="0" [max]="algorithmProgressService.amountOfStepsGetter() - 1" [(ngModel)]= "currentStepNumber" (ngModelChange)="setStep()" class="w-48 h-2 bg-skin-fill-tertiary rounded-md appearance-none cursor-pointer thumb:w-4 thumb:h-4 thumb:bg-skin-fill-tertiary-hover hover:bg-skin-fill-tertiary-hover">
             </div>
         </div>
         <div class="border-r border-2 border-skin-icon-separator lg:hidden block"></div>
