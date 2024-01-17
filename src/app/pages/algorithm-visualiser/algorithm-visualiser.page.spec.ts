@@ -8,29 +8,23 @@ import { StringMatchingAlgorithmVisualiserModule } from 'src/app/modules/string-
 import { ActivatedRoute } from '@angular/router';
 import { AlgorithmProgressService } from 'src/app/modules/string-matching-algorithm-visualiser/services/algorithm-progress.service';
 import { BruteForceAlgorithm } from 'src/app/modules/string-matching-algorithm-visualiser/algorithms/brute-force.algorithm';
-import { TextAndPatternDrawer } from 'src/app/modules/string-matching-algorithm-visualiser/drawers/text-pattern.drawer.decorator';
 import { Subject } from 'rxjs';
-import { LastOccuranceTableDrawer } from 'src/app/modules/string-matching-algorithm-visualiser/drawers/last-occurance.drawer.decorator';
+import { LegendDrawer } from 'src/app/modules/string-matching-algorithm-visualiser/drawers/legend.drawer';
+import { BorderTableDrawer } from 'src/app/modules/string-matching-algorithm-visualiser/drawers/border-table.drawer';
+import { AdditionalVariables } from 'src/app/modules/string-matching-algorithm-visualiser/models/additional-variables.model';
 
-describe('AlgorithmVisualiserPageComponent', () => {
+describe("AlgorithmVisualiserPageComponent", () => {
   let component: AlgorithmVisualiserPageComponent;
   let fixture: ComponentFixture<AlgorithmVisualiserPageComponent>;
-  let mockAlgorithmProgressService: {
-    injectAlgorithm: jasmine.Spy;
-    setTextAndPattern: jasmine.Spy;
-    notifierGetter: Subject<number>;
-  };
-  let mockAlgorithmVisualiserComponent: {
-    constructor: jasmine.Spy,
-    textChanged : Subject<string>,
-    patternChanged : Subject<string>
-  };
+  let algorithmProgressServiceSpy: jasmine.SpyObj<AlgorithmProgressService>;
+  const stepChangedSubscriberFake : Subject<number> = new Subject<number>();
+  const speedChangedSubscriberFake : Subject<number> = new Subject<number>();
 
   function configureTestingModule(data : any) {
     TestBed.configureTestingModule({
         declarations: [
           AlgorithmVisualiserPageComponent,
-          NavbarComponent
+          NavbarComponent,
         ],
         imports: [
           FontAwesomeModule,
@@ -40,20 +34,21 @@ describe('AlgorithmVisualiserPageComponent', () => {
           { provide: ActivatedRoute, useValue: {
               snapshot: { data : data }
           }},
-          { provide: AlgorithmProgressService, useValue: mockAlgorithmProgressService}
+          { provide: AlgorithmProgressService, useValue: algorithmProgressServiceSpy}
         ],
       }).compileComponents();
   }
 
   beforeEach(() => {
-    mockAlgorithmProgressService = jasmine.createSpyObj("AlgorithmProgressService",["injectAlgorithm" , "setTextAndPattern"]);
-    mockAlgorithmProgressService.notifierGetter = new Subject<number>();
-    mockAlgorithmVisualiserComponent = jasmine.createSpyObj("AlgorithmVisualiserComponent",["constructor"]);
+    algorithmProgressServiceSpy = jasmine.createSpyObj("AlgorithmProgressService",["injectAlgorithm" , "setTextAndPattern", "command" , "stepChangedSubscriberGetter" , "textLength" , "patternLength" , "currentStepNumberGetter", "speedGetter" , "algorithmNameGetter" , "currentlyPlayingGetter" , "amountOfStepsGetter" , "resetProgress" , "speedChangedSubscriberGetter" , "extraCanvasGetter" , "textIndex" , "patternIndex" , "textLength" , "patternLength", "additionalVariablesGetter"]);
+    algorithmProgressServiceSpy.stepChangedSubscriberGetter.and.returnValue(stepChangedSubscriberFake);
+    algorithmProgressServiceSpy.speedChangedSubscriberGetter.and.returnValue(speedChangedSubscriberFake);
+    algorithmProgressServiceSpy.additionalVariablesGetter.and.returnValue(new AdditionalVariables());
 
     TestBed.configureTestingModule({
       declarations: [
         AlgorithmVisualiserPageComponent,
-        NavbarComponent
+        NavbarComponent,
       ],
       imports: [
         FontAwesomeModule,
@@ -61,9 +56,9 @@ describe('AlgorithmVisualiserPageComponent', () => {
       ],
       providers: [
         { provide: ActivatedRoute, useValue: {
-            snapshot: { data : { requiredService : BruteForceAlgorithm , algorithmNameSlug : "brute-force", decorators : [TextAndPatternDrawer], preProcessingCanvas : false , preProcessingFunction : null } }
+            snapshot: { data : { requiredService : BruteForceAlgorithm , algorithmNameSlug : "brute-force", decorators : [LegendDrawer], preProcessingCanvas : false , preProcessingFunction : null } }
         }},
-        { provide: AlgorithmProgressService, useValue: mockAlgorithmProgressService}
+        { provide: AlgorithmProgressService, useValue: algorithmProgressServiceSpy},
       ],
     }).compileComponents();
   });
@@ -76,27 +71,26 @@ describe('AlgorithmVisualiserPageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-  expect(component).toBeTruthy();
-  expect(mockAlgorithmProgressService.injectAlgorithm).toHaveBeenCalledWith(
-    BruteForceAlgorithm,
-    'brute-force',
-    [TextAndPatternDrawer],
-    false,
-    null
-    );
+  it("should create page", () => {
+    expect(component).toBeTruthy();
+    expect(algorithmProgressServiceSpy.injectAlgorithm).toHaveBeenCalledWith(
+        BruteForceAlgorithm,
+        [LegendDrawer],
+        false,
+        null
+        );
   });
 
 
-  it('should handle ActivatedRoute data with different algorithm', () => {
+  it("should handle ActivatedRoute data with different algorithm", () => {
     const newAlgorithm = class StringMatchingAlgorithm {};
-    const newDecorators = [LastOccuranceTableDrawer, TextAndPatternDrawer];
+    const newDecorators = [LegendDrawer, BorderTableDrawer];
 
     TestBed.resetTestingModule();
 
     configureTestingModule({
       requiredService: newAlgorithm,
-      algorithmNameSlug: 'new-algorithm',
+      algorithmNameSlug: "new-algorithm",
       decorators: newDecorators,
       preProcessingCanvas : false,
       preProcessingFunction : null
@@ -105,12 +99,12 @@ describe('AlgorithmVisualiserPageComponent', () => {
     fixture = TestBed.createComponent(AlgorithmVisualiserPageComponent);
     component = fixture.componentInstance;
 
-    expect(mockAlgorithmProgressService.injectAlgorithm).toHaveBeenCalledWith(
+    expect(algorithmProgressServiceSpy.injectAlgorithm).toHaveBeenCalledWith(
       newAlgorithm,
-      'new-algorithm',
       newDecorators,
       false,
       null
     );
   });
+
 });
