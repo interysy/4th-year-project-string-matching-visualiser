@@ -347,3 +347,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2.5 hours* Testing of command displayer and modal component, aswell as adding documentation and refactoring.
 * *1 hour* Refactoring tests for progress service and option service, as earlier work required getters and setters to be made into explicit functions.
 * *3 hours* Further work on testing, mainly on algorithm visualiser page and the playback component. Testing also included refactoring, documentation and handling speed issues from the evaluation.
+
+### 17 January     
+* *0.5 hours* Finishing off tests for the playback component.
+* *1.5 hours* Working on refactoring and documenting the command displayer and variable visualiser components. Started working on refactoring the StringMatchingAlgorithm abstract class.
