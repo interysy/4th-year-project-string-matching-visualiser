@@ -22,7 +22,7 @@ export const environment = {
     "patternLength",
     "textIndex",
     "patternIndex",
-    "lastOccuranceTable",
+    "lastOccurrenceTable",
     "borderTable",
     "borderOne",
     "borderTwo"

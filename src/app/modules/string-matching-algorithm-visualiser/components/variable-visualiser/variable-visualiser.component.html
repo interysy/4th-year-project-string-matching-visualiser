@@ -1,12 +1,12 @@
 <div class="flex flex-row flex-wrap gap-5 m-5 justify-center align-items-center">
-    <p>textLength: <span class=" mb-2 text-md font-medium">{{textLength}}</span></p>
+    <p>textLength: <span id="textLength" class="mb-2 text-md font-medium">{{algorithmProgressService.textLength()}}</span></p>
     <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
-    <p> patternLength: <span class="mb-2 text-md font-medium">{{patternLength}}</span></p>
+    <p> patternLength: <span id="patternLength" class="mb-2 text-md font-medium">{{algorithmProgressService.patternLength()}}</span></p>
     <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
-    <p>textIndex: <span class="mb-2 text-md font-medium">{{textIndex}}</span></p>
+    <p>textIndex: <span id="textIndex" class="mb-2 text-md font-medium">{{algorithmProgressService.textIndex()}}</span></p>
     <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
-    <p>patternIndex: <span class="mb-2 text-md font-medium">{{patternIndex}}</span></p>
-    <div class="mb-2 text-md font-medium" *ngFor="let variable of additionalVariables" class="flex flex-row flex-wrap gap-5">
+    <p>patternIndex: <span id="patternIndex" class="mb-2 text-md font-medium">{{algorithmProgressService.patternIndex()}}</span></p>
+    <div *ngFor="let variable of variablesToDisplay(algorithmProgressService.additionalVariablesGetter())" class="additionalVariableDiv flex flex-row flex-wrap gap-5 ">
         <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
         {{variable["variableName"]}} : <span class="mb-2 text-md font-medium">{{variable["value"]}}</span>
     </div>

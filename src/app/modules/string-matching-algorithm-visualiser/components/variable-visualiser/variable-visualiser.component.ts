@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { environment } from 'src/environments/environment.dev';
+ import { AdditionalVariables } from '../../models/additional-variables.model';
 
+ /**
+  * @description Component for displaying current variable values
+  */
 @Component({
   selector: 'app-variable-visualiser',
   templateUrl: './variable-visualiser.component.html',
@@ -9,39 +13,23 @@ import { environment } from 'src/environments/environment.dev';
 })
 export class VariableVisualiserComponent {
 
-  protected textLength : number;
-  protected patternLength : number;
-  protected textIndex : number;
-  protected patternIndex : number;
-  protected additionalVariables : { [variableName: string]: number | string; }[] = [];
-  private doNotDisplay : string[] = [];
+  /**
+   * @description Constructor for VariableVisualiserComponent
+   * @param algorithmProgressService Service for getting variables to display
+   */
+  constructor(protected readonly algorithmProgressService : AlgorithmProgressService) {}
 
-  constructor(private algorithmProgressService : AlgorithmProgressService) {
-    this.doNotDisplay = environment.additionalVariablesToExclude;
+  /**
+   * @description Gets the variables to display, it filters based on the config file for the app
+   * @param variables The variables to display
+   * @returns The variables to display
+   */
+  protected variablesToDisplay(variables : AdditionalVariables) : { [variableName: string]: number | string; }[] {
 
-    this.textLength = this.algorithmProgressService.textLength;
-    this.patternLength = this.algorithmProgressService.patternLength;
-
-    this.algorithmProgressService.stepChangedSubscriberGetter.subscribe((_) => {
-      const additional = algorithmProgressService.additionalVariablesGetter;
-
-      if (additional["textLength"] != undefined) this.textLength = additional["textLength"];
-      if (additional["patternLength"] != undefined) this.patternLength = additional["patternLength"];
-      this.textIndex = this.algorithmProgressService.textIndex;
-      this.patternIndex = this.algorithmProgressService.patternIndex;
-
-
-      for (const additionalVariableName of Object.keys(additional)) {
-        if (this.additionalVariables.find(existingAdditionalVariable => existingAdditionalVariable["variableName"] == additionalVariableName) == undefined && !this.doNotDisplay.includes(additionalVariableName) ) {
-          this.additionalVariables.push({variableName : additionalVariableName, value : additional[additionalVariableName]});
-        } else {
-          this.additionalVariables.map(existingAdditionalVariable => {
-            if (existingAdditionalVariable["variableName"] == additionalVariableName) {
-              existingAdditionalVariable["value"] = additional[additionalVariableName];
-            }});
-        }
-      }
-    });
-
+    return Object.keys(variables).filter((key) => {
+      return !environment.additionalVariablesToExclude.includes(key);
+      }).map((variableName) => {
+        return {variableName : variableName, value : variables[variableName as keyof typeof AdditionalVariables]};
+      });
   }
 }
