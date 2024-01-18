@@ -350,4 +350,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 17 January     
 * *0.5 hours* Finishing off tests for the playback component.
-* *1.5 hours* Working on refactoring and documenting the command displayer and variable visualiser components. Started working on refactoring the StringMatchingAlgorithm abstract class.
+* *1.5 hours* Working on refactoring and documenting the command displayer and variable visualiser components. Started working on refactoring the StringMatchingAlgorithm abstract class. 
+
+### 18 January 
+* *3 hours* Working on refactoring the BruteForceAlgorithm class and adding tests for it.
+* *1 hour* Continuing testing , refactoring and documentation of the brute force algorithm implmentation.
