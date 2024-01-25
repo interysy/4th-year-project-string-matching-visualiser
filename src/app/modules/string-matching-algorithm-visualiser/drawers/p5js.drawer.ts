@@ -62,7 +62,7 @@ export class P5jsDrawClass {
    * @description The variable name for the last occurrence element to highlight attribute in the additional variables model
    * @see {@link BoyerMooreAdditionalVariables}
    */
-  public readonly LastOccurrenceToHighlightVariableName = "LastOccurrenceToHighlight";
+  public readonly LastOccurrenceToHighlightVariableName = "lastOccurrenceToHighlight";
 
 
   public readonly BorderTableTitle = "BORDER TABLE:";
@@ -215,7 +215,7 @@ export class P5jsDrawClass {
 
       this._p5 = new p5(this.generate_sketch(width, height , customDrawFunction), containerElement);
       this._scrollable = scrollable;
-      this.changeSquareSize(Math.max(this.optionService.textGetter.length,this.optionService.patternGetter.length) , width);
+      this.changeSquareSize(Math.max(this.optionService.textGetter().length,this.optionService.patternGetter().length) , width);
 
 
       this.subscriptions.push(this.algorithmProgressService.speedChangedSubscriberGetter().subscribe((speed : number) => {
@@ -226,7 +226,7 @@ export class P5jsDrawClass {
 
       const textPatternChangeSubscribers = [this.optionService.textChangedSubscriberGetter() , this.optionService.patternChangedSubscriberGetter()];
       this.subscriptions.push(...textPatternChangeSubscribers.map(subscriber => subscriber.subscribe(() => {
-        this.changeSquareSize(Math.max(this.optionService.textGetter.length , this.optionService.patternGetter.length));
+        this.changeSquareSize(Math.max(this.optionService.textGetter().length , this.optionService.patternGetter().length));
         this._animating = false;
         this._smoothAnimationProgress = 0;
       })));
@@ -550,7 +550,6 @@ export class P5jsDrawClass {
     const lastOccurrenceTable = (this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceVariableName] : null;
     const lastOccurrenceToHighlight = (this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceToHighlightVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceToHighlightVariableName] : null;
 
-
     if (lastOccurrenceTable) {
       const lastOccurrenceTableAsArray = Object.entries(lastOccurrenceTable);
       const lastOccurrenceTableLength = lastOccurrenceTableAsArray.length;
@@ -562,9 +561,11 @@ export class P5jsDrawClass {
           this.scrollToLastOccurrenceElement(index);
           this._lastOccurrenceScroll = true;
           colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.CHECKING);
-        } else if ((this.algorithmProgressService.previousStepGetter().additional[this.LastOccurrenceVariableName]) && lastOccurrenceTable.length != Object.entries(this.algorithmProgressService.previousStepGetter().additional[this.LastOccurrenceVariableName]).length && !this._lastOccurrenceScroll) {
+        } else if (lastOccurrenceToHighlight == key && this._lastOccurrenceScroll) {
+            colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.CHECKING);
+        } else if (!this._lastOccurrenceScroll && lastOccurrenceTableLength != Object.entries(this.algorithmProgressService.previousStepGetter().additional[this.LastOccurrenceVariableName]).length) {
           this.scrollToLastOccurrenceElement(lastOccurrenceTableLength - 1);
-          colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
+          colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.CHECKING);
           this._lastOccurrenceScroll = true;
         } else {
           colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
@@ -606,7 +607,8 @@ export class P5jsDrawClass {
     p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
 
     const borderTable = (this.algorithmProgressService.stepGetter().additional[this.BorderTableVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.BorderTableVariableName] : null;
-    const borderTableIndexToHighlight = (this.algorithmProgressService.stepGetter().additional[this.BorderTableToHighlightVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.BorderTableToHighlightVariableName] : null;
+    const borderTableIndexToHighlight = (this.algorithmProgressService.stepGetter().additional[this.BorderTableToHighlightVariableName] !== null) ? this.algorithmProgressService.stepGetter().additional[this.BorderTableToHighlightVariableName] : null;
+
 
     if (borderTable) {
 
@@ -832,7 +834,7 @@ export class P5jsDrawClass {
    * @param height The new height of the canvas
    */
   public resizeCanvas(width : number , height : number) : void {
-    const maxLength = Math.max(this.optionService.textGetter.length , this.optionService.patternGetter.length);
+    const maxLength = Math.max(this.optionService.textGetter().length , this.optionService.patternGetter().length);
     this.changeSquareSize(maxLength , width);
     this._p5.resizeCanvas(width , height);
     this.centraliseScroll();
