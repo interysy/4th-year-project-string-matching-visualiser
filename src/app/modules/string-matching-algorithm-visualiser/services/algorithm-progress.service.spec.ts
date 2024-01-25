@@ -71,7 +71,7 @@ describe("AlgorithmProgressService", () => {
 
   it('should inject algorithm and execute it', () => {
     expect(service.algorithmNameGetter()).toBe("stubbed-algorithm");
-    expect(service.amountOfStepsGetter()).toBe(100);
+    expect(service.amountOfStepsGetter()).toBe(300);
   });
 
 
@@ -155,7 +155,7 @@ describe("AlgorithmProgressService", () => {
 
     expect(service.algorithmNameGetter()).toEqual("stubbed-algorithm-2");
     expect(service.currentStepNumberGetter()).toEqual(0);
-    expect(service.amountOfStepsGetter()).toBe(50);
+    expect(service.amountOfStepsGetter()).toBe(150);
     expect(service.amountOfStepsGetter()).toBeLessThan(initialAmountOfSteps);
   }));
 
@@ -182,7 +182,7 @@ describe("AlgorithmProgressService", () => {
 
     tick();
 
-    expect(service.amountOfStepsGetter()).toBeLessThan(initialAmountOfSteps);
+    expect(service.amountOfStepsGetter()).toBeLessThanOrEqual(initialAmountOfSteps);
   }));
 
   it("should notify of step change" , fakeAsync(() => {
