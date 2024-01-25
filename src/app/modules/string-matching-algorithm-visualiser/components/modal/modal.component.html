@@ -24,7 +24,7 @@
           </div>
           <div>
               <label for="pattern" class="block mb-2 text-md font-medium">Pattern to search for</label>
-              <input name="pattern" type="text"  [(ngModel)]="pattern" (ngModelChange)="sendPatternToService()" id="pattern" class="bg-skin-fill-quaternary border-skin-icon-separator border-2 text-sm rounded-lg focus:ring focus:outline-none ring-skin-focus focus:border-skin-border-focus block w-full p-2.5" required>
+              <input name="pattern" type="text"  [(ngModel)]="pattern" (ngModelChange)="sendPatternToService(pattern)" id="pattern" class="bg-skin-fill-quaternary border-skin-icon-separator border-2 text-sm rounded-lg focus:ring focus:outline-none ring-skin-focus focus:border-skin-border-focus block w-full p-2.5" required>
           </div>
       </div>
       <div class="relative">
