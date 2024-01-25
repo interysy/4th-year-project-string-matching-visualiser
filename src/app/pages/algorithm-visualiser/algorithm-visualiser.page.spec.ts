@@ -7,7 +7,7 @@ import { faCompass } from '@fortawesome/free-solid-svg-icons';
 import { StringMatchingAlgorithmVisualiserModule } from 'src/app/modules/string-matching-algorithm-visualiser/string-matching-algorithm-visualiser.module';
 import { ActivatedRoute } from '@angular/router';
 import { AlgorithmProgressService } from 'src/app/modules/string-matching-algorithm-visualiser/services/algorithm-progress.service';
-import { BruteForceAlgorithm } from 'src/app/modules/string-matching-algorithm-visualiser/algorithms/brute-force.algorithm';
+import { BruteForceAlgorithm } from 'src/app/modules/string-matching-algorithm-visualiser/algorithms/brute-force/brute-force.algorithm';
 import { Subject } from 'rxjs';
 import { LegendDrawer } from 'src/app/modules/string-matching-algorithm-visualiser/drawers/legend.drawer';
 import { BorderTableDrawer } from 'src/app/modules/string-matching-algorithm-visualiser/drawers/border-table.drawer';

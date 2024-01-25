@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Subscription, debounceTime } from 'rxjs';
-import { StringMatchingAlgorithm } from '../models/algorithm.model';
+import { StringMatchingAlgorithm } from '../algorithms/algorithm.model';
 import { DrawStepDecorator } from '../models/drawer-step.decorator';
 import { StringMatchingAlgorithmToDraw } from '../drawers/algorithm-draw.model';
 import { AlgorithmStep } from '../models/algorithm-step.model';
@@ -104,8 +104,17 @@ export class AlgorithmProgressService {
    * @returns void
    */
   private filterPreProcessingSteps(preProcessingSteps : boolean) : void {
-    this._steps  = preProcessingSteps ?  this._algorithm.stepsGetter : this._algorithm.stepsGetter.filter((step) => step.extra == false);
-    this.currentStepNumberSetter(0);
+    const filteredSteps = this._algorithm.stepsGetter.filter((step) => step.extra == false);
+    const originalLength = this._algorithm.stepsGetter.length;
+    const difference = originalLength - filteredSteps.length;
+
+    this._steps  = preProcessingSteps ?  this._algorithm.stepsGetter : filteredSteps;
+
+    if (!preProcessingSteps) {
+      if (this._currentStep - difference >= 0) this.currentStepNumberSetter(this._currentStep - difference); else this.currentStepNumberSetter(0);
+    } else {
+      if (this._currentStep + difference <= originalLength) this.currentStepNumberSetter(this._currentStep + difference); else this.currentStepNumberSetter(originalLength-1);
+    }
   }
 
 
@@ -179,8 +188,6 @@ export class AlgorithmProgressService {
       this._previousStep = this._currentStep;
       this._currentStep += 1;
       this._stepChanged$.next(this._currentStep);
-
-
     } else {
       this._currentlyPlaying = false;
     }
@@ -297,14 +304,14 @@ export class AlgorithmProgressService {
    * @description Get the current text length.
    */
   public textLength() {
-    return this.optionService.textGetter.length;
+    return this._steps[this._currentStep].additional.textLength;
   }
 
   /**
    * @description Get the current pattern length.
    */
   public patternLength() {
-    return this._algorithm.patternLengthGetter;
+    return this._steps[this._currentStep].additional.patternLength;
   }
 
   /**

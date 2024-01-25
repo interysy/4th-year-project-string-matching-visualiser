@@ -74,8 +74,6 @@ describe("VariableVisualiserComponent", () => {
 
     const additionalVariableDivs = fixture.nativeElement.querySelectorAll(".additionalVariableDiv");
 
-    console.log(additionalVariableDivs);
-
     expect(additionalVariableDivs.length).toEqual(2);
 
     expect(additionalVariableDivs[0].textContent).toContain("i : 77");
