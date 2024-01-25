@@ -44,8 +44,6 @@ export class ModalComponent {
   protected showLegend : boolean;
 
 
-
-
   /**
    * @description Reference to the modal element, which contains all the options. Needed to open and close the modal.
    * @see openModal()
@@ -69,12 +67,12 @@ export class ModalComponent {
    */
   constructor(private readonly algorithmProgressService : AlgorithmProgressService , private readonly optionService : OptionService , private themingService : ThemeSelectorService ) {
     this.selectedTheme = this.themingService.currentThemeGetter;
-    this.text = this.optionService.textGetter;
-    this.pattern = this.optionService.patternGetter;
-    this.smoothAnimations = this.optionService.smoothAnimationsGetter;
-    this.preProcessingSteps = this.optionService.preProcessingStepsGetter;
+    this.text = this.optionService.textGetter();
+    this.pattern = this.optionService.patternGetter();
+    this.smoothAnimations = this.optionService.smoothAnimationsGetter();
+    this.preProcessingSteps = this.optionService.preProcessingStepsGetter();
     this.selectedTheme = this.themingService.currentThemeGetter;
-    this.showLegend = this.optionService.showLegendGetter;
+    this.showLegend = this.optionService.showLegendGetter();
   }
 
 
@@ -82,30 +80,31 @@ export class ModalComponent {
    * @description Update text for the app.
    */
   protected sendTextToService() : void {
-    this.optionService.textSetter = this.text;
-    this.optionService.textChangedSubscriberGetter.next(this.text)
+    this.optionService.textSetter(this.text);
+    this.optionService.textChangedSubscriberGetter().next(this.text)
   }
 
   /**
    * @description Update pattern for the app.
    */
-  protected sendPatternToService() : void {
-    this.optionService.patternSetter = this.pattern;
-    this.optionService.patternChangedSubscriberGetter.next(this.pattern)
+  protected sendPatternToService(value : string) : void {
+    this.pattern = value;
+    this.optionService.patternSetter(this.pattern);
+    this.optionService.patternChangedSubscriberGetter().next(this.pattern)
   }
 
   /**
    * @description Update preprocessing steps option for the app.
    */
   protected setPreprocessingSteps() : void {
-    this.optionService.preProcessingStepsSetter = this.preProcessingSteps;
+    this.optionService.preProcessingStepsSetter(this.preProcessingSteps);
   }
 
   /**
    * @description Update smooth animations option for the app.
    */
   protected setSmoothAnimations() : void {
-    this.optionService.smoothAnimationsSetter = this.smoothAnimations;
+    this.optionService.smoothAnimationsSetter(this.smoothAnimations);
   }
 
   /**
@@ -121,7 +120,7 @@ export class ModalComponent {
    * @description Update legend option appwide.
    */
   protected setShowLegend() {
-    this.optionService.showLegendSetter = this.showLegend;
+    this.optionService.showLegendSetter(this.showLegend);
   }
 
   protected openModal() {
@@ -137,7 +136,7 @@ export class ModalComponent {
    * @see P5jsDrawClass
    */
   protected centraliseScroll() {
-    this.optionService.centraliseScrollSetter = true;
+    this.optionService.centraliseScrollSetter(true);
   }
 
   /**
@@ -145,9 +144,13 @@ export class ModalComponent {
    * @returns {boolean} Whether the algorithm data can be centralised or not. If yes, then the animation gets put into appropriate place.
    */
   protected canAlgorithmDataBeCentralised() : boolean {
-    if (environment.centraliseScroll.findIndex((value: string) => value === this.algorithmProgressService.algorithmNameGetter) !== -1) {
+    if (environment.centraliseScroll.findIndex((value: string) => value === this.algorithmProgressService.algorithmNameGetter()) !== -1) {
       return true;
     }
     return false;
+  }
+
+  get patternGetter() {
+    return this.pattern;
   }
 }
