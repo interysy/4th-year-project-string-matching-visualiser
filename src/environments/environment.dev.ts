@@ -1,11 +1,12 @@
-import { BoyerMooreAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/boyer-moore.algorithm";
-import { BruteForceAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/brute-force.algorithm";
-import { KnuthMorrisPrattAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/knuth-morris-pratt.algorithm";
+import { BoyerMooreAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/boyer-moore/boyer-moore.algorithm";
+import { BruteForceAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/brute-force/brute-force.algorithm";
+//import { KnuthMorrisPrattAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/knuth-morris-pratt.algorithm";
 import { DarkBlueTheme } from "src/app/modules/string-matching-algorithm-visualiser/themes/dark-blue.theme";
 import { DarkGreenTheme } from "src/app/modules/string-matching-algorithm-visualiser/themes/dark-green.theme";
 import { DefaultTheme } from "src/app/modules/string-matching-algorithm-visualiser/themes/default.theme";
 import { BorderTableDrawer } from "src/app/modules/string-matching-algorithm-visualiser/drawers/border-table.drawer";
 import { LegendDrawer } from "src/app/modules/string-matching-algorithm-visualiser/drawers/legend.drawer";
+import { KnuthMorrisPrattAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/knuth-morris-pratt/knuth-morris-pratt.algorithm";
 
 export const environment = {
   githubLink : "https://github.com/interysy/4th-year-project-string-matching-visualiser",
@@ -32,5 +33,6 @@ export const environment = {
     "theme-dark-green" : {colorOne : "#2D333B" , colorTwo : "#29FD2F" , themeObject : DarkGreenTheme},
     "theme-dark-blue" : {colorOne : "#2D333B" , colorTwo : "#1B7CED", themeObject : DarkBlueTheme}
   },
-  defaultTheme : "base"
+  defaultTheme : "base",
+  type : "dev"
 };
