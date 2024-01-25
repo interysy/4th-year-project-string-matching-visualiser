@@ -8,8 +8,8 @@ public knuthMorrisPratt(text : string , pattern : string) : number {
 
     while (textIndex < textLength) {
         if (text.charAt(textIndex) == pattern.charAt(patternIndex)) {
-            patternIndex++;
             textIndex++;
+            patternIndex++;
             if (patternIndex == patternLength) return textIndex - patternIndex;
         } else {
             if (borderTable[patternIndex] > 0) {

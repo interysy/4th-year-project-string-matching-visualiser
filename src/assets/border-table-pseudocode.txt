@@ -3,6 +3,7 @@ private createBorderTable(pattern : string , patternLength : number) : number[] 
     borderTable[0] = 0;
     borderTable[1] = 0;
     let i = 0;
+    let j = 2;
 
     for (let j = 2 ; j < patternLength; j++) {
         i = borderTable[j - 1];
