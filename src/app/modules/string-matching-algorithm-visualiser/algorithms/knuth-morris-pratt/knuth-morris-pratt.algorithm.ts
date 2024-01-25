@@ -6,15 +6,24 @@ import { environment } from "src/environments/environment.dev";
 import { AlgorithmStep } from "../../models/algorithm-step.model";
 
 
-
+/**
+ * @description Class responsible for executing the Knuth-Morris-Pratt algorithm and creating steps for the app to parse.
+ */
 export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
-        protected override addFullMatchStep(): void {
-            throw new Error("Method not implemented.");
-        }
 
+        /**
+         * @description The name of the algorithm as a slug.
+         */
         override algorithmNameSlug = "knuth-morris-pratt";
+
+        /**
+         * @description Additional variables required by Knuth-Morris-Pratt to work.
+         */
         override additionalVariables = new KnuthMorrisPrattAdditionalVariables();
 
+        /**
+         * @description Function executing the Knuth-Morris-Pratt algorithm and creating steps.
+         */
         public workOutSteps(text : string , pattern : string) : number {
            this.text = text;
            this.pattern = pattern;
@@ -59,7 +68,15 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
            return -1;
         }
 
+        protected override addFullMatchStep(): void {
+            throw new Error("Method not implemented.");
+        }
 
+        /**
+         * @description Function creating the border table for the Knuth-Morris-Pratt algorithm, it is the O(n) version.
+         * @param pattern The pattern to create the border table for.
+         * @returns The border table for the pattern.
+        */
         private createBorderTable(pattern : string) : number[] {
             const borderTable = new Array<number>(this.additionalVariables.patternLength + 1);
             const beforeBorderTableStep = this.algorithmStepBuilder.createDeepCopy(this.previousStep);
@@ -268,8 +285,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             return borderTable;
         }
 
+        /**
+         * @description Function resetting border table related variables.
 
-        private resetAdditionalBorderTableVariables() {
+        */
+        private resetAdditionalBorderTableVariables() : void {
             const textTempLength = this.additionalVariables.textLength;
             const patternTempLength = this.additionalVariables.patternLength;
             this.additionalVariables = new KnuthMorrisPrattAdditionalVariables();
@@ -278,6 +298,9 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
 
         }
 
+        /**
+         * @description Adds the setup steps to the steps array
+        */
         protected override addSetupSteps(): void {
             let tempAdditional;
 
@@ -319,6 +342,9 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setDefaults();
         }
 
+        /**
+         * @description Adding iteration steps to the steps array
+        */
         protected override addWhileLoopStep() : void {
             this.algorithmStepBuilder.setPseudocodeLine = 9;
             this.algorithmStepBuilder.setPatternIndex = this.patternIndex;
@@ -331,6 +357,9 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.addStep(true,true);
         }
 
+        /**
+        * @description Adding check step to the steps array, highlights current 2 characters being checked
+        */
         protected override addCheckStep() : void {
             this.algorithmStepBuilder.setPseudocodeLine = 10;
             this.algorithmStepBuilder.setCommand = "Checking if the 2 characters match";
@@ -346,7 +375,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.addStep(true, true);
         }
 
-        protected addMatchStep(fullMatch : boolean) {
+        /**
+         * @description Adding match step to the steps array, highlights current 2 characters being matched.
+         * @param fullMatch Whether the match is a full match or not, it determines what gets highlighted as well as the message.
+        */
+        protected addMatchStep(fullMatch : boolean) : void {
 
             this.algorithmStepBuilder.setPseudocodeLine = 11;
             this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
@@ -384,18 +417,29 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.previousStep.lettersInText = matchedStep.lettersInText;
         }
 
+        /**
+         * @description Step to add when there is no border.
+         */
         private addFailedBorderCheck() {
             this.algorithmStepBuilder.setPseudocodeLine = 17;
             this.algorithmStepBuilder.setCommand = "There is no border!";
             this.addStep(false,false);
         }
 
+        /**
+         * @description Step to add when the pattern index is 0.
+         */
         private addZeroPatternIndexCheck() {
             this.algorithmStepBuilder.setPseudocodeLine = 18;
             this.algorithmStepBuilder.setCommand = "Checking if patternIndex is 0";
             this.addStep(false,false);
         }
 
+        /**
+         * @description Steps to add when there is a mismatch.
+         * @param mismatchCase The case of the mismatch, 1 = border table has a value for the current pattern index, 2 = pattern is zero, 3 = pattern index is not 0.
+         * @param borderIndex The index of the border table to highlight.
+         */
         private addMismatchStep(mismatchCase : number, borderIndex : number | null) {
 
             this.algorithmStepBuilder.setPseudocodeLine = 14;
@@ -473,7 +517,9 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.additionalVariables.borderTableIndexToHighlight = null;
         }
 
-
+        /**
+         * @description Step to add when there is no solution. Highlights both text and pattern.
+         */
         protected override addNoSolutionStep() {
             this.algorithmStepBuilder.setPseudocodeLine = 26;
             this.algorithmStepBuilder.setPatternIndex = this.patternIndex;
@@ -509,12 +555,21 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             });
         }
 
+        /**
+         * @description Resetting the additional variables.
+         */
         public resetAdditionalVariables() {
             this.additionalVariables = new KnuthMorrisPrattAdditionalVariables();
         }
 
+        // TESTER FUNCTIONS
 
-        public borderTableTesterGetter(pattern : string) {
+        /**
+         * @description Function to get border table for testing purposes. Not available in production.
+         * @param pattern The pattern to create a border table for.
+         * @returns The border table
+         */
+        public borderTableTesterGetter(pattern : string) : number[] {
             if (environment.type == "dev") {
                 return this.createBorderTable(pattern);
             } else {
@@ -522,6 +577,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             }
         }
 
+        /**
+         * @description Function to set the text and pattern for testing purposes. Not available in production.
+         * @param text The text to set.
+         * @param pattern The pattern to set.
+         */
         public setupAdditionalVariablesTesterGetter(textLength : number , patternLength : number , borderTable : number[] = []) : void {
             if (environment.type == "dev") {
                 this.additionalVariables.textLength = textLength;
@@ -532,6 +592,11 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             }
         }
 
+      /**
+       * @description Tester method to get the steps array for the match case. Not available in production.
+       * @returns The steps array created by the match function.
+       * @see addMatchStep
+      */
       public matchStepsTesterGetter(full : boolean) : AlgorithmStep[] {
         if (environment.type == "dev") {
             this.addMatchStep(full);
@@ -541,6 +606,13 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
       }
 
 
+      /**
+       * @description Tester method to get the steps array for the mismatch case. Not available in production.
+       * @param mismatchCase The case of the mismatch, 1 = border table has a value for the current pattern index, 2 = pattern is zero, 3 = pattern index is not 0.
+       * @param borderIndex The index of the border table to highlight.
+       * @returns The steps array created by the mismatch function.
+       * @see addMismatchStep
+      */
       public mismatchStepsTesterGetter(mismatchCase : number , borderIndex : number) {
         if (environment.type == "dev") {
             this.addMismatchStep(mismatchCase , borderIndex);
@@ -548,8 +620,4 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
         }
         throw new Error("Attempting to use a dev function from a non-dev environment");
       }
-
-
-
-
 }

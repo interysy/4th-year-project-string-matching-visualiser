@@ -1,6 +1,5 @@
 import { StringMatchingAlgorithm } from "../algorithm.model";
 import { BruteForceAdditionalVariables } from "../../models/brute-force-additional-variables.model";
-import { provideRouter } from "@angular/router";
 import { LetterBuilder } from "../../model-builders/letter.builder";
 
 /**
@@ -8,9 +7,22 @@ import { LetterBuilder } from "../../model-builders/letter.builder";
  */
 export class BruteForceAlgorithm extends StringMatchingAlgorithm {
 
+        /**
+         * @description Additional variables required for brute force algorithm to work.
+         */
         protected override additionalVariables : BruteForceAdditionalVariables = new BruteForceAdditionalVariables();
+
+        /**
+         * @description The name of the algorithm used for the slug in the url.
+         */
         protected override algorithmNameSlug = "brute-force";
 
+        /**
+         * @description Function that runs the brute force algorithm and creates relevant steps for parsing by the app.
+         * @param text The text to search for the pattern in.
+         * @param pattern The pattern to look for.
+         * @returns The starting point of pattern found or -1.
+         */
         public workOutSteps(text : string , pattern : string) : number {
             this.text = text;
             this.pattern = pattern;
@@ -33,7 +45,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
                     this.patternIndex = 0;
                     this.additionalVariables.startingPoint += 1;
                     this.textIndex = this.additionalVariables.startingPoint;
-                    this.addMismatchStep(this.additionalVariables.startingPoint - 1);
+                    this.addMismatchStep();
                 }
             }
             if (this.patternIndex === this.additionalVariables.patternLength) {
@@ -44,6 +56,9 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             return -1;
         }
 
+        /**
+         * @description Adds the setup steps to the steps array
+        */
         protected addSetupSteps() : void {
 
             const setUpSteps = [
@@ -89,6 +104,9 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.algorithmStepBuilder.setDefaults();
         }
 
+        /**
+         * @description Adding iteration steps to the steps array
+        */
         protected addWhileLoopStep() : void {
             this.algorithmStepBuilder.setPseudocodeLine = 8;
             this.algorithmStepBuilder.setPatternIndex = this.patternIndex;
@@ -101,6 +119,9 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.addStep(true, true);
         }
 
+       /**
+        * @description Adding check step to the steps array, highlights current 2 characters being checked
+        */
         protected addCheckStep() : void {
             this.algorithmStepBuilder.setCommand = "Checking if the 2 characters match";
             this.algorithmStepBuilder.setPseudocodeLine = 9;
@@ -115,6 +136,9 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.addStep(true,true);
         }
 
+        /**
+         * @description Adding match step to the steps array, highlights current 2 characters being matched
+        */
         protected addMatchStep() {
             this.algorithmStepBuilder.setPseudocodeLine = 10;
             this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
@@ -136,7 +160,10 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.addStep(true , true);
         }
 
-        protected addMismatchStep(priorStartingPoint : number) {
+        /**
+         * @description Adding mismatch step to the steps array, highlights current 2 characters being mismatched.
+         */
+        protected addMismatchStep() {
 
             const tempAdditionalVariables = this.previousStep.additional;
             this.algorithmStepBuilder.setPseudocodeLine = 12;
@@ -174,6 +201,9 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         }
 
 
+        /**
+         * @description Adding full match step to the steps array, highlights the entire pattern and part of text matched (in this case the previous step would have set this).
+        */
         protected addFullMatchStep() {
 
             this.algorithmStepBuilder.setPseudocodeLine = 19;
@@ -193,6 +223,9 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.addStep(true,true)
         }
 
+        /**
+         * @description Adding a step to show no solution was found, highlights text and pattern as mismatch.
+        */
         protected addNoSolutionStep() {
             this.algorithmStepBuilder.setPseudocodeLine = 19;
             this.algorithmStepBuilder.setPatternIndex = this.patternIndex;
@@ -216,10 +249,10 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
             this.addStep(true,true);
         }
 
+        /**
+         * @description Resets the additional variables to their default values.
+         */
         resetAdditionalVariables() {
             this.additionalVariables = new BruteForceAdditionalVariables();
         }
-
-
-
 }

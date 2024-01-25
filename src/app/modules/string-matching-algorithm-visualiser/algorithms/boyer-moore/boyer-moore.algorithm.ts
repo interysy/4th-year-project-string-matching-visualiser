@@ -4,11 +4,28 @@ import { LetterBuilder } from "../../model-builders/letter.builder";
 import { AlgorithmStep } from "../../models/algorithm-step.model";
 import { environment } from "src/environments/environment.dev";
 
+/**
+ * @description Class responsible for generating BoyerMoore steps for the app
+ */
 export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
 
+    /**
+     * @description Name of algorithm as a slug
+     */
     override algorithmNameSlug = "boyer-moore";
+
+    /**
+     * @description Additional variables utilised by the algorithm
+     * @see BoyerMooreAdditionalVariables
+     */
     override additionalVariables : BoyerMooreAdditionalVariables = new BoyerMooreAdditionalVariables();
 
+    /**
+     * @description Executes the Boyer Moore algorithm, calling relevant functions to create steps for parsing by rest of the app
+     * @param text The text to search
+     * @param pattern The pattern to search
+     * @returns The starting index of the pattern in the text, or -1 if no match
+     */
     public workOutSteps(text : string , pattern : string) : number {
         this.text = text;
         this.pattern = pattern;
@@ -53,6 +70,11 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
     }
 
 
+    /**
+     * @description Creates a last occurrence dictionary for the algorithm to work
+     * @param pattern The pattern to search
+     * @returns A dictionary of the last occurrence of each character in the pattern
+     */
     private setUpLastOccurrenceDictionary(pattern : string) : { [character : string] : number; } {
         const lastOccurrenceDictionary : { [character : string] : number; } = {};
 
@@ -106,6 +128,9 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         return lastOccurrenceDictionary;
     }
 
+    /**
+     * @description Adds the setup steps to the steps array
+     */
     protected addSetupSteps() : void {
 
         let tempAdditional;
@@ -151,6 +176,9 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
     }
 
 
+    /**
+     * @description Adding iteration steps to the steps array
+     */
     protected addWhileLoopStep() : void {
         this.algorithmStepBuilder.setPseudocodeLine = 10;
         this.algorithmStepBuilder.setPatternIndex = this.patternIndex;
@@ -163,6 +191,9 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         this.addStep(true,true);
     }
 
+    /**
+     * @description Adding check step to the steps array, highlights current 2 characters being checked
+     */
     protected addCheckStep() : void {
         this.algorithmStepBuilder.setPseudocodeLine = 11;
         this.algorithmStepBuilder.setCommand = "Checking if the 2 characters match";
@@ -178,6 +209,9 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         this.addStep(true, true);
     }
 
+    /**
+     * @description Adding match step to the steps array, highlights current 2 characters being matched
+     */
     protected addMatchStep() : void {
         this.algorithmStepBuilder.setPseudocodeLine = 12;
         this.algorithmStepBuilder.setPatternIndex = this.previousStep.patternIndex;
@@ -198,6 +232,12 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         this.addStep(true , true);
     }
 
+    /**
+     * @description Adding mismatch step to the steps array, highlights current 2 characters being mismatched and the last occurrence within dictionary
+     * @param mismatchCase The case of the mismatch (1,2 or 3)
+     * @param lastOccurance The last occurrence of the character in the pattern
+     * @param lastOccuranceCharacter The character at the last occurrence
+     */
     protected addMismatchStep(mismatchCase : number , lastOccurance : number , lastOccuranceCharacter : string) : void {
 
         this.algorithmStepBuilder.setPseudocodeLine = 14;
@@ -265,6 +305,9 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         this.addStep(true,true);
     }
 
+    /**
+     * @description Adding full match step to the steps array, highlights the entire pattern and part of text matched.
+     */
     protected addFullMatchStep() {
 
         this.algorithmStepBuilder.setPseudocodeLine = 21;
@@ -287,6 +330,9 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         this.addStep(true, true);
     }
 
+    /**
+     * @description Adding a step to show no solution was found, highlights text and pattern as mismatch.
+    */
     protected addNoSolutionStep() {
 
         this.algorithmStepBuilder.setPseudocodeLine = 21;
@@ -311,12 +357,21 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
     }
 
 
+    /**
+     * @description Works out boyer moore case based on the values passed in
+     * @param patternIndex The index of the pattern
+     * @param occurance The last occurrence of the character in the pattern
+     * @returns The mismatch case (1,2 or 3)
+     */
     private boyerMooreMismatchCase(patternIndex :number , occurance : number) : number {
         if (occurance === 0) return 3;
         if (occurance > patternIndex) return 2;
         return 1;
     }
 
+    /**
+     * @description Resets the additional variables to their default values - mainly utilised when resetting algorithm.
+     */
     protected resetAdditionalVariables() {
         this.additionalVariables = new BoyerMooreAdditionalVariables();
     }
@@ -324,6 +379,11 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
 
     // TESTER METHODS
 
+    /**
+     * @description Tester method to get the steps array for the match case. Not available in production.
+     * @returns The steps array created by the match function.
+     * @see addMatchStep
+     */
     get matchStepsTesterGetter() : AlgorithmStep[] {
         if (environment.type == "dev") {
             this.addMatchStep();
@@ -332,6 +392,14 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         throw new Error("Attempting to use a dev function from a non-dev environment");
     }
 
+    /**
+     * @description Tester method to get the steps array for the mismatch case. Not available in production.
+     * @param mismatchCase The case of the mismatch (1,2 or 3).
+     * @param lastOccurrence The last occurrence of the character in the pattern.
+     * @param lastOccurrenceCharacter The character at the last occurrence.
+     * @returns The steps array created by the match function.
+     * @see addMismatchStep
+     */
     public mismatchStepsTesterGetter(mismatchCase : number , lastOccurrence : number , lastOccurrenceCharacter : string) : AlgorithmStep[] {
         if (environment.type == "dev") {
             this.addMismatchStep(mismatchCase , lastOccurrence , lastOccurrenceCharacter);
@@ -340,6 +408,9 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         throw new Error("Attempting to use a dev function from a non-dev environment");
     }
 
+    /**
+     * @description Tester method to set additional variables for testing. Not available in production.
+     */
     public setupAdditionalVariablesTesterGetter(textLength : number , patternLength : number , startingPoint : number) : void {
         if (environment.type == "dev") {
             this.additionalVariables.textLength = textLength;
@@ -350,6 +421,11 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         }
     }
 
+    /**
+     * @description Tester method to set up a last occurrence dictionary.
+     * @returns The dictionary
+     * @see setUpLastOccurrenceDictionary
+     */
     public setUpLastOcurrenceDictionaryTester(pattern: string) : { [character : string] : number; } {
         if (environment.type == "dev") {
             this.algorithmStepBuilder.setDefaults();
@@ -359,12 +435,15 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
         throw new Error("Attempting to use a dev function from a non-dev environment");
     }
 
+    /**
+     * @description Tester method to work out case of mismatch. Not available in production.
+     * @returns The mismatch case (1,2 or 3)
+     */
     public boyerMooreMismatchCaseTester(patternIndex :number , occurance : number) : number {
         if (environment.type == "dev") {
             return this.boyerMooreMismatchCase(patternIndex , occurance);
         }
         throw new Error("Attempting to use a dev function from a non-dev environment");
     }
-
 
 }
