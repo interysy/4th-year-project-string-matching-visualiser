@@ -354,4 +354,31 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 18 January 
 * *3 hours* Working on refactoring the BruteForceAlgorithm class and adding tests for it.
-* *1 hour* Continuing testing , refactoring and documentation of the brute force algorithm implmentation.
+* *1 hour* Continuing testing , refactoring and documentation of the brute force algorithm implmentation. 
+
+### 19 January  
+* *2 hours* Finishing up brute force tests, refactoring and documentation. Starting the same process on Boyer Moore.
+
+### 20 January   
+* *1 hour* Boyer Moore testing.
+
+### 21 January 
+* *2 hours* Finishing up Boyer-Moore testing and refactoring.
+
+### 22 January  
+* *1 hour* Adding documentation to Boyer Moore.
+
+### 23 January  
+* *2 hours* Working at refactoring, documentation and testing of Knuth Morris Pratt algorithm.
+* *0.5 hours* Preparation for supervisor meeting.
+* *0.5 hours* Supervisor meeting.
+* *1 hour* Knuth Morris Pratt continued testing. 
+
+### 24 January   
+* *3 hours* Further work on testing and refactoring of Knuth Morris Pratt.
+
+### 25 January  
+* *2 hours* Further work on testing and refactoring of Knuth Morris Pratt. Fixed some other broken tests while at it.
+
+### 28 January 
+* *0.5 hours* Catching up on formal documention for the project (e.g. missing meeting notes on Moodle)
