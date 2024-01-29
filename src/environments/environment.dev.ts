@@ -7,6 +7,7 @@ import { DefaultTheme } from "src/app/modules/string-matching-algorithm-visualis
 import { BorderTableDrawer } from "src/app/modules/string-matching-algorithm-visualiser/drawers/border-table.drawer";
 import { LegendDrawer } from "src/app/modules/string-matching-algorithm-visualiser/drawers/legend.drawer";
 import { KnuthMorrisPrattAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/knuth-morris-pratt/knuth-morris-pratt.algorithm";
+import { FullBoyerMoore } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/full-boyer-moore/full-boyer-moore.algorithm";
 
 export const environment = {
   githubLink : "https://github.com/interysy/4th-year-project-string-matching-visualiser",
@@ -16,6 +17,7 @@ export const environment = {
     {name : "Brute Force" , nameSlug : "brute-force" , urlParam : "bruteForce" , requiredService : BruteForceAlgorithm , decorators : [LegendDrawer]},
     {name : "Boyer Moore" ,nameSlug : "boyer-moore" , urlParam : "boyerMoore" , requiredService : BoyerMooreAlgorithm , decorators : [LegendDrawer], prePreprocessingCanvas : true, preProcessingFunction : "drawLastOccurrenceTable"},
     {name : "Knuth-Morris-Pratt" , nameSlug : "knuth-morris-pratt" , urlParam : "knuthMorrisPratt" , requiredService : KnuthMorrisPrattAlgorithm , decorators : [BorderTableDrawer , LegendDrawer] , prePreprocessingCanvas : true, preProcessingFunction : "drawBorderTable"},
+    {name : "Full Boyer Moore" , nameSlug : "full-boyer-moore" , urlParam : "fullBoyerMoore", requiredService : FullBoyerMoore , decorators : [LegendDrawer]}
   ],
   centraliseScroll : ["knuth-morris-pratt" , "boyer-moore"],
   additionalVariablesToExclude : [
