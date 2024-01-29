@@ -5,8 +5,8 @@
       <button class="text-skin-base" *ngFor="let algorithm of environment.supportedAlgorithms" (click)="changePage('algorithm-visualiser/' + algorithm.urlParam)">{{algorithm.name}}</button>
     </div>
     <div class="other-links gap-6 justify-end hidden md:flex">
-      <button class = "text-skin-base" (click)="changePage('/')">Home</button>
-      <button class = "text-skin-base" (click)="changePage('/about')">About</button>
+      <button class="text-skin-base" (click)="changePage('/')">Home</button>
+      <button class="text-skin-base" (click)="changePage('/about')">About</button>
       <a [href]="environment.githubLink" ><fa-icon [icon]="['fab', 'github']" size="lg" class="text-skin-github"></fa-icon></a>
       <a [href]="environment.linkedinLink" ><fa-icon [icon]="['fab', 'linkedin']" size="lg" class="blue-icon"></fa-icon></a>
     </div>

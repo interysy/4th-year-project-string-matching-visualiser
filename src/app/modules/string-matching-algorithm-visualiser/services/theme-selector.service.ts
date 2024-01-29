@@ -1,35 +1,76 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { MatchingAlgorithmColourConstants } from '../constants/matching-algorithm-colours.constant';
-import { DefaultTheme } from '../constants/default.theme';
-import { DarkGreenTheme } from '../constants/dark-green.theme';
-import { DarkBlueTheme } from '../constants/dark-blue.theme';
+import { environment } from 'src/environments/environment.dev';
+import { Theme } from '../themes/theme';
 
-
+/**
+ * @description This service is responsible for changing active theme of the application.
+ */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class ThemeSelectorService {
 
+  private readonly DefaultTheme = "base";
 
-  private currentTheme = "base";
-  public currentThemeForDrawer : any = new DefaultTheme();
-  protected themes = [{name : "base" , colorOne : "#FFFFFF" , colorTwo : "#E3E5EA" , themeObject : DefaultTheme} , {name : "theme-dark-green" , colorOne : "#2D333B" , colorTwo : "#29FD2F" , themeObject : DarkGreenTheme}, {name : "theme-dark-blue" , colorOne : "#2D333B" , colorTwo : "#1b7ced" , themeObject : DarkBlueTheme}];
-  private themeChangedObserver$ : Subject<string> = new Subject<string>();
+  /**
+    * @description The current theme is used to keep track of the current theme of the application.
+  */
+  private _currentTheme : string;
 
-  set themeSetter(theme : string) {
-    this.currentTheme = theme;
-    this.themeChangedObserver$.next(theme);
-    const newThemeObject = this.themes.find(themeToCompare => themeToCompare.name === theme);
-    if (newThemeObject) this.currentThemeForDrawer = new newThemeObject.themeObject();
+  /**
+    * @description The current theme object is used to keep track of the current theme object of the application.
+    * This object can be referenced to grab the colours of the current theme.
+  */
+  private _currentThemeObject : Theme;
+
+  /**
+    * @description The notifier is used to notify the components that the theme has changed.
+    * It allows the implementation of the observer pattern, where each component receives a notification upon change.
+  */
+  private _themeChangedObserver$ : Subject<string> = new Subject<string>();
+
+  /**
+   * @description The themes object is used to keep track of all the themes of the application. Loaded upon initialisation.
+   */
+  private _themes;
+
+  /**
+   * @description The constructor initialises the themes object and sets the current theme to the base theme.
+   */
+  constructor() {
+    this._themes = environment.themes;
+    this._currentTheme = environment.defaultTheme;
+    this._currentThemeObject = new this._themes[this._currentTheme as keyof  typeof environment.themes].themeObject();
   }
 
+  /**
+   * @description This function is used to change the theme.
+   * Typically implemented by the root HTML component.
+   * @param theme The theme to change to.
+   *
+   */
+  set themeSetter(theme : string) {
+    const themeAsKeyOfThemes = theme as keyof typeof environment.themes;
+    const newThemeObject = this._themes[themeAsKeyOfThemes];
+    if (newThemeObject) {
+      this._currentThemeObject = new newThemeObject.themeObject();
+      this._currentTheme = theme;
+      this._themeChangedObserver$.next(theme);
+    }
+  }
+
+
   get currentThemeGetter() : string {
-    return this.currentTheme;
+    return this._currentTheme;
   }
 
   get themeChangedSubscriberGetter() : Subject<string> {
-    return this.themeChangedObserver$;
+    return this._themeChangedObserver$;
+  }
+
+  get currentThemeObjectGetter() : Theme {
+    return this._currentThemeObject;
   }
 
 }

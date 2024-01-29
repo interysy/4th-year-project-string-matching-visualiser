@@ -12,7 +12,7 @@ describe('NavbarComponent', () => {
   let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
-    routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+    routerSpy = jasmine.createSpyObj("Router", ["navigateByUrl"]);
 
     TestBed.configureTestingModule({
       declarations: [NavbarComponent],
@@ -31,17 +31,17 @@ describe('NavbarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create navbar", () => {
     expect(component).toBeTruthy();
   });
 
   it("should display links to algorithms", () => {
     for (const algorithm of environment.supportedAlgorithms) {
-      expect(fixture.nativeElement.querySelector('.algorithms').textContent).toContain(algorithm.name);
+      expect(fixture.nativeElement.querySelector(".algorithms").textContent).toContain(algorithm.name);
     }
   });
 
-  it('should toggle mobile menu', () => {
+  it("should toggle mobile menu", () => {
     const initialClassList = component.mobileMenu.nativeElement.classList.value;
 
     component.toggleMobileMenu();
@@ -51,30 +51,32 @@ describe('NavbarComponent', () => {
     expect(afterToggleClassList).not.toBe(initialClassList);
   });
 
-  it('should hide mobile menu on window resize if window width > 768', fakeAsync(() => {
+  it("should hide mobile menu on window resize if window width > 768", fakeAsync(() => {
     component.mobileMenu.nativeElement.classList.remove('hidden');
 
-    Object.defineProperty(window, 'innerWidth', { value: 800, configurable: true });
-    window.dispatchEvent(new Event('resize'));
+    Object.defineProperty(window, "innerWidth", { value: 800, configurable: true });
+    window.dispatchEvent(new Event("resize"));
     tick(300);
 
     fixture.detectChanges();
-    expect(component.mobileMenu.nativeElement.classList.contains('hidden')).toBe(true);
+    expect(component.mobileMenu.nativeElement.classList.contains("hidden")).toBe(true);
   }));
 
-  it('should show mobile menu on window resize if window width < 768 and toggle', fakeAsync(() => {
-    Object.defineProperty(window, 'innerWidth', { value: 750, configurable: true });
+  it("should show mobile menu on window resize if window width < 768 and toggle", fakeAsync(() => {
+    Object.defineProperty(window, "innerWidth", { value: 750, configurable: true });
 
-    window.dispatchEvent(new Event('resize'));
+    window.dispatchEvent(new Event("resize"));
     tick(300);
     component.toggleMobileMenu();
 
     fixture.detectChanges();
-    expect(component.mobileMenu.nativeElement.classList.contains('hidden')).toBe(false);
+    expect(component.mobileMenu.nativeElement.classList.contains("hidden")).toBe(false);
+    const mobileMenu = fixture.nativeElement.querySelector('#mobile-menu');
+    expect(mobileMenu).toBeTruthy();
   }));
 
-  it('should navigate to the specified path', fakeAsync(() => {
-    const path = '/about';
+  it("should navigate to the specified path", fakeAsync(() => {
+    const path = "/about";
 
     component.changePage(path);
     tick();
@@ -82,7 +84,7 @@ describe('NavbarComponent', () => {
     expect(routerSpy.navigateByUrl).toHaveBeenCalledWith(path);
   }));
 
-  it('should not navigate if the path is the same as the current URL', fakeAsync(() => {
+  it("should not navigate if the path is the same as the current URL", fakeAsync(() => {
     const path = component.router.url;
 
     component.changePage(path);

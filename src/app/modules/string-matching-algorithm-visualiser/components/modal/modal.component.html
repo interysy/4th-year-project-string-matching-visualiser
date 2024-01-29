@@ -24,7 +24,7 @@
           </div>
           <div>
               <label for="pattern" class="block mb-2 text-md font-medium">Pattern to search for</label>
-              <input name="pattern" type="text"  [(ngModel)]="pattern" (ngModelChange)="sendPatternToService()" id="pattern" class="bg-skin-fill-quaternary border-skin-icon-separator border-2 text-sm rounded-lg focus:ring focus:outline-none ring-skin-focus focus:border-skin-border-focus block w-full p-2.5" required>
+              <input name="pattern" type="text"  [(ngModel)]="pattern" (ngModelChange)="sendPatternToService(pattern)" id="pattern" class="bg-skin-fill-quaternary border-skin-icon-separator border-2 text-sm rounded-lg focus:ring focus:outline-none ring-skin-focus focus:border-skin-border-focus block w-full p-2.5" required>
           </div>
       </div>
       <div class="relative">
@@ -90,7 +90,7 @@
             (change)="selectTheme(theme.name)"
             [style.background-color]="theme.colorOne"
             [style.background-image]="'-webkit-linear-gradient(45deg, ' + theme.colorOne + ' 50%, ' + theme.colorTwo + ' 50.5%)'"
-            [style.border-color]="selectedTheme === theme.name ? 'red' : '#000000'"
+            [style.border-color]="selectedTheme === theme.name ? SelectorBorderColour : '#000000'"
             class="w-6 h-6 appearance-none hover:border-blue-500 rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none"
             type="radio"
             id="{{ theme.name }}"
@@ -99,6 +99,7 @@
           />
         </div>
       </div>
+      <button *ngIf="canAlgorithmDataBeCentralised()" (click)="centraliseScroll()" class="my-3 font-bold bg-skin-fill-quaternary text-sm rounded-lg border-skin-icon-separator border-2 p-2 hover:bg-skin-fill-tertiary-hover">Centralise Scroll</button>
 
   </form>
   </div>

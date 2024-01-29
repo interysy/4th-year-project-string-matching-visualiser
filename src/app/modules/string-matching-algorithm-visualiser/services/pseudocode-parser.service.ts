@@ -10,9 +10,9 @@ import { Observable, catchError, of } from 'rxjs';
 })
 export class PseudocodeParserService {
 
-  private readonly FileSuffix = "-pseudocode.txt"
-  private readonly AssetsPath = "../../../assets/"
-  private readonly ResponseType = "text" as "json"
+  public readonly FileSuffix = "-pseudocode.txt"
+  public readonly AssetsPath = "../../../assets/"
+  public readonly ResponseType = "text" as "json"
 
 
   /**

@@ -1,6 +1,6 @@
-import { StringMatchingAlgorithmToDraw } from "../models/algorithm-draw.model";
+import { StringMatchingAlgorithmToDraw } from "./algorithm-draw.model";
 import { DrawStepDecorator } from "../models/drawer-step.decorator";
-import { P5jsDrawService } from "../services/p5js-draw.service";
+import { P5jsDrawClass } from "./p5js.drawer";
 
 
 
@@ -10,8 +10,8 @@ export class LegendDrawer extends DrawStepDecorator {
         super(earlierDrawer);
     }
 
-    override draw(obj : P5jsDrawService) : void {
-        obj.drawLegend();
-        this.earlierDrawer.draw(obj);
+    override draw(drawingClass : P5jsDrawClass) : void {
+        drawingClass.drawLegend();
+        this.earlierDrawer.draw(drawingClass);
     }
 }

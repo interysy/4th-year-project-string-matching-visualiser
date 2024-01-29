@@ -15,10 +15,31 @@ export class LetterBuilder {
     public setDefaults() : void {
         this.letter = {
             index : 0,
-            colour : this.themeSelectorService.currentThemeForDrawer.DEFAULT,
+            colour : this.themeSelectorService.currentThemeObjectGetter.DEFAULT,
             strokeWeight : 1,
             letter : "",
         };
+    }
+
+    public static highlightEntireLine(stringToHighlight : string , colour : string, weight : number) : Letter[] {
+        if (stringToHighlight === undefined || stringToHighlight.length == 0) return [];
+        return stringToHighlight.split("").map((char , index) => {
+            const letter = new Letter();
+            letter.index = index;
+            letter.letter = char;
+            letter.colour = colour;
+            letter.strokeWeight = weight;
+            return letter;
+        });
+    }
+
+    public replaceLetter(toHighlight :  Letter[] , newLetterDraw : Letter) : Letter[] {
+        const indexToReplace = toHighlight.findIndex(letterDraw => {
+            return letterDraw.index === newLetterDraw.index;
+        });
+
+        toHighlight[indexToReplace] = newLetterDraw;
+        return toHighlight;
     }
 
     set setIndex(index : number) {

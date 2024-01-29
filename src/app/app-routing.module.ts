@@ -12,8 +12,6 @@ import { environment } from '../environments/environment.dev';
    * @type {Routes}
 */
 const algorithmVisualiserRoutes  = environment.supportedAlgorithms.map(algorithm => {
-  console.log(algorithm.prePreprocessingCanvas)
-  console.log(algorithm.preProcessingFunction)
   return {path : "algorithm-visualiser/" + algorithm.urlParam ,  pathMatch: 'full',  component : AlgorithmVisualiserPageComponent , data : {requiredService : algorithm.requiredService , algorithmNameSlug : algorithm.nameSlug , decorators : (algorithm.decorators) , preProcessingCanvas : algorithm.prePreprocessingCanvas , preProcessingFunction : algorithm.preProcessingFunction}}
 });
 

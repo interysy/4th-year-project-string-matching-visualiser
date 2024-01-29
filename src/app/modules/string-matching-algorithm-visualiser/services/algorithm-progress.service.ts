@@ -1,88 +1,120 @@
 import { Injectable } from '@angular/core';
 import { Subject, Subscription, debounceTime } from 'rxjs';
-import { StringMatchingAlgorithm } from '../models/algorithm.model';
+import { StringMatchingAlgorithm } from '../algorithms/algorithm.model';
 import { DrawStepDecorator } from '../models/drawer-step.decorator';
-import { StringMatchingAlgorithmToDraw } from '../models/algorithm-draw.model';
+import { StringMatchingAlgorithmToDraw } from '../drawers/algorithm-draw.model';
 import { AlgorithmStep } from '../models/algorithm-step.model';
 import { OptionService } from './option.service';
 
 /**
- * @description The service is responsible for keeping track of the algorithm's progress. It also has functions so
- * that components can modify the progress of the algorithm.
+ * @description The AlgorithmProgressService class provides methods for managing the progress and execution of string matching algorithms.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class AlgorithmProgressService {
+
+  public readonly DefaultSpeed = 1000;
+  public readonly MinimumSpeed = 100;
+  public readonly MaximumSpeed = 2050;
+  public readonly Debounce = 1000;
 
   /**
    * @description The notifier is used to notify the components that the algorithm's progress has changed.
    * It allows the implementation of the observer pattern, where each component receives a notification upon change.
    */
-  private stepChanged$ : Subject<number> = new Subject<number>();
-  private speedChanged$ : Subject<number> = new Subject<number>();
-
-  private readonly DefaultSpeed = 1000;
-
-  private currentlyPlaying = false;
-  private currentStep = 0;
-  private amountOfSteps : number;
-  private text : string;
-  private pattern : string;
-  private algorithm : StringMatchingAlgorithm;
-  private speed = this.DefaultSpeed;
+  private _stepChanged$ : Subject<number> = new Subject<number>();
 
 
-  private readonly Debounce = 1000;
+  /**
+   * @description The notifier is used to notify the components that the playback speed has changed.
+   * Required as speed is dictated by the animation.
+   */
+  private _speedChanged$ : Subject<number> = new Subject<number>();
 
-  private smoothAnimations = false;
 
-  private subscriptions : Subscription[] = [];
+  /**
+   * @description The variable is used to denote whether the animation is playing.
+   */
+  private _currentlyPlaying = false;
+
+  /**
+   * @description The variable is used to store the current step of the algorithm.
+   */
+  private _currentStep : number;
+
+  /**
+   * @description The injected algorithm to run.
+   */
+  private _algorithm : StringMatchingAlgorithm;
+
+  /**
+   * @description Variable used to set speed of playback.
+   */
+  private _speed = this.DefaultSpeed;
+
+  /**
+   * @description The variable is used to store all subscriptions to things that can change.
+   */
+  subscriptions : Subscription[] = [];
+
 
   /**
    * @description The decorated algorithm is used to decorate the algorithm with decorators that allow the algorithm to be visualised with
    * extra information when required.
    */
-  private decoratedAlgorithm : DrawStepDecorator
-  preProcessingSteps = true;
-  steps: AlgorithmStep[];
+  private _decoratedAlgorithm : DrawStepDecorator;
 
+
+  /**
+   * @description The variable is used to store the steps of the algorithm for a specific text and pattern.
+   */
+  private _steps: AlgorithmStep[];
+
+  /**
+   * @description Stores the number of the previous step that has been shown
+   */
+  private _previousStep : number;
+
+
+  /**
+   * @description Constructor initiates all required subscribers
+   * @param optionService Using option service to get option changes
+   */
   constructor(private readonly optionService : OptionService) {
-    this.stepChanged$.subscribe((value : number) => {
-      this.currentStep = value
+
+    const subscribersForReset = [this.optionService.textChangedSubscriberGetter() , this.optionService.patternChangedSubscriberGetter()];
+
+    subscribersForReset.forEach((subscriber) => {
+      this.subscriptions.push(subscriber.pipe(debounceTime(this.Debounce)).subscribe((_) => {
+        this.resetService();
+        this.executeAlgorithm();
+      }));
     });
 
-    this.subscriptions.push(this.optionService.textChangedSubscriberGetter.pipe(debounceTime(this.Debounce)).subscribe((text : string) => {
-      this.resetProgressService();
-      this.textSetter = text;
-    }));
-
-    this.subscriptions.push(this.optionService.patternChangedSubscriberGetter.pipe(debounceTime(this.Debounce)).subscribe((pattern : string) => {
-      this.resetProgressService();
-      this.patternSetter = pattern;
-    }));
-
-    this.subscriptions.push(this.optionService.preProcessingStepsChangedSubscriberGetter.subscribe((preProcessingSteps : boolean) => {
+    this.subscriptions.push(this.optionService.preProcessingStepsChangedSubscriberGetter().subscribe((preProcessingSteps : boolean) => {
       this.filterPreProcessingSteps(preProcessingSteps);
     }));
-
-    this.subscriptions.push(this.optionService.smoothAnimationsChangedSubscriberGetter.subscribe((smoothAnimations : boolean) => {
-      this.smoothAnimationsSetter = smoothAnimations;
-      if (this.smoothAnimations == false && this.currentlyPlaying == true) {
-        this.play();
-      }
-    }));
-
-    this.text = this.optionService.textGetter;
-    this.pattern = this.optionService.patternGetter;
-
   }
 
 
-  private filterPreProcessingSteps(preProcessingSteps : boolean) {
-    this.steps  = preProcessingSteps ?  this.algorithm.stepsGetter : this.algorithm.stepsGetter.filter((step) => step.extra == false);
-    this.currentStepNumberSetter = 0;
-    this.amountOfSteps = this.steps.length;
+  /**
+   * @description The function is used to remove steps used for preprocessing.
+   * @param preProcessingSteps Whether to remove preprocessing steps or not
+   * @returns void
+   */
+  private filterPreProcessingSteps(preProcessingSteps : boolean) : void {
+    const filteredSteps = this._algorithm.stepsGetter.filter((step) => step.extra == false);
+    const originalLength = this._algorithm.stepsGetter.length;
+    const difference = originalLength - filteredSteps.length;
+
+    this._steps  = preProcessingSteps ?  this._algorithm.stepsGetter : filteredSteps;
+
+    if (!preProcessingSteps) {
+      if (this._currentStep - difference >= 0) this.currentStepNumberSetter(this._currentStep - difference); else this.currentStepNumberSetter(0);
+    } else {
+      if (this._currentStep + difference <= originalLength) this.currentStepNumberSetter(this._currentStep + difference); else this.currentStepNumberSetter(originalLength-1);
+    }
   }
 
 
@@ -93,68 +125,57 @@ export class AlgorithmProgressService {
    * @param decorators The visual aspects to be drawn as an array of decorators
    * @returns void
    */
-  public injectAlgorithm(algorithmToInject : { new (algorithmName : string): StringMatchingAlgorithm } , algorithmName : string , decorators : { new (decoratorName : StringMatchingAlgorithmToDraw): DrawStepDecorator }[], prePreprocessingCanvas : boolean , preProcessingFunction : string | null) : void {
+  public injectAlgorithm(algorithmToInject : { new (): StringMatchingAlgorithm } , decorators : { new (decoratorName : StringMatchingAlgorithmToDraw): DrawStepDecorator }[], prePreprocessingCanvas : boolean , preProcessingFunction : string | null) : void {
 
-    this.resetProgressService();
-    this.algorithm = new algorithmToInject(algorithmName);
+    this.resetService();
+
+    this._algorithm = new algorithmToInject();
     if (decorators.length !== 0) {
-      let oldDecorator = this.algorithm as unknown as StringMatchingAlgorithmToDraw;
-      for (const decorator of decorators) {
-        this.decoratedAlgorithm = new decorator(oldDecorator);
-        oldDecorator = this.decoratedAlgorithm;
-      }
+      let oldDecorator = this._algorithm as StringMatchingAlgorithmToDraw;
+      decorators.forEach((decorator) => {
+        this._decoratedAlgorithm = new decorator(oldDecorator);
+        oldDecorator = this._decoratedAlgorithm;
+      });
     }
 
     if (prePreprocessingCanvas && preProcessingFunction != null) {
-      this.algorithm.preProcessingCanvasSetter = true;
-      this.algorithm.preProcessingFunctionSetter = preProcessingFunction;
+      this._algorithm.preProcessingCanvasSetter = true;
+      this._algorithm.preProcessingFunctionSetter = preProcessingFunction;
     }
 
     this.executeAlgorithm();
-
   }
 
   /**
    * @description The function executes the algorithm and works out the steps.
    * @returns void
    */
-  public executeAlgorithm() : void {
-    this.algorithm.workOutSteps(this.text, this.pattern);
-    this.filterPreProcessingSteps(this.preProcessingSteps);
-    this.stepChanged$.next(0);
-  }
-
-  /**
-   * @description The function sets the text and pattern and resets the algorithm's progress.
-   * @param text The text to be set
-   * @param pattern The pattern to be set
-   * @returns void
-   */
-  public setTextAndPattern(text : string, pattern : string) : void {
-    this.text = text;
-    this.pattern = pattern;
-    this.algorithm.resetSteps();
-    this.executeAlgorithm();
+  private executeAlgorithm() : void {
+    this._algorithm.workOutSteps(this.optionService.textGetter(), this.optionService.patternGetter());
+    this.filterPreProcessingSteps(this.optionService.preProcessingStepsGetter());
+    this._currentStep = 0;
+    this._previousStep = 0;
+    this._stepChanged$.next(0);
   }
 
   /**
    * @description The function resets the algorithm's progress.
    */
-  public reset() {
-    this.currentlyPlaying = false;
-    this.stepChanged$.next(0);
+  public resetProgress() : void {
+    this._currentlyPlaying = false;
+    this._currentStep = 0;
+    this._previousStep = 0;
+    this._stepChanged$.next(0);
   }
 
   /**
    * @description The function resets the algorithm's progress and any data related to it, so another algorithm can be executed.
+   * @see resetProgress() This avoids changing algorithm, so steps remain the same.
    */
-  public resetProgressService() {
-    this.currentlyPlaying = false;
-    this.currentStep = 0;
-    this.speed = this.DefaultSpeed;
-    this.steps = [];
-    this.preProcessingSteps = this.optionService.preProcessingStepsGetter;
-    this.smoothAnimations = this.optionService.smoothAnimationsGetter;
+  private resetService() {
+    this.resetProgress();
+    this._steps = [];
+    if (this._algorithm) this._algorithm.resetSteps();
   }
 
   /**
@@ -163,8 +184,12 @@ export class AlgorithmProgressService {
    * @see play()
    */
   public moveToNextStep() : void {
-    if (this.currentStep != this.amountOfSteps - 1) {
-      this.stepChanged$.next(this.currentStep + 1);
+    if (this._currentStep != this._steps.length - 1) {
+      this._previousStep = this._currentStep;
+      this._currentStep += 1;
+      this._stepChanged$.next(this._currentStep);
+    } else {
+      this._currentlyPlaying = false;
     }
   }
 
@@ -174,8 +199,10 @@ export class AlgorithmProgressService {
    * @see play()
    */
   public moveToPreviousStep() : void {
-    if (this.currentStep > 0) {
-      this.stepChanged$.next(this.currentStep - 1);
+    if (this._currentStep > 0) {
+      this._previousStep = this._currentStep;
+      this._currentStep -= 1;
+      this._stepChanged$.next(this._currentStep);
     }
   }
 
@@ -183,135 +210,183 @@ export class AlgorithmProgressService {
    * @description The function pauses the algorithm.
    * Available when playing only.
    * @see play()
+   * @returns Promise<void>
    */
-  public pause() : void {
-    this.currentlyPlaying = false;
+  public async pause() : Promise<void> {
+    this._currentlyPlaying = false;
   }
 
   /**
    * @description The function plays the algorithm.
    * Available when not playing only.
    * @see pause()
-   */
-  async play() : Promise<void> {
-    this.currentlyPlaying = true;
-  }
-
-  /**
-   *
-   * @param msec The time to sleep in milliseconds
    * @returns Promise<void>
    */
-  async sleep(msec: number) : Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, msec));
+  public async play() : Promise<void> {
+    this._currentlyPlaying = true;
   }
+
 
   /**
    * @description The function changes the speed of playback.
    * @param speed The new speed of playback
+   * @returns void
    */
-  changeSpeedOfPlayback(speed : number) : void {
-    this.speed = speed;
-    this.speedChanged$.next(speed);
+  public changeSpeedOfPlayback(speed : number) : void {
+    this._speed = speed;
+    this._speedChanged$.next(this._speed);
   }
 
-  get currentStepNumberGetter() {
-    return this.currentStep;
+  /**
+   * @description Get current step number
+   */
+  public currentStepNumberGetter() {
+    return this._currentStep;
   }
 
-  get amountOfStepsGetter() {
-    return this.amountOfSteps;
+  /**
+   * @description Gets the previous step number
+   */
+  public previousStepNumberGetter() {
+    return this._previousStep;
   }
 
-  get stepGetter() {
-    return this.steps[this.currentStep];
+  /**
+   * @description Return the previously shown step
+   */
+  public previousStepGetter() {
+    return this._steps[this._previousStep];
   }
 
-  get pseudocodeLine() {
-    return this.steps[this.currentStep].pseudocodeLine;
+  /**
+   * @description Get amount of steps the algorithm has generated
+   */
+  public amountOfStepsGetter() {
+    return this._steps.length;
   }
 
-  get patternIndex() {
-    return this.steps[this.currentStep].patternIndex;
+  /**
+   * @description Get the current step object
+   */
+  public stepGetter() {
+    return this._steps[this._currentStep];
   }
 
-  get textIndex() {
-    return this.steps[this.currentStep].textIndex;
+  /**
+   * @description Get the current pseudocode line number.
+   */
+  public pseudocodeLine() {
+    return this._steps[this._currentStep].pseudocodeLine;
   }
 
-  get command() {
-    return this.steps[this.currentStep].command;
+  /**
+   * @description Get the current pattern index.
+   */
+  public patternIndex() {
+    return this._steps[this._currentStep].patternIndex;
   }
 
-  get textLength() {
-    return this.algorithm.textLengthGetter;
+  /**
+   * @description Get the current text index.
+   */
+  public textIndex() {
+    return this._steps[this._currentStep].textIndex;
   }
 
-  get patternLength() {
-    return this.algorithm.patternLengthGetter;
+  /**
+   * @description Get the current message regarding what algorithm is doing.
+   */
+  public command() {
+    return this._steps[this._currentStep].command;
   }
 
-  get additionalVariablesGetter() {
-    return this.steps[this.currentStep].additional;
+  /**
+   * @description Get the current text length.
+   */
+  public textLength() {
+    return this._steps[this._currentStep].additional.textLength;
   }
 
-  get algorithmNameGetter() {
-    return this.algorithm.algorithmNameGetter;
+  /**
+   * @description Get the current pattern length.
+   */
+  public patternLength() {
+    return this._steps[this._currentStep].additional.patternLength;
   }
 
-  get decoratedAlgorithmGetter() {
-    return this.decoratedAlgorithm;
+  /**
+   * @description Get additional variables for an algorithm.
+   * @example KMP algorithm has a table that needs to be displayed.
+   */
+  public additionalVariablesGetter() {
+    return this._steps[this._currentStep].additional;
   }
 
-  get currentlyPlayingGetter() {
-    return this.currentlyPlaying;
+  /**
+   * @description Get the name of the currently injected algorithm.
+   */
+  public algorithmNameGetter() {
+    return this._algorithm.algorithmNameGetter;
   }
 
-  get speedGetter() {
-    return this.speed;
+  /**
+   * @description Get algorithm decorated with functions that draw on top of animation.
+   */
+  public decoratedAlgorithmGetter() {
+    return this._decoratedAlgorithm;
   }
 
-  get extraCanvasGetter() {
-    return this.algorithm.extraCanvasGetter;
+  /**
+   * @description Find out whether animation is currently playing.
+   */
+  public currentlyPlayingGetter() {
+    return this._currentlyPlaying;
   }
 
-  get smoothAnimationsGetter() {
-    return this.smoothAnimations;
+  /**
+   * @description Get the current speed of playback.
+   */
+  public speedGetter() {
+    return this._speed;
   }
 
-  get stepChangedSubscriberGetter() : Subject<number> {
-    return this.stepChanged$;
+  /**
+   * @description Find out whether algorithm requires an extra canvas for drawing.
+   */
+  public extraCanvasGetter() {
+    return this._algorithm.extraCanvasGetter;
   }
 
-  get speedChangedSubscriberGetter() : Subject<number> {
-    return this.speedChanged$;
+  /**
+   * @description Get the subscription for changing steps. This is used by components to get notifications on step changes.
+   */
+  public stepChangedSubscriberGetter() : Subject<number> {
+    return this._stepChanged$;
   }
 
-  get pseudocodeFilenameGetter() {
-    return this.steps[this.currentStep].pseudocodeFilename;
+  /**
+   * @description Get the subscription for changing speed. This is used by components to get notifications on speed changes.
+   */
+  public speedChangedSubscriberGetter() : Subject<number> {
+    return this._speedChanged$;
   }
 
-  set textSetter(text : string) {
-    this.text = text;
-    this.algorithm.resetSteps();
-    this.executeAlgorithm();
+  /**
+   * @description Get the pseudocode filename for the current algorithm - may not be a string matching algorithm, but perhaps a helper.
+   * @example KMP has a border table creation algorithm
+   */
+  public pseudocodeFilenameGetter() {
+    return this._steps[this._currentStep].pseudocodeFilename;
   }
 
-  set patternSetter(pattern : string) {
-     this.pattern = pattern;
-     this.algorithm.resetSteps();
-     this.executeAlgorithm();
+  /**
+   * @description Update step number
+   */
+  public currentStepNumberSetter(step : number) : void {
+    if (step < 0 || step > this._steps.length - 1) return;
+    this._previousStep = this._currentStep;
+    this._currentStep = step;
+    this._stepChanged$.next(step);
   }
 
-
-  set currentStepNumberSetter(step : number) {
-    this.stepChanged$.next(step);
-  }
-
-  set smoothAnimationsSetter(isAnimationSmooth : boolean) {
-    this.smoothAnimations = isAnimationSmooth;
-    if (this.smoothAnimations == false && this.currentlyPlaying == true) {
-      this.play();
-    }
-  }
 }

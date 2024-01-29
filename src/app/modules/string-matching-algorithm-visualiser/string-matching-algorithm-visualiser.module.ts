@@ -10,22 +10,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faPlay,faBackward, faForward, faRotate, faPause, faGear, faArrowRight, faArrowLeft, faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { ModalComponent } from './components/modal/modal.component';
+import { SpeedAsMultiplierPipe } from './shared/pipes/speed.pipe';
 
 
 @NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    FontAwesomeModule,
+  ],
   declarations: [
     AlgorithmVisualiserComponent,
     PseudocodeVisualiserComponent,
     VariableVisualiserComponent,
     CommandVisualiserComponent,
     PlaybackControlsComponent,
-    ModalComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    FontAwesomeModule,
+    ModalComponent,
+    SpeedAsMultiplierPipe,
   ],
   exports: [
     AlgorithmVisualiserComponent,

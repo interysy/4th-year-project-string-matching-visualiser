@@ -1,87 +1,179 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
+/**
+ * @description Service for managing options related to string matching algorithm visualizer.
+ * Includes text and pattern aswell as QOL options.
+ */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class OptionService {
 
+  /**
+   * @description The default text used for string matching.
+   */
+  public readonly DefaultText = "bacbababaacaabaaca";
 
-  private $textChanged: Subject<string> = new Subject<string>();
-  private $patternChanged : Subject<string> = new Subject<string>();
-  private $smoothAnimationsChanged : Subject<boolean> = new Subject<boolean>();
-  private $preProcessingStepsChanged : Subject<boolean> = new Subject<boolean>();
-  private $showLegendChanged : Subject<boolean> = new Subject<boolean>();
+  /**
+   * @description The default pattern used for string matching.
+   */
+  public readonly DefaultPattern = "ababaca";
 
-  private text = "The fox jumped over the lazy dog";
-  private pattern = "lazy";
-  private smoothAnimations = false;
-  private preProcessingSteps = true;
-  private showLegend = false;
 
-  get textChangedSubscriberGetter() : Subject<string> {
-    return this.$textChanged;
+  /**
+   * @description The subjects for subscribing to option changes
+   */
+  private _textChanged$ : Subject<string> = new Subject<string>();
+  private _patternChanged$ : Subject<string> = new Subject<string>();
+  private _smoothAnimationsChanged$ : Subject<boolean> = new Subject<boolean>();
+  private _preProcessingStepsChanged$ : Subject<boolean> = new Subject<boolean>();
+  private _showLegendChanged$ : Subject<boolean> = new Subject<boolean>();
+
+  /**
+   * @description The option values
+   */
+  private _text : string;
+  private _pattern : string;
+  private _smoothAnimations = false;
+  private _preProcessingSteps = true;
+  private _showLegend = false;
+  private _centraliseScroll = false;
+
+  /**
+   * @description Set default options.
+   */
+  constructor() {
+    this._text = this.DefaultText;
+    this._pattern = this.DefaultPattern;
   }
 
-  get patternChangedSubscriberGetter() : Subject<string> {
-    return this.$patternChanged;
+  /**
+   * Returns the subject for subscribing to text changes.
+   */
+  public textChangedSubscriberGetter() : Subject<string> {
+    return this._textChanged$;
   }
 
-  get smoothAnimationsChangedSubscriberGetter() : Subject<boolean> {
-    return this.$smoothAnimationsChanged;
+  /**
+   * Returns the subject for subscribing to pattern changes.
+   */
+  public patternChangedSubscriberGetter() : Subject<string> {
+    return this._patternChanged$;
   }
 
-  get preProcessingStepsChangedSubscriberGetter() : Subject<boolean> {
-    return this.$preProcessingStepsChanged;
+  /**
+   * Returns the subject for subscribing to smooth animations changes.
+   */
+  public smoothAnimationsChangedSubscriberGetter() : Subject<boolean> {
+    return this._smoothAnimationsChanged$;
   }
 
-  get showLegendChangedSubscriberGetter() : Subject<boolean> {
-    return this.$showLegendChanged;
+  /**
+   * Returns the subject for subscribing to pre-processing steps changes.
+   */
+  public preProcessingStepsChangedSubscriberGetter() : Subject<boolean> {
+    return this._preProcessingStepsChanged$;
   }
 
-  set textSetter(text : string) {
-    this.text = text;
-    this.$textChanged.next(this.text);
+  /**
+   * Returns the subject for subscribing to show legend changes.
+   */
+  public showLegendChangedSubscriberGetter() : Subject<boolean> {
+    return this._showLegendChanged$;
   }
 
-  set patternSetter(pattern : string) {
-    this.pattern = pattern;
-    this.$patternChanged.next(this.pattern);
+
+  /**
+   * Sets the text value and emits the text changed event.
+   * @param text The new text value.
+   */
+  public textSetter(text : string) {
+    this._text = text;
+    this._textChanged$.next(this._text);
   }
 
-  set smoothAnimationsSetter(smoothAnimations : boolean) {
-    this.smoothAnimations = smoothAnimations;
-    this.smoothAnimationsChangedSubscriberGetter.next(this.smoothAnimations);
+  /**
+   * Sets the pattern value and emits the pattern changed event.
+   * @param pattern The new pattern value.
+   */
+  public patternSetter(pattern : string) {
+    this._pattern = pattern;
+    this._patternChanged$.next(this._pattern);
   }
 
-  set preProcessingStepsSetter(preProcessingSteps : boolean) {
-    this.preProcessingSteps = preProcessingSteps;
-    this.$preProcessingStepsChanged.next(this.preProcessingSteps);
+  /**
+   * Sets the smooth animations value and emits the smooth animations changed event.
+   * @param smoothAnimations The new smooth animations value.
+   */
+  public smoothAnimationsSetter(smoothAnimations : boolean) {
+    this._smoothAnimations = smoothAnimations;
+    this._smoothAnimationsChanged$.next(this._smoothAnimations);
   }
 
-  set showLegendSetter(showLegend : boolean) {
-    this.showLegend = showLegend;
-    this.$showLegendChanged.next(this.showLegend);
+  /**
+   * Sets the pre-processing steps value and emits the pre-processing steps changed event.
+   * @param preProcessingSteps The new pre-processing steps value.
+   */
+  public preProcessingStepsSetter(preProcessingSteps : boolean) {
+    this._preProcessingSteps = preProcessingSteps;
+    this._preProcessingStepsChanged$.next(this._preProcessingSteps);
   }
 
-  get textGetter() : string {
-    return this.text;
+  /**
+   * Sets the show legend value and emits the show legend changed event.
+   * @param showLegend The new show legend value.
+   */
+  public showLegendSetter(showLegend : boolean) {
+    this._showLegend = showLegend;
+    this._showLegendChanged$.next(this._showLegend);
   }
 
-  get patternGetter() : string {
-    return this.pattern;
+  public centraliseScrollSetter(centraliseScroll : boolean) {
+    this._centraliseScroll = centraliseScroll;
   }
 
-  get smoothAnimationsGetter() : boolean {
-    return this.smoothAnimations;
+  /**
+   * @description Returns the current text value.
+   */
+  public textGetter() : string {
+    return this._text;
   }
 
-  get preProcessingStepsGetter() : boolean {
-    return this.preProcessingSteps;
+  /**
+   * @description Returns the current pattern value.
+   */
+  public patternGetter() : string {
+    return this._pattern;
   }
 
-  get showLegendGetter() : boolean {
-    return this.showLegend;
+  /**
+   * @description Returns the current smooth animations value.
+   */
+  public smoothAnimationsGetter() : boolean {
+    return this._smoothAnimations;
+  }
+
+  /**
+   * @description Returns the current pre-processing steps value.
+   */
+  public preProcessingStepsGetter() : boolean {
+    return this._preProcessingSteps;
+  }
+
+  /**
+   * @description Returns the current show legend value.
+   */
+  public showLegendGetter() : boolean {
+    return this._showLegend;
+  }
+
+  /**
+   * A getter for the centralise scroll value
+   * @returns {boolean} Whether scroll needs to be centralised
+   */
+  public centraliseScrollGetter() : boolean {
+    return this._centraliseScroll;
   }
 
 }

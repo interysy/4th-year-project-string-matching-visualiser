@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faGithub , faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faCompass } from '@fortawesome/free-solid-svg-icons';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home/home.page';

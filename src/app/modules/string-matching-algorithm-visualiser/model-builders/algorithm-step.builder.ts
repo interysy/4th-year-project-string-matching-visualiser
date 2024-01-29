@@ -67,6 +67,11 @@ export class AlgorithmStepBuilder {
         this.step.pseudocodeFilename = pseudocodeFilename;
     }
 
+
+    public createDeepCopy(step : AlgorithmStep) : AlgorithmStep {
+        return JSON.parse(JSON.stringify(step));
+    }
+
     public build() {
         return JSON.parse(JSON.stringify(this.step));
     }
