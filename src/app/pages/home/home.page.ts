@@ -21,7 +21,6 @@ library.add(faCompass, faGithub, faLinkedin);
 export class HomePageComponent {
 
   environment = environment;
-  protected videoLink: string;
   protected isLightTheme = true;
 
   protected sharedRouterFunctions = SharedRouterFunctions;
@@ -31,13 +30,18 @@ export class HomePageComponent {
    * @param router The router to change pages upon link click
    */
   constructor (protected readonly router : Router , private readonly themeSelectorService: ThemeSelectorService) {
-    this.videoLink = this.themeSelectorService.currentThemeObjectGetter.HOME_PAGE_BACKGROUND;
+    this.pickTheme();
     this.themeSelectorService.themeChangedSubscriberGetter.subscribe(() => {
-      console.log("Changed on home page");
-      console.log(this.videoLink)
-      this.videoLink = this.themeSelectorService.currentThemeObjectGetter.HOME_PAGE_BACKGROUND;
-      console.log(this.videoLink);
+      this.pickTheme();
     });
+  }
+
+  private pickTheme() {
+    if (this.themeSelectorService.currentThemeObjectGetter.HOME_PAGE_BACKGROUND.endsWith("dark.mov")) {
+      this.isLightTheme = false;
+    } else {
+      this.isLightTheme = true;
+    }
   }
 
   protected toggleTheme() {
