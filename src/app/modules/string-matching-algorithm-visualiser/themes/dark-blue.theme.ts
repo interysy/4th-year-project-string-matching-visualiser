@@ -1,16 +1,17 @@
 import { Theme } from "./theme";
 
-export class DarkBlueTheme implements Theme {
-    readonly BACKGROUND = "#1C2128";
-    readonly MISMATCH = "#ff0000";
-    readonly MATCH = "#29FD2F";
-    readonly DEFAULT = "#FFFFFF"
-    readonly CHECKING = "#FFA500";
-    readonly BORDER_CHECK = "#ADD8E6";
-    readonly BORDER_CHECK_ONE = "#FFD700"
-    readonly BORDER_CHECK_TWO = "#007BFF"
-    readonly TEXT_COLOUR = "#FFFFFF";
-    readonly TEXT_COLOUR_SECONDARY = "#000000";
-    readonly LINE = "#FFFFFF";
-    readonly DEFAULT_STROKE = "#000000";
+export class DarkBlueTheme extends Theme {
+    override readonly BACKGROUND = "#1C2128";
+    override readonly MISMATCH = "#ff0000";
+    override readonly MATCH = "#29FD2F";
+    override readonly DEFAULT = "#FFFFFF"
+    override readonly CHECKING = "#FFA500";
+    override readonly BORDER_CHECK = "#ADD8E6";
+    override readonly BORDER_CHECK_ONE = "#FFD700"
+    override readonly BORDER_CHECK_TWO = "#007BFF"
+    override readonly TEXT_COLOUR = "#FFFFFF";
+    override readonly TEXT_COLOUR_SECONDARY = "#000000";
+    override readonly LINE = "#FFFFFF";
+    override readonly DEFAULT_STROKE = "#000000";
+    override readonly HOME_PAGE_BACKGROUND : string = "../../../assets/animation_dark.mov";
 }

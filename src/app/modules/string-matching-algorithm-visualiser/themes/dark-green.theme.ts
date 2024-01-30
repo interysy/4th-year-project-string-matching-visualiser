@@ -13,4 +13,5 @@ export class DarkGreenTheme extends Theme {
     override readonly TEXT_COLOUR_SECONDARY = "#000000";
     override readonly LINE = "#FFFFFF";
     override readonly DEFAULT_STROKE = "#000000";
+    override readonly HOME_PAGE_BACKGROUND : string = "../../../assets/animation_dark.mov";
 }
