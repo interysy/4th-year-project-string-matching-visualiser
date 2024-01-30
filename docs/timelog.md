@@ -319,66 +319,74 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 28 December
 * *2 hours* Updating timelog, kanban board and meeting notes on Moodle (general update of documentation from my notes, including spelling and formatting to make everything easy to read)
 * *1 hour* Attempting to upgrade Angular to latest version on the app (needed to utilise the cookie service for keeping track of user options)
-* *1.5 hours* Working on adding unit tests and documentation (done the app component and navbar) 
+* *1.5 hours* Working on adding unit tests and documentation (done the app component and navbar)
 
-### 29 December 
+### 29 December
 * *2.5 hours* Refactoring, documenting and creating tests for theme and option services. Started doing the same for the algorithm progress service.
 
-### 30 December  
-* *2.5 hours* Finished tests for progress service. Started refactoring on the P5JSDrawingService. 
+### 30 December
+* *2.5 hours* Finished tests for progress service. Started refactoring on the P5JSDrawingService.
 * *2 hours* Further refactoring on P5JSDrawingService. Cleaned up drawText , drawPattern , centralisation functions , scroller functions , drawLastOccurrenceTable and drawBorderTable.
-* *1.5 hours* Working on refactoring drawLegend , annotatePattern. Also fixed bugs with resizing of animation. 
+* *1.5 hours* Working on refactoring drawLegend , annotatePattern. Also fixed bugs with resizing of animation.
 
-### 31 December   
-* *1.5 hours* Refactored drawLegend and all auxiliary functions within P5JSDrawService. Still need to rework smooth animations and playing functionality of the animation. 
+### 31 December
+* *1.5 hours* Refactored drawLegend and all auxiliary functions within P5JSDrawService. Still need to rework smooth animations and playing functionality of the animation.
 * *2 hours* Finished refactoring of the draw service.Started working on testing it and documenting.
-  
-### 10 January 
+
+### 10 January
 * *1 hour* Preparing documents for the meeting
 * *30 mins* Supervisor meeting
 
-### 13 January  
+### 13 January
 * *1.5 hours* Refactoring algorithm visualiser component, documenting it and starting to add tests.
 
-### 15 January   
-* *2.5 hours* Refactoring command displayer component and the modal component. With this documentatin has been added and unit tests begun. 
+### 15 January
+* *2.5 hours* Refactoring command displayer component and the modal component. With this documentatin has been added and unit tests begun.
 
-### 16 January    
+### 16 January
 * *2.5 hours* Testing of command displayer and modal component, aswell as adding documentation and refactoring.
 * *1 hour* Refactoring tests for progress service and option service, as earlier work required getters and setters to be made into explicit functions.
 * *3 hours* Further work on testing, mainly on algorithm visualiser page and the playback component. Testing also included refactoring, documentation and handling speed issues from the evaluation.
 
-### 17 January     
+### 17 January
 * *0.5 hours* Finishing off tests for the playback component.
-* *1.5 hours* Working on refactoring and documenting the command displayer and variable visualiser components. Started working on refactoring the StringMatchingAlgorithm abstract class. 
+* *1.5 hours* Working on refactoring and documenting the command displayer and variable visualiser components. Started working on refactoring the StringMatchingAlgorithm abstract class.
 
-### 18 January 
+### 18 January
 * *3 hours* Working on refactoring the BruteForceAlgorithm class and adding tests for it.
-* *1 hour* Continuing testing , refactoring and documentation of the brute force algorithm implmentation. 
+* *1 hour* Continuing testing , refactoring and documentation of the brute force algorithm implmentation.
 
-### 19 January  
+### 19 January
 * *2 hours* Finishing up brute force tests, refactoring and documentation. Starting the same process on Boyer Moore.
 
-### 20 January   
+### 20 January
 * *1 hour* Boyer Moore testing.
 
-### 21 January 
+### 21 January
 * *2 hours* Finishing up Boyer-Moore testing and refactoring.
 
-### 22 January  
+### 22 January
 * *1 hour* Adding documentation to Boyer Moore.
 
-### 23 January  
+### 23 January
 * *2 hours* Working at refactoring, documentation and testing of Knuth Morris Pratt algorithm.
 * *0.5 hours* Preparation for supervisor meeting.
 * *0.5 hours* Supervisor meeting.
-* *1 hour* Knuth Morris Pratt continued testing. 
+* *1 hour* Knuth Morris Pratt continued testing.
 
-### 24 January   
+### 24 January
 * *3 hours* Further work on testing and refactoring of Knuth Morris Pratt.
 
-### 25 January  
+### 25 January
 * *2 hours* Further work on testing and refactoring of Knuth Morris Pratt. Fixed some other broken tests while at it.
 
-### 28 January 
+### 28 January
 * *0.5 hours* Catching up on formal documention for the project (e.g. missing meeting notes on Moodle)
+
+### 28 January
+* *3 hours* Research on Full Boyer Moore, trying to understand how it works
+* *1.5 hours* Attempting to implement Full Boyer Moore
+
+### 30 January
+* *2.5 hours* Working on the home page
+* *0.5 hours* Preparation for supervisor meeting.
