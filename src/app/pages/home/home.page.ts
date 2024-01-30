@@ -22,6 +22,7 @@ export class HomePageComponent {
 
   environment = environment;
   protected videoLink: string;
+  protected isLightTheme = true;
 
   protected sharedRouterFunctions = SharedRouterFunctions;
 
@@ -32,17 +33,16 @@ export class HomePageComponent {
   constructor (protected readonly router : Router , private readonly themeSelectorService: ThemeSelectorService) {
     this.videoLink = this.themeSelectorService.currentThemeObjectGetter.HOME_PAGE_BACKGROUND;
     this.themeSelectorService.themeChangedSubscriberGetter.subscribe(() => {
+      console.log("Changed on home page");
+      console.log(this.videoLink)
       this.videoLink = this.themeSelectorService.currentThemeObjectGetter.HOME_PAGE_BACKGROUND;
+      console.log(this.videoLink);
     });
   }
 
-  /**
-   * Asynchronous function to change the page
-   * @param path A string representing the path to the page
-   * @returns Promise<void>
-   */
-  public async changePage(path : string) : Promise<void> {
-    if (path === this.router.url) return;
-    this.router.navigateByUrl(path);
+  protected toggleTheme() {
+    const theme = this.isLightTheme ? "base" : "theme-dark-green"
+    this.themeSelectorService.themeSetter = theme;
   }
+
 }

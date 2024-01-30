@@ -10,6 +10,7 @@ import { AboutPageComponent } from './pages/about/about.page';
 import { AlgorithmVisualiserPageComponent } from './pages/algorithm-visualiser/algorithm-visualiser.page';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { StringMatchingAlgorithmVisualiserModule } from './modules/string-matching-algorithm-visualiser/string-matching-algorithm-visualiser.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { StringMatchingAlgorithmVisualiserModule } from './modules/string-matchi
     AppRoutingModule,
     FontAwesomeModule,
     StringMatchingAlgorithmVisualiserModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
