@@ -12,4 +12,5 @@ export class Theme {
     readonly TEXT_COLOUR_SECONDARY : string = "#000000";
     readonly LINE : string = "#000000";
     readonly DEFAULT_STROKE : string = "#FFFFFF";
+    readonly HOME_PAGE_BACKGROUND : string = "../../../assets/animation_light.mov"
 }

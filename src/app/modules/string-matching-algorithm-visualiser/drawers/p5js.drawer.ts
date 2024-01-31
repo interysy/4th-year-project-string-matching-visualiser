@@ -415,6 +415,7 @@ export class P5jsDrawClass {
     this.drawingFunctionSetUp(p5 , background);
 
     const stepToDraw = this.algorithmProgressService.stepGetter();
+
     const maxAnimationWidth =  this._squareSideSize * Math.max(stepToDraw.lettersInPattern.length , stepToDraw.lettersInText.length)
     const maxAnimationHeight = this.StartingYToDraw + this._squareSideSize*3 + this.AnimationGap;
 
@@ -432,9 +433,10 @@ export class P5jsDrawClass {
 
     this._currentFrame++;
 
+    this.updateAnimationProgress();
+
     const previousStepOffset = this.algorithmProgressService.previousStepGetter().patternOffset;
 
-    this.updateAnimationProgress();
 
     if (this.optionService.smoothAnimationsGetter()) {
       const interpolatedX = p5.lerp(previousStepOffset * this._squareSideSize, graphicalOffset, this._smoothAnimationProgress);

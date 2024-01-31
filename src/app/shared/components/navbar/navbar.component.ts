@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment.dev';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCompass } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { SharedRouterFunctions } from '../../functions/router.functions';
 
 library.add(faCompass, faGithub, faLinkedin);
 
@@ -35,7 +36,10 @@ export class NavbarComponent {
   /**
    * @description Variable used to determine when mobile view should be triggered
    */
-  protected readonly ResizeThreshold = 768
+  protected readonly ResizeThreshold = 768;
+
+
+  protected readonly sharedRounterFunctions = SharedRouterFunctions;
 
 
   /**
@@ -65,15 +69,5 @@ export class NavbarComponent {
     if (windowWidth > this.ResizeThreshold) {
       this.mobileMenu.nativeElement.classList.add("hidden");
     }
-  }
-
-  /**
-   * Asynchronous function to change the page
-   * @param path A string representing the path to the page
-   * @returns Promise<void>
-   */
-  public async changePage(path : string) : Promise<void> {
-    if (path === this.router.url) return;
-    this.router.navigateByUrl(path);
   }
 }
