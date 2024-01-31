@@ -1,27 +1,28 @@
-<app-navbar></app-navbar>
-<div>
-    <div class="flex justify-center items-center">
-        <video *ngIf = "isLightTheme" class="w-9/12 h-9/12 blur z-0" autoplay muted loop>
-            <source src="../../../assets/animation_light.mov" type="video/mp4">
-        </video>
-        <video *ngIf = "!isLightTheme" class="w-9/12 h-9/12 blur z-0" autoplay muted loop>
-            <source  src="../../../assets/animation_dark.mov" type="video/mp4">
-        </video>
-        <div class="absolute center-parent flex flex-col justify-center items-center z-5 gap-10">
-            <img class="mb-5" src="../../../assets/str_vis_logo_v2.png" alt="String Matching Visualiser Logo">
-            <div class="flex flex-row gap-10">
-                <button class="font-bold bg-skin-fill-quaternary text-sm rounded-lg border-skin-icon-separator border-2 p-2 hover:bg-skin-fill-tertiary-hover" *ngFor="let algorithm of environment.supportedAlgorithms" (click)="sharedRouterFunctions.changePage('algorithm-visualiser/' + algorithm.urlParam , router)"><b>{{algorithm.name}}</b></button>
-            </div>
-            <div class = "flex flex-row gap-5">
-                <p class="text-skin-base">Dark Mode</p>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input  [(ngModel)]="isLightTheme" (ngModelChange)="toggleTheme()" type="checkbox" value="" class="hidden peer">
-                    <!-- checkbox has been adapted from https://flowbite.com/docs/forms/toggle/ -->
-                    <div class="w-11 h-6 bg-skin-fill-quaternary rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:absolute after:top-[2px] after:start-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-skin-fill-tertiary"></div>
-                </label>
-                <p class="text-skin-base">Light Mode</p>
-            </div>
 
+<app-navbar></app-navbar>
+    <div class ="h-screen flex items-center justify-center">
+        <div class="flex justify-center items-center relative">
+            <video *ngIf = "isLightTheme" class="w-full h-full m-auto blur z-0" autoplay muted loop>
+                <source src="../../../assets/animation_light.mov" type="video/mp4">
+            </video>
+            <video *ngIf = "!isLightTheme" class="w-full h-full blur z-0" autoplay muted loop>
+                <source  src="../../../assets/animation_dark.mov" type="video/mp4">
+            </video>
+            <div class="absolute center-parent flex flex-col justify-center items-center z-5 gap-10">
+                <img class="mb-5" src="../../../assets/str_vis_logo_v2.png" alt="String Matching Visualiser Logo">
+                <div class="flex flex-col md:flex-row gap-5 md:gap-10">
+                    <button class="font-bold bg-skin-fill-quaternary text-sm rounded-lg border-skin-icon-separator border-2 p-2 hover:bg-skin-fill-tertiary-hover min-w-min" *ngFor="let algorithm of environment.supportedAlgorithms" (click)="sharedRouterFunctions.changePage('algorithm-visualiser/' + algorithm.urlParam , router)"><b>{{algorithm.name}}</b></button>
+                </div>
+                <div class = "flex flex-row gap-5">
+                    <p class="text-skin-base">Dark Mode</p>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input  [(ngModel)]="isLightTheme" (ngModelChange)="toggleTheme()" type="checkbox" value="" class="hidden peer">
+                        <!-- checkbox has been adapted from https://flowbite.com/docs/forms/toggle/ -->
+                        <div class="w-11 h-6 bg-skin-fill-quaternary rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:absolute after:top-[2px] after:start-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-skin-fill-tertiary"></div>
+                    </label>
+                    <p class="text-skin-base">Light Mode</p>
+                </div>
+            </div>
         </div>
-    </div>
 </div>
+
