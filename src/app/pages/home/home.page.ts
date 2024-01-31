@@ -20,7 +20,7 @@ library.add(faCompass, faGithub, faLinkedin);
 })
 export class HomePageComponent {
 
-  environment = environment;
+  protected environment = environment;
   protected isLightTheme = true;
 
   protected sharedRouterFunctions = SharedRouterFunctions;
@@ -47,6 +47,21 @@ export class HomePageComponent {
   protected toggleTheme() {
     const theme = this.isLightTheme ? "base" : "theme-dark-green"
     this.themeSelectorService.themeSetter = theme;
+  }
+
+  public getThemeTester() : boolean {
+    if (environment.type == "dev") {
+      return this.isLightTheme;
+    }
+    throw new Error("Attempting to use a dev function from a non-dev environment");
+  }
+
+  public setThemeTester(theme : boolean) : void {
+    if (environment.type == "dev") {
+      this.isLightTheme = theme;
+    } else {
+      throw new Error("Attempting to use a dev function from a non-dev environment");
+    }
   }
 
 }
