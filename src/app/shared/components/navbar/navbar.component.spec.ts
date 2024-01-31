@@ -5,6 +5,7 @@ import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faCompass } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.dev';
+import { SharedRouterFunctions } from '../../functions/router.functions';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -78,7 +79,7 @@ describe('NavbarComponent', () => {
   it("should navigate to the specified path", fakeAsync(() => {
     const path = "/about";
 
-    component.changePage(path);
+    SharedRouterFunctions.changePage(path , routerSpy);
     tick();
 
     expect(routerSpy.navigateByUrl).toHaveBeenCalledWith(path);
@@ -87,7 +88,7 @@ describe('NavbarComponent', () => {
   it("should not navigate if the path is the same as the current URL", fakeAsync(() => {
     const path = component.router.url;
 
-    component.changePage(path);
+    SharedRouterFunctions.changePage(path , routerSpy);
     tick();
 
     expect(routerSpy.navigateByUrl).not.toHaveBeenCalled();
