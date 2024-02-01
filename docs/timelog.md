@@ -390,3 +390,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 30 January
 * *2.5 hours* Working on the home page
 * *0.5 hours* Preparation for supervisor meeting.
+* *0.5 hours* Supervisor meeting.
+
+### 30 January
+* *2 hours* Working on the about page.
+* *1 hour* Working on responsiveness of the home page and about page. Also added tests for the home page.
