@@ -3,7 +3,7 @@ import { BoyerMooreAlgorithm } from './boyer-moore.algorithm';
 import { LetterBuilder } from '../../model-builders/letter.builder';
 import { AlgorithmStep } from '../../models/algorithm-step.model';
 import { Letter } from '../../models/letter.model';
-import { BoyerMooreAdditionalVariables } from '../../models/boyer-moore-additional-variables.model';
+import { BoyerMooreAdditionalVariables } from './boyer-moore-additional-variables.model';
 
 
 describe("BoyerMooreAlgorithm", () => {

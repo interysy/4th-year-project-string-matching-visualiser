@@ -1,5 +1,5 @@
 import { StringMatchingAlgorithm } from "../algorithm.model";
-import { KnuthMorrisPrattAdditionalVariables } from "../../models/knuth-morris-pratt-additional.model.";
+import { KnuthMorrisPrattAdditionalVariables } from "./knuth-morris-pratt-additional.model.";
 import { Letter } from "../../models/letter.model";
 import { LetterBuilder } from "../../model-builders/letter.builder";
 import { environment } from "src/environments/environment.dev";

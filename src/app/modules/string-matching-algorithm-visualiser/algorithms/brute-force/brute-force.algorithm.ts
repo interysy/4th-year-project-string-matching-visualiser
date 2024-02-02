@@ -1,5 +1,5 @@
 import { StringMatchingAlgorithm } from "../algorithm.model";
-import { BruteForceAdditionalVariables } from "../../models/brute-force-additional-variables.model";
+import { BruteForceAdditionalVariables } from "./brute-force-additional-variables.model";
 import { LetterBuilder } from "../../model-builders/letter.builder";
 
 /**

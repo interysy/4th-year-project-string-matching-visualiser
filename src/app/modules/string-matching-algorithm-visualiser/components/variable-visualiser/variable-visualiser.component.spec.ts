@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VariableVisualiserComponent } from './variable-visualiser.component';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { AdditionalVariables } from '../../models/additional-variables.model';
-import { KnuthMorrisPrattAdditionalVariables } from '../../models/knuth-morris-pratt-additional.model.';
+import { KnuthMorrisPrattAdditionalVariables } from '../../algorithms/knuth-morris-pratt/knuth-morris-pratt-additional.model.';
 
 describe("VariableVisualiserComponent", () => {
   let component: VariableVisualiserComponent;
