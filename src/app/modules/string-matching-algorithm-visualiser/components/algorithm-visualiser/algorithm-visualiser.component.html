@@ -1,5 +1,5 @@
 
-<div class="flex flex-col h-full m-auto" *ngIf="this.algorithmProgressService.extraCanvasGetter !== null; else oneCanvas">
+<div class="flex flex-col h-full m-auto" *ngIf="this.algorithmProgressService.extraCanvasGetter() !== null; else oneCanvas">
     <div #canvas class="w-full h-[70%] flex-1">
     </div>
     <div class="inline-flex w-full flex-row flex-0 h-[30%] gap-5 justify-center items-center">
