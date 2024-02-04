@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { OptionService } from '../../services/option.service';
 import { ThemeSelectorService } from 'src/app/modules/string-matching-algorithm-visualiser/services/theme-selector.service';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
@@ -16,6 +16,7 @@ import { environment } from 'src/environments/environment.dev';
 export class ModalComponent {
 
   protected readonly SelectorBorderColour = "red";
+  @Input() showSettingsHelp : boolean;
 
   /**
    * @description Text to search in.

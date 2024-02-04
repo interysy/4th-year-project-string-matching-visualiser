@@ -14,6 +14,13 @@ import { AlgorithmProgressService } from 'src/app/modules/string-matching-algori
 })
 export class AlgorithmVisualiserPageComponent {
 
+  showSettingsHelp  = false;
+  showPlaybackHelp = false;
+  showAlgorithmVisualiserHelp  = false;
+  showPseudocodeHelp = false;
+  showCommandDisplayerHelp = false;
+  showVariableVisualiserHelp = false;
+
   /**
    * @description The constuctor creates the page and setups a progress service to be used by the app with the correct algorithm
    * @param route Used to fetch the data to inject onto the page
