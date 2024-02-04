@@ -552,6 +552,7 @@ export class P5jsDrawClass {
     const lastOccurrenceTable = (this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceVariableName] : null;
     const lastOccurrenceToHighlight = (this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceToHighlightVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceToHighlightVariableName] : null;
 
+    console.log(lastOccurrenceTable);
     if (lastOccurrenceTable) {
       const lastOccurrenceTableAsArray = Object.entries(lastOccurrenceTable);
       const lastOccurrenceTableLength = lastOccurrenceTableAsArray.length;
@@ -565,7 +566,7 @@ export class P5jsDrawClass {
           colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.CHECKING);
         } else if (lastOccurrenceToHighlight == key && this._lastOccurrenceScroll) {
             colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.CHECKING);
-        } else if (!this._lastOccurrenceScroll && lastOccurrenceTableLength != Object.entries(this.algorithmProgressService.previousStepGetter().additional[this.LastOccurrenceVariableName]).length) {
+        } else if (!this._lastOccurrenceScroll && this.algorithmProgressService.previousStepGetter().additional[this.LastOccurrenceVariableName] !== undefined && lastOccurrenceTableLength != Object.entries(this.algorithmProgressService.previousStepGetter().additional[this.LastOccurrenceVariableName]).length) {
           this.scrollToLastOccurrenceElement(lastOccurrenceTableLength - 1);
           colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.CHECKING);
           this._lastOccurrenceScroll = true;
