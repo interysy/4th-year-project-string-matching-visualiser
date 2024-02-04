@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { environment } from 'src/environments/environment.dev';
  import { AdditionalVariables } from '../../models/additional-variables.model';
@@ -12,6 +12,10 @@ import { environment } from 'src/environments/environment.dev';
   styleUrls: ['./variable-visualiser.component.css']
 })
 export class VariableVisualiserComponent {
+
+
+  @Input() showVariableVisualiserHelp : boolean;
+  @Output() closeTutorial = new EventEmitter<boolean>();
 
   /**
    * @description Constructor for VariableVisualiserComponent

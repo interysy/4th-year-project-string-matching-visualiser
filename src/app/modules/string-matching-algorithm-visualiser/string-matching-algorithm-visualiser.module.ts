@@ -51,7 +51,8 @@ export class StringMatchingAlgorithmVisualiserModule {
       faXmark,
       faCheck,
       faGauge,
-      faSliders
+      faSliders,
+      faArrowLeft
     );
   }
 }

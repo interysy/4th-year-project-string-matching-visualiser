@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild , OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild , OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { PseudocodeParserService } from '../../services/pseudocode-parser.service';
 
@@ -11,6 +11,10 @@ import { PseudocodeParserService } from '../../services/pseudocode-parser.servic
 export class PseudocodeVisualiserComponent implements OnInit {
 
   protected pseudocode: string[];
+  @Input() showPsuedocodeHelp : boolean;
+  @Output() hidePsuedocodeHelp = new EventEmitter<boolean>();
+  @Output() closeTutorial = new EventEmitter<boolean>();
+
 
   constructor(private readonly algorithmProgressService : AlgorithmProgressService,
               private readonly pseudocodeParserService : PseudocodeParserService) {

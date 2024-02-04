@@ -1,3 +1,10 @@
+<div *ngIf="showCommandDisplayerHelp" class='absolute mx-auto left-0 right-0  rounded shadow-lg p-1 w-56 max-w-56 bg-skin-fill-secondary'>
+    <h2 class="text-center text-lg"><fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'arrow-left']" size="sm"></fa-icon> See the explanation regarding what is happening at the current step!</h2>
+    <div class="flex justify-center items-center gap-5">
+      <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="hideCommandDisplayerHelp.emit(true)">Next</button>
+      <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="closeTutorial.emit(true)">Skip Tutorial</button>
+  </div>
+</div>
 <div class="flex justify-center align-items-center">
-    <h2 class="mb-2 text-lg font-medium md:text-center">{{currentCommand}}</h2>
+    <h2 class="mb-2 text-lg font-medium md:text-center">{{(showCommandDisplayerHelp) ? "This is where the message regarding what is happening will show up." : currentCommand}}</h2>
 </div>

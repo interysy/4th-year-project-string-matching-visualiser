@@ -34,6 +34,9 @@ export class AlgorithmVisualiserPageComponent {
     algorithmProgressService.injectAlgorithm(algorithmToInject , decorators, preProcessingCanvas , preProcessingFunction);
   }
 
+  protected  startTutorial() : void {
+    this.showSettingsHelp = true;
+  }
 
   protected endTutorial() : void {
     this.showSettingsHelp = false;
@@ -51,5 +54,22 @@ export class AlgorithmVisualiserPageComponent {
 
   protected nextStepInTutorialAfterPlayback() : void {
     this.showPlaybackHelp = false;
+    this.showPseudocodeHelp = true;
   }
+
+  protected nextStepInTutorialAfterPseudocode() : void {
+    this.showPseudocodeHelp = false;
+    this.showAlgorithmVisualiserHelp = true;
+  }
+
+  protected nextStepInTutorialAfterVisualiser() : void {
+    this.showAlgorithmVisualiserHelp = false;
+    this.showCommandDisplayerHelp = true;
+  }
+
+  protected nextStepInTutorialAfterCommand() : void {
+    this.showCommandDisplayerHelp = false;
+    this.showVariableVisualiserHelp = true;
+  }
+
 }
