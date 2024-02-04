@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { Subscription } from 'rxjs';
 
@@ -15,6 +15,10 @@ import { Subscription } from 'rxjs';
 export class PlaybackControlsComponent implements OnDestroy {
 
   @Input() showSettingsHelp : boolean;
+  @Input() showPlaybackHelp : boolean;
+  @Output() hidePlaybackSettingsHelp : EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() closeTutorial : EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() hideSettingsHelp : EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
    * @description Stores current step number locally so that it can be bound to an input field in the template.

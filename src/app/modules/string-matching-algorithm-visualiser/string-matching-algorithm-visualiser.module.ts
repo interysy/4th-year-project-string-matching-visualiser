@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { PlaybackControlsComponent } from './components/playback-controls/playback-controls.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faPlay,faBackward, faForward, faRotate, faPause, faGear, faArrowRight, faArrowLeft, faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faPlay,faBackward, faForward, faRotate, faPause, faGear, faArrowRight, faArrowLeft, faXmark, faCheck, faGauge, faSliders } from '@fortawesome/free-solid-svg-icons';
 import { ModalComponent } from './components/modal/modal.component';
 import { SpeedAsMultiplierPipe } from './shared/pipes/speed.pipe';
 
@@ -49,7 +49,9 @@ export class StringMatchingAlgorithmVisualiserModule {
       faArrowRight,
       faArrowLeft,
       faXmark,
-      faCheck
+      faCheck,
+      faGauge,
+      faSliders
     );
   }
 }

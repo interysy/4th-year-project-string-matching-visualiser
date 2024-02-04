@@ -1,5 +1,12 @@
 <div class="relative top-[50%] absolute-center lg:absolute left-2">
-  <div *ngIf="showSettingsHelp" class='absolute md:left-2 right-2 -top-20 -mt-5 rounded shadow-lg p-1 w-56 max-w-56 bg-skin-fill-secondary'>⚙️ Configure app settings. Change things like text, pattern and others!</div>
+  <div *ngIf="showSettingsHelp" class='absolute md:left-2 right-2 -top-20 -mt-5 rounded shadow-lg p-1 w-56 max-w-56 bg-skin-fill-secondary'>
+    <h2 class="text-center text-lg">⚙️ Configure app settings. </h2>
+    Change things like text, pattern and others!
+    <div class="flex justify-center items-center gap-5">
+      <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="hideSettingsHelp.emit(true);">Next</button>
+      <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="closeTutorial.emit()">Skip Tutorial</button>
+  </div>
+  </div>
   <button
     type="button"
     class=""

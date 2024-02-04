@@ -33,4 +33,23 @@ export class AlgorithmVisualiserPageComponent {
     const preProcessingFunction = route.snapshot.data['preProcessingCanvas'] ? route.snapshot.data['preProcessingFunction'] : null;
     algorithmProgressService.injectAlgorithm(algorithmToInject , decorators, preProcessingCanvas , preProcessingFunction);
   }
+
+
+  protected endTutorial() : void {
+    this.showSettingsHelp = false;
+    this.showPlaybackHelp = false;
+    this.showAlgorithmVisualiserHelp = false;
+    this.showPseudocodeHelp = false;
+    this.showCommandDisplayerHelp = false;
+    this.showVariableVisualiserHelp = false;
+  }
+
+  protected nextStepInTutorialAfterSettings() : void {
+    this.showSettingsHelp = false;
+    this.showPlaybackHelp = true;
+  }
+
+  protected nextStepInTutorialAfterPlayback() : void {
+    this.showPlaybackHelp = false;
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { OptionService } from '../../services/option.service';
 import { ThemeSelectorService } from 'src/app/modules/string-matching-algorithm-visualiser/services/theme-selector.service';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
@@ -17,7 +17,8 @@ export class ModalComponent {
 
   protected readonly SelectorBorderColour = "red";
   @Input() showSettingsHelp : boolean;
-
+  @Output() hideSettingsHelp = new EventEmitter<boolean>();
+  @Output() closeTutorial = new EventEmitter<boolean>();
   /**
    * @description Text to search in.
    */
