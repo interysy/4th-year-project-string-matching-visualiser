@@ -18,13 +18,20 @@ export class StringMatchingAlgorithmStub2 extends StringMatchingAlgorithmStub {
 
   override algorithmNameSlug = "stubbed-algorithm-2";
 
-  override get stepsGetter(): AlgorithmStep[] {
-      let extra = true;
+  override createDummySteps() {
+    const steps: AlgorithmStep[] = [];
+    let extra = true;
       for (let i = 0; i < 50; i++) {
         if (i === 25) extra = false;
         this.algorithmStepBuilder.setExtra =  extra;
-        this.steps.push(this.algorithmStepBuilder.build());
+        steps.push(this.algorithmStepBuilder.build());
       }
-      return this.steps;
+    return steps;
   }
+
+  override workOutSteps(): number {
+    this.steps = this.createDummySteps();
+    return 0;
+  }
+
 }

@@ -33,7 +33,7 @@ export class AlgorithmVisualiserPageComponent {
     algorithmProgressService.injectAlgorithm(algorithmToInject , decorators, preProcessingCanvas , preProcessingFunction);
   }
 
-  protected  startTutorial() : void {
+  protected startTutorial() : void {
     this.endTutorial();
     this.showPlaybackHelp = true;
   }

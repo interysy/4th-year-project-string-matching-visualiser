@@ -27,21 +27,17 @@ export class StringMatchingAlgorithmStub extends StringMatchingAlgorithm {
       return;
   }
 
+  createDummySteps() {
+    const steps: AlgorithmStep[] = [];
+    for (let i = 0; i < 100; i++) {
+      this.algorithmStepBuilder.setExtra =  i < 50;
+      steps.push(this.algorithmStepBuilder.build());
+    }
+    return steps;
+  }
+
   workOutSteps(): number {
+    this.steps = this.createDummySteps();
     return 0;
   }
-
-  override get stepsGetter(): AlgorithmStep[] {
-      for (let i = 0; i < 100; i++) {
-        this.algorithmStepBuilder.setExtra =  i < 50;
-        this.steps.push(this.algorithmStepBuilder.build());
-      }
-      return this.steps;
-  }
-
-  override draw(obj: P5jsDrawClass): void {
-    return;
-  }
-
-
 }
