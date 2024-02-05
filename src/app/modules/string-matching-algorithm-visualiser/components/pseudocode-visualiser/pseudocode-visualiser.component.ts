@@ -37,6 +37,13 @@ export class PseudocodeVisualiserComponent implements OnInit {
   private loadPseudocode(filename : string) {
     this.pseudocodeParserService.getAlgorithmPseudocode(filename).subscribe((pseudocode) => {
       this.pseudocode =  pseudocode.split("\n");
+      this.pseudocode = this.pseudocode.map((line) => {
+        if (line == "") {
+          return " ";
+        } else {
+          return line;
+        }
+      })
     });
   }
 
