@@ -552,7 +552,6 @@ export class P5jsDrawClass {
     const lastOccurrenceTable = (this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceVariableName] : null;
     const lastOccurrenceToHighlight = (this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceToHighlightVariableName]) ? this.algorithmProgressService.stepGetter().additional[this.LastOccurrenceToHighlightVariableName] : null;
 
-    console.log(lastOccurrenceTable);
     if (lastOccurrenceTable) {
       const lastOccurrenceTableAsArray = Object.entries(lastOccurrenceTable);
       const lastOccurrenceTableLength = lastOccurrenceTableAsArray.length;
@@ -615,8 +614,10 @@ export class P5jsDrawClass {
 
     if (borderTable) {
 
+      p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
       p5.text("String" , 0 - this._scrollX , startingPointOfBorderTable + this._borderTableSquareSideSize);
       p5.text("Border" , 0 - this._scrollX, startingPointOfBorderTable + this._borderTableSquareSideSize * 2);
+      p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
 
       y = startingPointOfBorderTable;
 
