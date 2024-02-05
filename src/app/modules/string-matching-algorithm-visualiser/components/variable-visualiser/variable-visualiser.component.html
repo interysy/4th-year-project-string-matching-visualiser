@@ -1,10 +1,10 @@
-<div *ngIf="showVariableVisualiserHelp" class='absolute mx-auto left-0 right-0  rounded shadow-lg p-1 w-56 max-w-56 bg-skin-fill-secondary'>
-    <h2 class="text-center text-lg"><fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'arrow-left']" size="sm"></fa-icon> See what are the current variable values!</h2>
-    <div class="flex justify-center items-center gap-5">
-      <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="closeTutorial.emit(true)">End Tutorial</button>
-  </div>
-</div>
-<div class="flex flex-row flex-wrap gap-5 m-5 justify-center align-items-center">
+<div class="relative flex flex-row flex-wrap gap-5 m-5 justify-center align-items-center">
+    <div *ngIf="showVariableVisualiserHelp" class='absolute mx-auto -top-32 rounded shadow-lg p-1 w-56 max-w-56 bg-skin-fill-secondary border border-2 border-red-500'>
+        <h2 class="text-center text-lg"><fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'arrow-down']" size="sm"></fa-icon> See what are the current variable values!</h2>
+        <div class="flex justify-center items-center gap-5">
+          <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="closeTutorial.emit(true)">End Tutorial</button>
+      </div>
+    </div>
     <p>textLength: <span id="textLength" class="mb-2 text-md font-medium">{{algorithmProgressService.textLength()}}</span></p>
     <div class="border-r border-2 border-gray-500 hidden sm:block"></div>
     <p> patternLength: <span id="patternLength" class="mb-2 text-md font-medium">{{algorithmProgressService.patternLength()}}</span></p>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlgorithmProgressService } from 'src/app/modules/string-matching-algorithm-visualiser/services/algorithm-progress.service';
 
@@ -25,7 +25,7 @@ export class AlgorithmVisualiserPageComponent {
    * @param route Used to fetch the data to inject onto the page
    * @param algorithmProgressService Used to setup the algorithm to be visualised
    */
-  constructor (route : ActivatedRoute , algorithmProgressService : AlgorithmProgressService) {
+  constructor (protected readonly route : ActivatedRoute , protected readonly algorithmProgressService : AlgorithmProgressService, protected readonly elementRef : ElementRef) {
     const algorithmToInject = route.snapshot.data['requiredService'];
     const decorators = route.snapshot.data['decorators'];
     const preProcessingCanvas = route.snapshot.data['preProcessingCanvas'] ? true : false;
@@ -34,6 +34,7 @@ export class AlgorithmVisualiserPageComponent {
   }
 
   protected  startTutorial() : void {
+    this.endTutorial();
     this.showPlaybackHelp = true;
   }
 
@@ -48,21 +49,25 @@ export class AlgorithmVisualiserPageComponent {
   protected nextStepInTutorialAfterPlayback() : void {
     this.showPlaybackHelp = false;
     this.showPseudocodeHelp = true;
+    this.elementRef.nativeElement.querySelector('#pseudocodeVisualiser').scrollIntoView({behavior: 'smooth'});
   }
 
   protected nextStepInTutorialAfterPseudocode() : void {
     this.showPseudocodeHelp = false;
     this.showAlgorithmVisualiserHelp = true;
+    this.elementRef.nativeElement.querySelector('#algorithmVisualiser').scrollIntoView({behavior: 'smooth'});
   }
 
   protected nextStepInTutorialAfterVisualiser() : void {
     this.showAlgorithmVisualiserHelp = false;
     this.showCommandDisplayerHelp = true;
+    this.elementRef.nativeElement.querySelector('#commandDisplayer').scrollIntoView({behavior: 'smooth'});
   }
 
   protected nextStepInTutorialAfterCommand() : void {
     this.showCommandDisplayerHelp = false;
     this.showVariableVisualiserHelp = true;
+    this.elementRef.nativeElement.querySelector('#variableDisplayer').scrollIntoView({behavior: 'smooth'});
   }
 
 }

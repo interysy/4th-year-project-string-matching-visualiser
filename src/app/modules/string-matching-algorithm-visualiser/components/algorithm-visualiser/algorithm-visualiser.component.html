@@ -1,11 +1,8 @@
-<div *ngIf="showAlgorithmVisualiserHelp" class='absolute mx-auto xl:left-3/4 left-0 right-0  rounded shadow-lg p-1 w-56 max-w-56 bg-skin-fill-secondary'>
-    <h2 class="text-center text-lg">
-        <fa-icon class="text-skin-icon hover:text-skin-icon-hover hidden md:inline-block" [icon]="['fas', 'arrow-left']" size="sm"></fa-icon>
-        <fa-icon class="text-skin-icon hover:text-skin-icon-hover md:hidden inline-block" [icon]="['fas', 'arrow-down']" size="sm"></fa-icon> See how the algorithm executes!
-    </h2>
+<div *ngIf="showAlgorithmVisualiserHelp" class='absolute mx-auto rounded shadow-lg p-1 w-56 max-w-56 bg-skin-fill-secondary border-red-500 border-2'>
+    <h2 class="text-center text-lg"><fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'arrow-down']" size="sm"></fa-icon> See how the execution relates to the pseudocode!</h2>
     <div class="flex justify-center items-center gap-5">
-      <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="hideAlgorithmVisualiserHelp.emit()">Next</button>
-      <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="closeTutorial.emit()">Skip Tutorial</button>
+      <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="hideAlgorithmVisualiserHelp.emit(true)">Next</button>
+      <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="closeTutorial.emit(true)">Skip Tutorial</button>
   </div>
 </div>
 <div class="flex flex-col h-full m-auto" *ngIf="this.algorithmProgressService.extraCanvasGetter() !== null; else oneCanvas">
