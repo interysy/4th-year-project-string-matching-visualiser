@@ -14,7 +14,6 @@ import { AlgorithmProgressService } from 'src/app/modules/string-matching-algori
 })
 export class AlgorithmVisualiserPageComponent {
 
-  showSettingsHelp  = false;
   showPlaybackHelp = false;
   showAlgorithmVisualiserHelp  = false;
   showPseudocodeHelp = false;
@@ -35,21 +34,15 @@ export class AlgorithmVisualiserPageComponent {
   }
 
   protected  startTutorial() : void {
-    this.showSettingsHelp = true;
+    this.showPlaybackHelp = true;
   }
 
   protected endTutorial() : void {
-    this.showSettingsHelp = false;
     this.showPlaybackHelp = false;
     this.showAlgorithmVisualiserHelp = false;
     this.showPseudocodeHelp = false;
     this.showCommandDisplayerHelp = false;
     this.showVariableVisualiserHelp = false;
-  }
-
-  protected nextStepInTutorialAfterSettings() : void {
-    this.showSettingsHelp = false;
-    this.showPlaybackHelp = true;
   }
 
   protected nextStepInTutorialAfterPlayback() : void {

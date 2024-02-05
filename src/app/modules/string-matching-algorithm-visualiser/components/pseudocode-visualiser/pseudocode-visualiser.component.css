@@ -11,3 +11,9 @@ ol {
     list-style-position: outside;
     margin-left: 2rem;
 }
+
+.center-parent {
+    left: 50%;
+    transform: translate(-50% , -50%);
+    top : 50%;
+}

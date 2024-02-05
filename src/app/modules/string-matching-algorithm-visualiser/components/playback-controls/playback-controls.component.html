@@ -3,6 +3,10 @@
         <h2 class="text-center text-lg" >🎮 Control the algorithm playback!</h2>
         <ul>
             <li>
+                <fa-icon class="text-skin-icon hover:text-skin-icon-hover mx-1" [icon]="['fas', 'gear']" size="sm"></fa-icon>
+                 Configure app settings. Change things like text, pattern and others!
+            </li>
+            <li>
                 <fa-icon class="text-skin-icon hover:text-skin-icon-hover mx-1" [icon]="['fas', 'backward']" size="sm"></fa-icon>
                 <fa-icon class="text-skin-icon hover:text-skin-icon-hover mx-1" [icon]="['fas', 'forward']" size="sm"></fa-icon>
                 Use the arrows to navigate through the steps of the algorithm.
@@ -64,5 +68,5 @@
             </div>
         </div>
         <div class="border-r border-2 border-skin-icon-separator lg:hidden block"></div>
-        <app-modal [showSettingsHelp] = "showSettingsHelp" (closeTutorial)="closeTutorial.emit(true)" (hideSettingsHelp)="hideSettingsHelp.emit(true)" ></app-modal>
+        <app-modal></app-modal>
 </div>

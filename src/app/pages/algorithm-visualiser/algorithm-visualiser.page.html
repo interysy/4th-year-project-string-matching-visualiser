@@ -3,7 +3,7 @@
   <fa-icon class="absolute left-5 top-24 text-skin-icon hover:text-skin-icon-hover m-2 p-2 border border-gray-500 rounded-full" [icon]="['fas', 'question']" size="xl" (click)="startTutorial()"></fa-icon>
   <div class="m-2 flex flex-col min-h-screen justify-items-center align-items-center">
     <div class="flex-1 grid grid-cols-1 md:grid-cols-6 gap-5">
-      <div class="col-span-3 flex flex-col">
+      <div class="col-span-3 xl:col-span-4 flex flex-col">
         <app-algorithm-visualiser-animation [showAlgorithmVisualiserHelp]="showAlgorithmVisualiserHelp" (closeTutorial)="endTutorial()" (hideAlgorithmVisualiserHelp)="nextStepInTutorialAfterVisualiser()" class="my-2 h-96 flex-auto"></app-algorithm-visualiser-animation>
         <div class="flex flex-col gap-5 flex-0">
           <app-command-visualiser [showCommandDisplayerHelp]="showCommandDisplayerHelp" (closeTutorial)="endTutorial()" (hideCommandDisplayerHelp)="nextStepInTutorialAfterCommand()"></app-command-visualiser>
@@ -11,11 +11,11 @@
           <app-variable-visualiser [showVariableVisualiserHelp]="showVariableVisualiserHelp" (closeTutorial)="endTutorial()"></app-variable-visualiser>
         </div>
       </div>
-      <div class="col-span-3 flex justify-items-center items-center">
+      <div class="col-span-3 xl:col-span-2 flex justify-items-center items-center">
         <app-pseudocode-visualiser class="w-full" [showPsuedocodeHelp]="showPseudocodeHelp" (hidePsuedocodeHelp)="nextStepInTutorialAfterPseudocode()" (closeTutorial)="endTutorial()" ></app-pseudocode-visualiser>
       </div>
     </div>
     <div class="h-40"></div>
   </div>
-  <app-playback-controls [showSettingsHelp]="showSettingsHelp" [showPlaybackHelp]="showPlaybackHelp" (closeTutorial)="endTutorial()" (hidePlaybackSettingsHelp)="nextStepInTutorialAfterPlayback()" (hideSettingsHelp)="nextStepInTutorialAfterSettings()" class="fixed bottom-0 left-0 w-screen"></app-playback-controls>
+  <app-playback-controls [showPlaybackHelp]="showPlaybackHelp" (closeTutorial)="endTutorial()" (hidePlaybackSettingsHelp)="nextStepInTutorialAfterPlayback()" class="fixed bottom-0 left-0 w-screen"></app-playback-controls>
 </div>

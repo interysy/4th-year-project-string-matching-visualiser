@@ -14,11 +14,9 @@ import { Subscription } from 'rxjs';
 })
 export class PlaybackControlsComponent implements OnDestroy {
 
-  @Input() showSettingsHelp : boolean;
   @Input() showPlaybackHelp : boolean;
   @Output() hidePlaybackSettingsHelp : EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() closeTutorial : EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() hideSettingsHelp : EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
    * @description Stores current step number locally so that it can be bound to an input field in the template.
