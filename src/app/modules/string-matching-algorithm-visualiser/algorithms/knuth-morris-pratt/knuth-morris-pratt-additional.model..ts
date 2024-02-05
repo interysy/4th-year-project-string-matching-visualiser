@@ -1,4 +1,4 @@
-import { AdditionalVariables } from "./additional-variables.model";
+import { AdditionalVariables } from "../../models/additional-variables.model";
 
 export class KnuthMorrisPrattAdditionalVariables extends AdditionalVariables {
     borderTable : number[];

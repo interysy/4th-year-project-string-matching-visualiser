@@ -1,19 +1,24 @@
-<div>
-    <div class = "flex flex-col h-96 m-auto" *ngIf="this.algorithmProgressService.extraCanvasGetter !== null; else oneCanvas">
-        <div #canvas class="w-full h-[70%]">
-        </div>
-            <div class="inline-flex w-full flex-row h-[30%] gap-5 justify-center items-center">
-                <fa-icon class="w-fit text-skin-icon hover:text-skin-icon-hover text-xl" (click)="skipLeft()" [icon]="['fas', 'arrow-left']" size="xl"></fa-icon>
-                <div #extraCanvas class="w-[80%] h-full">
-                </div>
-                <div>
-                    <fa-icon class="w-fit text-skin-icon hover:text-skin-icon-hover text-xl" (click)="skipRight()" [icon]="['fas', 'arrow-right']" size="xl"></fa-icon>
-                </div>
-            </div>
-    </div>
-
-    <ng-template #oneCanvas>
-        <div #canvas class="h-96">
-        </div>
-    </ng-template>
+<div *ngIf="showAlgorithmVisualiserHelp" class='absolute mx-auto rounded shadow-lg p-1 w-56 max-w-56 bg-skin-fill-secondary border-red-500 border-2'>
+    <h2 class="text-center text-lg"><fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'arrow-down']" size="sm"></fa-icon> See how the execution relates to the pseudocode!</h2>
+    <div class="flex justify-center items-center gap-5">
+      <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="hideAlgorithmVisualiserHelp.emit(true)">Next</button>
+      <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="closeTutorial.emit(true)">Skip Tutorial</button>
+  </div>
 </div>
+<div class="flex flex-col h-full m-auto" *ngIf="this.algorithmProgressService.extraCanvasGetter() !== null; else oneCanvas">
+    <div #canvas class="w-full h-[70%] flex-1">
+    </div>
+    <div class="inline-flex w-full flex-row flex-0 h-[30%] gap-5 justify-center items-center">
+        <fa-icon class="w-fit text-skin-icon hover:text-skin-icon-hover text-xl" (click)="skipLeft()" [icon]="['fas', 'arrow-left']" size="xl"></fa-icon>
+    <div #extraCanvas class="w-[80%] h-full">
+    </div>
+    <div>
+        <fa-icon class="w-fit text-skin-icon hover:text-skin-icon-hover text-xl" (click)="skipRight()" [icon]="['fas', 'arrow-right']" size="xl"></fa-icon>
+    </div>
+    </div>
+</div>
+
+<ng-template #oneCanvas>
+    <div #canvas class="h-full">
+    </div>
+</ng-template>

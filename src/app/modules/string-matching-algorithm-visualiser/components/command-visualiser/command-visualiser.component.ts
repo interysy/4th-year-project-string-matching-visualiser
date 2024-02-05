@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { Subscription } from 'rxjs';
 
@@ -11,6 +11,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./command-visualiser.component.css']
 })
 export class CommandVisualiserComponent implements OnDestroy {
+
+
+
+    @Input() showCommandDisplayerHelp : boolean;
+    @Output() hideCommandDisplayerHelp = new EventEmitter<boolean>();
+    @Output() closeTutorial = new EventEmitter<boolean>();
 
     /**
      * @description Current command to display.

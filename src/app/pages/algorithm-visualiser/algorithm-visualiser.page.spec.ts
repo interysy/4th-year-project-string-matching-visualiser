@@ -3,7 +3,7 @@ import { AlgorithmVisualiserPageComponent } from './algorithm-visualiser.page';
 import { NavbarComponent } from 'src/app/shared/components/navbar/navbar.component';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faCompass } from '@fortawesome/free-solid-svg-icons';
+import { faCompass, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { StringMatchingAlgorithmVisualiserModule } from 'src/app/modules/string-matching-algorithm-visualiser/string-matching-algorithm-visualiser.module';
 import { ActivatedRoute } from '@angular/router';
 import { AlgorithmProgressService } from 'src/app/modules/string-matching-algorithm-visualiser/services/algorithm-progress.service';
@@ -67,7 +67,7 @@ describe("AlgorithmVisualiserPageComponent", () => {
     fixture = TestBed.createComponent(AlgorithmVisualiserPageComponent);
     component = fixture.componentInstance;
     const faIconLibrary = TestBed.inject(FaIconLibrary);
-    faIconLibrary.addIcons(faGithub, faLinkedin, faCompass);
+    faIconLibrary.addIcons(faGithub, faLinkedin, faCompass, faQuestion);
     fixture.detectChanges();
   });
 

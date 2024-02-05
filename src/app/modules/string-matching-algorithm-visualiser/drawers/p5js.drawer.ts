@@ -565,7 +565,7 @@ export class P5jsDrawClass {
           colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.CHECKING);
         } else if (lastOccurrenceToHighlight == key && this._lastOccurrenceScroll) {
             colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.CHECKING);
-        } else if (!this._lastOccurrenceScroll && lastOccurrenceTableLength != Object.entries(this.algorithmProgressService.previousStepGetter().additional[this.LastOccurrenceVariableName]).length) {
+        } else if (!this._lastOccurrenceScroll && this.algorithmProgressService.previousStepGetter().additional[this.LastOccurrenceVariableName] !== undefined && lastOccurrenceTableLength != Object.entries(this.algorithmProgressService.previousStepGetter().additional[this.LastOccurrenceVariableName]).length) {
           this.scrollToLastOccurrenceElement(lastOccurrenceTableLength - 1);
           colour = p5.color(this.themeSelectorService.currentThemeObjectGetter.CHECKING);
           this._lastOccurrenceScroll = true;
@@ -614,8 +614,10 @@ export class P5jsDrawClass {
 
     if (borderTable) {
 
+      p5.fill(this.themeSelectorService.currentThemeObjectGetter.TEXT_COLOUR);
       p5.text("String" , 0 - this._scrollX , startingPointOfBorderTable + this._borderTableSquareSideSize);
       p5.text("Border" , 0 - this._scrollX, startingPointOfBorderTable + this._borderTableSquareSideSize * 2);
+      p5.fill(this.themeSelectorService.currentThemeObjectGetter.DEFAULT);
 
       y = startingPointOfBorderTable;
 

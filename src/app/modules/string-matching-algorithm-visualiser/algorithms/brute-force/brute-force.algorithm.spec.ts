@@ -1,6 +1,6 @@
 import { AlgorithmStepBuilder } from '../../model-builders/algorithm-step.builder';
 import { AlgorithmStep } from '../../models/algorithm-step.model';
-import { BruteForceAdditionalVariables } from '../../models/brute-force-additional-variables.model';
+import { BruteForceAdditionalVariables } from './brute-force-additional-variables.model';
 import { BruteForceAlgorithm } from './brute-force.algorithm';
 
 describe("BruteForceAlgorithm", () => {

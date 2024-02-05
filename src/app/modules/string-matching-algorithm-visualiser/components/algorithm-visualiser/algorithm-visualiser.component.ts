@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { P5jsDrawClass } from '../../drawers/p5js.drawer';
 import { OptionService } from '../../services/option.service';
@@ -15,6 +15,10 @@ import * as p5 from 'p5';
 })
 
 export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
+
+  @Input() showAlgorithmVisualiserHelp : boolean;
+  @Output() hideAlgorithmVisualiserHelp = new EventEmitter<boolean>();
+  @Output() closeTutorial = new EventEmitter<boolean>();
 
   /**
    * @description Reference to the main canvas element. This is where the text and pattern are drawn.

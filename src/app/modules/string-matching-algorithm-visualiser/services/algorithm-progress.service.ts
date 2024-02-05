@@ -105,16 +105,10 @@ export class AlgorithmProgressService {
    */
   private filterPreProcessingSteps(preProcessingSteps : boolean) : void {
     const filteredSteps = this._algorithm.stepsGetter.filter((step) => step.extra == false);
-    const originalLength = this._algorithm.stepsGetter.length;
-    const difference = originalLength - filteredSteps.length;
-
     this._steps  = preProcessingSteps ?  this._algorithm.stepsGetter : filteredSteps;
+    this.resetProgress();
 
-    if (!preProcessingSteps) {
-      if (this._currentStep - difference >= 0) this.currentStepNumberSetter(this._currentStep - difference); else this.currentStepNumberSetter(0);
-    } else {
-      if (this._currentStep + difference <= originalLength) this.currentStepNumberSetter(this._currentStep + difference); else this.currentStepNumberSetter(originalLength-1);
-    }
+
   }
 
 

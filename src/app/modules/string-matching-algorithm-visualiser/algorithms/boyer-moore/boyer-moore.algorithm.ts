@@ -1,5 +1,5 @@
 import { StringMatchingAlgorithm } from "../algorithm.model";
-import { BoyerMooreAdditionalVariables } from "../../models/boyer-moore-additional-variables.model";
+import { BoyerMooreAdditionalVariables } from "./boyer-moore-additional-variables.model";
 import { LetterBuilder } from "../../model-builders/letter.builder";
 import { AlgorithmStep } from "../../models/algorithm-step.model";
 import { environment } from "src/environments/environment.dev";

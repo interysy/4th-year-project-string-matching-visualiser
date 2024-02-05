@@ -16,7 +16,6 @@ import { environment } from 'src/environments/environment.dev';
 export class ModalComponent {
 
   protected readonly SelectorBorderColour = "red";
-
   /**
    * @description Text to search in.
    */

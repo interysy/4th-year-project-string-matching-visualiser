@@ -1,4 +1,42 @@
 <div class="flex p-4 flex-row justify-center gap-5 text-skin-base bg-skin-fill-secondary flex-wrap relative">
+    <div *ngIf="showPlaybackHelp" class='absolute mx-auto my-2 left-0 right-0 -top-96 rounded-md shadow-lg p-1 w-96 max-w-96 bg-skin-fill-secondary border border-2 border-red-500'>
+        <h2 class="text-center text-lg" >🎮 Control the algorithm playback!</h2>
+        <ul>
+            <li>
+                <fa-icon class="text-skin-icon hover:text-skin-icon-hover mx-1" [icon]="['fas', 'gear']" size="sm"></fa-icon>
+                 Configure app settings. Change things like text, pattern and others!
+            </li>
+            <li>
+                <fa-icon class="text-skin-icon hover:text-skin-icon-hover mx-1" [icon]="['fas', 'backward']" size="sm"></fa-icon>
+                <fa-icon class="text-skin-icon hover:text-skin-icon-hover mx-1" [icon]="['fas', 'forward']" size="sm"></fa-icon>
+                Use the arrows to navigate through the steps of the algorithm.
+            </li>
+            <li>
+                <fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'play']" size="sm"></fa-icon>
+                Use the play button to play the algorithm.
+            </li>
+            <li>
+                <fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'pause']" size="sm"></fa-icon>
+                Use the pause button to pause the algorithm.
+            </li>
+            <li>
+                <fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'rotate']" size="sm"></fa-icon>
+                Use the reset button to reset the algorithm i.e. start from step 0.
+            </li>
+            <li>
+                <fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'gauge']" size="sm"></fa-icon>
+                Use the speed slider to change the speed of the algorithm animation.
+            </li>
+            <li>
+                <fa-icon class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'sliders']" size="sm"></fa-icon>
+                Use the step slider to jump to a specific step of the algorithm.
+            </li>
+        </ul>
+        <div class="flex justify-center items-center gap-5">
+            <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="hidePlaybackSettingsHelp.emit(true);">Next</button>
+            <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="closeTutorial.emit()">Skip Tutorial</button>
+        </div>
+    </div>
         <button id="previousStepButton" (click)="previousStep()" [disabled]="algorithmProgressService.currentlyPlayingGetter()">
             <fa-icon *ngIf="!algorithmProgressService.currentlyPlayingGetter()" class="text-skin-icon hover:text-skin-icon-hover" [icon]="['fas', 'backward']" size="xl"></fa-icon>
             <fa-icon *ngIf="algorithmProgressService.currentlyPlayingGetter()" class="text-skin-icon-disabled" [icon]="['fas', 'backward']" size="xl"></fa-icon>

@@ -1,12 +1,6 @@
-import { Component, ElementRef, ViewChild , OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild , OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { PseudocodeParserService } from '../../services/pseudocode-parser.service';
-import * as Prism from 'prismjs';
-import 'prismjs/components/prism-typescript';
-import "prismjs/plugins/line-highlight/prism-line-highlight";
-import "prismjs/plugins/toolbar/prism-toolbar";
-import "prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard";
-import "prismjs/plugins/match-braces/prism-match-braces";
 
 
 @Component({
@@ -16,11 +10,11 @@ import "prismjs/plugins/match-braces/prism-match-braces";
 })
 export class PseudocodeVisualiserComponent implements OnInit {
 
-  @ViewChild('pseudocodePreElement') private pseudocodePreElement:ElementRef;
-  @ViewChild('pseudocodeElement') private pseudocodeElement:ElementRef;
-  private language = "typescript";
-  private pseudocode: string;
-  protected formattedPseudocode: string;
+  protected pseudocode: string[];
+  @Input() showPsuedocodeHelp : boolean;
+  @Output() hidePsuedocodeHelp = new EventEmitter<boolean>();
+  @Output() closeTutorial = new EventEmitter<boolean>();
+
 
   constructor(private readonly algorithmProgressService : AlgorithmProgressService,
               private readonly pseudocodeParserService : PseudocodeParserService) {
@@ -31,33 +25,36 @@ export class PseudocodeVisualiserComponent implements OnInit {
       } else {
         this.loadPseudocode(this.algorithmProgressService.algorithmNameGetter());
       }
-      this.highlightLine(this.algorithmProgressService.pseudocodeLine());
 
+      this.highlightLine(this.algorithmProgressService.stepGetter().pseudocodeLine);
     });
   }
 
   ngOnInit(): void {
-    this.createButtons();
     this.loadPseudocode(this.algorithmProgressService.algorithmNameGetter());
   }
 
   private loadPseudocode(filename : string) {
     this.pseudocodeParserService.getAlgorithmPseudocode(filename).subscribe((pseudocode) => {
-      this.pseudocode =  "\n" + pseudocode.trim();
-      this.formattedPseudocode = Prism.highlight(this.pseudocode, Prism.languages[this.language] , this.language);
+      this.pseudocode =  pseudocode.split("\n");
+      this.pseudocode = this.pseudocode.map((line) => {
+        if (line == "") {
+          return " ";
+        } else {
+          return line;
+        }
+      })
     });
   }
 
-  private createButtons() {
-    Prism.plugins["toolbar"].registerButton('language',
-      {
-        text: this.language
+  private highlightLine(number : number) {
+    console.log(number);
+    document.querySelectorAll('li').forEach((li, index) => {
+      if (index + 1 == number) {
+        li.classList.add("bg-skin-fill-quaternary");
+      } else {
+        li.classList.remove('bg-skin-fill-quaternary');
       }
-    );
-  }
-
-  private highlightLine(lineNumber : number) {
-    this.pseudocodePreElement?.nativeElement.setAttribute('data-line', lineNumber.toString());
-    Prism.highlightElement(this.pseudocodeElement.nativeElement);
+    });
   }
 }
