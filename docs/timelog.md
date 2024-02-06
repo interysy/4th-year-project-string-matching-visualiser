@@ -392,6 +392,26 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Preparation for supervisor meeting.
 * *0.5 hours* Supervisor meeting.
 
+
 ### 30 January
 * *2 hours* Working on the about page.
 * *1 hour* Working on responsiveness of the home page and about page. Also added tests for the home page.
+
+### 1 February
+* *1 hour* Final touches to about page and adding progress from last few days.
+
+### 2 February
+* *1.5 hours* Workin gon layout improvement for the algorithm visualiser page. Also fixed bugs such as: brute force having additional canvas and removal of unnecessary library.
+
+### 3 February
+* *2 hours* Removing prismjs and adding manual pseudocode highlighting.
+* *1.5 hours* Tweaking the layout to handle zooming in and out.
+
+### 4 February
+* *1.5 hours* Working on tutorial implementation.
+* *1 hour* Finishing initial tutorial.
+
+### 5 February
+* *2 hours* Making tutorial responsive and adding border to the tutorial. Also added smooth scrolling.
+* *1 hour* Some final bug fixes, such as missing colours for border table and overlapping li elements.Fixed any failing tests due to changes over last few days.
+
