@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild , OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { AlgorithmProgressService } from '../../services/algorithm-progress.service';
 import { PseudocodeParserService } from '../../services/pseudocode-parser.service';
 
@@ -14,6 +14,8 @@ export class PseudocodeVisualiserComponent implements OnInit {
   @Input() showPsuedocodeHelp : boolean;
   @Output() hidePsuedocodeHelp = new EventEmitter<boolean>();
   @Output() closeTutorial = new EventEmitter<boolean>();
+
+  private static CSSHighlightClass = "bg-skin-fill-quaternary";
 
 
   constructor(private readonly algorithmProgressService : AlgorithmProgressService,
@@ -34,7 +36,7 @@ export class PseudocodeVisualiserComponent implements OnInit {
     this.loadPseudocode(this.algorithmProgressService.algorithmNameGetter());
   }
 
-  private loadPseudocode(filename : string) {
+  private loadPseudocode(filename : string) : void {
     this.pseudocodeParserService.getAlgorithmPseudocode(filename).subscribe((pseudocode) => {
       this.pseudocode =  pseudocode.split("\n");
       this.pseudocode = this.pseudocode.map((line) => {
@@ -47,13 +49,12 @@ export class PseudocodeVisualiserComponent implements OnInit {
     });
   }
 
-  private highlightLine(number : number) {
-    console.log(number);
+  private highlightLine(number : number) : void {
     document.querySelectorAll('li').forEach((li, index) => {
       if (index + 1 == number) {
-        li.classList.add("bg-skin-fill-quaternary");
+        li.classList.add(PseudocodeVisualiserComponent.CSSHighlightClass);
       } else {
-        li.classList.remove('bg-skin-fill-quaternary');
+        li.classList.remove(PseudocodeVisualiserComponent.CSSHighlightClass);
       }
     });
   }
