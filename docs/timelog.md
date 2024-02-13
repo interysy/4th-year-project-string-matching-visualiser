@@ -415,3 +415,29 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Making tutorial responsive and adding border to the tutorial. Also added smooth scrolling.
 * *1 hour* Some final bug fixes, such as missing colours for border table and overlapping li elements.Fixed any failing tests due to changes over last few days.
 
+### 6 February
+* *1 hour* Preparing for supervisor meeting.
+* *0.5hours* Supervisor meeting.
+
+### 7 February
+* *2 hours* Refactored introduction of the dissertation.
+* *0.5 hours* Started writing up the high level requirements section and the requirement-gathering workshop section.
+
+### 8 February
+* *2 hours* Started refactoring the brute force algoroithm section.
+* *1 hour* Finished up the high level requirement section and requirement-gathering workshop section.
+
+### 9 February
+* *2 hours* Refactored the brute force algorithm section.
+* *1.5 hours* Started refactoring the KMP algorithm section, this included adding diagrams and making the section more readable.
+* *1 hour* Started refactoring the BM section.
+* *2 hours* Finished up the BM section.
+
+### 12 February
+* *2.5 hours* Cleaned up what I had in the dissertation so far. Also written the existing products section and started on the design chapter.
+
+
+### 13 February
+* *0.5 hours* Updated timelog and meeting documents on Moodle - these were missing from the last week.
+
+
