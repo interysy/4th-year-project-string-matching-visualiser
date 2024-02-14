@@ -436,8 +436,10 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 12 February
 * *2.5 hours* Cleaned up what I had in the dissertation so far. Also written the existing products section and started on the design chapter.
 
-
 ### 13 February
 * *0.5 hours* Updated timelog and meeting documents on Moodle - these were missing from the last week.
+* *2 hours* Attempting to merge the "slider" feature into the evaluation branch.
+* *1 hour* Adding key bindings for controls.
+* *0.5 hours* Started designing the survey 
 
 
