@@ -1,0 +1,76 @@
+\chapter{Introduction}
+
+% reset page numbering. Don't remove this!
+\pagenumbering{arabic}
+
+
+String search algorithms (otherwise known as string matching algorithms), such as Boyer-Moore (BM or BM Horsepool) and Knuth–Morris–Pratt (KMP) are blueprints typically introduced at the higher education level for computer scientists, as well as students of related degrees. Simply, these aim to find the exact sequence of words or characters in longer pieces of text. Although commonly taught and used within various pieces of software, it can be hard to develop an intuition for their inner working. I, myself, have had a hard time getting to grips with how these work, having been taught these in my COMPSCI4009 Algorithmics \Romannum{1} class in the School of Computing Science, University of Glasgow during the third year of my undergraduate degree.
+
+Many computer applications exist to facilitate a visual way to show the steps of such algorithms, however there is potential to create a product that not only reduces the learning complexity but also provides a novel, mobile-friendly layout to help enthusiasts and students (such as me a few years ago) to get a good understanding of the aforementioned and similar algorithms.
+
+This dissertation first aims to introduce the motivation behind the project,  explore existing software solutions and determine the high-level aims and requirements for the project. What follows is the development process outline, including design and implementation steps and decisions made for the application or project management. The penultimate chapter examines user perceptions of the product at various development stages \gethin{also testing in this chapter} before ultimately concluding its usefulness for the intended audience.
+
+
+\section{Terminology And Notation}
+
+Before discussing the project, it is important to highlight the terminology that will use throughout the dissertation, as it can differ between different institutions, text books and online documents.  The term \emph{pattern} will be used to refer to the \emph{sequence of words or characters we are searching for} and \emph{text} to denote the \emph{text we are searching within}. With regards to the algorithms, the Boyer-Moore algorithm will be referred to as "BM" and the Knuth-Morris-Pratt algorithm as "KMP", while for the Brute Force Algorithm the term "Naive Approach" will often be used.
+
+\section{Motivation}
+
+ % ubiquitous
+ % anything with a computer
+
+Although string matching algorithms are no longer the focus of today's development, \gethin{today's development?} they are crucial for people within the technology field to understand, since having such knowledge simplifies construction and maintenance of various software utilising these algorithms. \cite{GeeksforGeeks_2022} highlights some of the modern tools and fields employing them which includes the following. \gethin{add concrete references below}
+%
+\begin{itemize}
+  \item
+  \textbf{Plagiarism Detection.} String matching algorithms are used to compare the content of two documents to establish similarity. Such tools are used throughout most stages of education to ensure work originality. Such software will actually be used to check this paper for academic misconduct. \gethin{could mention turnitin?}
+  \item
+  \textbf{Spelling Checkers.} As with plagiarism detection, these can be particularly helpful in academia to ensure high-quality work.  \gethin{can here say more real world applications - everyone writing an email every day will use spell checking}
+  \item
+  \textbf{DNA Sequencing.} A lot of processes in the field of bioinformatics utilise string-matching facilities. One to highlight would be DNA pattern matching, which underpins gene analysis and helps determine potential illness, allowing for earlier and hence more effective treatment.
+  \item
+  \textbf{Digital Forensics.} Official public bodies aim to prevent crimes, with string matching playing a vital role in supporting investigations through performing information search on apprehended machines and law enforcement databases.
+  \item
+  \textbf{Spam Filters.} Used by email services to help determine email importance by looking for specific words.
+  \item
+  \textbf{Search Engines.} A ubiquitous tool used by the majority of people everyday, matching algorithms underpin this procedure for query processing.
+  \item
+  \textbf{Intrusion Detection Systems In Software.} In the cybersecurity field, we can analyse packets sent over a network by searching for malicious code based on known threats and malware.
+\end{itemize}
+
+The above list is not exhaustive and clearly there is a plethora of established tools using string matching algorithms, further making string matching algorithms foundational. This statement is supported ``\emph{by the wealth of published literature in this area} \citep{Stephen_1994}''. Most work today is based on the continued improvement of the performance of the information search process, due to the exponential increase of data available for analysis, as found by \cite{HASHEM201598} and his team while reviewing the rise of cloud computing. Therefore understanding of the current string matching algorithms is vital to being able to design new ones, but also to work with the vast amount of software using them. The developed application aims to ease the process of learning the workflow undertaken by the principal string matching algorithms, to help gauge a deep understanding that can benefit individuals in the future.
+
+
+Despite the fact that the majority of current work is on optimisation and maintenance, even now these search algorithms are used to drive innovation. A recent example would be the Intelligent Predictive String Search Algorithm created by \cite{GURUNG2016161}, which eliminates the need for pre-processing and works based on comparing the first and last letter of the pattern acting as an extension to Boyer-Moore. Results show that it performs comparably to existing algorithms, at times better, while requiring less space and being simpler to understand. Another, more recent example would be the research conducted \cite{Ibrahim2023}, where two newly developed string matching algorithms had up to a 54\% performance increase compared to alternatives within the bio-informatics sphere.
+
+
+\section{Initial High Level Requirements}
+\label{intro:initial_requirements}
+
+
+The project aim is to develop a product that can be used to help students develop an intuition on the working of algorithms from the COMSCI4009 Algorithmics \Romannum{1} course~\cite{algorithmics_1}. Following a discussion with the course coordinator at a time and looking into the objectives of a software engineering product, the following high-level goals (turned into user stories) have been established.
+\begin{itemize}
+  \item \textbf{Learning about the three string search algorithms included in the course.} As a user I want to be able to learn about string matching algorithms, including the naive approach, BM and KMP, so that I can pass the course.  \gethin{not pass the course but understand them?}
+  \item \textbf{Animations.} As a user I want to be able to see how the string search algorithm of my choice behaves so that I can reproduce the way it works.
+  \item \textbf{Clear UI.} As a user I want to be able to easily navigate and use the features of the product so that I can focus on the learning.
+  \item \textbf{Documentation.} As a developer looking to improve the product, I want to be able to identify what each bit of code does quickly so that I can efficiently make required changes.
+  \item \textbf{Tests.} As a user I want to be certain the product works as expected so that I am learning without distractions and the true behaviour of the algorithms.
+\end{itemize}
+
+These objectives are quite vague and open the software up to the developer's interpretation. To extract the wishes of the target audience I have decided to set up a requirement-gathering workshop, as discussed in \ref{intro:requirement_gathering_workshop}, but before doing so, to create material to discuss in the workshop, I explored existing solutions to see popular features, see Section~\ref{bac:existing_products}.
+
+
+% Sequences consisting of symbols and words are fundamental to society in the modern world according to Graham \citet{Stephen_1994}, an individual who dedicated a whole book to discussing string search algorithms. He states that grouping those to construct strings is one of the most natural concepts to a human. Not only are strings key in everyday communication, but in everything we do - think of what you are doing right now, making a shopping list, looking at the time, there is an infinite number of uses we encounter every day without even thinking about them.  String matching algorithms are a layer above strings, but ``\emph{judging by the wealth of published literature in this area} \citep{Stephen_1994}'' these are just as foundational.
+
+% Although no longer the focus of today's development, they are vital for people within the technology field to understand in depth, as the knowledge simplifies construction and maintainance of software utilising them. The importance of the necessity to understand is further intensified by the number of modern tools utilising string matching algorithms in various fields, as discussed in \citet{GeeksforGeeks_2022} and include the following.
+% \begin{itemize}
+%   \item \textbf{Plagiarism Detection.} String matching algorithms are used to compare the content of 2 documents to establish similarity. Such tools are used throughout most stages of education to ensure work originality.
+% \item \textbf{Spelling Checkers.} As with plagiarism detection, these can be particularly helpful in academia to ensure high-quality, spotless work.
+%   \item \textbf{DNA Sequencing.} A lot of processes in the field of bioinformatics utilise string-matching facilities. One to highlight would be DNA pattern matching, which underpins gene analysis and helps determine potential illness, allowing for earlier and hence more effective treatment.
+%   \item \textbf{Digital Forensics.} Official public bodies aim to prevent crimes against society, with string matching playing a vital role in supporting investigations by aiding information search on apprehended machines and law enforcement databases.
+%   \item \textbf{Spam Filters.} Used by email services to help determine email importance by looking for specific words.
+%   \item \textbf{Search Engines.} Used by most people everyday, matching algorithms underpin this procedure for query processing.
+%   \item \textbf{Intrusion Detection Systems In Software.} In the cybersecurity field, we can analyse packets sent over a network by searching for malicious code based on known threats and malware.
+% \end{itemize}
+

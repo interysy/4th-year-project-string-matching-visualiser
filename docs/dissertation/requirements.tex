@@ -1,0 +1,69 @@
+\chapter{Requirements}
+
+After agreeing minimum viable product goals (Section~\ref{intro:initial_requirements}), understanding the principal algorithms (Section~\ref{bac:algorithms}),and determining the most useful features from similar products (Section~\ref{bac:existing_products}), it is time to round up the requirements by performing a workshop with potential users of the product.
+
+\subsection{Requirement Gathering Workshop}
+\label{intro:requirement_gathering_workshop}
+
+The workshop was essentially a focus group, where I would present different initial wireframes (see Appendix~\ref{app:initial_wireframes}) for the product and describe features integrated into each.  For every prototype design presented the 5 participants (two 3rd year students learning taking the Algorithmics course, one engineering student not familiar with the concepts and two 4th year computer science students who took the course previously) were first asked to answer the following questions:
+\begin{enumerate}
+  \item What do you like about the particular wireframe?
+  \item Is there anything missing from the wireframe?
+  \item Is there anything you would change with the current design/non-functional prototype?
+\end{enumerate}
+
+After recording responses from each participant individually, I encouraged everyone to discuss their answers collectively and brainstorm new ideas, features, and priority of each feature/idea. Following the discussion of all 3 wireframes several new requirements have been identified and each given a priority (using MOSCOW prioritisation technique discussed by \cite{mind_tools}) based on the conversation. Each requirement has been turned into a user story, which is meant to cover what the user needs and why, as described by \cite{Rehkopf}. Some requirements were non-functional and hence have an "(NF)" label at the end to indicate this. The requirements for the application derived from the workshop are summarised here:
+
+\begin{longtable}{|l|p{0.75\linewidth}|}
+\caption{Requirements From The Workshop} \label{tab:requirements} \\
+\hline
+\textbf{Priority} & \textbf{Requirements} \\
+\hline
+\endfirsthead
+
+\multicolumn{2}{c}%
+{{\tablename\ \thetable{} -- continued from previous page}} \\
+\hline
+\textbf{Priority} & \textbf{Requirement} \\
+\hline
+\endhead
+
+\hline \multicolumn{2}{r}{{Continued on next page}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+\textbf{Must-Have} &
+\begin{itemize}
+  \item \textbf{Ubiquitous Access} As a user I want to be able to access the system from any device so that I can open it in a range of environments. (NF)
+  \item \textbf{Pseudocode Walk-through} As a user I want to be able to see the pseudocode walk-through so that I know how the visualization refers to the actual code.
+  \item \textbf{Pausing execution} As a user I want to be able to pause the animation and related components so that I can get up to speed with what is going on with the execution.
+  \item \textbf{Going forward and backward} As a user I want to be able to step forward and backwards in the execution so that I can analyze what happened between the 2 steps.
+  \item \textbf{Speed of execution} As a user I want to be able to change the speed of the execution so that it goes at a speed I can follow comfortably.
+  \item \textbf{View At Button Press} As a user I want to be able to view the animation at the press of a button so that I don't have to spend time setting up the tool. (NF)
+\end{itemize} \\
+\hline
+\textbf{Should Have} &
+\begin{itemize}
+  \item \textbf{Description regarding what is happening} As a user I want to be able to see the text describing what is happening in the animation so that I can refer to these when lost in the visuals.
+\end{itemize} \\
+\hline
+\textbf{Could Have} &
+\begin{itemize}
+    \item \textbf{Algorithm Information} As a user I want to see information about an algorithm so that I am aware of its history and time complexities.
+    \item \textbf{Sliding to the exact step} As a user I want to be able to slide across to any step within the execution so that I can visualize a specific point within the algorithm.
+\end{itemize} \\
+\hline
+\textbf{Would Be Nice to Have} &
+\begin{itemize}
+    \item \textbf{Variable Names} As a user I want to be able to modify important variable names within the algorithm so that these match the names I have been using while learning about them.
+    \item \textbf{Breakpoints} As a user I want to be able to set a breakpoint so the algorithm will pause at a specific step, without me having to do so manually, so that I can analyze the algorithm at a specific step.
+    \item \textbf{Pseudocode export} As a user I want to be able to export the pseudocode of the algorithm running so that I can analyze it in my free time.
+    \item \textbf{Animations of current browser page} As a user I want to be able to visualize the CTRL-F process of my browser on a specific page so that I am aware of how the algorithms are used in the real world.
+\end{itemize} \\
+\hline
+
+\end{longtable}
+
+On top of the initial 5 requirements, an additional 13 have been derived, consolidating the features the final product should contain from the users' point of view.
