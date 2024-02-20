@@ -1,4 +1,4 @@
-# Supervisor Meeting - 13/02/24
+# Supervisor Meeting - 20/02/24
 
 ## What Have I Done Since Last Meeting?
 - created survey for the evaluation
@@ -14,7 +14,6 @@ More work has been done on the dissertation and survey in line with the plan. I 
 
 
 ## Questions
-
 - for suggestion on page 11, is it ok to reference your slides as a source for potentially learning more about why the cases for bm have been optimised to 3 equations
 - Should {\tt a} be used instead of using $$ when referencing variables or should it be $\mathit{textIndex}$?
 - what do I actually write in the design stage - I am a bit sceptical regarding what I have at the moment. What is the actual difference between implementation and design?
@@ -23,6 +22,5 @@ More work has been done on the dissertation and survey in line with the plan. I 
 
 ## Proposed Plan
 - merge the feature
-- setup the survey and distribute it by the end of the week
+- survey distribution ASAP
 - continue with dissertation writing
-- design usability study by the end of the week
