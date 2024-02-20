@@ -446,3 +446,14 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Working on creating the evaluation survey. Emailed to supervisor for feedback.
 
 
+### 15 February
+* *1.5 hours* Working on Gethin's suggestions on the dissertation.
+
+### 19 February
+* *2.5 hours* Added references to motivation examples, started working on Gethin's suggestions from the background.
+
+### 20 February
+* *2 hours* Finishing up suggestions and starting to write technologies on the design chapter.
+* *0.5 hours* Prep for meeting and creating diagram for high level application flow section of dissertation.
+
+
