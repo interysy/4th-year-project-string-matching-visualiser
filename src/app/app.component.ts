@@ -16,12 +16,11 @@ export class AppComponent implements OnDestroy {
   /**
    * @description Title of the application
    */
-  title = 'String Matching Algorithms Visualiser';
+  private title = 'String Matching Algorithms Visualiser';
 
 
   /**
-   * @description Reference to the div element that will be used to apply a theme to the whole app. The div
-   * overlooks the entire DOM.
+   * @description Reference to the div element that will be used to apply a theme to the whole app. The div overlooks the entire DOM.
    */
   @ViewChild('themingDiv', {static: true})
   themingDivElement: ElementRef<HTMLDivElement>;
@@ -53,7 +52,7 @@ export class AppComponent implements OnDestroy {
 
 
   /**
-   * @description Unsubscribe from all subscriptions on destroy
+   * @description Unsubscribe from all subscriptions on destroy.
    */
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
