@@ -455,5 +455,13 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 20 February
 * *2 hours* Finishing up suggestions and starting to write technologies on the design chapter.
 * *0.5 hours* Prep for meeting and creating diagram for high level application flow section of dissertation.
+* *1 hour* Reading over previous dissertations to get an idea of what to include in the design chapter.
+
+### 21 February
+* *1 hour* Creating high level flow diagram and starting on the low level.
+
+### 22 February
+* *1.5 hours* Merging last feature for A-B testing
+* *1 hour* Created low level system diagram and started writing it up in the dissertation.
 
 
