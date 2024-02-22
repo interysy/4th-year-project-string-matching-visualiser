@@ -47,7 +47,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   /**
    * @description Get drawers to resize their canvas when the window is resized.
    */
-  private drawersResizeCanvas() : void {
+  public drawersResizeCanvas() : void {
     for (const drawer of this._drawingServices) {
       drawer.service.resizeCanvas(drawer.canvas.offsetWidth , drawer.canvas.offsetHeight);
     }
