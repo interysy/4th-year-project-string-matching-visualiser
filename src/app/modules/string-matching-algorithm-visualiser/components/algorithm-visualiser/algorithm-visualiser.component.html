@@ -5,6 +5,7 @@
       <button class="bg-skin-fill-tertiary hover:bg-skin-fill-tertiary-hover text-skin-base rounded-md p-2" (click)="closeTutorial.emit(true)">Skip Tutorial</button>
   </div>
 </div>
+
 <div class="flex flex-col h-full m-auto" *ngIf="this.algorithmProgressService.extraCanvasGetter() !== null; else oneCanvas">
     <div #canvas class="w-full h-[70%] flex-1">
     </div>

@@ -24,9 +24,9 @@
 
 
 <div #resizeable *ngIf="optionService.isSliderGetter()" >
-  <div class="min-h-screen flex flex-col md:flex-row m-2 justify-center items-center flex-wrap md:flex-nowrap bg-skin-fill-main">
-    <div #leftHandSide class="mx-2 max-w-full md:w-1/2 md:resize-x max-h-screen md:min-h-screen min-h-fit h-96">
-      <app-algorithm-visualiser-animation class="mx-2" id="algorithmVisualiser" [showAlgorithmVisualiserHelp]="showAlgorithmVisualiserHelp" (closeTutorial)="endTutorial()" (hideAlgorithmVisualiserHelp)="nextStepInTutorialAfterVisualiser()" ></app-algorithm-visualiser-animation>
+  <div class="min-h-screen md:flex md:flex-row m-2 md:justify-center md:items-center md:flex-nowrap bg-skin-fill-main">
+    <div #leftHandSide class="mx-2 max-w-full md:w-1/2 md:resize-x md:max-h-screen md:min-h-screen md:min-h-fit w-full h-full">
+      <app-algorithm-visualiser-animation class="min-h-96 w-full h-96 inline-block" id="algorithmVisualiser" [showAlgorithmVisualiserHelp]="showAlgorithmVisualiserHelp" (closeTutorial)="endTutorial()" (hideAlgorithmVisualiserHelp)="nextStepInTutorialAfterVisualiser()" ></app-algorithm-visualiser-animation>
       <app-command-visualiser class="" id="commandDisplayer" [showCommandDisplayerHelp]="showCommandDisplayerHelp" (closeTutorial)="endTutorial()" (hideCommandDisplayerHelp)="nextStepInTutorialAfterCommand()"></app-command-visualiser>
       <div class="border-t border-2 border-gray-500"></div>
       <app-variable-visualiser id="variableDisplayer" [showVariableVisualiserHelp]="showVariableVisualiserHelp" (closeTutorial)="endTutorial()"></app-variable-visualiser>
