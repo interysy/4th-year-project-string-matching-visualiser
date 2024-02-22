@@ -40,12 +40,19 @@ export class OptionService {
   private _showLegend = false;
   private _centraliseScroll = false;
 
+
+  private _isSlider : boolean;
+
   /**
    * @description Set default options.
    */
   constructor() {
     this._text = this.DefaultText;
     this._pattern = this.DefaultPattern;
+    const randomNumber = Math.random();
+    console.log(randomNumber)
+    this._isSlider = randomNumber > 0;
+    console.log(this._isSlider);
   }
 
   /**
@@ -174,6 +181,11 @@ export class OptionService {
    */
   public centraliseScrollGetter() : boolean {
     return this._centraliseScroll;
+  }
+
+
+  public isSliderGetter() : boolean {
+    return this._isSlider;
   }
 
 }
