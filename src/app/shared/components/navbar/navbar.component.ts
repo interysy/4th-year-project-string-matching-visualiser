@@ -61,7 +61,7 @@ export class NavbarComponent {
    * @description Class to open/hide the mobile menu when hamburger icon is clicked
    * @returns void
   */
-  protected toggleMobileMenu() : void {
+  public toggleMobileMenu() : void {
     this.mobileMenu.nativeElement.classList.toggle(this.HiddenClass);
   }
 
