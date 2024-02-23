@@ -304,9 +304,9 @@ export class P5jsDrawClass {
    * @description Function called to update _scrollX when mouse wheel is moved. The cursor has to be over the canvas.
    * @param event The mousewheel event
    */
-  private mouseWheelMove(event : any) : void {
-      event.preventDefault();
-      this._scrollX += event.deltaY;
+  private mouseWheelMove($event : any) : void {
+      $event.preventDefault();
+      this._scrollX += $event.deltaY;
   }
 
   /**
@@ -841,7 +841,6 @@ export class P5jsDrawClass {
     const maxLength = Math.max(this.optionService.textGetter().length , this.optionService.patternGetter().length);
     this.changeSquareSize(maxLength , width);
     this._p5.resizeCanvas(width , height);
-    this.centraliseScroll();
   }
 
   /**
