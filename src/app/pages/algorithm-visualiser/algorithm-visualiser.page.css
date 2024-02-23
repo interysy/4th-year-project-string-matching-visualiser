@@ -11,3 +11,8 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
+.visualiser-height {
+    height : 32rem;
+    min-height: 24rem;
+}

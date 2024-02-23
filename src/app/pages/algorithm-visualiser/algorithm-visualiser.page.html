@@ -25,7 +25,7 @@
 <div #resizeable *ngIf="optionService.isSliderGetter()" >
   <div class="min-h-screen md:flex md:flex-row m-2 md:justify-center md:items-center md:flex-nowrap bg-skin-fill-main">
     <div #leftHandSide class="mx-2 max-w-full w-full md:w-1/2 md:resize-x md:max-h-screen md:min-h-screen flex flex-col justify-center items-center">
-      <app-algorithm-visualiser-animation class="w-full visualiser-height block" id="algorithmVisualiser" [showAlgorithmVisualiserHelp]="showAlgorithmVisualiserHelp" (closeTutorial)="endTutorial()" (hideAlgorithmVisualiserHelp)="nextStepInTutorialAfterVisualiser()" ></app-algorithm-visualiser-animation>
+      <app-algorithm-visualiser-animation class="w-full visualiser-height" id="algorithmVisualiser" [showAlgorithmVisualiserHelp]="showAlgorithmVisualiserHelp" (closeTutorial)="endTutorial()" (hideAlgorithmVisualiserHelp)="nextStepInTutorialAfterVisualiser()" ></app-algorithm-visualiser-animation>
       <app-command-visualiser class="" id="commandDisplayer" [showCommandDisplayerHelp]="showCommandDisplayerHelp" (closeTutorial)="endTutorial()" (hideCommandDisplayerHelp)="nextStepInTutorialAfterCommand()"></app-command-visualiser>
       <div class="border-t border-2 border-gray-500 w-full"></div>
       <app-variable-visualiser id="variableDisplayer" [showVariableVisualiserHelp]="showVariableVisualiserHelp" (closeTutorial)="endTutorial()"></app-variable-visualiser>
@@ -34,8 +34,8 @@
     <div (pointerdown)="startResize($event)" class="slider self-stretch mx-2 p-2 hidden md:block bg-skin-fill-secondary rounded-sm border hover:border-skin-border-focus relative">
         <p class="css-center"> || </p>
     </div>
-    <app-pseudocode-visualiser class="max-w-full max-h-screen md:flex-1 overflow-auto mx-2"></app-pseudocode-visualiser>
+    <app-pseudocode-visualiser [showPsuedocodeHelp]="showPseudocodeHelp" (hidePsuedocodeHelp)="nextStepInTutorialAfterPseudocode()" (closeTutorial)="endTutorial()" class="max-w-full max-h-screen md:flex-1 overflow-auto mx-2"></app-pseudocode-visualiser>
   </div>
   <div class="h-80"></div>
-  <app-playback-controls class="fixed bottom-0 left-0 w-screen"></app-playback-controls>
+  <app-playback-controls [showPlaybackHelp]="showPlaybackHelp" (closeTutorial)="endTutorial()" (hidePlaybackSettingsHelp)="nextStepInTutorialAfterPlayback()" class="fixed bottom-0 left-0 w-screen"></app-playback-controls>
 </div>
