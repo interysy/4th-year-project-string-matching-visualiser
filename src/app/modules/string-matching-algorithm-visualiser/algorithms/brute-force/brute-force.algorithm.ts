@@ -252,7 +252,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         /**
          * @description Resets the additional variables to their default values.
          */
-        resetAdditionalVariables() {
+        public resetAdditionalVariables() : void{
             this.additionalVariables = new BruteForceAdditionalVariables();
         }
 }

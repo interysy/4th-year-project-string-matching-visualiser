@@ -558,7 +558,7 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
         /**
          * @description Resetting the additional variables.
          */
-        public resetAdditionalVariables() {
+        public resetAdditionalVariables() : void {
             this.additionalVariables = new KnuthMorrisPrattAdditionalVariables();
         }
 

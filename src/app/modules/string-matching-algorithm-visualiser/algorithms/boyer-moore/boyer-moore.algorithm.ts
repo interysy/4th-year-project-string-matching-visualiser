@@ -372,7 +372,7 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
     /**
      * @description Resets the additional variables to their default values - mainly utilised when resetting algorithm.
      */
-    protected resetAdditionalVariables() {
+    public resetAdditionalVariables() {
         this.additionalVariables = new BoyerMooreAdditionalVariables();
     }
 
