@@ -4,31 +4,47 @@
 \usepackage {romannum}
 \usepackage{tikz}
 \usetikzlibrary{fit, matrix}
+\usepackage{enumitem}
+\usepackage{float}
 
 %
 % put any additional packages here
+\usepackage{longtable}
 %
+
+\newcommand{\gethin}[1]{\marginpar{\footnotesize \color{red} {\bf GN:} \textsf{#1}}}
 
 \begin{document}
 
 %==============================================================================
 %% METADATA
-\title{String Matching Algorithms Visualisation Software}
+\title{String Matching Algorithm Visualisation Software}
 \author{Michal Wozniak}
-\date{TO CHANGE}
+\date{\today}
 
 \maketitle
 
 %==============================================================================
 %% ABSTRACT -  TO DO AT THE END
 \begin{abstract}
-    Every abstract follows a similar pattern. Motivate; set aims; describe work; explain results.
-    \vskip 0.5em
-    ``XYZ is bad. This project investigated ABC to determine if it was better.
-    ABC used XXX and YYY to implement ZZZ. This is particularly interesting as XXX and YYY have
-    never been used together. It was found that
-    ABC was 20\% better than XYZ, though it caused rabies in half of subjects.''
+Understanding string-matching algorithms can be a challenging task. Thus, the goal of the project is to implement a web application with a clear user interface, which will support students and enthusiasts learning about the Brute Force Approach, Boyer-Moore Horsepool and Knuth-Morris-Pratt algorithms. The product provides users with the capability to advance through animations and pseudocode while the execution is in progress, while also displaying the current variable values and explaining what is happening. The product also offers many quality-of-life features, such as mobile support to provide a seamless experience. The product has undergone a testing and evaluation phase, which has confirmed its correct functionality and ability to improve users' knowledge of string-matching algorithms.
+
+
+    % Every abstract follows a similar pattern. Motivate; set aims; describe work; explain results.
+    % \vskip 0.5em
+    % ``XYZ is bad. This project investigated ABC to determine if it was better.
+    % ABC used XXX and YYY to implement ZZZ. This is particularly interesting as XXX and YYY have
+    % never been used together. It was found that
+    % ABC was 20\% better than XYZ, though it caused rabies in half of subjects.''
 \end{abstract}
+
+
+% DONE
+% \gethin{in the abstract why despite?}
+
+
+% DONE - We will stick with string matching
+% \gethin{abstract uses string matching while later it is string searching - be consistent, can mention the other but stick with one as the standard terminology}
 
 %==============================================================================
 
@@ -77,245 +93,10 @@
 % however.
 %
 %==================================================================================================================================
-\chapter{Introduction}
-
-% reset page numbering. Don't remove this!
-\pagenumbering{arabic}
-
-
-String search algorithms (otherwise known as string matching algorithms), such as Boyer-Moore (BM or BM Horsepool) and Knuth–Morris–Pratt (KMP) are pieces of code typically introduced at the higher education level for computer scientists, as well as students of related degrees. Quite simply, these aim to find the exact sequence of words or letters in longer pieces of text. Although commonly taught and used within various pieces of software, it can be hard to develop an intuition for their inner working. I, myself, have had a hard time getting to grips with how these work, having been taught these in my Algorithmics \Romannum{1} class during my third year of undergrad.
-
-Many computer programs exist to facilitate a visual way to show the steps of such algorithms, however, I believe there is potential to create a product that not only reduces the learning complexity but also provides a novel, mobile-friendly application to help enthusiasts and students such as myself a few years ago to get a good understanding of the aforementioned and similar algorithms.
-
-This document first aims to introduce the motivation behind the project,  explore existing software and determine the high-level aims and requirements for the project. What follows is the outline of the development process including the design and implementation steps as well as any decisions made for the benefit of the application or project management. The penultimate chapter explores how the prototype is perceived by the potential users at various stages of development to finally conclude how useful the final product is for the intended audience.
-
-
-\section{Terminology}
-
-Before discussing the project, it is important to highlight the terminology I will stick to throughout the document, as it can be quite loose between institutions and different documents online.  I will be using the term \textbf{pattern} to refer to the \textbf{sequence of words or characters we are searching for} and the word \textbf{text} to denote the \textbf{text we are searching within}.
-
-\section{Motivation}
-
- % ubiquitous
- % anything with a computer
-Sequences consisting of symbols and words are fundamental to society in the modern world according to Graham \citet{Stephen_1994}, an individual who dedicated a whole book to discussing string search algorithms. He states that grouping those to construct strings is one of the most natural concepts to a human. Not only are strings key in everyday communication, but in everything we do - think of what you are doing right now, making a shopping list, looking at the time, there is an infinite number of uses we encounter every day without even thinking about them.  String matching algorithms are a layer above strings, but ``judging by the wealth of published literature in this area \citep{Stephen_1994}'' these are just as foundational.
-
-Although no longer the focus of today's development, they are vital for people within the technology field to understand in depth, as the knowledge simplifies construction and maintainance of software utilising them. The importance of the necessity to understand is further intensified by the number of modern tools utilising string matching algorithms in various fields, as denoted by \citet{GeeksforGeeks_2022}, such as:
-\begin{itemize}
-  \item \textbf{Plagiarism Detection} String matching algorithms are used to compare the content of 2 documents to establish similarity. Such tools are used throughout most stages of education to ensure work originality.
-\item \textbf{Spelling Checkers} As with plagiarism detection, these can be particularly helpful in academia to ensure high-quality, spotless work.
-  \item \textbf{DNA Sequencing} A lot of processes in the field of bioinformatics utilise string-matching facilities. One to highlight would be DNA pattern matching, which underpins gene analysis and helps determine potential illness, allowing for earlier and hence more effective treatment.
-  \item \textbf{Digital Forensics} Official public bodies aim to prevent crimes against society, with string matching playing a vital role in supporting investigations by aiding information search on apprehended machines and law enforcement databases.
-  \item \textbf{Spam Filters} Used by email services to help determine email importance by looking for specific words.
-  \item \textbf{Search Engines} Used by most people everyday, matching algorithms underpin this procedure for query processing.
-  \item \textbf{Intrusion Detection Systems In Software} In the cybersecurity field, we can analyse packets sent over a network by searching for malicious code based on known threats and malware.
-\end{itemize}
-
-\\
-
-
-There is a plethora of established tools using string matching algorithms, however even now these search algorithms are used to drive innovation. A recent example would be the Intelligent Predictive String Search Algorithm created by \cite{GURUNG2016161}, which eliminates the need for pre-processing and works based on comparing the first and last letter of the pattern. Results show that it performs comparably to existing algorithms, at times better, while requiring less space and being simpler to understand. Another, more recent example would be the research conducted \cite{Ibrahim2023}, where the 2 newly developed algorithms had up to a 54\% performance increase compared to any other alternatives within the bio-informatics sphere.
-\\
-
-
-Most work today is based on the continued improvement of the performance of the information search process, due to the exponential increase of data available for analysis, as found by \cite{HASHEM201598} and his team while reviewing the rise of cloud computing . Henceforth understanding of the current algorithms is vital to being able to design new ones, but also to work with the vast amount of software using them. My application will aim to ease the process of learning the workflow undertaken by the principal string matching algorithms, to help gauge a deep understanding that can benefit individuals in the future.
-
-\chapter{Background}
-Before determining the requirements for creating my product, it is important to introduce the foundational string matching algorithms and explore existing visualisation solutions to establish the what my product should have.
-
-\section{String Matching Algorithms}
-
-As mentioned, string matching algorithms have the role of finding a specific set of symbols within a larger text. The are various algorithms developed over the years, all with their own advantages and drawbacks. I will be introducing the principal three algorithms, specifically the naive approach, Knuth-Morris-Pratt and Boyer-Moore.
-
-
-\subsection{Brute Force Approach}
-\label{alg:brute-force}
-The naive approach involves going over each character in text and starting from such character, checking if each subsequent character matches the corresponding pattern character, if we assume the starting character corresponds to starting character of the pattern. This is done by incrementing the index of the text and pattern by 1 upon a match or upon a mismatch moving onto the next character of the text and resetting to the start of the pattern. If all symbols of the pattern match we can report a find, terminating the algorithm, otherwise we return something indicating failure in terms of the search. The pseudocode for this approach can be seen below, in Listing \ref{lst:brute}.
-
-\lstinputlisting[label = {lst:brute}, caption=Brute Force Pseudocode, frame=single, columns=fullflexible]{code/brute-force.txt}
-
-The time complexity of this algorithm is $O(mn)$, assuming n is the length of text and m is the length of the pattern. Such complexity arises from the fact that in the worst case (i.e. no match, but we will still need to compare the full length of pattern at each character of text , as the mismatch always occurs on the last character of pattern) we will need to go iterate over all characters in the text and all characters in the pattern at each iteration. The space complexity is constant ($O(1)$), as we only keep track of the $patternIndex$ and $textIndex$.
-\\
-\\
-Such approach is trivial, however it can form a basis for introducing the problem of searching large pieces of text efficiently and highlight the need of more sophisticated methods such as ones introduced in the following sections.
-
-
-\subsection{Knuth-Morris-Pratt}
-
-Knuth-Morris-Pratt greatly improves upon its predecessor described in \ref{alg:brute-force} by achieving a linear time complexity of $O(m+n)$ in the worst case, paying for it with the increased space complexity of  $O(m)$ to store pre-processing results. Created by Donald Knuth, Vaughan Pratt, and by James H. Morris and published in 1977 (see \cite{KMP}), it is an online algorithm which exploits a border table in order to avoid backtracking within the text.
-\\
-
-\subsubsection{Pre-Processing}
-The algorithm works on the basis of having the border table tell the system which pattern character should be compared with the current text character at the next step. The border table is a a data structure equal in length to the pattern, with each index representing a substring of the pattern up to, but excluding  character at that index. For example in the string of ababaca, the index of 4 assuming 0-indexing would consider the string of ababa, as denoted by the red outline in \ref{fig:kmp-pre-process} . Each entry of the structure contains the size of the substring that is both a prefix and suffix up to the relevant character of the pattern. Considering our earlier example of index 4 the prefix and suffix would be ab, which has a length of 2, as the first two characters are ab and the last two characters are also ab, denoted in blue and orange respectively.
-
-\begin{figure}[hpt]
-  \centering
-  \begin{tikzpicture}
-    [every node/.style={anchor=base, font=\huge},
-     smallnum/.style={font=\small},
-     textsize/.style={font=\small}]
-
-    \matrix (m) [matrix of nodes, nodes in empty cells]
-    {
-      |[textsize]| index & |[text=blue]| a & |[text=blue]| b &  |[text=orange]| a & |[text=orange]| b & a & c & a \\
-      |[textsize]| pattern & |[smallnum]| 0 & |[smallnum]| 1 & |[smallnum]| 2 & |[smallnum]| 3 & |[smallnum]| 4 & |[smallnum]| 5 & |[smallnum]| 6 \\
-    };
-
-    \node[fit=(m-1-2.north west) (m-2-6.south east), draw=red, inner sep=2pt] {};
-  \end{tikzpicture}
-  \caption{Working out border of pattern at index 4}
-  \label{fig:kmp-pre-process}
-\end{figure}
-
-\subsubsection{Match}
-Upon a match, as with the brute force algorithm we simply move one unit along within the text and the pattern.
-\\
-
-\subsubsection{Mismatch} There are 2 possible cases for KMP to consider when we fail to match 2 corresponding symbols. The case is determined on the basis of the border table. More specifically we index the border table using the current index of the pattern we mismatched on.  If the border table reports a result of a 0, we simply move one along in the text, since there is no prefix of the pattern that can match the already matched characters (the suffix). Such case is show visually in \ref{kmp:mismatch-case-1}.
-Contrasting when the border table reports a non-zero value, it means the last $x$ characters in the already matched characters, match the start of the pattern. In such case we stay on the current character of the text, but shift the pattern to match the start of it with the aforementioned matching $x$ characters in the text. Visually this can be seen in \ref{kmp:mismatch-case-2}, where upon a mismatch of c and b, we work out the border of the pattern at c, which is 'aba'. We therefore need to move the pattern in a way where its start of aba, matches the already matched aba at the end of the text chunk we looked through so far.
-
-
-
-\begin{figure}[hpt]
-    \centering
-    \begin{tikzpicture}
-        [every node/.style={anchor=base, font=\huge},
-        smallnum/.style={font=\small},
-        textsize/.style={font=\small}]
-
-    \begin{scope}
-      \matrix (m) [matrix of nodes, nodes in empty cells]
-      {
-        |[textsize]| pattern & |[text=green]| s & |[text=green]| t &  |[text=red]| r &  i &
-        |[text=green]| n &  g \\
-      |[textsize]| text & |[text=green]| s & |[text=green]| t &  |[text=red]| i & n &  g \\
-      };
-
-    \end{scope}
-
-     \begin{scope}[yshift=-3cm]
-      \matrix (m1) [matrix of nodes, nodes in empty cells]
-      {
-        |[textsize]| pattern &
-         &
-         &
-        |[text=orange]| s & t &  r &  i &
-        n & g \\
-      |[textsize]| text & s &  t &  |[text=orange]| i & n &
-        g \\
-      };
-    \end{scope}
-
-    \draw[->,thick] (m.south) -- (m1.north);
-    \end{tikzpicture}
-    \caption{KMP Mismatch - Case 1}
-    \label{kmp:mismatch-case-1}
-\end{figure}
-
-
-\begin{figure}[hpt]
-  \centering
-  \begin{tikzpicture}
-    [every node/.style={anchor=base, font=\huge},
-     smallnum/.style={font=\small},
-     textsize/.style={font=\small}]
-
-    \begin{scope}
-      \matrix (m1) [matrix of nodes, nodes in empty cells]
-      {
-        |[textsize]| pattern & |[text=green]| a & |[text=green]| b &  |[text=green]| a & |[text=green]| b &
-        |[text=green]| a &
-        |[text=red]|c & a \\
-      |[textsize]| text & |[text=green]| a & |[text=green]| b &  |[text=green]| a & |[text=green]| b &
-        |[text=green]| a &
-        |[text=red]|b & a \\
-      };
-
-    \end{scope}
-
-    \begin{scope} [yshift=-3cm]
-    \matrix (m) [matrix of nodes, nodes in empty cells]
-    {
-      |[textsize]| index & |[text=blue]| a & |[text=blue]| b &  |[text=brown]| a & |[text=orange]| b & |[text=orange]| a & c & a \\
-      |[textsize]| pattern & |[smallnum]| 0 & |[smallnum]| 1 & |[smallnum]| 2 & |[smallnum]| 3 & |[smallnum]| 4 & |[smallnum]| 5 & |[smallnum]| 6 \\
-    };
-
-    \draw[->,thick] (m1.south) -- (m.north);
-    \end{scope}
-
-    \begin{scope}[yshift=-6cm]
-      \matrix (m2) [matrix of nodes, nodes in empty cells]
-      {
-        |[textsize]| pattern &
-         &
-         &
-        |[text=green]| a & |[text=green]| b &  |[text=green]| a & |[text=orange]| b &
-        a & c & a \\
-      |[textsize]| text &  a &  b &  |[text=green]| a & |[text=green]| b &
-        |[text=green]| a &
-        |[text=orange]|b & a \\
-      };
-    \end{scope}
-
-    \draw[->,thick] (m.south) -- (m2.north);
-
-  \end{tikzpicture}
-  \caption{KMP Mismatch Case 2}
-  \label{kmp:mismatch-case-2}
-\end{figure}
-
-The algorithm pseudocode involving all the cases is outlined below:
-\lstinputlisting[label = {lst:brute}, caption=Knuth-Morris-Pratt Pseudocode, frame=single, columns=fullflexible]{code/brute-force.txt}
-
-
-\subsection{Boyer-Moore Algorithm}
-
-Boyer-Moore is an algorithm introduced in 1975 \cite{}, before the dawn of KMP. On paper it appears slower than its ancestor, as its worst time complexity is $O(nm)$, however it has been found that its performance is almost always better in practice. The reason for such phenomenon is the fact BM is prone to skipping many characters per step, quickly eliminating areas of the text that cannot possibly match the pattern. Recently \cite{KMPvsBM} showed that BM outperformed KMP almost every single time , in some cases reaching one third of time it takes KMP to run.  Same as KMP , the algorithm is utilises a pre-processing data structure, which determines the next comparison during execution.
-\\
-\\
-Unlike the 2 previous algorithms, it works on the basis of comparing right to left, starting the comparison from the last character in the pattern.
-
-\subsubsection{Pre-Processing} During pre-processing a last occurrence table is create. Such data structure simply stores the last index of each character in the pattern.
-\\
-
-\subsubsection{Match} Upon a match, as with previous 2 algorithms introduced, there is one step forward in the text and the pattern.
-\\
-
-\subsubsection{Mismatch} Upon a mismatch, there are 3 possible things that can happen during execution.
-\begin{itemize}
-  \item \textbf{Case 1 - Last Occurrence of mismatched character has not been matched yet}
-  When the last occurrence is to the left of the mismatched element of the pattern, we need to shift the pattern in such way to line up the last occurrence with the current text element we are looking at.  Referring to example in \ref{bm:mismatch-case-1}, we need the a in the pattern to be moved to the right until lined up with the mismatched a in the test.
-  \item \textbf{Case 2 - Last Occurrence of the mismatched character has already been matched} In such case we simply move the pattern one place forward respective to the text (increment the $textIndex$ by 1)and restart the search from the end of the string. This happens because we cannot guarantee no match, since there could be another instance of the character within the pattern to match the text.
-  \item \textbf{Case 3 - No last occurance, the character does not appear in the pattern} In such case we we move the pattern past the mismatched element i.e. we start checking the text from the next element, as it is impossible to match any substring where the pattern character does not exist.
-\end{itemize}
-
-The 3 cases combined make up the following pseudocode for the algorithm:
-\lstinputlisting[label = {lst:brute}, caption=Boyer-Moore Pseudocode, frame=single, columns=fullflexible]{code/boyer-moore.txt}
-
-
-\begin{figure}[hpt]
-  \centering
-  \begin{tikzpicture}
-    \begin{scope}
-        \draw [draw=black, fill=blue!20] (0,0) rectangle (4,1);
-        \draw [draw=black, fill=red!50] (4, 0) rectangle (5, 1) node[midway] {b};;
-        \draw [draw=black, fill=orange!50] (2,0) rectangle (3,1) node[midway] {a};
-        \draw [draw=black, fill=blue!20] (0, -2) rectangle (\textwidth, -1);
-        \draw [draw=black, fill=red!50] (4, -2) rectangle (5, -1) node[midway] {a};;
-    \end{scope}
-
-    \draw[->, thick] (2, -2.5) -- (2, -4)  node[midway, right, xshift=10pt] {We move the pattern to match the last occurrence with current text character};
-
-    \begin{scope}
-        \draw [draw=black, fill=blue!20] (2,-6) rectangle (7,-5);
-        \draw [draw=black, fill=green!50] (4,-6) rectangle (5,-5) node[midway] {a};;
-        \draw [draw=black, fill=blue!20] (0, -8) rectangle (\textwidth, -7);
-        \draw [draw=black, fill=green!50] (4, -8) rectangle (5, -7) node[midway] {a};;
-    \end{scope}
-  \end{tikzpicture}
-  \caption{Boyer-Moore Mismatch Case 1}
-  \label{fig:boyer-moore-case-1}
-\end{figure}
+\input{introduction}
+\input{background}
+\input{requirements}
+\input{design}
 
 
 
@@ -693,29 +474,34 @@ The 3 cases combined make up the following pseudocode for the algorithm:
 % %==================================================================================================================================
 % %  APPENDICES
 
+\input{appendices}
+
 % \begin{appendices}
 
 % \chapter{Appendices}
 
-% Typical inclusions in the appendices are:
 
-% \begin{itemize}
-% \item
-%   Copies of ethics approvals (required if obtained)
-% \item
-%   Copies of questionnaires etc. used to gather data from subjects.
-% \item
-%   Extensive tables or figures that are too bulky to fit in the main body of
-%   the report, particularly ones that are repetitive and summarised in the body.
+% \section{}
 
-% \item Outline of the source code (e.g. directory structure), or other architecture documentation like class diagrams.
+% % Typical inclusions in the appendices are:
 
-% \item User manuals, and any guides to starting/running the software.
+% % \begin{itemize}
+% % \item
+% %   Copies of ethics approvals (required if obtained)
+% % \item
+% %   Copies of questionnaires etc. used to gather data from subjects.
+% % \item
+% %   Extensive tables or figures that are too bulky to fit in the main body of
+% %   the report, particularly ones that are repetitive and summarised in the body.
 
-% \end{itemize}
+% % \item Outline of the source code (e.g. directory structure), or other architecture documentation like class diagrams.
 
-% \textbf{Don't include your source code in the appendices}. It will be
-% submitted separately.
+% % \item User manuals, and any guides to starting/running the software.
+
+% % \end{itemize}
+
+% % \textbf{Don't include your source code in the appendices}. It will be
+% % submitted separately.
 
 % \end{appendices}
 
@@ -724,6 +510,8 @@ The 3 cases combined make up the following pseudocode for the algorithm:
 
 % The bibliography style is abbrvnat
 % The bibliography always appears last, after the appendices.
+
+
 
 \bibliographystyle{abbrvnat}
 

@@ -436,8 +436,32 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 12 February
 * *2.5 hours* Cleaned up what I had in the dissertation so far. Also written the existing products section and started on the design chapter.
 
-
 ### 13 February
 * *0.5 hours* Updated timelog and meeting documents on Moodle - these were missing from the last week.
+* *2 hours* Attempting to merge the "slider" feature into the evaluation branch.
+* *1 hour* Adding key bindings for controls.
+* *0.5 hours* Started designing the survey
+
+### 14 February
+* *1 hour* Working on creating the evaluation survey. Emailed to supervisor for feedback.
+
+
+### 15 February
+* *1.5 hours* Working on Gethin's suggestions on the dissertation.
+
+### 19 February
+* *2.5 hours* Added references to motivation examples, started working on Gethin's suggestions from the background.
+
+### 20 February
+* *2 hours* Finishing up suggestions and starting to write technologies on the design chapter.
+* *0.5 hours* Prep for meeting and creating diagram for high level application flow section of dissertation.
+* *1 hour* Reading over previous dissertations to get an idea of what to include in the design chapter.
+
+### 21 February
+* *1 hour* Creating high level flow diagram and starting on the low level.
+
+### 22 February
+* *1.5 hours* Merging last feature for A-B testing
+* *1 hour* Created low level system diagram and started writing it up in the dissertation.
 
 
