@@ -15,9 +15,9 @@
       <div class="col-span-3 xl:col-span-2 flex justify-items-center items-center">
         <app-pseudocode-visualiser id="pseudocodeVisualiser" class="w-full" [showPsuedocodeHelp]="showPseudocodeHelp" (hidePsuedocodeHelp)="nextStepInTutorialAfterPseudocode()" (closeTutorial)="endTutorial()" ></app-pseudocode-visualiser>
       </div>
+      <div class="h-40"></div>
     </div>
-    <div class="h-40"></div>
-    <app-playback-controls [showPlaybackHelp]="showPlaybackHelp" (closeTutorial)="endTutorial()" (hidePlaybackSettingsHelp)="nextStepInTutorialAfterPlayback()" class="fixed bottom-0 left-0 w-screen"></app-playback-controls>
+    <app-playback-controls [showPlaybackHelp]="showPlaybackHelp" (closeTutorial)="endTutorial()" (hidePlaybackSettingsHelp)="nextStepInTutorialAfterPlayback()" class="fixed bottom-0 left-0 w-screen mt-5"></app-playback-controls>
   </div>
 
 
@@ -36,6 +36,6 @@
     </div>
     <app-pseudocode-visualiser [showPsuedocodeHelp]="showPseudocodeHelp" (hidePsuedocodeHelp)="nextStepInTutorialAfterPseudocode()" (closeTutorial)="endTutorial()" class="max-w-full max-h-screen md:flex-1 overflow-auto mx-2"></app-pseudocode-visualiser>
   </div>
-  <div class="h-80"></div>
-  <app-playback-controls [showPlaybackHelp]="showPlaybackHelp" (closeTutorial)="endTutorial()" (hidePlaybackSettingsHelp)="nextStepInTutorialAfterPlayback()" class="fixed bottom-0 left-0 w-screen"></app-playback-controls>
+  <div class="h-40"></div>
+  <app-playback-controls [showPlaybackHelp]="showPlaybackHelp" (closeTutorial)="endTutorial()" (hidePlaybackSettingsHelp)="nextStepInTutorialAfterPlayback()" class="fixed bottom-0 left-0 w-screen mt-5"></app-playback-controls>
 </div>
