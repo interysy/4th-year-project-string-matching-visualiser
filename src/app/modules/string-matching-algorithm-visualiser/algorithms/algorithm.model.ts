@@ -136,6 +136,18 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
         if (addPreviousStep) this.previousStep = this.algorithmStepBuilder.createDeepCopy(currentStep);
     }
 
+
+    protected tooLongPatternOrText(text : string , pattern : string) : boolean {
+        if (text.length < 1 || pattern.length < 1) {
+            this.algorithmStepBuilder.setCommand = "Pattern or text is nothing, cannot conitnue execution";
+            if (text.length > 0) this.algorithmStepBuilder.setLettersInText = LetterBuilder.highlightEntireLine(text , "MISMATCH", 1);
+            if (pattern.length > 0) this.algorithmStepBuilder.setLettersInPattern = LetterBuilder.highlightEntireLine(pattern, "MISMATCH", 1);
+            this.addStep(false , true);
+            return true;
+        }
+        return false;
+    }
+
     protected createLetterUsingBuilderUsingPrev(index : number , letter : string , colour : string , strokeWeight : number , setDefaults : boolean , textOrPattern : string) : Letter {
         this.letterBuilder.setIndex = index;
         this.letterBuilder.setLetter = letter;

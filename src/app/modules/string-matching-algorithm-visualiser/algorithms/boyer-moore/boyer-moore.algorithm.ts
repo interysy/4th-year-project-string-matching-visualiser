@@ -27,6 +27,8 @@ export class BoyerMooreAlgorithm extends StringMatchingAlgorithm {
      * @returns The starting index of the pattern in the text, or -1 if no match
      */
     public workOutSteps(text : string , pattern : string) : number {
+        if (this.tooLongPatternOrText(text , pattern)) return -1;
+
         this.text = text;
         this.pattern = pattern;
 
