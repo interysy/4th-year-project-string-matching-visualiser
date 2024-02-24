@@ -1,6 +1,7 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { ThemeSelectorService } from './modules/string-matching-algorithm-visualiser/services/theme-selector.service';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment.dev';
 
 /**
  * @description
@@ -11,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements AfterViewInit, OnDestroy {
 
   /**
    * @description Title of the application
@@ -42,12 +43,18 @@ export class AppComponent implements OnDestroy {
    * @param themeSelectorService
    */
   constructor(private readonly themeSelectorService: ThemeSelectorService) {
-    this.currentTheme = themeSelectorService.currentThemeGetter;
 
     this.subscriptions.push(this.themeSelectorService.themeChangedSubscriberGetter.subscribe((newTheme : string) => {
       this.themingDivElement.nativeElement.classList.replace(this.currentTheme, newTheme);
       this.currentTheme = newTheme;
     }));
+  }
+
+  ngAfterViewInit() {
+    this.currentTheme = this.themeSelectorService.currentThemeGetter;
+    this.themingDivElement.nativeElement.classList.add(environment.defaultTheme);
+
+    console.log(this.themingDivElement.nativeElement.classList);
   }
 
 
