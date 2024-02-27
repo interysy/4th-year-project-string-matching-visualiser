@@ -462,12 +462,16 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 22 February
 * *1.5 hours* Merging last feature for A-B testing
-* *1 hour* Created low level system diagram and started writing it up in the dissertation. 
+* *1 hour* Created low level system diagram and started writing it up in the dissertation.
 
-### 23 February 
-* *2.5 hours* Fixed layout issues with 2 different layouts for A-B testing. Also fixed last occurrence scroll bugs and not hiding upon reset bugs. 
+### 23 February
+* *2.5 hours* Fixed layout issues with 2 different layouts for A-B testing. Also fixed last occurrence scroll bugs and not hiding upon reset bugs.
 
-### 24 February  
+### 24 February
 * *0.5 hours* Added a check for when pattern or text are nothing.
 
 
+### 27 February
+* *1 hour* Creating manual tests for the project
+* *1.5 hours* Working on the design setion of the dissertation.
+* *0.5 hours* Work on updating documentation for meeting.
