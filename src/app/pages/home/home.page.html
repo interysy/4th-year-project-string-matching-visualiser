@@ -14,13 +14,13 @@
                     <button class="font-bold bg-skin-fill-quaternary text-sm rounded-lg border-skin-icon-separator border-2 p-2 hover:bg-skin-fill-tertiary-hover min-w-min" *ngFor="let algorithm of environment.supportedAlgorithms" (click)="sharedRouterFunctions.changePage('algorithm-visualiser/' + algorithm.urlParam , router)"><b>{{algorithm.name}}</b></button>
                 </div>
                 <div class = "flex flex-row gap-5">
-                    <p class="text-skin-base">Dark Mode</p>
+                    <p class="text-skin-base shrink-0">Dark Mode</p>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input  id="theme-checkbox" [(ngModel)]="isLightTheme" (ngModelChange)="toggleTheme()" type="checkbox" value="" class="hidden peer">
                         <!-- checkbox has been adapted from https://flowbite.com/docs/forms/toggle/ -->
                         <div class="w-11 h-6 bg-skin-fill-quaternary rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:absolute after:top-[2px] after:start-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-skin-fill-tertiary"></div>
                     </label>
-                    <p class="text-skin-base">Light Mode</p>
+                    <p class="text-skin-base shrink-0">Light Mode</p>
                 </div>
             </div>
         </div>
