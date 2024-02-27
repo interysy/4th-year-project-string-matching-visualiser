@@ -470,8 +470,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 24 February
 * *0.5 hours* Added a check for when pattern or text are nothing.
 
-
 ### 27 February
 * *1 hour* Creating manual tests for the project
 * *1.5 hours* Working on the design setion of the dissertation.
 * *0.5 hours* Work on updating documentation for meeting.
+* *0.5 hours* Working on Design - UI section 
