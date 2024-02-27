@@ -39,13 +39,16 @@ export class OptionService {
   private _preProcessingSteps = true;
   private _showLegend = false;
   private _centraliseScroll = false;
+  private _isSlider : boolean;
 
   /**
-   * @description Set default options.
+   * @description Set default options. For A-B testing the slider is randomly set to true or false, the chance is 50-50.
    */
   constructor() {
     this._text = this.DefaultText;
     this._pattern = this.DefaultPattern;
+    const randomNumber = Math.random();
+    this._isSlider = randomNumber > 0.5;
   }
 
   /**
@@ -174,6 +177,15 @@ export class OptionService {
    */
   public centraliseScrollGetter() : boolean {
     return this._centraliseScroll;
+  }
+
+
+  /**
+   * @description Getter for slider value.
+   * @see AlgorithmVisualiserPageComponent
+   */
+  public isSliderGetter() : boolean {
+    return this._isSlider;
   }
 
 }

@@ -1,9 +1,13 @@
 import { Router } from "@angular/router";
 
+
+/**
+ * @description A class containing shared functions for the router. Utilised by components to change the page.
+ */
 export class SharedRouterFunctions {
 
     /**
-        * Asynchronous function to change the page
+        * @description Asynchronous function to change the page
         * @param path A string representing the path to the page
         * @returns Promise<void>
     */

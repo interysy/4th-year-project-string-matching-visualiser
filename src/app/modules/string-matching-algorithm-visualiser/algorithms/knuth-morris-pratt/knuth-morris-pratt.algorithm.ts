@@ -25,6 +25,8 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
          * @description Function executing the Knuth-Morris-Pratt algorithm and creating steps.
          */
         public workOutSteps(text : string , pattern : string) : number {
+            if (this.tooLongPatternOrText(text , pattern)) return -1;
+
            this.text = text;
            this.pattern = pattern;
            this.additionalVariables.textLength = text.length;
@@ -558,7 +560,7 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
         /**
          * @description Resetting the additional variables.
          */
-        public resetAdditionalVariables() {
+        public resetAdditionalVariables() : void {
             this.additionalVariables = new KnuthMorrisPrattAdditionalVariables();
         }
 

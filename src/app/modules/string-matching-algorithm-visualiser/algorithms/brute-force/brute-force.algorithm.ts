@@ -24,6 +24,9 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
          * @returns The starting point of pattern found or -1.
          */
         public workOutSteps(text : string , pattern : string) : number {
+
+            if (this.tooLongPatternOrText(text , pattern)) return -1;
+
             this.text = text;
             this.pattern = pattern;
 
@@ -252,7 +255,7 @@ export class BruteForceAlgorithm extends StringMatchingAlgorithm {
         /**
          * @description Resets the additional variables to their default values.
          */
-        resetAdditionalVariables() {
+        public resetAdditionalVariables() : void{
             this.additionalVariables = new BruteForceAdditionalVariables();
         }
 }

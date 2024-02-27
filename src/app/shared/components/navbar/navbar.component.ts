@@ -11,8 +11,8 @@ library.add(faCompass, faGithub, faLinkedin);
 
 /**
  * @description
- * This component represents the navbar that will appear on each page
- * It will contain logo and links to all pages
+ * This component represents the navbar that will appear on each page.
+ * It will contain logo and links to all pages.
 */
 @Component({
   selector: 'app-navbar',
@@ -22,16 +22,15 @@ library.add(faCompass, faGithub, faLinkedin);
 export class NavbarComponent {
 
   /**
-   * @description
-   * The mobile menu element from the DOM
+   * @description The mobile menu element from the DOM
    */
-  @ViewChild('mobileMenu', {static: true}) public mobileMenu: ElementRef<HTMLDivElement>;
+  @ViewChild("mobileMenu", {static: true}) public mobileMenu: ElementRef<HTMLDivElement>;
 
   /**
    * @description
-   * The environment variable, explicitly set for HTML access
-   */
-  public environment = environment;
+   * The environment variable, explicitly set for HTML access.
+  */
+  protected environment = environment;
 
   /**
    * @description Variable used to determine when mobile view should be triggered
@@ -39,12 +38,21 @@ export class NavbarComponent {
   protected readonly ResizeThreshold = 768;
 
 
+  /**
+   * @description The shared router functions, reused across compoonents.
+   * @see SharedRouterFunctions
+   */
   protected readonly sharedRounterFunctions = SharedRouterFunctions;
 
 
   /**
-   * @description The constructor for the NavbarComponent
-   * @param router The router to change pages upon link click
+   * @description The CSS class to hide the mobile menu.
+  **/
+  private readonly HiddenClass = "hidden";
+
+  /**
+   * @description The constructor for the NavbarComponent.
+   * @param router The router singleton to change pages upon link click.
    */
   constructor (readonly router : Router) {}
 
@@ -54,7 +62,7 @@ export class NavbarComponent {
    * @returns void
   */
   public toggleMobileMenu() : void {
-    this.mobileMenu.nativeElement.classList.toggle("hidden");
+    this.mobileMenu.nativeElement.classList.toggle(this.HiddenClass);
   }
 
   /**
@@ -63,11 +71,11 @@ export class NavbarComponent {
    * @returns void
    */
   @HostListener("window:resize")
-  public onResize() : void {
+  protected onResize() : void {
     const windowWidth = window.innerWidth;
 
     if (windowWidth > this.ResizeThreshold) {
-      this.mobileMenu.nativeElement.classList.add("hidden");
+      this.mobileMenu.nativeElement.classList.add(this.HiddenClass);
     }
   }
 }

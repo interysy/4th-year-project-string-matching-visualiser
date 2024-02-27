@@ -23,7 +23,7 @@ export class StringMatchingAlgorithmStub extends StringMatchingAlgorithm {
       return;
   }
 
-  protected resetAdditionalVariables(): void {
+  public resetAdditionalVariables(): void {
       return;
   }
 

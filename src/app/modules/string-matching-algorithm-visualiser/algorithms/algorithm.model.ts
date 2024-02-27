@@ -108,7 +108,7 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     /**
      * @description Abstract method that all string matching algorithms must implement. It is used to reset additional variables to the correct additional variables class.
      */
-    protected abstract resetAdditionalVariables() : void;
+    public abstract resetAdditionalVariables() : void;
 
     /**
      * @description Creating the class and injecting the theme selector service.
@@ -134,6 +134,18 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
         this.steps.push(currentStep);
         if (setDefaults) this.algorithmStepBuilder.setDefaults();
         if (addPreviousStep) this.previousStep = this.algorithmStepBuilder.createDeepCopy(currentStep);
+    }
+
+
+    protected tooLongPatternOrText(text : string , pattern : string) : boolean {
+        if (text.length < 1 || pattern.length < 1) {
+            this.algorithmStepBuilder.setCommand = "Pattern or text is nothing, cannot conitnue execution";
+            if (text.length > 0) this.algorithmStepBuilder.setLettersInText = LetterBuilder.highlightEntireLine(text , "MISMATCH", 1);
+            if (pattern.length > 0) this.algorithmStepBuilder.setLettersInPattern = LetterBuilder.highlightEntireLine(pattern, "MISMATCH", 1);
+            this.addStep(false , true);
+            return true;
+        }
+        return false;
     }
 
     protected createLetterUsingBuilderUsingPrev(index : number , letter : string , colour : string , strokeWeight : number , setDefaults : boolean , textOrPattern : string) : Letter {
@@ -167,6 +179,8 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
      */
     public resetSteps() : void {
         this.steps = [];
+        this.algorithmStepBuilder.setDefaults()
+        this.previousStep = this.algorithmStepBuilder.build();
         this.resetAdditionalVariables();
     }
 

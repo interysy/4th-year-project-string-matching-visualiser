@@ -33,6 +33,6 @@ export const environment = {
     "theme-dark-green" : {colorOne : "#2D333B" , colorTwo : "#29FD2F" , themeObject : DarkGreenTheme},
     "theme-dark-blue" : {colorOne : "#2D333B" , colorTwo : "#1B7CED", themeObject : DarkBlueTheme}
   },
-  defaultTheme : "base",
+  defaultTheme : "theme-dark-green",
   type : "dev"
 };

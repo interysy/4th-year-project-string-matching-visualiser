@@ -1,0 +1,18 @@
+.slider {
+    cursor: col-resize;
+    user-select: none;
+}
+
+.css-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.visualiser-height {
+    height : 32rem;
+    min-height: 24rem;
+}
