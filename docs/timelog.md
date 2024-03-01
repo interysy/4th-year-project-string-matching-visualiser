@@ -478,4 +478,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 28 February
 * *1.5 hours* Finishing up the design section with UI considerations
-* *0.5 hours* Started writing up the implementation section 
+* *0.5 hours* Started writing up the implementation section
+
+
+### 1 March 
+* *1.5 hours* Writing up software engineering practices section of implementation. 
