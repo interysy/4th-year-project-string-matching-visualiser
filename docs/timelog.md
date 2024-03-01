@@ -474,4 +474,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Creating manual tests for the project
 * *1.5 hours* Working on the design setion of the dissertation.
 * *0.5 hours* Work on updating documentation for meeting.
-* *0.5 hours* Working on Design - UI section 
+* *0.5 hours* Working on Design - UI section
+
+### 28 February
+* *1.5 hours* Finishing up the design section with UI considerations
+* *0.5 hours* Started writing up the implementation section 
