@@ -1,11 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-@import "prismjs/themes/prism-okaidia.css";
-@import "prismjs/plugins/line-highlight/prism-line-highlight.css";
-@import "prismjs/plugins/toolbar/prism-toolbar.css";
-@import "prismjs/plugins/match-braces/prism-match-braces.css";
 
 @layer base {
     :root {
