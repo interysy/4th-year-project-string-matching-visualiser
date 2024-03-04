@@ -480,6 +480,16 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1.5 hours* Finishing up the design section with UI considerations
 * *0.5 hours* Started writing up the implementation section
 
+### 29 February
+* *2 hour* Further work on version control section of implementation
 
-### 1 March 
-* *1.5 hours* Writing up software engineering practices section of implementation. 
+### 1 March
+* *1.5 hours* Writing up software engineering practices section of implementation.
+
+### 2 March
+* *2.5 hours* Further work on implementation (created section on strategy, steps and drawers)
+
+### 4 March
+* *2 hours* Reading over hall of fame dissertations
+* *1 hour* Started making changes based on hall of fame (abstract, intro , existing products)
+* *2 hours* Started reworking the design to make it past tense. Also created another section in the implementation.
