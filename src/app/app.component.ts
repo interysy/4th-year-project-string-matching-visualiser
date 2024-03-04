@@ -26,6 +26,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   @ViewChild('themingDiv', {static: true})
   themingDivElement: ElementRef<HTMLDivElement>;
 
+
   /**
    * @description The current theme of the application, the actual class name applied to the div.
    */
@@ -50,11 +51,13 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }));
   }
 
+
+  /**
+   * @description After loading, apply the default theme to the div.
+   */
   ngAfterViewInit() {
     this.currentTheme = this.themeSelectorService.currentThemeGetter;
     this.themingDivElement.nativeElement.classList.add(environment.defaultTheme);
-
-    console.log(this.themingDivElement.nativeElement.classList);
   }
 
 
