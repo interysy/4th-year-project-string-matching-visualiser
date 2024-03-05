@@ -492,4 +492,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 4 March
 * *2 hours* Reading over hall of fame dissertations
 * *1 hour* Started making changes based on hall of fame (abstract, intro , existing products)
-* *2 hours* Started reworking the design to make it past tense. Also created another section in the implementation.
+* *2 hours* Started reworking the design to make it past tense. Also created another section in the implementation. 
+
+### 5 March 
+* *0.5 hours* Supervisor meeting
+* *2 hours* Continuing to write the implementation section.
