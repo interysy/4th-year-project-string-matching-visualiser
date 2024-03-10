@@ -1,6 +1,5 @@
 import { BoyerMooreAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/boyer-moore/boyer-moore.algorithm";
 import { BruteForceAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/brute-force/brute-force.algorithm";
-//import { KnuthMorrisPrattAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/knuth-morris-pratt.algorithm";
 import { DarkBlueTheme } from "src/app/modules/string-matching-algorithm-visualiser/themes/dark-blue.theme";
 import { DarkGreenTheme } from "src/app/modules/string-matching-algorithm-visualiser/themes/dark-green.theme";
 import { DefaultTheme } from "src/app/modules/string-matching-algorithm-visualiser/themes/default.theme";
@@ -8,6 +7,19 @@ import { BorderTableDrawer } from "src/app/modules/string-matching-algorithm-vis
 import { LegendDrawer } from "src/app/modules/string-matching-algorithm-visualiser/drawers/legend.drawer";
 import { KnuthMorrisPrattAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/knuth-morris-pratt/knuth-morris-pratt.algorithm";
 
+/**
+ * This is the development environment file. It contains properties specific to development environment.
+ * It is used by various elements in the application to determine links and supported algorithms. The properties are used to determine the behaviour of the application.
+ * @property githubLink - The link to the github repository of the project.
+ * @property linkedinLink - The link to the linkedin profile of the developer.
+ * @property logo - The path to the logo of the application.
+ * @property supportedAlgorithms - The list of supported algorithms.
+ * @property centraliseScroll - The list of algorithms that should have their scroll centralised.
+ * @property additionalVariablesToExclude - The list of additional variables to exclude from the variable visualiser component.
+ * @property themes - The list of themes supported by the application.
+ * @property defaultTheme - The default theme of the application.
+ * @property type - The type of the environment (prod or dev). Having dev allows tests to access private properties of elements.
+ */
 export const environment = {
   githubLink : "https://github.com/interysy/4th-year-project-string-matching-visualiser",
   linkedinLink : "https://www.linkedin.com/in/michal-wozniak-9a2474240",
