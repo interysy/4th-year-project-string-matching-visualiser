@@ -18,7 +18,7 @@ describe("ThemeSelectorService", () => {
   });
 
   it("should have a default theme of 'base'", () => {
-    expect(service.currentThemeGetter).toEqual('base');
+    expect(service.currentThemeGetter).toEqual('theme-dark-green');
   });
 
   it("should notify subscribers when the theme changes", () => {
@@ -48,8 +48,8 @@ describe("ThemeSelectorService", () => {
 
     const themeObject = service.currentThemeObjectGetter;
     expect(themeObject).toBeDefined();
-    expect(themeObject).toBeInstanceOf(DefaultTheme);
-    expect(service.currentThemeGetter).toEqual("base");
+    expect(themeObject).toBeInstanceOf(DarkGreenTheme);
+    expect(service.currentThemeGetter).toEqual("theme-dark-green");
   });
 
 
