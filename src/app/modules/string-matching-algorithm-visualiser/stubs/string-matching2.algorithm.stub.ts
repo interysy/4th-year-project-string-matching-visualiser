@@ -1,6 +1,11 @@
 import { AlgorithmStep } from '../models/algorithm-step.model';
 import { StringMatchingAlgorithmStub } from './string-matching.algorithm.stub';
 
+
+ /**
+ * @description A testing stub used to replace the StringMatchingAlgorithm in the app.
+ * It implements dummy methods, which can be used to test the something using a string matching algorithm.
+ */
 export class StringMatchingAlgorithmStub2 extends StringMatchingAlgorithmStub {
 
   protected override addWhileLoopStep(): void {
