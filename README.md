@@ -1,6 +1,8 @@
 # StringMatchingVisualiser (StrVis)
 
-[![codecov](https://codecov.io/gh/interysy/4th-year-project-string-matching-visualiser/graph/badge.svg?token=KXXJVM1ZMC)](https://codecov.io/gh/interysy/4th-year-project-string-matching-visualiser)
+[![codecov](https://codecov.io/gh/interysy/4th-year-project-string-matching-visualiser/graph/badge.svg?token=KXXJVM1ZMC)](https://codecov.io/gh/interysy/4th-year-project-string-matching-visualiser) 
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 
 
