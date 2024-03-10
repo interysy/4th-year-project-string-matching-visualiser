@@ -13,20 +13,37 @@ import { Subscription } from 'rxjs';
 export class CommandVisualiserComponent implements OnDestroy {
 
 
-
+    /**
+     * @description Fetches tutorial boolean to determine whether to show the prompt.
+     * @see AlgorithmVisualiserPage
+     */
     @Input() showCommandDisplayerHelp : boolean;
+
+
+    /**
+     * @description Notifies parent of finished tutorial, so it can move onto the next step.
+     */
     @Output() hideCommandDisplayerHelp = new EventEmitter<boolean>();
+
+    /**
+     * @description Notifies parent of finished tutorial, so it can finish the tutorial.
+     */
     @Output() closeTutorial = new EventEmitter<boolean>();
 
     /**
      * @description Current command to display.
      */
     private _currentCommand : string;
+
+    /**
+     * @description The array of observables the component subscribes to (where it gets notifications from).
+     */
     subscriptions : Subscription[] = [];
 
 
     /**
      * @description Create instance of CommandVisualiserComponent, inject relevant services and subscribe to progress service to get notifications of step changes.
+     * @param algorithmProgressService Needs to be injected, since the components needs to listen for step changes.
      */
     constructor(private readonly algorithmProgressService : AlgorithmProgressService) {
       this._currentCommand = this.algorithmProgressService.command();

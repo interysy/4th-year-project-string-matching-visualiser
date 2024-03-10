@@ -16,8 +16,20 @@ import * as p5 from 'p5';
 
 export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
 
+  /**
+   * @description Fetches tutorial boolean to determine whether to show the prompt.
+   * @see AlgorithmVisualiserPage
+   */
   @Input() showAlgorithmVisualiserHelp : boolean;
+
+  /**
+   * @description Notifies parent of finished tutorial, so it can move onto the next step.
+   */
   @Output() hideAlgorithmVisualiserHelp = new EventEmitter<boolean>();
+
+  /**
+   * @description Notifies parent of finished tutorial, so it can finish the tutorial.
+   */
   @Output() closeTutorial = new EventEmitter<boolean>();
 
   /**
@@ -41,6 +53,9 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
 
   /**
    * @description Create instance of AlgorithmVisualiserComponent and inject relevant services.
+   * @param algorithmProgressService Used for fetching step changes.
+   * @param optionService Used to fetch current options set.
+   * @param themeSelectorService Used to fetch current them, as this needed to draw in the correct colours.
    */
   constructor(protected readonly algorithmProgressService : AlgorithmProgressService , private readonly optionService : OptionService , private readonly themeSelectorService : ThemeSelectorService) {}
 
@@ -55,6 +70,9 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
 
   /**
    * @description Construct a drawer and add it to the drawing services array.
+   * @param canvasDiv The div to contain the new canvas for the drawer.
+   * @param functionName The main drawing function that will draw on the canvas.
+   * @param scrollable Whether the canvas will be scrollable using a scrollwheel.
    */
   private constructDrawer(canvasDiv : ElementRef<HTMLDivElement> , functionName : string, scrollable : boolean) : void {
     const canvasWidth = canvasDiv.nativeElement.offsetWidth;
@@ -74,7 +92,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
    * @description After rendering (as we need to know how much space is available) Create the drawing services and add them to the drawing services array.
    * The creation happens with a custom draw function from the env for the algorithm.
    */
-  ngAfterViewInit() {
+  ngAfterViewInit() : void {
 
     this.constructDrawer(this.canvasElement , "drawTextAndPattern" , false);
 
@@ -88,7 +106,7 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   /**
    * @description Destroy the drawing services and reset any algorithm progress.
    */
-  ngOnDestroy() {
+  ngOnDestroy() : void {
     for (const drawer of this._drawingServices) {
       drawer.service.destroy();
     }
@@ -106,17 +124,20 @@ export class AlgorithmVisualiserComponent implements AfterViewInit , OnDestroy {
   /**
    * @description Update scrollX to go right in the drawers when the user scrolls.
    */
-  protected skipRight() {
+  protected skipRight() : void {
     this._drawingServices[1].service.skipRight();
   }
 
   /**
    * @description Update scrollX to go left in the drawers when the user scrolls.
    */
-  protected skipLeft() {
+  protected skipLeft() : void {
     this._drawingServices[1].service.skipLeft();
   }
 
+  /**
+   * @description Get all drawers initiated in component and the objects controlling them.
+   */
   get drawingServices() {
     return this._drawingServices;
   }

@@ -14,8 +14,20 @@ import { Subscription } from 'rxjs';
 })
 export class PlaybackControlsComponent implements OnDestroy {
 
+  /**
+   * @description Fetches tutorial boolean to determine whether to show the prompt.
+   * @see AlgorithmVisualiserPage
+   */
   @Input() showPlaybackHelp : boolean;
+
+  /**
+   * @description Notifies parent of finished tutorial, so it can move onto the next step.
+   */
   @Output() hidePlaybackSettingsHelp : EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  /**
+   * @description Notifies parent of finished tutorial, so it can finish the tutorial.
+   */
   @Output() closeTutorial : EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
@@ -112,14 +124,24 @@ export class PlaybackControlsComponent implements OnDestroy {
     });
   }
 
+
+  /**
+   * @description Gets locally stored current step number.
+   */
   get currentStepNumberGetter(): number {
     return this.currentStepNumber;
   }
 
+   /**
+   * @description Gets locally stored current speed.
+   */
   get currentSpeedGetter(): number {
     return this.currentSpeed;
   }
 
+  /**
+   * @description Gets locally stored current number of steps.
+   */
   get amountOfStepsGetter(): number {
     return this.amountOfSteps;
   }

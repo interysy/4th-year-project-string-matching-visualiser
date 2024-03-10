@@ -15,7 +15,11 @@ import { environment } from 'src/environments/environment.dev';
 })
 export class ModalComponent {
 
+  /**
+   * @description The colour used to highlight currently active theme.
+   */
   protected readonly SelectorBorderColour = "red";
+
   /**
    * @description Text to search in.
    */
@@ -51,7 +55,9 @@ export class ModalComponent {
   @ViewChild('modal', {static: true})
   modalElement: ElementRef<HTMLDivElement>;
 
-
+  /**
+   * @description Currently supported theme to show for user.
+   */
   themes = Object.entries(environment.themes).map(([name, theme]) => ({ name : name, ...theme }));
 
   /**
@@ -63,6 +69,9 @@ export class ModalComponent {
 
   /**
    * @description Create instance of ModalComponent, injects relevant services and sets default values for options.
+   * @param algorithmProgressService Used to fetch centraliseScroll property
+   * @param optionService Modal changes options, so it needs to notify the service of this.
+   * @param themingService Modal can change theme, so service needs to notified of this.
    */
   constructor(private readonly algorithmProgressService : AlgorithmProgressService , private readonly optionService : OptionService , private themingService : ThemeSelectorService ) {
     this.selectedTheme = this.themingService.currentThemeGetter;
@@ -122,10 +131,16 @@ export class ModalComponent {
     this.optionService.showLegendSetter(this.showLegend);
   }
 
+  /**
+   * @description Function which triggers modal to open so user can interact with it.
+   */
   protected openModal() {
     this.modalElement.nativeElement.classList.remove("hidden");
   }
 
+  /**
+   * @description Function which triggers modal to close.
+   */
   protected closeModal() {
     this.modalElement.nativeElement.classList.add("hidden");
   }
@@ -149,6 +164,9 @@ export class ModalComponent {
     return false;
   }
 
+  /**
+   * @description Function that returns local copy of the pattern.
+   */
   get patternGetter() {
     return this.pattern;
   }
