@@ -499,4 +499,5 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Continuing to write the implementation section.
 
 ### 10 March  
-* *3 hours* Finishing up code documentation. Also created README and added acknowledgements of code use. 
+* *3 hours* Finishing up code documentation. Also created README and added acknowledgements of code use.  
+* *5 hours* Reworking introduction and fixing any suggestions up to section 4.1.
