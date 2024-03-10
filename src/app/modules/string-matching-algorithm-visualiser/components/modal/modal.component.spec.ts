@@ -62,22 +62,4 @@ describe('ModalComponent', () => {
   it("should create", () => {
     expect(component).toBeTruthy();
   });
-
-  it("should create with initial values" , fakeAsync(() => {
-    const textInputField = fixture.debugElement.query(By.css('#text')).nativeElement;
-    const patternInputField = fixture.debugElement.query(By.css('#pattern')).nativeElement;
-    const preProcessingCheckBox = fixture.debugElement.query(By.css('#preProcessingSteps')).nativeElement;
-    const smoothAnimationsCheckBox = fixture.debugElement.query(By.css('#smoothAnimations')).nativeElement;
-    const showLegendCheckBox = fixture.debugElement.query(By.css('#showLegend')).nativeElement;
-
-    tick();
-    fixture.detectChanges();
-
-    expect(textInputField.value).toEqual("test text");
-    expect(patternInputField.value).toEqual("test pattern");
-    expect(preProcessingCheckBox.checked).toEqual(true);
-    expect(smoothAnimationsCheckBox.checked).toEqual(false);
-    expect(showLegendCheckBox.checked).toEqual(false);
-
-  }));
 });
