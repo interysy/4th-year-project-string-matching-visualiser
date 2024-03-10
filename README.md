@@ -13,7 +13,7 @@ StrVis is a web application built with Angular and P5Js that visualises the exec
 
 The aim of the application is to help individuals learn about how these work and compare them. The application allows the user to change the text and pattern, and see how the algorithms behave in real time. The behaviour can be seen via animations, the pseudocode, explanations, variable values or the pseudocode. There is also a few quality of life features that can help the user modify the experiance to their liking.
 
-The application was made as part of th 4th Year Project at the University Of Glasgow.
+The application was made as part of th 4th Year Project at the University Of Glasgow. The project was superviser by [Dr. Gethin Norman](https://www.dcs.gla.ac.uk/~gethin/). The site can be found [here](https://string-search-visualiser-prod.netlify.app/).
 
 
 ## How run the application
