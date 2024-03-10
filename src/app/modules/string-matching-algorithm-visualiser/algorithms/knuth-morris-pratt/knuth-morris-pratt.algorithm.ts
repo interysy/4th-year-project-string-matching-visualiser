@@ -70,6 +70,9 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
            return -1;
         }
 
+        /**
+         * @description KMP does not require the full match step in this implementation, but stil needs to override.
+         */
         protected override addFullMatchStep(): void {
             throw new Error("Method not implemented.");
         }
@@ -534,20 +537,37 @@ export class KnuthMorrisPrattAlgorithm extends StringMatchingAlgorithm {
             this.addStep(true , true);
         }
 
-        private recolourLetters(letters : Letter[] , colour : string) {
+        /**
+         * @description Method to change the colour of all letter object within an array.
+         * @param letters The letter objects to recolour.
+         * @param colour The new colour to recolour to.
+         */
+        private recolourLetters(letters : Letter[] , colour : string) : Letter[] {
             return letters.map(letter => {
                 letter.colour = colour;
                 return letter;
             });
         }
 
-        private changeLetterStroke(letters : Letter[] , strokeWeight : number) {
+        /**
+         * @description Method to change stroke weight of all letter objects in an array.
+         * @param letters Letter objects to change stroke of.
+         * @param strokeWeight The width of the stroke.
+         */
+        private changeLetterStroke(letters : Letter[] , strokeWeight : number) : Letter[] {
             return letters.map(letter => {
                 letter.strokeWeight = strokeWeight;
                 return letter;
             });
         }
 
+        /**
+         * @description Method that will highlight a section of Letter objects in an array.
+         * @param letters The letter object array to change section of.
+         * @param colour The colour to recolour to.
+         * @param start The index to start recolouring at.
+         * @param end The index to stop recolouring at.
+         */
         private highlightSubstringOfLine(letters : Letter[] , colour : string , start : number , end : number) {
             return letters.map(letter => {
                 if (letter.index >= start && letter.index <= end) {
