@@ -1,5 +1,10 @@
 import { Theme } from "./theme";
 
+
+/**
+ * @description Default dark theme for the visualiser.
+ * Overrides the base theme class with dark green colours.
+ */
 export class DarkGreenTheme extends Theme {
     override readonly BACKGROUND = "#1C2128";
     override readonly MISMATCH = "#ff0000";

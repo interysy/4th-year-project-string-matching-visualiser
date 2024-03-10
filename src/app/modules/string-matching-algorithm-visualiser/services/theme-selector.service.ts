@@ -11,8 +11,6 @@ import { Theme } from '../themes/theme';
 })
 export class ThemeSelectorService {
 
-  private readonly DefaultTheme = "base";
-
   /**
     * @description The current theme is used to keep track of the current theme of the application.
   */
@@ -60,15 +58,26 @@ export class ThemeSelectorService {
     }
   }
 
-
+  /**
+   * @description This function is used to get the current theme.
+   * @returns string The theme name
+   */
   get currentThemeGetter() : string {
     return this._currentTheme;
   }
 
+  /**
+   * @description This function is used to get the the theme subscription to be notified of theme changes.
+   * @returns Subject<string> The theme changed observer
+   */
   get themeChangedSubscriberGetter() : Subject<string> {
     return this._themeChangedObserver$;
   }
 
+  /**
+   * @description This function is used to get the current theme object. Object contains all colours required for the theme.
+   * @returns Theme The theme object.
+   */
   get currentThemeObjectGetter() : Theme {
     return this._currentThemeObject;
   }

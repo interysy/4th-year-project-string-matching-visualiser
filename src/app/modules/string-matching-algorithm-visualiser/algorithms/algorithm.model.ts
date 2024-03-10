@@ -26,10 +26,25 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
      */
     protected previousStep : AlgorithmStep;
 
-
+    /**
+     * @description Pattern index of the algorithm, changes with execution.
+     */
     protected patternIndex = -1;
+
+
+    /**
+     * @description Text index of the algorithm, changes with execution.
+     */
     protected textIndex = -1;
+
+    /**
+     * @description Text set to execute with algorithm.
+     */
     protected text : string;
+
+    /**
+     * @description Pattern set to execute with algorithm.
+     */
     protected pattern : string;
 
     /**
@@ -70,6 +85,9 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     protected readonly themeSelectorService: ThemeSelectorService;
 
 
+    /**
+     * @description The additional variables required for a specific algorithm to execute. This is to be overriden.
+     */
     protected additionalVariables : AdditionalVariables;
 
 
@@ -136,7 +154,12 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
         if (addPreviousStep) this.previousStep = this.algorithmStepBuilder.createDeepCopy(currentStep);
     }
 
-
+    /**
+     * @description Function to check if pattern or text is long enough to use in execution. If so a step telling the user this is created.
+     * @param text Current text set in the modal.
+     * @param pattern Current pattern set in the modal
+     * @returns boolean Whether text or pattern is long enough.
+     */
     protected tooLongPatternOrText(text : string , pattern : string) : boolean {
         if (text.length < 1 || pattern.length < 1) {
             this.algorithmStepBuilder.setCommand = "Pattern or text is nothing, cannot conitnue execution";
@@ -148,6 +171,16 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
         return false;
     }
 
+    /**
+     * @description Function to create a new letter based on the previous step. Replaced letter in lettersInText and lettersInPattern. A helper method.
+     * @param index Letter index.
+     * @param letter Symbol to create letter object with.
+     * @param colour The colour for highlighting character square.
+     * @param strokeWeight The weight of border of square for character in the animation.
+     * @param setDefaults Boolean denoting whether the builder should be reset after creation of step.
+     * @param textOrPattern Whether we are creating the letter for the text or the pattern.
+     * @returns Letter The letter object created.
+     */
     protected createLetterUsingBuilderUsingPrev(index : number , letter : string , colour : string , strokeWeight : number , setDefaults : boolean , textOrPattern : string) : Letter {
         this.letterBuilder.setIndex = index;
         this.letterBuilder.setLetter = letter;
@@ -160,6 +193,16 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
         return this.letterBuilder.build();
     }
 
+    /**
+     * @description Function to create a new letter based on letter array passed in.  A helper method.
+     * @param index Letter index.
+     * @param letter Symbol to create letter object with.
+     * @param colour The colour for highlighting character square.
+     * @param strokeWeight The weight of border of square for character in the animation.
+     * @param setDefaults Boolean denoting whether the builder should be reset after creation of step.
+     * @param letterArray Where to put the letter in. It replaces.
+     * @returns Letter The letter object created.
+     */
     protected createLetterUsingBuilderUsingArray(index : number , letter : string , colour : string , strokeWeight : number , setDefaults : boolean , letterArray : Letter[]) : Letter[] {
         this.letterBuilder.setIndex = index;
         this.letterBuilder.setLetter = letter;
@@ -185,41 +228,66 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
     }
 
 
-
+    /**
+     * @description Method to set the preProcessingCanvas variable - whether the algorithm requires extra canvas.
+     */
     set preProcessingCanvasSetter(preProcessingCanvas : boolean) {
         this.preProcessingCanvas = preProcessingCanvas;
     }
 
+    /**
+     * @description Method to set the preProcessingFunction variable - what function algorithm will run to draw on the extra canvas.
+     */
     set preProcessingFunctionSetter(preProcessingFunction : string) {
         this.preProcessingFunction = preProcessingFunction;
     }
 
-
+    /**
+     * @description Method to grab textLength from additional variables of algorithm.
+     */
     get textLengthGetter() : number {
         return this.additionalVariables.textLength;
     }
 
+    /**
+     * @description Method to grab variable to determine whetehr extra canvas is needed and what function will draw on it.
+     */
     get extraCanvasGetter() {
         if (this.preProcessingCanvas) return this.preProcessingFunction;
         return null;
     }
 
+    /**
+     * @description Method to grab patternLength from additional variables of algorithm.
+     */
     get patternLengthGetter() : number {
         return this.additionalVariables.patternLength;
     }
 
+    /**
+     * @description Method to grab steps created by algorithm.
+     */
     get stepsGetter() : AlgorithmStep[] {
         return this.steps;
     }
 
+    /**
+     * @description Method to grab amount of steps created by algorithm.
+     */
     get stepsLengthGetter() : number {
         return this.steps.length;
     }
 
+    /**
+     * @description Method to grab name of the algorithm currently being executed.
+     */
     get algorithmNameGetter() : string {
         return this.algorithmNameSlug;
     }
 
+    /**
+     * @description Method to grab al additional variables for an algorithm.
+     */
     get additionalVariablesGetter() : AdditionalVariables {
         return this.additionalVariables;
     }
@@ -227,6 +295,10 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
 
     // TESTER METHODS
 
+    /**
+     * @description Tester method used to create only setup steps for the algorithm, so these can be tested.
+     * @throws Error When not in development environment.
+     */
     get setUpStepsTesterGetter() : AlgorithmStep[] {
         if (environment.type === "dev") {
             this.addSetupSteps();
@@ -236,7 +308,11 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
         throw new Error("Attempting to use a dev function from a non-dev environment");
     }
 
-    public textAndPatternTesterSetter(text : string , pattern : string) {
+    /**
+     * @description Tester method used to set text and pattern. Can help different execution paths depending on what text and pattern are.
+     * @throws Error When not in development environment.
+     */
+    public textAndPatternTesterSetter(text : string , pattern : string) : void {
         if (environment.type === "dev") {
             this.text = text;
             this.pattern = pattern;
@@ -246,7 +322,11 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
 
     }
 
-    public textAndPatternIndexTesterSetter(textIndex : number , patternIndex : number) {
+    /**
+     * @description Tester method used to set textIndex and patternIndex.
+     * @throws Error When not in development environment.
+     */
+    public textAndPatternIndexTesterSetter(textIndex : number , patternIndex : number) : void {
         if (environment.type == "dev") {
             this.textIndex = textIndex;
             this.patternIndex = patternIndex;
@@ -255,7 +335,12 @@ export abstract class StringMatchingAlgorithm implements StringMatchingAlgorithm
         }
     }
 
-    public previousStepTesterSetter(previousStep : AlgorithmStep) {
+    /**
+     * @description Used to set previous step, which is used often used to create subsequent steps. This can help create previous step to one we are testing.
+     * @param previousStep The step to set previousStep to
+     * @throws Error When not in development environment.
+     */
+    public previousStepTesterSetter(previousStep : AlgorithmStep) : void {
         if (environment.type == "dev") {
             this.previousStep = previousStep;
         } else {

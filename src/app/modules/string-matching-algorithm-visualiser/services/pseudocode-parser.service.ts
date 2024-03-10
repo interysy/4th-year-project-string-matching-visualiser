@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable, catchError, of } from 'rxjs';
 
 /**
@@ -10,8 +10,19 @@ import { Observable, catchError, of } from 'rxjs';
 })
 export class PseudocodeParserService {
 
+  /**
+   * @description The file suffix is used to append at the end algorithm name to fetch the pseudocode from the assets folder.
+   */
   public readonly FileSuffix = "-pseudocode.txt"
+
+  /**
+   * @description The assets path is used to fetch the pseudocode from the assets folder.
+   */
   public readonly AssetsPath = "../../../assets/"
+
+  /**
+   * @description The response type is used to convert pseudocode to json from a text file when fetched.
+   */
   public readonly ResponseType = "text" as "json"
 
 
@@ -21,8 +32,9 @@ export class PseudocodeParserService {
   constructor(private readonly http : HttpClient) {}
 
   /**
+   * @description This function is used to fetch the pseudocode of the algorithm from the assets folder.
    * @param algorithmName The name of the algorithm to fetch the pseudocode for. Used in the filename.
-   * @returns A future string containing the pseudocode of the algorithm.
+   * @returns Observable<string> A future string containing the pseudocode of the algorithm.
    */
   getAlgorithmPseudocode(algorithmName : string) : Observable<string> {
 

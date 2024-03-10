@@ -1,7 +1,10 @@
 import { AlgorithmStep } from '../models/algorithm-step.model';
 import { StringMatchingAlgorithm } from '../algorithms/algorithm.model';
-import { P5jsDrawClass } from '../drawers/p5js.drawer';
 
+ /**
+ * @description A testing stub used to replace the StringMatchingAlgorithm in the app.
+ * It implements dummy methods, which can be used to test the something using a string matching algorithm.
+ */
 export class StringMatchingAlgorithmStub extends StringMatchingAlgorithm {
 
   protected override addWhileLoopStep(): void {

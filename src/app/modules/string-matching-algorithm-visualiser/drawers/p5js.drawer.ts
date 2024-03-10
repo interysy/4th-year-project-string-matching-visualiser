@@ -49,7 +49,10 @@ export class P5jsDrawClass {
    */
   public readonly StartingYToDraw = 0;
 
-
+  /**
+   * @description The title to display for the last occurrence table on the additional canvas.
+   * @see {@link BoyerMooreAdditionalVariables}
+   */
   public readonly LastOccurrenceTitle = "LAST OCCURRENCE TABLE:";
 
   /**
@@ -65,6 +68,10 @@ export class P5jsDrawClass {
   public readonly LastOccurrenceToHighlightVariableName = "lastOccurrenceToHighlight";
 
 
+  /**
+   * @description The title to display for the border table on the additional canvas.
+   * @see {@link KnuthMorrisPrattAdditionalVariables}
+   */
   public readonly BorderTableTitle = "BORDER TABLE:";
 
    /**
@@ -105,7 +112,10 @@ export class P5jsDrawClass {
    */
   public readonly JVariableName = "j";
 
-
+  /**
+   * @description Legend annotation to show on canvas when drawing the legend.
+   * @see LegendDrawer
+   */
   public readonly LegendTitle = "LEGEND:"
 
   /**
@@ -240,8 +250,7 @@ export class P5jsDrawClass {
 
   /**
    * @description Function initiating p5js. It joints the current class to the p5js instance. Original code by soler1212. The software will be
-   * distributed under the GPL-3.0 license as per the requirements. There has been modifications to the function, mainly the parameters passed in
-   * and addition of the mouseWheel function. The rest of the invoker is not utilised in my code.
+   * distributed under the GPL-3.0 license as per the requirements. My code uses the generate_sketch() method, which has been modified to take in more parameters and initialise them.
    * @copyright https://github.com/soler1212/P5JSInvoker
    * @param width The width of the canvas as (same as div passed in). Needed for the setup function to initiate the canvas correctly. No other way to pass it in.
    * @param height The height of the canvas as (same as div passed in). Needed for the setup function to initiate the canvas correctly. No other way to pass it in.

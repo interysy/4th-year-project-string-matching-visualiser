@@ -38,14 +38,17 @@ describe('AppComponent', () => {
 
   it("should apply the initial theme from the service", () => {
 
-    mockedThemeChangedObserver$.next("base")
+
+    mockedThemeChangedObserver$.next("theme-dark-green")
     fixture.detectChanges();
 
-    expect(app.currentTheme).toBe("base");
-    expect(app.themingDivElement.nativeElement.classList.contains("base")).toBe(true);
+    expect(app.currentTheme).toBe("theme-dark-green");
+    expect(app.themingDivElement.nativeElement.classList.contains("theme-dark-green")).toBe(true);
   });
 
   it("should update theme on theme change", fakeAsync(() => {
+
+    app.currentTheme = "theme-dark-green";
 
     mockedThemeChangedObserver$.next("new-theme");
 

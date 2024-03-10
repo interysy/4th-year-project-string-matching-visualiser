@@ -299,6 +299,7 @@ describe("KnuthMorrisPrattAlgorith", () => {
       const borderTable = knuthMorrisPrattAlgorithm.borderTableTesterGetter(pattern);
       knuthMorrisPrattAlgorithm.resetSteps();
       knuthMorrisPrattAlgorithm.setupAdditionalVariablesTesterGetter(text.length , pattern.length , borderTable);
+      knuthMorrisPrattAlgorithm.previousStepTesterSetter(stepBuilder.build());
 
       const matchSteps = knuthMorrisPrattAlgorithm.mismatchStepsTesterGetter(1 , 3);
 

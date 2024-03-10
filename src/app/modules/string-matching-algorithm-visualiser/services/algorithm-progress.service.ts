@@ -5,6 +5,7 @@ import { DrawStepDecorator } from '../models/drawer-step.decorator';
 import { StringMatchingAlgorithmToDraw } from '../drawers/algorithm-draw.model';
 import { AlgorithmStep } from '../models/algorithm-step.model';
 import { OptionService } from './option.service';
+import { AdditionalVariables } from '../models/additional-variables.model';
 
 /**
  * @description The AlgorithmProgressService class provides methods for managing the progress and execution of string matching algorithms.
@@ -14,9 +15,27 @@ import { OptionService } from './option.service';
 })
 export class AlgorithmProgressService {
 
+  /**
+   * @description The default speed of the animation.
+   */
   public readonly DefaultSpeed = 1000;
+
+  /**
+   * @description The minimum speed of the animation.
+   */
   public readonly MinimumSpeed = 100;
+
+
+  /**
+   * @description The maximum speed of the animation.
+   */
   public readonly MaximumSpeed = 2050;
+
+  /**
+   * @description The time to wait before changing animation when something changes. Typically text or pattern.
+   * @see OptionService
+   *
+   */
   public readonly Debounce = 1000;
 
   /**
@@ -101,7 +120,6 @@ export class AlgorithmProgressService {
   /**
    * @description The function is used to remove steps used for preprocessing.
    * @param preProcessingSteps Whether to remove preprocessing steps or not
-   * @returns void
    */
   private filterPreProcessingSteps(preProcessingSteps : boolean) : void {
     const filteredSteps = this._algorithm.stepsGetter.filter((step) => step.extra == false);
@@ -117,7 +135,6 @@ export class AlgorithmProgressService {
    * @param algorithmToInject New algorithm to run
    * @param algorithmName The algorithm name
    * @param decorators The visual aspects to be drawn as an array of decorators
-   * @returns void
    */
   public injectAlgorithm(algorithmToInject : { new (): StringMatchingAlgorithm } , decorators : { new (decoratorName : StringMatchingAlgorithmToDraw): DrawStepDecorator }[], prePreprocessingCanvas : boolean , preProcessingFunction : string | null) : void {
 
@@ -142,7 +159,6 @@ export class AlgorithmProgressService {
 
   /**
    * @description The function executes the algorithm and works out the steps.
-   * @returns void
    */
   private executeAlgorithm() : void {
     this._algorithm.workOutSteps(this.optionService.textGetter(), this.optionService.patternGetter());
@@ -166,7 +182,7 @@ export class AlgorithmProgressService {
    * @description The function resets the algorithm's progress and any data related to it, so another algorithm can be executed.
    * @see resetProgress() This avoids changing algorithm, so steps remain the same.
    */
-  private resetService() {
+  private resetService() : void {
     this.resetProgress();
     this._steps = [];
     if (this._algorithm) this._algorithm.resetSteps();
@@ -224,7 +240,6 @@ export class AlgorithmProgressService {
   /**
    * @description The function changes the speed of playback.
    * @param speed The new speed of playback
-   * @returns void
    */
   public changeSpeedOfPlayback(speed : number) : void {
     this._speed = speed;
@@ -234,77 +249,77 @@ export class AlgorithmProgressService {
   /**
    * @description Get current step number
    */
-  public currentStepNumberGetter() {
+  public currentStepNumberGetter() : number {
     return this._currentStep;
   }
 
   /**
    * @description Gets the previous step number
    */
-  public previousStepNumberGetter() {
+  public previousStepNumberGetter() : number {
     return this._previousStep;
   }
 
   /**
    * @description Return the previously shown step
    */
-  public previousStepGetter() {
+  public previousStepGetter() : AlgorithmStep {
     return this._steps[this._previousStep];
   }
 
   /**
    * @description Get amount of steps the algorithm has generated
    */
-  public amountOfStepsGetter() {
+  public amountOfStepsGetter() : number {
     return this._steps.length;
   }
 
   /**
    * @description Get the current step object
    */
-  public stepGetter() {
+  public stepGetter() : AlgorithmStep {
     return this._steps[this._currentStep];
   }
 
   /**
    * @description Get the current pseudocode line number.
    */
-  public pseudocodeLine() {
+  public pseudocodeLine() : number {
     return this._steps[this._currentStep].pseudocodeLine;
   }
 
   /**
    * @description Get the current pattern index.
    */
-  public patternIndex() {
+  public patternIndex() : number {
     return this._steps[this._currentStep].patternIndex;
   }
 
   /**
    * @description Get the current text index.
    */
-  public textIndex() {
+  public textIndex() : number {
     return this._steps[this._currentStep].textIndex;
   }
 
   /**
    * @description Get the current message regarding what algorithm is doing.
    */
-  public command() {
+  public command() : string {
     return this._steps[this._currentStep].command;
   }
 
   /**
    * @description Get the current text length.
    */
-  public textLength() {
+  public textLength() : number {
     return this._steps[this._currentStep].additional.textLength;
   }
 
   /**
    * @description Get the current pattern length.
    */
-  public patternLength() {
+  public patternLength() : number {
     return this._steps[this._currentStep].additional.patternLength;
   }
 
@@ -312,42 +327,42 @@ export class AlgorithmProgressService {
    * @description Get additional variables for an algorithm.
    * @example KMP algorithm has a table that needs to be displayed.
    */
-  public additionalVariablesGetter() {
+  public additionalVariablesGetter() : AdditionalVariables {
     return this._steps[this._currentStep].additional;
   }
 
   /**
    * @description Get the name of the currently injected algorithm.
    */
-  public algorithmNameGetter() {
+  public algorithmNameGetter() : string {
     return this._algorithm.algorithmNameGetter;
   }
 
   /**
    * @description Get algorithm decorated with functions that draw on top of animation.
    */
-  public decoratedAlgorithmGetter() {
+  public decoratedAlgorithmGetter() : DrawStepDecorator {
     return this._decoratedAlgorithm;
   }
 
   /**
    * @description Find out whether animation is currently playing.
    */
-  public currentlyPlayingGetter() {
+  public currentlyPlayingGetter() : boolean {
     return this._currentlyPlaying;
   }
 
   /**
    * @description Get the current speed of playback.
    */
-  public speedGetter() {
+  public speedGetter() : number {
     return this._speed;
   }
 
   /**
    * @description Find out whether algorithm requires an extra canvas for drawing.
    */
-  public extraCanvasGetter() {
+  public extraCanvasGetter() : string | null {
     return this._algorithm.extraCanvasGetter;
   }
 
@@ -369,7 +384,7 @@ export class AlgorithmProgressService {
    * @description Get the pseudocode filename for the current algorithm - may not be a string matching algorithm, but perhaps a helper.
    * @example KMP has a border table creation algorithm
    */
-  public pseudocodeFilenameGetter() {
+  public pseudocodeFilenameGetter() : string {
     return this._steps[this._currentStep].pseudocodeFilename;
   }
 

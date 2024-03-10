@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment.dev';
  import { AdditionalVariables } from '../../models/additional-variables.model';
 
  /**
-  * @description Component for displaying current variable values
+  * @description Component for displaying current variable values.
   */
 @Component({
   selector: 'app-variable-visualiser',
@@ -14,7 +14,15 @@ import { environment } from 'src/environments/environment.dev';
 export class VariableVisualiserComponent {
 
 
+  /**
+   * @description Fetches tutorial boolean to determine whether to show the prompt.
+   * @see AlgorithmVisualiserPage
+   */
   @Input() showVariableVisualiserHelp : boolean;
+
+  /**
+   * @description Notifies parent of finished tutorial, so it can finish the tutorial.
+   */
   @Output() closeTutorial = new EventEmitter<boolean>();
 
   /**
