@@ -55,7 +55,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   /**
    * @description After loading, apply the default theme to the div.
    */
-  ngAfterViewInit() {
+  ngAfterViewInit() : void {
     this.currentTheme = this.themeSelectorService.currentThemeGetter;
     this.themingDivElement.nativeElement.classList.add(environment.defaultTheme);
   }
@@ -64,7 +64,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   /**
    * @description Unsubscribe from all subscriptions on destroy.
    */
-  ngOnDestroy() {
+  ngOnDestroy() : void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }

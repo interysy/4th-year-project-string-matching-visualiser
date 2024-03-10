@@ -8,8 +8,8 @@ import { LegendDrawer } from "src/app/modules/string-matching-algorithm-visualis
 import { KnuthMorrisPrattAlgorithm } from "src/app/modules/string-matching-algorithm-visualiser/algorithms/knuth-morris-pratt/knuth-morris-pratt.algorithm";
 
 /**
- * This is the development environment file. It contains properties specific to development environment.
- * It is used by various elements in the application to determine links and supported algorithms. The properties are used to determine the behaviour of the application.
+ * @description This is the development environment file. It contains properties specific to development environment. It is used by various elements in the application to determine links and supported algorithms.
+ * The properties are used to determine the behaviour of the application.
  * @property githubLink - The link to the github repository of the project.
  * @property linkedinLink - The link to the linkedin profile of the developer.
  * @property logo - The path to the logo of the application.
