@@ -44,26 +44,25 @@ describe("HomePageComponent", () => {
     expect(buttons[2].textContent).toContain("Knuth-Morris-Pratt");
   });
 
-  it("should initially have the light theme" , () => {
-    expect(component.getThemeTester()).toEqual(true);
+  it("should initially have the dark theme" , () => {
+    expect(component.getThemeTester()).toEqual(false);
     const videoSource = fixture.nativeElement.querySelector("source");
-    expect(videoSource.src).toContain("light.mov");
+    expect(videoSource.src).toContain("dark.mov");
   });
 
   it("should toggle theme when attribute changed" , fakeAsync(() => {
-    expect(component.getThemeTester()).toEqual(true);
+    expect(component.getThemeTester()).toEqual(false);
     let videoSource = fixture.nativeElement.querySelector(".themeVideo");
-    console.log(videoSource);
-    expect(videoSource.src).toContain("light.mov");
+    expect(videoSource.src).toContain("dark.mov");
 
 
-    component.setThemeTester(false);
+    component.setThemeTester(true);
 
     tick();
     fixture.detectChanges();
 
     videoSource = fixture.nativeElement.querySelector(".themeVideo");
-    expect(videoSource.src).toContain("dark.mov");
-    expect(component.getThemeTester()).toEqual(false);
+    expect(videoSource.src).toContain("light.mov");
+    expect(component.getThemeTester()).toEqual(true);
   }));
 });
