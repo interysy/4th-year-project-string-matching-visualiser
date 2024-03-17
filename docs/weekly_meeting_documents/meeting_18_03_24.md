@@ -19,6 +19,7 @@ Everything from the plan was completed.
 - What do you think about the survey for yourself and David? I would need to cut the dissertation content slightly to fit it in.
 - Dissertation feedback
 - Last minute meeting on Wednesday or Thursday for final fixes?
+- Missing ethics form
 
 
 ## Proposed Plan
