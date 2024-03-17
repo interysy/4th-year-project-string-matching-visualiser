@@ -18,6 +18,11 @@
 2. Install dependencies with `npm install`
 3. Run `npm run test` or `npm run test-headless` in the root directory of the project. Tests are set up to run on Chrome, so make sure to have it installed. Otherwise, you will need to change the karma.conf.js file to use a different browser.
 
+## How to generate documentation
+1. Install Node.js and npm
+2. From the <b>root</b> (not from src/) directory run npm install. This will install all the dependencies needed to run the application.
+3. Run `npm run docs` in the root directory of the project. You will have the documentation in the `documentation/` directory from the root. This directory would need to be placed on a server to be hosted to be deployed.
+
 
 ## How to use the application? (main things to know)
 
