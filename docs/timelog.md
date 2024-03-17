@@ -505,3 +505,14 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 11 March
 * *2 hours* Reworking requirements and design.
 * *2.5 hours* Reworking design and implementation sections of the dissertation.
+
+### 15 March 
+* *2 hours* Working on finishing implementation and starting evaluation.
+* *3 hours* Written about initial survey and testing in evaluation section.
+
+### 16 March  
+* *3.5 hours* Finishing up final evaluation section for evaluation.
+* *2.5 hours* More work on evaluation section. Started conclusion.
+
+### 16 March   
+* *2.5 hours* Finished up the first draft of the evaluation by finishing up the conclusion.
