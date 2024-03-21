@@ -12,7 +12,7 @@
 * This timelog should be filled out honestly, regularly (daily) and accurately. It is for *your* benefit.
 * Follow the structure provided, grouping time by weeks.  Quantise time to the half hour.
 
-## Week 1 (25.5 hours)
+## Week 1
 
 As a note this week is longer than normal, as I treat a week to be the 7 days in between supervisor meetings, which take place on Tuesdays. In the first week, work began before the preliminary meeting.
 
@@ -48,7 +48,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1.5 hours* Work on creating initial wireframes for the project
 * *2 hours* Work on adding wiki generation and ci pipeline to the project repository on GitHub
 
-## Week 2 (7 hours)
+## Week 2
 
 ### 26 September
 * *0.5 hours* Finish up initial wireframes for the project - these will be used for requirement gathering. Upload onto GitHub
@@ -66,7 +66,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Writing up the notes from the workshop and creating user stories
 
 
-## Week 3 (14 hours)
+## Week 3
 
 ### 4 October
 * *0.5 hours* Finish up writing user stories from the day before and update the timelog
@@ -87,7 +87,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Preparing documents for the supervisor meeting
 * *0.5 hours* Supervisor Meeting
 
-## Week 4 (15 hours)
+## Week 4
 
 ### 12 October
 * *2 hours* Refactoring current code on the new builder.
@@ -107,7 +107,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 17 October
 * *0.5 hours* Prepare for supervisor meeting with new meeting document and get a demo ready. Also, update timelog.
 
-## Week 5 (18 hours)
+## Week 5
 
 ### 18 October
 * *4 hours* Rework the current step model and change the brute force algorithm (while at it - refactor). This fixed the p5js error earlier reported.
@@ -134,7 +134,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 24 October
 * *0.5 hours* Supervisor Meeting
 
-## Week 6 (7.5 hours)
+## Week 6
 
 ### 25 October
 * *1.5 hour * Fixing dependency injection bug
@@ -148,7 +148,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Preparation for supervisor meeting
 * *0.5 hours* Supervisor meeting
 
-## Week 7 (16 hours)
+## Week 7
 
 ### 1 November
 * *2 hours* Exploring PrismJS for code syntax highlighting and adding it to the project
@@ -171,7 +171,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Preparation for supervisor meeting
 * *0.5 hours* Supervisor meeting
 
-## Week 8 (12.5 hours)
+## Week 8
 
 ### 8 November
 * *1.5 hours* Fixing various bugs e.g. error on step being reset to -1
@@ -194,7 +194,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Preparation for supervisor meeting
 * *0.5 hours* Supervisor meeting
 
-## Week 9 (6.5 hours)
+## Week 9
 
 ### 18 November
 * *1 hour* Fixing issues with dissertation writing so far
@@ -207,7 +207,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *30 mins* Supervisor meeting preparation
 
 
-## Week 10 (12.5 hours)
+## Week 10
 
 ### 22 November
 * *1 hour* Fixing wiki pipeline
@@ -228,7 +228,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Unsuccessfully attempted to write tests for the module components
 * *0.5 hours* Supervisor meeting
 
-## Week 11 (13 hours)
+## Week 11
 
 ### 28 November
 * *2 hours* Implement the KMP algorithm (no animations, but with O(n) border creation preprocessing algorithm)
@@ -249,7 +249,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Supervisor meeting
 * *2 hours* Create initial animations for the KMP algorithm
 
-## Week 12 (10.5 hours)
+## Week 12
 
 ### 6 December
 * *1 hour* Finish up the second canvas feature for algorithms requiring extra space for the animation
@@ -264,7 +264,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Add vertical and horizontal centring of the canvases
 * *0.5 hours* Update broken tests
 
-## Week 13 (31.5 hours)
+## Week 13
 
 ### 12 December
 * *1 hour* Populate project Kanban board with things to do over Christmas
@@ -300,7 +300,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Learning how I can make the theme change dynamically.
 * *1.5 hours* Start reworking the modal, as using the tw-elements library may lead to licensing issues.
 
-## Week 14 (Christmas Break - 8 hours)
+## Week 14 (Christmas Break)
 
 ### 21 December
 * *2 hours* Add theme configuration and necessary settings icon for the modal
@@ -334,10 +334,10 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Finished refactoring of the draw service.Started working on testing it and documenting.
 
 
-## Week 16 (0 hours)
+## Week 16
 
 
-## Week 17 (12 hours)
+## Week 17
 
 ### 10 January
 * *1 hour* Preparing documents for the meeting
@@ -355,7 +355,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *3 hours* Further work on testing, mainly on algorithm visualiser page and the playback component. Testing also included refactoring, documentation and handling speed issues from the evaluation.
 
 
-## Week 18 (16 hours)
+## Week 18
 
 ### 17 January
 * *0.5 hours* Finishing off tests for the playback component.
@@ -384,7 +384,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Knuth Morris Pratt continued testing.
 
 
-## Week 19 (16.5 hours)
+## Week 19
 
 ### 24 January
 * *3 hours* Further work on testing and refactoring of Knuth Morris Pratt.
@@ -404,7 +404,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Working on the about page.
 * *1 hour* Working on responsiveness of the home page and about page. Also added tests for the home page.
 
-## Week 20 (13 hours)
+## Week 20
 
 ### 1 February
 * *1 hour* Final touches to about page and adding progress from last few days.
@@ -428,7 +428,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Preparing for supervisor meeting.
 * *0.5hours* Supervisor meeting.
 
-## Week 21 (18.5 hours)
+## Week 21
 
 ### 7 February
 * *2 hours* Refactored introduction of the dissertation.
@@ -453,7 +453,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Adding key bindings for controls.
 * *0.5 hours* Started designing the survey
 
-## Week 22 (8.5 hours)
+## Week 22
 
 ### 14 February
 * *1 hour* Working on creating the evaluation survey. Emailed to supervisor for feedback.
@@ -469,7 +469,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Prep for meeting and creating diagram for high level application flow section of dissertation.
 * *1 hour* Reading over previous dissertations to get an idea of what to include in the design chapter.
 
-## Week 23 (10 hours)
+## Week 23
 
 ### 21 February
 * *1 hour* Creating high level flow diagram and starting on the low level.
@@ -490,7 +490,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Work on updating documentation for meeting.
 * *0.5 hours* Working on Design - UI section
 
-## Week 24 (15.5 hours)
+## Week 24
 
 ### 28 February
 * *1.5 hours* Finishing up the design section with UI considerations
@@ -515,7 +515,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Continuing to write the implementation section.
 
 
-## Week 25 (12.5 hours)
+## Week 25
 
 ### 10 March
 * *3 hours* Finishing up code documentation. Also created README and added acknowledgements of code use.
@@ -525,7 +525,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Reworking requirements and design.
 * *2.5 hours* Reworking design and implementation sections of the dissertation.
 
-## Week 26 (37.5 hours)
+## Week 26
 
 ### 15 March
 * *2 hours* Working on finishing implementation and starting evaluation.
@@ -557,4 +557,4 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Reading over dissertation.
 * *3.5 hours* Addressing changes.
 * *4 hours* Addressing more changes after having a review of the dissertation done.
-
+* *3 hours* Uploading the final dissertation to Moodle and making sure everything is in order.
