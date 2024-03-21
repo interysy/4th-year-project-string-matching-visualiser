@@ -429,7 +429,7 @@ export class P5jsDrawClass {
     const maxAnimationHeight = this.StartingYToDraw + this._squareSideSize*3 + this.AnimationGap;
 
     if (this.activeWindow(maxAnimationWidth)) {
-      this.centraliseDrawing((stepToDraw.patternOffset*2 + (stepToDraw.patternIndex*2)) * this._squareSideSize , maxAnimationHeight);
+      this.centraliseDrawing((stepToDraw.patternOffset + stepToDraw.patternIndex) * 2 * this._squareSideSize , maxAnimationHeight);
     } else {
       this.centraliseDrawing(maxAnimationWidth , maxAnimationHeight);
     }
