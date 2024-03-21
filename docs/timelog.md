@@ -70,7 +70,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 4 October
 * *0.5 hours* Finish up writing user stories from the day before and update the timelog
-* *1.5 hours* Messing around with HTML Canvas, managed to get some animations working aswell as pausing, playing and code highlighting.
+* *1.5 hours* Messing around with HTML Canvas, managed to get some animations working as well as pausing, playing and code highlighting.
 
 ### 5 October
 * *0.5 hours* Adding missing user stories to the GitHub Kanban board
@@ -81,7 +81,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *3 hours* First attempt at creating pseudocode walkthrough for brute force algorithm. Also added Tailwind and made a navbar to allow for easy navigation while developing!
 
 ### 7 October
-* *4 hours* Implement pseudocode walkthrough for brute force algorithm, including code highlighting. Also implement showing variable values and the relevant message to be shown about what is happening at each step of the algorithm. All features now show up as we press play.
+* *4 hours* Implement pseudocode walkthrough for brute force algorithm, including code highlighting. Also, implement showing variable values and the relevant message to be shown about what is happening at each step of the algorithm. All features now show up as we press play.
 
 ### 10 October
 * *0.5 hours* Preparing documents for the supervisor meeting
@@ -105,7 +105,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Implement brute force algorithm visualisation. This includes step parsing and then redrawing on canvas with the correct colouring.
 
 ### 17 October
-* *0.5 hours* Prepare for supervisor meeting with new meeting document and get a demo ready. Also, update timelog.
+* *0.5 hours* Prepare for supervisor meeting with new meeting document and get a demo ready. Also, update the timelog.
 
 ## Week 5
 
@@ -128,8 +128,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Extraction of functions shared between brute force and BM implementation
 
 ### 22 October
-* *1.5 hours* Fix logical errors with BM and related animation. Also refactor the class to be more readable.
-* *0.5 hours* Prepare for the supervisor meeting by updating timelog and meeting document.
+* *1.5 hours* Fix logical errors with BM and related animation. Also, refactor the class to be more readable.
+* *0.5 hours* Prepare for the supervisor meeting by updating the timelog and meeting document.
 
 ### 24 October
 * *0.5 hours* Supervisor Meeting
@@ -144,7 +144,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *3 hours* Refactoring current codebase to use the decorator pattern, which not only got rid of the bug I was attempting to remove earlier, but I was able to add code that dynamically draws more on the canvas if necessary
 
 ### 31 October
-* *1 hour* Adding all changes so far to the repository and merging with main (I have decided to omit staging, as it has not brought much value over the last few weeks)
+* *1 hour* Adding all changes so far to the repository and merging with the main (I have decided to omit staging, as it has not brought much value over the last few weeks)
 * *0.5 hours* Preparation for supervisor meeting
 * *0.5 hours* Supervisor meeting
 
@@ -318,7 +318,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 28 December
 * *2 hours* Updating timelog, kanban board and meeting notes on Moodle (general update of documentation from my notes, including spelling and formatting to make everything easy to read)
-* *1 hour* Attempting to upgrade Angular to latest version on the app (needed to utilise the cookie service for keeping track of user options)
+* *1 hour* Attempting to upgrade Angular to the latest version on the app (needed to utilise the cookie service for keeping track of user options)
 * *1.5 hours* Working on adding unit tests and documentation (done the app component and navbar)
 
 ### 29 December
@@ -326,12 +326,12 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 30 December
 * *2.5 hours* Finished tests for progress service. Started refactoring on the P5JSDrawingService.
-* *2 hours* Further refactoring on P5JSDrawingService. Cleaned up drawText , drawPattern , centralisation functions , scroller functions , drawLastOccurrenceTable and drawBorderTable.
-* *1.5 hours* Working on refactoring drawLegend , annotatePattern. Also fixed bugs with resizing of animation.
+* *2 hours* Further refactoring on P5JSDrawingService. Cleaned up drawText, drawPattern, centralisation functions, scroller functions, drawLastOccurrenceTable and drawBorderTable.
+* *1.5 hours* Working on refactoring drawLegend, annotatePattern. Also fixed bugs with resizing of animation.
 
 ### 31 December
-* *1.5 hours* Refactored drawLegend and all auxiliary functions within P5JSDrawService. Still need to rework smooth animations and playing functionality of the animation.
-* *2 hours* Finished refactoring of the draw service.Started working on testing it and documenting.
+* *1.5 hours* Refactored drawLegend and all auxiliary functions within P5JSDrawService. Still need to rework smooth animations and the playing functionality of the animation.
+* *2 hours* Finished refactoring of the draw service. Started working on testing it and documenting.
 
 
 ## Week 16
@@ -347,12 +347,12 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1.5 hours* Refactoring algorithm visualiser component, documenting it and starting to add tests.
 
 ### 15 January
-* *2.5 hours* Refactoring command displayer component and the modal component. With this documentatin has been added and unit tests begun.
+* *2.5 hours* Refactoring command displayer component and the modal component. With this documentation has been added and unit tests begun.
 
 ### 16 January
-* *2.5 hours* Testing of command displayer and modal component, aswell as adding documentation and refactoring.
-* *1 hour* Refactoring tests for progress service and option service, as earlier work required getters and setters to be made into explicit functions.
-* *3 hours* Further work on testing, mainly on algorithm visualiser page and the playback component. Testing also included refactoring, documentation and handling speed issues from the evaluation.
+* *2.5 hours* Testing of command displayer and modal component, as well as adding documentation and refactoring.
+* *1 hour* Refactoring tests for progress service and options service, as earlier work required getters and setters to be made into explicit functions.
+* *3 hours* Further work on testing, mainly on the algorithm visualiser page and the playback component. Testing also included refactoring, documentation and handling speed issues from the evaluation.
 
 
 ## Week 18
@@ -363,7 +363,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 18 January
 * *3 hours* Working on refactoring the BruteForceAlgorithm class and adding tests for it.
-* *1 hour* Continuing testing , refactoring and documentation of the brute force algorithm implmentation.
+* *1 hour* Continuing testing, refactoring and documentation of the brute force algorithm implementation.
 
 ### 19 January
 * *2 hours* Finishing up brute force tests, refactoring and documentation. Starting the same process on Boyer Moore.
@@ -393,7 +393,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Further work on testing and refactoring of Knuth Morris Pratt. Fixed some other broken tests while at it.
 
 ### 28 January
-* *0.5 hours* Catching up on formal documention for the project (e.g. missing meeting notes on Moodle)
+* *0.5 hours* Catching up on formal documentation for the project (e.g. missing meeting notes on Moodle)
 * *3 hours* Research on Full Boyer Moore, trying to understand how it works
 * *1.5 hours* Attempting to implement Full Boyer Moore
 
@@ -402,7 +402,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Preparation for supervisor meeting.
 * *0.5 hours* Supervisor meeting.
 * *2 hours* Working on the about page.
-* *1 hour* Working on responsiveness of the home page and about page. Also added tests for the home page.
+* *1 hour* Working on the responsiveness of the home page and about page. Also added tests for the home page.
 
 ## Week 20
 
@@ -410,7 +410,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Final touches to about page and adding progress from last few days.
 
 ### 2 February
-* *1.5 hours* Workin gon layout improvement for the algorithm visualiser page. Also fixed bugs such as: brute force having additional canvas and removal of unnecessary library.
+* *1.5 hours* Working on layout improvement for the algorithm visualiser page. Also fixed bugs such as brute force having additional canvas and removal of unnecessary library.
 
 ### 3 February
 * *2 hours* Removing prismjs and adding manual pseudocode highlighting.
@@ -421,8 +421,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Finishing initial tutorial.
 
 ### 5 February
-* *2 hours* Making tutorial responsive and adding border to the tutorial. Also added smooth scrolling.
-* *1 hour* Some final bug fixes, such as missing colours for border table and overlapping li elements.Fixed any failing tests due to changes over last few days.
+* *2 hours* Making tutorial responsive and adding a border to the tutorial. Also added smooth scrolling.
+* *1 hour* Some final bug fixes, such as missing colours for the border table and overlapping li elements.Fixed any failing tests due to changes over the last few days.
 
 ### 6 February
 * *1 hour* Preparing for supervisor meeting.
@@ -432,11 +432,11 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 7 February
 * *2 hours* Refactored introduction of the dissertation.
-* *0.5 hours* Started writing up the high level requirements section and the requirement-gathering workshop section.
+* *0.5 hours* Started writing up the high-level requirements section and the requirement-gathering workshop section.
 
 ### 8 February
-* *2 hours* Started refactoring the brute force algoroithm section.
-* *1 hour* Finished up the high level requirement section and requirement-gathering workshop section.
+* *2 hours* Started refactoring the brute force algorithm section.
+* *1 hour* Finished up the high-level requirement section and requirement-gathering workshop section.
 
 ### 9 February
 * *2 hours* Refactored the brute force algorithm section.
@@ -445,7 +445,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Finished up the BM section.
 
 ### 12 February
-* *2.5 hours* Cleaned up what I had in the dissertation so far. Also written the existing products section and started on the design chapter.
+* *2.5 hours* Cleaned up what I had in the dissertation so far. Also wrote the existing products section and started on the design chapter.
 
 ### 13 February
 * *0.5 hours* Updated timelog and meeting documents on Moodle - these were missing from the last week.
@@ -459,34 +459,34 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Working on creating the evaluation survey. Emailed to supervisor for feedback.
 
 ### 15 February
-* *1.5 hours* Working on Gethin's suggestions on the dissertation.
+* *1.5 hours* Working on Gethin's suggestions for the dissertation.
 
 ### 19 February
-* *2.5 hours* Added references to motivation examples, started working on Gethin's suggestions from the background.
+* *2.5 hours* Added references to motivation examples, and started working on Gethin's suggestions from the background.
 
 ### 20 February
 * *2 hours* Finishing up suggestions and starting to write technologies on the design chapter.
-* *0.5 hours* Prep for meeting and creating diagram for high level application flow section of dissertation.
+* *0.5 hours* Prep for meeting and creating a diagram for the high-level application flow section of the dissertation.
 * *1 hour* Reading over previous dissertations to get an idea of what to include in the design chapter.
 
 ## Week 23
 
 ### 21 February
-* *1 hour* Creating high level flow diagram and starting on the low level.
+* *1 hour* Creating a high-level flow diagram and starting on the low-level.
 
 ### 22 February
 * *1.5 hours* Merging last feature for A-B testing
-* *1 hour* Created low level system diagram and started writing it up in the dissertation.
+* *1 hour* Created a low-level system diagram and started writing it up in the dissertation.
 
 ### 23 February
-* *2.5 hours* Fixed layout issues with 2 different layouts for A-B testing. Also fixed last occurrence scroll bugs and not hiding upon reset bugs.
+* *2.5 hours* Fixed layout issues with 2 different layouts for A-B testing. Also fixed the last occurrence scroll bugs and not hiding upon reset bugs.
 
 ### 24 February
-* *0.5 hours* Added a check for when pattern or text are nothing.
+* *0.5 hours* Added a check for when pattern or text is nothing.
 
 ### 27 February
 * *1 hour* Creating manual tests for the project
-* *1.5 hours* Working on the design setion of the dissertation.
+* *1.5 hours* Working on the design section of the dissertation.
 * *0.5 hours* Work on updating documentation for meeting.
 * *0.5 hours* Working on Design - UI section
 
@@ -497,7 +497,7 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Started writing up the implementation section
 
 ### 29 February
-* *2 hour* Further work on version control section of implementation
+* *2 hours* Further work on the version control section of the implementation
 
 ### 1 March
 * *1.5 hours* Writing up software engineering practices section of implementation.
@@ -506,8 +506,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2.5 hours* Further work on implementation (created section on strategy, steps and drawers)
 
 ### 4 March
-* *2 hours* Reading over hall of fame dissertations
-* *1 hour* Started making changes based on hall of fame (abstract, intro , existing products)
+* *2 hours* Reading over Hall of Fame dissertations
+* *1 hour* Started making changes based on hall of fame (abstract, intro, existing products)
 * *2 hours* Started reworking the design to make it past tense. Also created another section in the implementation.
 
 ### 5 March
@@ -529,11 +529,11 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 15 March
 * *2 hours* Working on finishing implementation and starting evaluation.
-* *3 hours* Written about initial survey and testing in evaluation section.
+* *3 hours* Written about the initial survey and testing in the evaluation section.
 
 ### 16 March
 * *3.5 hours* Finishing up final evaluation section for evaluation.
-* *2.5 hours* More work on evaluation section. Started conclusion.
+* *2.5 hours* More work on the evaluation section. Started conclusion.
 
 ### 17 March
 * *2.5 hours* Finished up the first draft of the evaluation by finishing up the conclusion.
@@ -557,5 +557,5 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Reading over dissertation.
 * *3.5 hours* Addressing changes.
 * *4 hours* Addressing more changes after having a review of the dissertation done.
-* *3 hours* Review of source code.
-* *6 hours* Uploading the final dissertation to Moodle and making sure everything is in order.
+* *1 hours* Review of source code.
+* *1 hours* Uploading the final dissertation to Moodle and making sure everything is in order.
