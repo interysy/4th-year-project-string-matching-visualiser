@@ -333,6 +333,12 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1.5 hours* Refactored drawLegend and all auxiliary functions within P5JSDrawService. Still need to rework smooth animations and playing functionality of the animation.
 * *2 hours* Finished refactoring of the draw service.Started working on testing it and documenting.
 
+
+## Week 16 (0 hours)
+
+
+## Week 17 (12 hours)
+
 ### 10 January
 * *1 hour* Preparing documents for the meeting
 * *30 mins* Supervisor meeting
@@ -347,6 +353,9 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2.5 hours* Testing of command displayer and modal component, aswell as adding documentation and refactoring.
 * *1 hour* Refactoring tests for progress service and option service, as earlier work required getters and setters to be made into explicit functions.
 * *3 hours* Further work on testing, mainly on algorithm visualiser page and the playback component. Testing also included refactoring, documentation and handling speed issues from the evaluation.
+
+
+## Week 18 (16 hours)
 
 ### 17 January
 * *0.5 hours* Finishing off tests for the playback component.
@@ -374,6 +383,9 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Supervisor meeting.
 * *1 hour* Knuth Morris Pratt continued testing.
 
+
+## Week 19 (16.5 hours)
+
 ### 24 January
 * *3 hours* Further work on testing and refactoring of Knuth Morris Pratt.
 
@@ -382,8 +394,6 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 
 ### 28 January
 * *0.5 hours* Catching up on formal documention for the project (e.g. missing meeting notes on Moodle)
-
-### 28 January
 * *3 hours* Research on Full Boyer Moore, trying to understand how it works
 * *1.5 hours* Attempting to implement Full Boyer Moore
 
@@ -391,11 +401,10 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2.5 hours* Working on the home page
 * *0.5 hours* Preparation for supervisor meeting.
 * *0.5 hours* Supervisor meeting.
-
-
-### 30 January
 * *2 hours* Working on the about page.
 * *1 hour* Working on responsiveness of the home page and about page. Also added tests for the home page.
+
+## Week 20 (13 hours)
 
 ### 1 February
 * *1 hour* Final touches to about page and adding progress from last few days.
@@ -418,6 +427,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 6 February
 * *1 hour* Preparing for supervisor meeting.
 * *0.5hours* Supervisor meeting.
+
+## Week 21 (18.5 hours)
 
 ### 7 February
 * *2 hours* Refactored introduction of the dissertation.
@@ -442,9 +453,10 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1 hour* Adding key bindings for controls.
 * *0.5 hours* Started designing the survey
 
+## Week 22 (8.5 hours)
+
 ### 14 February
 * *1 hour* Working on creating the evaluation survey. Emailed to supervisor for feedback.
-
 
 ### 15 February
 * *1.5 hours* Working on Gethin's suggestions on the dissertation.
@@ -456,6 +468,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Finishing up suggestions and starting to write technologies on the design chapter.
 * *0.5 hours* Prep for meeting and creating diagram for high level application flow section of dissertation.
 * *1 hour* Reading over previous dissertations to get an idea of what to include in the design chapter.
+
+## Week 23 (10 hours)
 
 ### 21 February
 * *1 hour* Creating high level flow diagram and starting on the low level.
@@ -475,6 +489,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *1.5 hours* Working on the design setion of the dissertation.
 * *0.5 hours* Work on updating documentation for meeting.
 * *0.5 hours* Working on Design - UI section
+
+## Week 24 (15.5 hours)
 
 ### 28 February
 * *1.5 hours* Finishing up the design section with UI considerations
@@ -498,6 +514,9 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *0.5 hours* Supervisor meeting
 * *2 hours* Continuing to write the implementation section.
 
+
+## Week 25 (12.5 hours)
+
 ### 10 March
 * *3 hours* Finishing up code documentation. Also created README and added acknowledgements of code use.
 * *5 hours* Reworking introduction and fixing any suggestions up to section 4.1.
@@ -505,6 +524,8 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 11 March
 * *2 hours* Reworking requirements and design.
 * *2.5 hours* Reworking design and implementation sections of the dissertation.
+
+## Week 26 (37.5 hours)
 
 ### 15 March
 * *2 hours* Working on finishing implementation and starting evaluation.
@@ -517,4 +538,23 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 ### 17 March
 * *2.5 hours* Finished up the first draft of the evaluation by finishing up the conclusion.
 * *1.5 hours* Working on presentation slides.
-* *1 hour* Working on README.md and manual.md
+* *1 hour* Working on README.md and manual.md.
+
+### 18 March
+* *3 hours* Working on refactoring the design section of the dissertation.
+* *0.5 hours* Supervisor Meeting.
+* *4 hours* Further refactoring of design and implementation.
+
+### 19 March
+* *3 hours* Working on refactoring the implementation section of the dissertation.
+* *3 hours* Working on refactoring the evaluation section of the dissertation.
+
+### 20 March
+* *2 hours* Working on refactoring the evaluation section of the dissertation.
+* *0.5 hour* Supervisor meeting.
+
+### 21 March
+* *2 hours* Reading over dissertation.
+* *3.5 hours* Addressing changes.
+* *4 hours* Addressing more changes after having a review of the dissertation done.
+
