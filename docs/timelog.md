@@ -557,4 +557,5 @@ As a note this week is longer than normal, as I treat a week to be the 7 days in
 * *2 hours* Reading over dissertation.
 * *3.5 hours* Addressing changes.
 * *4 hours* Addressing more changes after having a review of the dissertation done.
-* *3 hours* Uploading the final dissertation to Moodle and making sure everything is in order.
+* *3 hours* Review of source code.
+* *6 hours* Uploading the final dissertation to Moodle and making sure everything is in order.
